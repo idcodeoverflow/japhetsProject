@@ -1,0 +1,14 @@
+.jumbotron {
+	background-color: black !important;
+	margin-bottom: 0px !important;
+	color: white !important;
+	text-align: center;
+	/* Temporal Styles */
+	font-family: "Calibri";
+}
+
+.h1, h1 {
+	margin-top: 0px;
+    margin-bottom: 0px;
+	font-size: 40px !important;
+}
