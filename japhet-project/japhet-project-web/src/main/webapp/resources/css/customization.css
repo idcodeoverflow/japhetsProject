@@ -1,35 +1,34 @@
-/* Modify the header's style */
-.jumbotron {
-	background-color: #FF4500 !important;
-	margin-bottom: 0px !important;
-	color: white !important;
-	text-align: center;
-	/* Temporal Styles */
-	font-family: "Century Gothic", "Arial", "Helvetica";
-}
-
-/* Modify the title style */
-.h1, h1 {
-	margin-top: 0px !important;
-    margin-bottom: 0px !important;
-	font-size: 40px !important;
-}
-
-/* Modify the max height for the images */
-.img-responsive {
-	max-height: 280px !important;
-	margin-top: 20px !important;
-	margin-bottom: 20px !important;
-}
-
 /* Modify the style for the main menu */
 .navbar {
-	font-weight: bold !important;
 	font-size: 16px !important;
-	/*background-color: #FF4500 !important;*/
 }
 
-.item {
-	width: 35%;
-    margin: 0 auto;
+/* Trademark icon style */
+#trademark-icon {
+	weight: 100% !important;
+	height: 40px !important;
 }
+
+/* Main menu style */
+.navbar, .navbar-right {
+	min-height: 65px !important;
+	background-color: #FF9923 !important;
+}
+
+/* Pills in the navigation bar styles */
+.navbar-right>ul>li {
+	min-height: 65px !important;
+}
+
+.navbar-nav>li>a {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+    color: white !important;
+    font-family: "Century Gothic", "Arial", "Helvetica" !important;
+    font-weight: normal;
+}
+
+.navbar-default .navbar-nav>.active>a {
+	background-color: #FF6700 !important;
+}
+/* Ends pills in the navigation bar styles */
