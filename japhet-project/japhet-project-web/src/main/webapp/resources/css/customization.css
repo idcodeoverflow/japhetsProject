@@ -192,3 +192,12 @@ footer {
 #registerMeParagraph {
 	text-align: center;
 }
+
+/* Messages styles */
+.errorMessage {
+	color: #FF0000 !important;
+}
+
+.successMessage {
+	color: #2DA800 !important;
+}
