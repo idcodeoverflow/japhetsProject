@@ -201,3 +201,9 @@ footer {
 .successMessage {
 	color: #2DA800 !important;
 }
+
+/* Input addon styles */
+.input-group-addon {
+	background-color: #FF9923 !important;
+	color: white !important;
+}
