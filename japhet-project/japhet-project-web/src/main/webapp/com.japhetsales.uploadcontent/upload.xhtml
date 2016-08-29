@@ -62,7 +62,46 @@
 								</h:panelGroup>
 						    </h:panelGroup>
 						    
-						    <!-- Buttons section -->
+						    <!-- Dates section -->
+							<h:panelGroup layout="block" styleClass="row">
+							
+								<!-- Start date -->
+								<h:panelGroup layout="block" styleClass="col-md-6">
+									<h:panelGroup layout="block" styleClass="form-group">
+										<h:panelGrid columns="2" cellpadding="5">
+											<pf:outputLabel for="availableDate">
+								    			#{msg['upload.content.availableDate']}
+								    		</pf:outputLabel>
+											<pf:calendar id="availableDate" mode="inline" pattern="MM/dd/yyyy HH:mm:ss"
+														styleClass="form-control" />
+										</h:panelGrid>
+									</h:panelGroup>
+								</h:panelGroup>
+								<!-- End date -->
+								<h:panelGroup layout="block" styleClass="col-md-6">
+									<h:panelGroup layout="block" styleClass="form-group">
+									
+										<pf:outputLabel for="endDate">
+							    			#{msg['upload.content.endDate']}
+							    		</pf:outputLabel>
+										<pf:calendar id="endDate" mode="inline" pattern="MM/dd/yyyy HH:mm:ss"
+													styleClass="form-control" value="#{calendarView.inlineDate}" />
+													
+										<pf:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+									        <pf:panelGrid id="display" columns="2" columnClasses="label,value">
+									            <h:outputText value="#{msg['upload.content.endDate']}" />
+									            <h:outputText value="#{calendarView.inlineDate}">
+									                <f:convertDateTime pattern="MM/dd/yyyy" />
+								            	</h:outputText>
+								            </pf:panelGrid>
+								      	</pf:dialog>
+								      	
+									</h:panelGroup>
+								</h:panelGroup>
+								
+							</h:panelGroup>
+							
+							<!-- Buttons section -->
 						    <h:panelGroup layout="block" styleClass="row">
 						    	<!-- Spacer -->
 						    	<h:panelGroup layout="block" styleClass="col-md-9" />
@@ -72,6 +111,7 @@
 												value="#{msg['upload.content.saveButton']}" />
 								</h:panelGroup>
 							</h:panelGroup>
+							
 						</h:form>
 					</h:panelGroup>
 				</h:panelGroup>

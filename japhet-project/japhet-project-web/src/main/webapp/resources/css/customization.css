@@ -207,3 +207,8 @@ footer {
 	background-color: #FF9923 !important;
 	color: white !important;
 }
+
+/* Correct font size */
+.ui-widget {
+	font-size: 14px !important;
+}
