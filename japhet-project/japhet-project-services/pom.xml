@@ -8,54 +8,34 @@
 	</parent>
 	<artifactId>japhet-project-services</artifactId>
 	<name>services</name>
-
+	
 	<dependencies>
 		<!-- JPA Persistence Dependencies -->
-
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-		</dependency>
-
-		<dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-		</dependency>
-
-		<!-- Spring Dependencies -->
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-		</dependency>
-		
-		<dependency>
-		    <groupId>org.jboss.spec.javax.ejb</groupId>
-		    <artifactId>jboss-ejb-api_3.1_spec</artifactId>
-		    <version>1.0.2.Final</version>
-		</dependency>
-
+            <groupId>org.jboss.spec.javax.ejb</groupId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
 		<!-- DB Dependencies -->
 
+		<!-- https://mvnrepository.com/artifact/org.wildfly.core/wildfly-server -->
 		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-dbcp</artifactId>
+		    <groupId>org.wildfly.core</groupId>
+		    <artifactId>wildfly-server</artifactId>
+		    <version>2.2.0.Final</version>
 		</dependency>
 	</dependencies>
+	
 </project>

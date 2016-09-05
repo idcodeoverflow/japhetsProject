@@ -6,7 +6,6 @@
     version="2.2">
 	
 	<application>
-		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
 		<locale-config>
 		</locale-config>
 		<resource-bundle>

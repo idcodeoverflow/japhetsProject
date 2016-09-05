@@ -5,11 +5,13 @@
       http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
 	version="2.1">
 
-	<persistence-unit name="acme" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="sales" transaction-type="JTA">
+		<!-- provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider> -->
+		<jta-data-source>java:/SalesDS</jta-data-source>
+		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+      	<validation-mode>CALLBACK</validation-mode>
 		<properties>
-			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
-			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.cache.provider_class" value="org.hibernate.cache.HashtableCacheProvider" />
+			<property name="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO"/>
 		</properties>
 	</persistence-unit>
 
