@@ -1,10 +1,12 @@
 package marketing.redirect.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,6 +22,7 @@ public class UserProductHistorial implements Serializable {
 	private static final long serialVersionUID = 5094340844910736900L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "HISTORIAL_ID")
 	private Long historialId;
 	
@@ -29,9 +32,9 @@ public class UserProductHistorial implements Serializable {
 	@Column(name = "USER_ID")
 	private Long userId;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "CLICK_DATE")
-	private Timestamp clickDate;
+	private Date clickDate;
 	
 	@Column(name = "COMPLETED", 
 			nullable = true)
@@ -39,7 +42,7 @@ public class UserProductHistorial implements Serializable {
 	
 	public UserProductHistorial() {}
 
-	public UserProductHistorial(Long historialId, Long productId, Long userId, Timestamp clickDate, Boolean completed) {
+	public UserProductHistorial(Long historialId, Long productId, Long userId, Date clickDate, Boolean completed) {
 		super();
 		this.historialId = historialId;
 		this.productId = productId;
@@ -73,11 +76,11 @@ public class UserProductHistorial implements Serializable {
 		this.userId = userId;
 	}
 
-	public Timestamp getClickDate() {
+	public Date getClickDate() {
 		return clickDate;
 	}
 
-	public void setClickDate(Timestamp clickDate) {
+	public void setClickDate(Date clickDate) {
 		this.clickDate = clickDate;
 	}
 

@@ -1,10 +1,12 @@
 package marketing.redirect.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,6 +22,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -6166291428613566595L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USER_ID")
 	private Long userId;
 	
@@ -47,18 +50,19 @@ public class User implements Serializable {
 	@Column(name = "STATUS_ID")
 	private Short statusId;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "SIGN_UP_DATE")
-	private Timestamp signUpDate;
+	private Date signUpDate;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "LAST_MODIFIED")
-	private Timestamp lastModified;
+	private Date lastModified;
 	
 	public User() {}
 
-	public User(Long userId, String name, String lastName, String email, String username, String passw, Short role,
-			Short age, Short statusId, Timestamp signUpDate, Timestamp lastModified) {
+	public User(Long userId, String name, String lastName, 
+			String email, String username, String passw, Short role,
+			Short age, Short statusId, Date signUpDate, Date lastModified) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -145,19 +149,19 @@ public class User implements Serializable {
 		this.statusId = statusId;
 	}
 
-	public Timestamp getSignUpDate() {
+	public Date getSignUpDate() {
 		return signUpDate;
 	}
 
-	public void setSignUpDate(Timestamp signUpDate) {
+	public void setSignUpDate(Date signUpDate) {
 		this.signUpDate = signUpDate;
 	}
 
-	public Timestamp getLastModified() {
+	public Date getLastModified() {
 		return lastModified;
 	}
 
-	public void setLastModified(Timestamp lastModified) {
+	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
 	}
 

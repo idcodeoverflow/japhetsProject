@@ -2,12 +2,16 @@ package marketing.redirect.entities;
 
 import java.io.Serializable;
 import java.sql.Blob;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TB_PRODUCT")
@@ -19,6 +23,7 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = -2885883717993765366L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PRODUCT_ID")
 	private Long productId;
 	
@@ -34,14 +39,17 @@ public class Product implements Serializable {
 	@Column(name = "IMAGE")
 	private Blob image;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "UPLOAD_DATE")
-	private Timestamp uploadDate;
+	private Date uploadDate;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "START_DATE")
-	private Timestamp startDate;
+	private Date startDate;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "END_DATE")
-	private Timestamp endDate;
+	private Date endDate;
 	
 	@Column(name = "COMPANY_ID")
 	private Long companyId;
@@ -54,8 +62,10 @@ public class Product implements Serializable {
 	
 	public Product() {}
 
-	public Product(Long productId, String title, String description, Double price, Blob image, Timestamp uploadDate,
-			Timestamp startDate, Timestamp endDate, Long companyId, Short categoryId, Integer redirectNumber) {
+	public Product(Long productId, String title, String description, 
+			Double price, Blob image, Date uploadDate, Date startDate, 
+			Date endDate, Long companyId, Short categoryId, 
+			Integer redirectNumber) {
 		super();
 		this.productId = productId;
 		this.title = title;
@@ -110,27 +120,27 @@ public class Product implements Serializable {
 		this.image = image;
 	}
 
-	public Timestamp getUploadDate() {
+	public Date getUploadDate() {
 		return uploadDate;
 	}
 
-	public void setUploadDate(Timestamp uploadDate) {
+	public void setUploadDate(Date uploadDate) {
 		this.uploadDate = uploadDate;
 	}
 
-	public Timestamp getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Timestamp startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
-	public Timestamp getEndDate() {
+	public Date getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Timestamp endDate) {
+	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 

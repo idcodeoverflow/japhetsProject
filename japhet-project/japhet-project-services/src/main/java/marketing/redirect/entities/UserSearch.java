@@ -1,10 +1,12 @@
 package marketing.redirect.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -20,15 +22,16 @@ public class UserSearch implements Serializable {
 	private static final long serialVersionUID = -233106730587979570L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "USER_SEARCH_ID")
 	private Integer userSearchId;
 	
 	@Column(name = "SEARCH_STRING")
 	private String searchString;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "SEARCH_DATE")
-	private Timestamp searchDate;
+	private Date searchDate;
 	
 	@Column(name = "USER_ID")
 	private Long userId;
@@ -36,7 +39,7 @@ public class UserSearch implements Serializable {
 	public UserSearch() {}
 
 	public UserSearch(Integer userSearchId, String searchString, 
-			Timestamp searchDate, Long userId) {
+			Date searchDate, Long userId) {
 		super();
 		this.userSearchId = userSearchId;
 		this.searchString = searchString;
@@ -60,11 +63,11 @@ public class UserSearch implements Serializable {
 		this.searchString = searchString;
 	}
 
-	public Timestamp getSearchDate() {
+	public Date getSearchDate() {
 		return searchDate;
 	}
 
-	public void setSearchDate(Timestamp searchDate) {
+	public void setSearchDate(Date searchDate) {
 		this.searchDate = searchDate;
 	}
 
