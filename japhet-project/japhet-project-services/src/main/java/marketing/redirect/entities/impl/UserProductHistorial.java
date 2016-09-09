@@ -2,6 +2,7 @@ package marketing.redirect.entities.impl;
 
 import java.util.Date;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,6 +18,7 @@ import javax.persistence.TemporalType;
 import marketing.redirect.entities.IEntity;
 
 @Entity
+@Cacheable(value = true)
 @Table(name = "TB_USR_PRDCT_HISTORIAL")
 public class UserProductHistorial implements IEntity {
 
