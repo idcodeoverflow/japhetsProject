@@ -6,9 +6,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -51,11 +54,13 @@ public class Product implements Serializable {
 	@Column(name = "END_DATE")
 	private Date endDate;
 	
-	@Column(name = "COMPANY_ID")
-	private Long companyId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "COMPANY_ID")
+	private Company company;
 	
-	@Column(name = "CATEGORY_ID")
-	private Short categoryId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "CATEGORY_ID")
+	private Category category;
 	
 	@Column(name = "REDIRECT_NUMBER")
 	private Integer redirectNumber;
@@ -64,7 +69,7 @@ public class Product implements Serializable {
 
 	public Product(Long productId, String title, String description, 
 			Double price, Blob image, Date uploadDate, Date startDate, 
-			Date endDate, Long companyId, Short categoryId, 
+			Date endDate, Company company, Category category, 
 			Integer redirectNumber) {
 		super();
 		this.productId = productId;
@@ -75,8 +80,8 @@ public class Product implements Serializable {
 		this.uploadDate = uploadDate;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.companyId = companyId;
-		this.categoryId = categoryId;
+		this.company = company;
+		this.category = category;
 		this.redirectNumber = redirectNumber;
 	}
 
@@ -144,20 +149,20 @@ public class Product implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public Long getCompanyId() {
-		return companyId;
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
-	public Short getCategoryId() {
-		return categoryId;
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setCategoryId(Short categoryId) {
-		this.categoryId = categoryId;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public Integer getRedirectNumber() {

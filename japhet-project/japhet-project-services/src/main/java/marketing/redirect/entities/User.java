@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -47,8 +50,9 @@ public class User implements Serializable {
 	@Column(name = "AGE")
 	private Short age;
 	
-	@Column(name = "STATUS_ID")
-	private Short statusId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "STATUS_ID")
+	private Status status;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "SIGN_UP_DATE")
@@ -62,7 +66,7 @@ public class User implements Serializable {
 
 	public User(Long userId, String name, String lastName, 
 			String email, String username, String passw, Short role,
-			Short age, Short statusId, Date signUpDate, Date lastModified) {
+			Short age, Status status, Date signUpDate, Date lastModified) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -72,7 +76,7 @@ public class User implements Serializable {
 		this.passw = passw;
 		this.role = role;
 		this.age = age;
-		this.statusId = statusId;
+		this.status = status;
 		this.signUpDate = signUpDate;
 		this.lastModified = lastModified;
 	}
@@ -141,12 +145,12 @@ public class User implements Serializable {
 		this.age = age;
 	}
 
-	public Short getStatusId() {
-		return statusId;
+	public Status getStatus() {
+		return status;
 	}
 
-	public void setStatusId(Short statusId) {
-		this.statusId = statusId;
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 	public Date getSignUpDate() {

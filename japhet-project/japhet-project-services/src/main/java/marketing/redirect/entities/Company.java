@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,15 +26,16 @@ public class Company implements Serializable {
 	@Column(name = "COMPANY_ID")
 	private Long companyId;
 	
-	@Column(name = "USER_ID")
-	private Long userId;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "USER_ID")
+	private User user;
 	
 	public Company() {}
 
-	public Company(Long companyId, Long userId) {
+	public Company(Long companyId, User user) {
 		super();
 		this.companyId = companyId;
-		this.userId = userId;
+		this.user = user;
 	}
 
 	public Long getCompanyId() {
@@ -42,11 +46,11 @@ public class Company implements Serializable {
 		this.companyId = companyId;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

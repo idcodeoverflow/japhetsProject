@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "TB_CATEGORY")
@@ -27,12 +29,15 @@ public class Category implements Serializable {
 	@Column(name = "NAME")
 	private String name;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "CREATION_TIME")
 	private Date creationTime;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "AVAILABLE_DATE")
 	private Date availableDate;
 	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "END_DATE")
 	private Date endDate;
 	

@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,11 +29,13 @@ public class UserProductHistorial implements Serializable {
 	@Column(name = "HISTORIAL_ID")
 	private Long historialId;
 	
-	@Column(name = "PRODUCT_ID")
-	private Long productId;
+	@JoinColumn(name = "PRODUCT_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Product product;
 	
-	@Column(name = "USER_ID")
-	private Long userId;
+	@JoinColumn(name = "USER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User user;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "CLICK_DATE")
@@ -42,11 +47,12 @@ public class UserProductHistorial implements Serializable {
 	
 	public UserProductHistorial() {}
 
-	public UserProductHistorial(Long historialId, Long productId, Long userId, Date clickDate, Boolean completed) {
+	public UserProductHistorial(Long historialId, Product product, 
+			User user, Date clickDate, Boolean completed) {
 		super();
 		this.historialId = historialId;
-		this.productId = productId;
-		this.userId = userId;
+		this.product = product;
+		this.user = user;
 		this.clickDate = clickDate;
 		this.completed = completed;
 	}
@@ -60,20 +66,20 @@ public class UserProductHistorial implements Serializable {
 		this.historialId = historialId;
 	}
 
-	public Long getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Date getClickDate() {

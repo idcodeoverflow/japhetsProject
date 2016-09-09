@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -33,18 +36,19 @@ public class UserSearch implements Serializable {
 	@Column(name = "SEARCH_DATE")
 	private Date searchDate;
 	
-	@Column(name = "USER_ID")
-	private Long userId;
+	@JoinColumn(name = "USER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User user;
 	
 	public UserSearch() {}
 
 	public UserSearch(Integer userSearchId, String searchString, 
-			Date searchDate, Long userId) {
+			Date searchDate, User user) {
 		super();
 		this.userSearchId = userSearchId;
 		this.searchString = searchString;
 		this.searchDate = searchDate;
-		this.userId = userId;
+		this.user = user;
 	}
 
 	public Integer getUserSearchId() {
@@ -71,12 +75,12 @@ public class UserSearch implements Serializable {
 		this.searchDate = searchDate;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 }
