@@ -1,6 +1,5 @@
-package marketing.redirect.entities;
+package marketing.redirect.entities.impl;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,9 +14,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import marketing.redirect.entities.IEntity;
+
 @Entity
 @Table(name = "TB_USER_SEARCH")
-public class UserSearch implements Serializable {
+public class UserSearch implements IEntity {
 
 	/**
 	 * Maven generated.

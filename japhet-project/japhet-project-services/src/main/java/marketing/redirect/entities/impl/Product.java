@@ -1,6 +1,5 @@
-package marketing.redirect.entities;
+package marketing.redirect.entities.impl;
 
-import java.io.Serializable;
 import java.sql.Blob;
 import java.util.Date;
 
@@ -16,9 +15,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import marketing.redirect.entities.IEntity;
+
 @Entity
 @Table(name = "TB_PRODUCT")
-public class Product implements Serializable {
+public class Product implements IEntity {
 	
 	/**
 	 * Maven generated.

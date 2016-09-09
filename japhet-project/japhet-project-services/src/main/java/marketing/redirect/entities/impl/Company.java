@@ -1,6 +1,4 @@
-package marketing.redirect.entities;
-
-import java.io.Serializable;
+package marketing.redirect.entities.impl;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import marketing.redirect.entities.IEntity;
+
 @Entity
 @Table(name = "TB_COMPANY")
-public class Company implements Serializable {
+public class Company implements IEntity {
 
 	/**
 	 * Maven generated.

@@ -1,6 +1,5 @@
-package marketing.redirect.entities;
+package marketing.redirect.entities.impl;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,26 +11,24 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import marketing.redirect.entities.IEntity;
+
 @Entity
-@Table(name = "TB_CATEGORY")
-public class Category implements Serializable {
+@Table(name = "TB_STATUS")
+public class Status implements IEntity {
 
 	/**
 	 * Maven generated.
 	 */
-	private static final long serialVersionUID = -2206452937897143174L;
+	private static final long serialVersionUID = -7934429898953967056L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "CATEGORY_ID")
-	private Short categoryId;
+	@Column(name = "STATUS_ID")
+	private Short statusId;
 	
 	@Column(name = "NAME")
 	private String name;
-	
-	@Temporal(TemporalType.DATE)
-	@Column(name = "CREATION_TIME")
-	private Date creationTime;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "AVAILABLE_DATE")
@@ -41,24 +38,23 @@ public class Category implements Serializable {
 	@Column(name = "END_DATE")
 	private Date endDate;
 	
-	public Category() {}
+	public Status() {}
 
-	public Category(Short categoryId, String name, Date creationTime, 
-			Date availableDate, Date endDate) {
+	public Status(Short statusId, String name, Date availableDate, 
+			Date endDate) {
 		super();
-		this.categoryId = categoryId;
+		this.statusId = statusId;
 		this.name = name;
-		this.creationTime = creationTime;
 		this.availableDate = availableDate;
 		this.endDate = endDate;
 	}
 
-	public Short getCategoryId() {
-		return categoryId;
+	public Short getStatusId() {
+		return statusId;
 	}
 
-	public void setCategoryId(Short categoryId) {
-		this.categoryId = categoryId;
+	public void setStatusId(Short statusId) {
+		this.statusId = statusId;
 	}
 
 	public String getName() {
@@ -67,14 +63,6 @@ public class Category implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public Date getCreationTime() {
-		return creationTime;
-	}
-
-	public void setCreationTime(Date creationTime) {
-		this.creationTime = creationTime;
 	}
 
 	public Date getAvailableDate() {
@@ -92,5 +80,5 @@ public class Category implements Serializable {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
+		
 }
