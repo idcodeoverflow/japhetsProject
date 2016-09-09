@@ -17,8 +17,7 @@ public interface GenericDAO<T extends IEntity, KEY> {
 		throw new UnsupportedOperationException();
 	}
 	
-	default List<T> selectList(String namedQuery, 
-			Map<String, Object> params) {
+	default List<T> selectList(String namedQuery, Map<String, Object> params) {
 		throw new UnsupportedOperationException();
 	}
 	
