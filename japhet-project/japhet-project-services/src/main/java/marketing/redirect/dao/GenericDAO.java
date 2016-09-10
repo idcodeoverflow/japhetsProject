@@ -3,15 +3,20 @@ package marketing.redirect.dao;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import org.junit.Ignore;
 
 import marketing.redirect.entities.IEntity;
 
-public interface GenericDAO<T extends IEntity, KEY> {
+@SuppressWarnings(value = "all")
+public interface GenericDAO<T extends IEntity, K> {
 
-	default T select(KEY primaryKey) {
-		throw new UnsupportedOperationException();
-	}
+	String PERSISTENCE_UNIT_NAME = "sales";
+	
+	EntityManager entityManager = (new EMF()).getEntityManager();
 	
 	default T select(T entity) {
 		throw new UnsupportedOperationException();
@@ -73,6 +78,16 @@ public interface GenericDAO<T extends IEntity, KEY> {
 	default long executeUpdate(String namedQuery,
 			Map<String, Object> params) {
 		throw new UnsupportedOperationException();
+	}
+	
+	class EMF {
+		
+		@PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
+		private EntityManager em;
+		
+		public EntityManager getEntityManager(){
+			return em;
+		}
 	}
 	
 }
