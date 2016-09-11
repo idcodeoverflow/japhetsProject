@@ -6,8 +6,6 @@ package marketing.redirect.services;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.Local;
-
 /**
  * @author David Garcia
  *

@@ -18,6 +18,23 @@
         </dependency>
         
         <dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+        
+        <dependency>
+		  	<groupId>org.jboss</groupId>
+		  	<artifactId>jboss-remote-naming</artifactId>
+		  	<version>${version.jboss.naming}</version>
+		</dependency>
+        
+        <dependency>
+		    <groupId>org.jboss.xnio</groupId>
+		    <artifactId>xnio-api</artifactId>
+		    <version>${version.jboss.xnio}</version>
+		</dependency>
+        
+        <dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 		</dependency>

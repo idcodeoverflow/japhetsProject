@@ -7,12 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.ejb.embeddable.EJBContainer;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.inject.Inject;
-import javax.naming.Context;
 
 import marketing.redirect.services.OfferService;
 import marketing.redirect.services.impl.OfferServiceImp;

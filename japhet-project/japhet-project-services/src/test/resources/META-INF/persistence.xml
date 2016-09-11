@@ -6,12 +6,15 @@
 	version="2.1">
 
 	<persistence-unit name="sales" transaction-type="JTA">
-		<!-- provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider> -->
-		<jta-data-source>java:/SalesDS</jta-data-source>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+		<jta-data-source>java:jboss/datasources/JSalesDS</jta-data-source>
+		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
       	<validation-mode>CALLBACK</validation-mode>
 		<properties>
 			<property name="openjpa.Log" value="DefaultLevel=WARN, Tool=INFO"/>
+			<property name="jboss.as.jpa.providerModule" value="application" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
 		</properties>
 	</persistence-unit>
 
