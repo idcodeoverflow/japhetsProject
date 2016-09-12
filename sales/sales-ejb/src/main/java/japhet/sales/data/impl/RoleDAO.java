@@ -3,9 +3,9 @@ package japhet.sales.data.impl;
 import javax.ejb.Stateless;
 
 import japhet.sales.data.GenericDAO;
-import japhet.sales.model.impl.User;
+import japhet.sales.model.impl.Role;
 
 @Stateless
-public class UserDAO extends GenericDAO<User, Long> {	
-	
+public class RoleDAO extends GenericDAO<Role, Short> {
+
 }

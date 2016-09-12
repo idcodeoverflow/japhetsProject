@@ -16,66 +16,66 @@ import japhet.sales.model.IEntity;
 public abstract class GenericDAO<T extends IEntity, K> {
 
 	@Inject
-	EntityManager entityManager;
+	protected EntityManager em;
 	
-	T select(T entity) {
+	public T select(T entity) {
 		throw new UnsupportedOperationException();
 	}
 	
-	List<T> selectList(String namedQuery, Map<String, Object> params) {
+	public List<T> selectList(String namedQuery, Map<String, Object> params) {
 		throw new UnsupportedOperationException();
 	}
 	
-	boolean update(T entity) {
+	public boolean update(T entity) {
 		throw new UnsupportedOperationException();
 	}
 	
-	long update(String namedQuery, 
+	public long update(String namedQuery, 
 			Map<String, Object> params) {
 		throw new UnsupportedOperationException();
 	}
 	
-	boolean updateBatch(List<T> entities) {
+	public boolean updateBatch(List<T> entities) {
 		throw new UnsupportedOperationException();
 	}
 	
-	boolean delete(T entity) {
+	public boolean delete(T entity) {
 		throw new UnsupportedOperationException();
 	}
 	
-	long delete(String namedQuery, 
+	public long delete(String namedQuery, 
 			Map<String, Object> params) {
 		throw new UnsupportedOperationException();
 	}
 	
-	boolean deleteBatch(List<T> entities) {
+	public boolean deleteBatch(List<T> entities) {
 		throw new UnsupportedOperationException();
 	}
 	
-	T insert(T entity) {
+	public T insert(T entity) {
 		throw new UnsupportedOperationException();
 	}
 	
-	T insert(String namedQuery, 
+	public T insert(String namedQuery, 
 			Map<String, Object> params) {
 		throw new UnsupportedOperationException();
 	}
 	
-	List<T> insertBatch(List<T> entities) {
+	public List<T> insertBatch(List<T> entities) {
 		throw new UnsupportedOperationException();
 	}
 	
-	void populateNamedQueryParams(Query query, 
+	public void populateNamedQueryParams(Query query, 
 			Map<String, Object> params) {
 		throw new UnsupportedOperationException();
 	}
 	
-	T executeQuery(String namedQuery, 
+	public T executeQuery(String namedQuery, 
 			Map<String, Object> params) {
 		throw new UnsupportedOperationException();
 	}
 	
-	long executeUpdate(String namedQuery,
+	public long executeUpdate(String namedQuery,
 			Map<String, Object> params) {
 		throw new UnsupportedOperationException();
 	}

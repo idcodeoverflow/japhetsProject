@@ -47,8 +47,9 @@ public class User implements IEntity {
 	@Column(name = "PASSW")
 	private String passw;
 	
-	@Column(name = "ROLE")
-	private Short role;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ROLE_ID")
+	private Role role;
 	
 	@Column(name = "AGE")
 	private Short age;
@@ -68,7 +69,7 @@ public class User implements IEntity {
 	public User() {}
 
 	public User(Long userId, String name, String lastName, 
-			String email, String username, String passw, Short role,
+			String email, String username, String passw, Role role,
 			Short age, Status status, Date signUpDate, Date lastModified) {
 		super();
 		this.userId = userId;
@@ -132,11 +133,11 @@ public class User implements IEntity {
 		this.passw = passw;
 	}
 
-	public Short getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(Short role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

@@ -1,4 +1,4 @@
-package marketing.redirect.entities.impl;
+package japhet.sales.model.impl;
 
 import java.util.Date;
 
@@ -12,51 +12,50 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import marketing.redirect.entities.IEntity;
+import japhet.sales.model.IEntity;
 
 @Entity
 @Cacheable(value = true)
-@Table(name = "TB_STATUS")
-public class Status implements IEntity {
+@Table(name = "TB_ROLE")
+public class Role implements IEntity {
 
 	/**
 	 * Maven generated.
 	 */
-	private static final long serialVersionUID = -7934429898953967056L;
+	private static final long serialVersionUID = -5589899933409461137L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "STATUS_ID")
-	private Short statusId;
+	private Short roleId;
 	
 	@Column(name = "NAME")
 	private String name;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name = "AVAILABLE_DATE")
-	private Date availableDate;
+	@Column(name = "START_DATE")
+	private Date startDate;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "END_DATE")
 	private Date endDate;
 	
-	public Status() {}
+	public Role() {}
 
-	public Status(Short statusId, String name, Date availableDate, 
-			Date endDate) {
+	public Role(Short roleId, String name, Date startDate, Date endDate) {
 		super();
-		this.statusId = statusId;
+		this.roleId = roleId;
 		this.name = name;
-		this.availableDate = availableDate;
+		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 
-	public Short getStatusId() {
-		return statusId;
+	public Short getRoleId() {
+		return roleId;
 	}
 
-	public void setStatusId(Short statusId) {
-		this.statusId = statusId;
+	public void setRoleId(Short roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getName() {
@@ -67,12 +66,12 @@ public class Status implements IEntity {
 		this.name = name;
 	}
 
-	public Date getAvailableDate() {
-		return availableDate;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public void setAvailableDate(Date availableDate) {
-		this.availableDate = availableDate;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	public Date getEndDate() {
@@ -82,5 +81,5 @@ public class Status implements IEntity {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-		
+	
 }
