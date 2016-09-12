@@ -9,4 +9,8 @@ import japhet.sales.model.impl.UserProductHistorial;
 public class UserProductHistorialDAO extends GenericDAO
 	<UserProductHistorial, Long> {
 
+	public UserProductHistorialDAO(Class<UserProductHistorial> type, Class<Long> key) {
+		super(type, key);
+	}
+
 }

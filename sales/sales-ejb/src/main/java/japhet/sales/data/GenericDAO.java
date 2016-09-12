@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NamedQuery;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -18,66 +19,95 @@ public abstract class GenericDAO<T extends IEntity, K> {
 	@Inject
 	protected EntityManager em;
 	
-	public T select(T entity) {
-		throw new UnsupportedOperationException();
+	private final Class<T> type;
+	private final Class<K> key;
+
+    public GenericDAO(Class<T> type, Class<K> key) {
+         this.type = type;
+         this.key = key;
+    }
+
+    private Class<K> getKey() {
+		return key;
+	}
+
+	private Class<T> getMyType() {
+        return this.type;
+    }
+	
+	public T select(K key) throws Exception {
+		return em.find(getMyType(), key);
 	}
 	
-	public List<T> selectList(String namedQuery, Map<String, Object> params) {
-		throw new UnsupportedOperationException();
+	public List<T> selectList(String queryName, 
+			Map<String, Object> params) throws Exception {
+		return executeQuery(queryName, params);
 	}
 	
-	public boolean update(T entity) {
-		throw new UnsupportedOperationException();
+	public void update(T entity) throws Exception {
+		em.merge(entity);
 	}
 	
-	public long update(String namedQuery, 
-			Map<String, Object> params) {
-		throw new UnsupportedOperationException();
+	public long update(String queryName, 
+			Map<String, Object> params) throws Exception {
+		return executeUpdate(queryName, params);
 	}
 	
-	public boolean updateBatch(List<T> entities) {
-		throw new UnsupportedOperationException();
+	public void updateBatch(List<T> entities) throws Exception {
+		for(T entity : entities){
+			em.merge(entity);
+		}
 	}
 	
-	public boolean delete(T entity) {
-		throw new UnsupportedOperationException();
+	public void delete(T entity) throws Exception {
+		em.remove(entity);
 	}
 	
-	public long delete(String namedQuery, 
-			Map<String, Object> params) {
-		throw new UnsupportedOperationException();
+	public long delete(String queryName, 
+			Map<String, Object> params) throws Exception {
+		return executeUpdate(queryName, params);
 	}
 	
-	public boolean deleteBatch(List<T> entities) {
-		throw new UnsupportedOperationException();
+	public void deleteBatch(List<T> entities) throws Exception {
+		for(T entity : entities){
+			em.remove(entity);
+		}
 	}
 	
-	public T insert(T entity) {
-		throw new UnsupportedOperationException();
+	public T insert(T entity) throws Exception {
+		em.persist(entity);
+		return entity;
 	}
 	
-	public T insert(String namedQuery, 
-			Map<String, Object> params) {
-		throw new UnsupportedOperationException();
+	public void insert(String queryName, 
+			Map<String, Object> params) throws Exception {
+		executeUpdate(queryName, params);
 	}
 	
-	public List<T> insertBatch(List<T> entities) {
-		throw new UnsupportedOperationException();
+	public List<T> insertBatch(List<T> entities) throws Exception {
+		for(T entity : entities){
+			em.persist(entity);
+		}
+		return entities;
 	}
 	
 	public void populateNamedQueryParams(Query query, 
-			Map<String, Object> params) {
+			Map<String, Object> params) throws Exception {
 		throw new UnsupportedOperationException();
 	}
 	
-	public T executeQuery(String namedQuery, 
-			Map<String, Object> params) {
-		throw new UnsupportedOperationException();
+	public List<T> executeQuery(String queryName, 
+			Map<String, Object> params) throws Exception {
+		Query namedQuery = em.createNamedQuery(queryName, getMyType());
+		populateNamedQueryParams(namedQuery, params);
+		return namedQuery.getResultList();
 	}
 	
-	public long executeUpdate(String namedQuery,
-			Map<String, Object> params) {
-		throw new UnsupportedOperationException();
+	public long executeUpdate(String queryName,
+			Map<String, Object> params) throws Exception {
+		Query namedQuery = em.createNamedQuery(queryName);
+		populateNamedQueryParams(namedQuery, params);
+		return namedQuery.executeUpdate();
 	}
 	
 }
