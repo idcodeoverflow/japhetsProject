@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Eclipse settings
+.settings
+
+#ER Model conf
+*/mysql-db-schema.mwb.bak

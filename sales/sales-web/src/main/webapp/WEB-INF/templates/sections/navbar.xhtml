@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+	<!-- Back to top button -->
+	<h:panelGroup layout="block" styleClass="row affix" id="top-link-container">
+		<h:panelGroup id="top-link-block">
+		    <a href="#top" class="well well-sm">
+		        <h:panelGroup styleClass="glyphicon glyphicon-chevron-up"></h:panelGroup>#{msg['main.templa.backtop.button']}
+		    </a>
+		</h:panelGroup>
+	</h:panelGroup>
+	<!-- Static main menu navigation bar -->
+	<nav class="navbar navbar-default"> 
+		<h:panelGroup layout="block" styleClass="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<h:panelGroup layout="block" styleClass="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#main-navbar"
+					aria-expanded="false">
+					<h:panelGroup class="sr-only">#{msg['main.template.toggle']}</h:panelGroup> 
+					<h:panelGroup class="icon-bar"></h:panelGroup> 
+					<h:panelGroup class="icon-bar"></h:panelGroup> 
+					<h:panelGroup class="icon-bar"></h:panelGroup>
+				</button>
+				<!-- Trademark icon -->
+				<h:panelGroup styleClass="navbar-header" layout="block">
+					<a class="navbar-brand" href="#"> 
+						<h:graphicImage id="trademark-icon" value="/resources/media/trademark-icon.png" />
+					</a>
+				</h:panelGroup>
+			</h:panelGroup>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<h:form id="navbarForm">
+				<h:panelGroup id="main-navbar" layout="block" styleClass="collapse navbar-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<a href="/japhet-project-web/home.jsf">
+								<h:panelGroup styleClass="glyphicon glyphicon-home"/>
+							</a>
+						</li>
+						<li>
+							<h:outputLink value="/japhet-project-web/com.japhetsales.uploadcontent/upload.jsf">
+								#{msg['main.template.uploadContent']}
+							</h:outputLink>
+						</li>
+						<li>
+							<h:commandLink value="#{msg['main.template.top10']}" />
+						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
+								aria-haspopup="true" aria-expanded="false"> 
+								#{msg['main.template.categories']}
+								<h:panelGroup styleClass="caret" />
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="#">#{msg['main.template.clothes']}</a></li>
+								<li><a href="#">#{msg['main.template.watches']}</a></li>
+								<li><a href="#">#{msg['main.template.technology']}</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">#{msg['main.template.outlet']}</a></li>
+							</ul>
+						</li>
+						<li>
+							<a href="/japhet-project-web/com.japhetsales.auth/login.jsf">
+								#{msg['main.template.login']}
+							</a>
+						</li>
+					</ul>
+				</h:panelGroup>
+			</h:form>
+		</h:panelGroup>
+	</nav>
+</html>
