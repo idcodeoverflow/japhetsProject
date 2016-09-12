@@ -90,3 +90,6 @@ ENV/
 
 # Eclipse settings
 .settings
+
+#ER Model conf
+*/mysql-db-schema.mwb.bak

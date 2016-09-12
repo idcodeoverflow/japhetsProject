@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:pf="http://primefaces.org/ui"
+	template="/WEB-INF/templates/publicTemplate.xhtml">
+
+	<ui:define name="content">
+		<h:panelGroup layout="block" styleClass="row">
+		
+			<h:panelGroup styleClass="col-md-2" />
+			
+			<h:panelGroup styleClass="col-md-8">
+				<!-- Panel group for content uploading -->
+				<h:panelGroup layout="block" styleClass="panel panel-default">
+					<h:panelGroup layout="block" styleClass="panel-heading">
+						<h2 class="panel-title">
+							#{msg['upload.content.title']}
+							<h:panelGroup styleClass="glyphicon glyphicon-upload" />
+						</h2>
+					</h:panelGroup>
+					<h:panelGroup layout="block" styleClass="panel-body">
+						<h:form id="uploadContentForm">
+							<!-- Upload files section -->
+							<pf:fileUpload mode="advanced" dragDropSupport="true"
+						                          update="messages" sizeLimit="100000" 
+						                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+						 	<!-- Page messages -->
+						    <pf:growl id="messages" showDetail="true" />
+						    <!-- Line to separate the file uploading section from the form -->
+						    <hr/>
+						    
+						    <h:panelGroup layout="block" styleClass="form-group">
+						    	<h:outputLabel for="contentTitleInput">
+						    		#{msg['upload.content.contentTitle']}
+						    	</h:outputLabel>
+						    	<h:inputText id="contentTitleInput" styleClass="form-control" 
+						    					placeholder="#{msg['upload.content.contentTitle']}"/>
+						    </h:panelGroup>
+						    
+						    <h:panelGroup layout="block" styleClass="form-group">
+						    	<h:outputLabel for="contentDescriptionInput">
+						    		#{msg['upload.content.contentDescription']}
+						    	</h:outputLabel>
+						    	<h:inputTextarea id="contentDescriptionInput" styleClass="form-control" 
+						    					placeholder="#{msg['upload.content.contentDescription']}"/>
+						    </h:panelGroup>
+						    
+						    <h:panelGroup layout="block" styleClass="form-group">
+						    	<h:outputLabel for="contentPriceInput">
+						    		#{msg['upload.content.contentPrice']}
+						    	</h:outputLabel>
+						    	<h:panelGroup styleClass="input-group" layout="block">
+						    	  	<h:panelGroup styleClass="input-group-addon">
+								  		$
+								  	</h:panelGroup>
+								  	<h:inputText id="contentPriceInput" styleClass="form-control" 
+						    					placeholder="#{msg['upload.content.contentPrice']}"/>
+								</h:panelGroup>
+						    </h:panelGroup>
+						    
+						    <!-- Dates section -->
+							<h:panelGroup layout="block" styleClass="row">
+							
+								<!-- Start date -->
+								<h:panelGroup layout="block" styleClass="col-md-6">
+									<h:panelGroup layout="block" styleClass="form-group">
+										<h:panelGrid columns="2" cellpadding="5">
+											<pf:outputLabel for="availableDate">
+								    			#{msg['upload.content.availableDate']}
+								    		</pf:outputLabel>
+											<pf:calendar id="availableDate" mode="inline" pattern="MM/dd/yyyy HH:mm:ss"
+														styleClass="form-control" />
+										</h:panelGrid>
+									</h:panelGroup>
+								</h:panelGroup>
+								<!-- End date -->
+								<h:panelGroup layout="block" styleClass="col-md-6">
+									<h:panelGroup layout="block" styleClass="form-group">
+									
+										<pf:outputLabel for="endDate">
+							    			#{msg['upload.content.endDate']}
+							    		</pf:outputLabel>
+										<pf:calendar id="endDate" mode="inline" pattern="MM/dd/yyyy HH:mm:ss"
+													styleClass="form-control" value="#{calendarView.inlineDate}" />
+													
+										<pf:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+									        <pf:panelGrid id="display" columns="2" columnClasses="label,value">
+									            <h:outputText value="#{msg['upload.content.endDate']}" />
+									            <h:outputText value="#{calendarView.inlineDate}">
+									                <f:convertDateTime pattern="MM/dd/yyyy" />
+								            	</h:outputText>
+								            </pf:panelGrid>
+								      	</pf:dialog>
+								      	
+									</h:panelGroup>
+								</h:panelGroup>
+								
+							</h:panelGroup>
+							
+							<!-- Buttons section -->
+						    <h:panelGroup layout="block" styleClass="row">
+						    	<!-- Spacer -->
+						    	<h:panelGroup layout="block" styleClass="col-md-9" />
+						    	<!-- Save button -->
+								<h:panelGroup layout="block" styleClass="col-md-3" >
+									<h:button id="saveBt" styleClass="btn btn-default btn-block btn-lg" 
+												value="#{msg['upload.content.saveButton']}" />
+								</h:panelGroup>
+							</h:panelGroup>
+							
+						</h:form>
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="col-md-2" />
+		
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
