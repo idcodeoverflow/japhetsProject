@@ -1,7 +1,7 @@
 /**
  * 
  */
-package marketing.redirect.web.controllers.home;
+package japhet.sales.controller.home;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
-import marketing.redirect.web.controllers.GenericMB;
-import marketing.redirect.services.OfferService;
-import marketing.redirect.services.impl.OfferServiceImp;
+import japhet.sales.controller.GenericMB;
+import japhet.sales.service.OfferService;
+import japhet.sales.service.impl.OfferServiceImp;
 
 /**
  * @author David
