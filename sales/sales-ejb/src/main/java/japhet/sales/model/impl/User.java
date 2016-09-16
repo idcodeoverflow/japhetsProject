@@ -16,14 +16,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import japhet.sales.data.NamedQueries;
+import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
 import japhet.sales.util.Encription;
 
 @Entity
 @Cacheable(value = true)
 @Table(name = "TB_USER")
-@NamedQuery(name = NamedQueries.EXISTS_USER, query = "SELECT u.username FROM User u WHERE u.username = :username AND u.passw = :passw")
+@NamedQuery(name = QueryNames.EXISTS_USER, 
+	query = "SELECT u.userId FROM User u WHERE u.username = :username AND u.passw = :passw")
 public class User implements IEntity {
 
 	/**

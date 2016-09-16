@@ -8,15 +8,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
 
 @Entity
 @Cacheable(value = true)
 @Table(name = "TB_ROLE")
+@NamedQueries({
+	@NamedQuery(name = QueryNames.GET_ALL_AVAILABLE_ROLES,
+			query = "SELECT r FROM Role r WHERE r.startDate <= CURRENT_DATE AND r.endDate >= CURRENT_DATE"),
+	@NamedQuery(name = QueryNames.GET_ALL_ROLES,
+			query = "SELECT r FROM Role r")
+})
 public class Role implements IEntity {
 
 	/**

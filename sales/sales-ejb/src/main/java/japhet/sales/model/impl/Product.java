@@ -22,15 +22,22 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
 
 @Entity
 @Cacheable(value = true)
 @Table(name = "TB_PRODUCT")
+@NamedQueries({
+		@NamedQuery(name = QueryNames.GET_AVAILABLE_PRODUCTS,
+				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE")
+})
 public class Product implements IEntity {
 	
 	/**
