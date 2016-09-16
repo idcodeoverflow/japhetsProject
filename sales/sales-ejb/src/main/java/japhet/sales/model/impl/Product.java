@@ -1,8 +1,17 @@
 package japhet.sales.model.impl;
 
-import java.sql.Blob;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
+import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
+import javax.inject.Inject;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -27,6 +37,9 @@ public class Product implements IEntity {
 	 * Maven generated.
 	 */
 	private static final long serialVersionUID = -2885883717993765366L;
+	
+	@Inject
+	private Logger logger;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +55,9 @@ public class Product implements IEntity {
 	@Column(name = "PRICE")
 	private Double price;
 	
+	@Lob
 	@Column(name = "IMAGE")
-	private Blob image;
+	private byte[] image;
 	
 	@Temporal(TemporalType.DATE)
 	@Column(name = "UPLOAD_DATE")
@@ -71,7 +85,7 @@ public class Product implements IEntity {
 	public Product() {}
 
 	public Product(Long productId, String title, String description, 
-			Double price, Blob image, Date uploadDate, Date startDate, 
+			Double price, byte[] image, Date uploadDate, Date startDate, 
 			Date endDate, Company company, Category category, 
 			Integer redirectNumber) {
 		super();
@@ -120,12 +134,20 @@ public class Product implements IEntity {
 		this.price = price;
 	}
 
-	public Blob getImage() {
+	public byte[] getImage() {
 		return image;
 	}
+	
+	public Image getImageFile() throws IOException {
+		return convertByteArrayToFile(image);
+	}
 
-	public void setImage(Blob image) {
+	public void setImage(byte[] image) {
 		this.image = image;
+	}
+	
+	public void setImage(File file) throws IOException {
+		this.image = convertFileTobytesArray(file);
 	}
 
 	public Date getUploadDate() {
@@ -174,5 +196,42 @@ public class Product implements IEntity {
 
 	public void setRedirectNumber(Integer redirectNumber) {
 		this.redirectNumber = redirectNumber;
+	}
+	
+	@SuppressWarnings("resource")
+	private byte[] convertFileTobytesArray(File file) throws IOException {
+		logger.info("Converting file to byte array...");
+		InputStream is = new FileInputStream(file);
+		long length = file.length();
+		
+		if (length > Integer.MAX_VALUE) {
+			throw new IOException("The file is too big for the DB.");
+		}
+		byte[] bytes = new byte[(int) length];
+
+		int offset = 0;
+		int numRead = is.read(bytes, offset, bytes.length - offset);
+		while (offset < bytes.length && numRead != 0) {
+			offset += numRead;
+			numRead = is.read(bytes, offset, bytes.length - offset);
+		}
+
+		if (offset < bytes.length) {
+			throw new IOException("Could not completely read file " + file.getName());
+		}
+		is.close();
+		logger.info("File succesfully converted to bytes array.");
+		
+		return bytes;
+	}
+	
+	private Image convertByteArrayToFile(byte[] bytes) throws IOException {
+		logger.info("Converting byte array to image...");
+		Image image = null;
+		BufferedImage bfImage = null;
+		bfImage = ImageIO.read(new ByteArrayInputStream(bytes));
+		image = bfImage;
+		logger.info("Bytes array succesfully converted to image.");
+		return image;
 	}
 }

@@ -11,15 +11,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import japhet.sales.data.NamedQueries;
 import japhet.sales.model.IEntity;
+import japhet.sales.util.Encription;
 
 @Entity
 @Cacheable(value = true)
 @Table(name = "TB_USER")
+@NamedQuery(name = NamedQueries.EXISTS_USER, query = "SELECT u.username FROM User u WHERE u.username = :username AND u.passw = :passw")
 public class User implements IEntity {
 
 	/**
@@ -129,8 +133,8 @@ public class User implements IEntity {
 		return passw;
 	}
 
-	public void setPassw(String passw) {
-		this.passw = passw;
+	public void setPassw(String passw) throws Exception {
+		this.passw = Encription.SHA256(passw);
 	}
 
 	public Role getRole() {

@@ -8,8 +8,8 @@ import japhet.sales.model.impl.Company;
 @Stateless
 public class CompanyDAO extends GenericDAO<Company, Long> {
 
-	public CompanyDAO(Class<Company> type, Class<Long> key) {
-		super(type, key);
+	public CompanyDAO() {
+		super(Company.class, Long.class);
 	}
 
 }

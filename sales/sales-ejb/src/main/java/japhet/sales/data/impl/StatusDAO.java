@@ -8,8 +8,8 @@ import japhet.sales.model.impl.Status;
 @Stateless
 public class StatusDAO extends GenericDAO<Status, Short> {
 
-	public StatusDAO(Class<Status> type, Class<Short> key) {
-		super(type, key);
+	public StatusDAO() {
+		super(Status.class, Short.class);
 	}
 
 }
