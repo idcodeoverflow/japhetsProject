@@ -46,7 +46,7 @@ public class Product implements IEntity {
 	private static final long serialVersionUID = -2885883717993765366L;
 	
 	@Inject
-	private Logger logger;
+	private transient Logger logger;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
