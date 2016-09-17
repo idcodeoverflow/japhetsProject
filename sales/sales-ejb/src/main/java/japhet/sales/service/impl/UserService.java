@@ -41,6 +41,7 @@ public class UserService implements IUserService {
 		return false;
 	}
 	
+	@Override
 	public User getUser(Long userId) {
 		logger.info("Obtaining user " + userId + " from the DB...");
 		try {
@@ -51,6 +52,7 @@ public class UserService implements IUserService {
 		return null;
 	}
 	
+	@Override
 	public boolean updateUser(User user) {
 		logger.info("Updating user into the DB...");
 		try {
@@ -62,6 +64,7 @@ public class UserService implements IUserService {
 		return false;
 	}
 	
+	@Override
 	public boolean deleteUser(User user) {
 		logger.info("Deleting user into the DB...");
 		try {
@@ -73,6 +76,7 @@ public class UserService implements IUserService {
 		return false;
 	}
 	
+	@Override
 	public boolean insertUser(User user) {
 		logger.info("Inserting user into the DB...");
 		try {

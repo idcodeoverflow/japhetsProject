@@ -29,6 +29,7 @@
 									#{msg['registration.form.firstName']}
 								</h:outputLabel>
 								<h:inputText id="firstNameInput" styleClass="form-control" 
+									value="#{registrationMB.firstName}"
 									p:placeholder="#{msg['registration.form.firstName']}" />
 							</h:panelGroup>
 							<!-- Last Name block -->
@@ -36,15 +37,26 @@
 								<h:outputLabel for="lastNameInput">
 									#{msg['registration.form.lastName']}
 								</h:outputLabel>
-								<h:inputText id="lastNameInput" styleClass="form-control" 
+								<h:inputText id="lastNameInput" styleClass="form-control"  
+									value="#{registrationMB.lastName}"
 									p:placeholder="#{msg['registration.form.lastName']}" />
+							</h:panelGroup>
+							<!-- Email block -->
+							<h:panelGroup layout="block" styleClass="form-group">
+								<h:outputLabel for="ageInput">
+									#{msg['registration.form.age']}
+								</h:outputLabel>
+								<h:inputText id="ageInput" styleClass="form-control"  
+									value="#{registrationMB.age}"
+									p:placeholder="#{msg['registration.form.age']}" />
 							</h:panelGroup>
 							<!-- Email block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="emailInput">
 									#{msg['registration.form.email']}
 								</h:outputLabel>
-								<h:inputText id="emailInput" styleClass="form-control" 
+								<h:inputText id="emailInput" styleClass="form-control"  
+									value="#{registrationMB.email}"
 									p:placeholder="#{msg['registration.form.email']}" />
 							</h:panelGroup>
 							<!-- Password block -->
@@ -53,6 +65,7 @@
 									#{msg['registration.form.password']}
 								</h:outputLabel>
 								<h:inputSecret id="passwordInput" styleClass="form-control" 
+									value="#{registrationMB.password}" 
 									p:placeholder="#{msg['registration.form.password']}" />
 							</h:panelGroup>
 							<!-- Confirm password block -->
@@ -61,6 +74,7 @@
 									#{msg['registration.form.confirmPassword']}
 								</h:outputLabel>
 								<h:inputSecret id="confirmPasswordInput" styleClass="form-control" 
+									value="#{registrationMB.confirmPassword}" 
 									p:placeholder="#{msg['registration.form.confirmPassword']}" />
 							</h:panelGroup>
 							<!-- Country block -->
@@ -92,13 +106,16 @@
 							<!-- Sign up button block -->
 							<h:panelGroup layout="block" styleClass="row">
 								<h:panelGroup layout="block" styleClass="col-md-12" >
-									<h:button styleClass="btn btn-default btn-block btn-lg" value="#{msg['registration.form.signUp']}" />
+									<h:commandButton styleClass="btn btn-default btn-block btn-lg" 
+												value="#{msg['registration.form.signUp']}" 
+												action="#{registrationMB.signUp()}" />
 								</h:panelGroup>
 							</h:panelGroup>
 							<!-- Facebook sign up button block -->
 							<h:panelGroup layout="block" styleClass="row">
 								<h:panelGroup layout="block" styleClass="col-md-12" >
-									<h:button styleClass="btn btn-primary btn-block btn-lg" value="#{msg['registration.form.signUp.facebook']}" />
+									<h:button styleClass="btn btn-primary btn-block btn-lg" 
+												value="#{msg['registration.form.signUp.facebook']}" />
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:form>
