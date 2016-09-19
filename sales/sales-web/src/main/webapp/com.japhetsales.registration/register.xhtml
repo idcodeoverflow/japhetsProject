@@ -4,8 +4,9 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pf="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
 	template="/WEB-INF/templates/publicTemplate.xhtml">
 
 	<ui:define name="content">
@@ -23,6 +24,8 @@
 					</h:panelGroup>
 					<h:panelGroup layout="block" styleClass="panel-body">
 						<h:form id="signUpForm">
+							<!-- Application messages -->
+							<p:messages id="messages" globalOnly="true"/>
 							<!-- First Name block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="firstNameInput">
@@ -30,7 +33,11 @@
 								</h:outputLabel>
 								<h:inputText id="firstNameInput" styleClass="form-control" 
 									value="#{registrationMB.firstName}"
-									p:placeholder="#{msg['registration.form.firstName']}" />
+									maxlength="50" required="true"
+									requiredMessage="#{msg['registration.messages.requiredFirstName']}"
+									pt:placeholder="#{msg['registration.form.firstName']}">
+								</h:inputText>
+								<p:messages for="firstNameInput" />
 							</h:panelGroup>
 							<!-- Last Name block -->
 							<h:panelGroup layout="block" styleClass="form-group">
@@ -39,7 +46,12 @@
 								</h:outputLabel>
 								<h:inputText id="lastNameInput" styleClass="form-control"  
 									value="#{registrationMB.lastName}"
-									p:placeholder="#{msg['registration.form.lastName']}" />
+									maxlength="100" required="true"
+									requiredMessage="#{msg['registration.messages.requiredLastName']}"
+									pt:placeholder="#{msg['registration.form.lastName']}">
+									<f:validateRegex pattern="[a-zA-Z\\s]+"/>
+								</h:inputText>
+								<p:messages for="lastNameInput" />
 							</h:panelGroup>
 							<!-- Email block -->
 							<h:panelGroup layout="block" styleClass="form-group">
@@ -48,7 +60,11 @@
 								</h:outputLabel>
 								<h:inputText id="ageInput" styleClass="form-control"  
 									value="#{registrationMB.age}"
-									p:placeholder="#{msg['registration.form.age']}" />
+									maxlength="3" required="true"
+									requiredMessage="#{msg['registration.messages.requiredAge']}"
+									pt:placeholder="#{msg['registration.form.age']}">
+								</h:inputText>
+								<p:messages for="ageInput" />
 							</h:panelGroup>
 							<!-- Email block -->
 							<h:panelGroup layout="block" styleClass="form-group">
@@ -57,7 +73,12 @@
 								</h:outputLabel>
 								<h:inputText id="emailInput" styleClass="form-control"  
 									value="#{registrationMB.email}"
-									p:placeholder="#{msg['registration.form.email']}" />
+									maxlength="50" required="true"
+									requiredMessage="#{msg['registration.messages.requiredEmail']}"
+									pt:placeholder="#{msg['registration.form.email']}">
+									<f:validateRegex pattern="[a-zA-Z0-9\-\_@.]+"/>
+								</h:inputText>
+								<p:messages for="emailInput" />
 							</h:panelGroup>
 							<!-- Password block -->
 							<h:panelGroup layout="block" styleClass="form-group">
@@ -66,7 +87,10 @@
 								</h:outputLabel>
 								<h:inputSecret id="passwordInput" styleClass="form-control" 
 									value="#{registrationMB.password}" 
-									p:placeholder="#{msg['registration.form.password']}" />
+									maxlength="16" required="true"
+									requiredMessage="#{msg['registration.messages.requiredPassword']}"
+									pt:placeholder="#{msg['registration.form.password']}" />
+								<p:messages for="passwordInput" />
 							</h:panelGroup>
 							<!-- Confirm password block -->
 							<h:panelGroup layout="block" styleClass="form-group">
@@ -74,26 +98,35 @@
 									#{msg['registration.form.confirmPassword']}
 								</h:outputLabel>
 								<h:inputSecret id="confirmPasswordInput" styleClass="form-control" 
-									value="#{registrationMB.confirmPassword}" 
-									p:placeholder="#{msg['registration.form.confirmPassword']}" />
+									value="#{registrationMB.confirmPassword}"
+									maxlength="16" required="true"
+									requiredMessage="#{msg['registration.messages.requiredConfirmPassword']}"
+									pt:placeholder="#{msg['registration.form.confirmPassword']}" />
+								<p:messages for="confirmPasswordInput" />
 							</h:panelGroup>
 							<!-- Country block -->
-							<h:panelGroup layout="block" styleClass="form-group">
-								<h:outputLabel for="countryList">
-									#{msg['registration.form.country']}
-								</h:outputLabel>
-								<h:selectOneListbox id="countryList" styleClass="form-control">
-									<f:selectItem itemValue="0" itemLabel="#{msg['registration.form.selectOneCountry']}" />
-								</h:selectOneListbox>
-							</h:panelGroup>
-							<!-- State block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="stateList">
 									#{msg['registration.form.state']}
 								</h:outputLabel>
-								<h:selectOneListbox id="stateList" styleClass="form-control">
-									<f:selectItem itemValue="0" itemLabel="#{msg['registration.form.selectOneState']}" />
+								<h:selectOneListbox id="stateList" 
+									styleClass="form-control" required="true" 
+									requiredMessage="#{msg['registration.messages.requiredState']}">
+									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneState']}" />
 								</h:selectOneListbox>
+								<p:messages for="stateList" />
+							</h:panelGroup>
+							<!-- State block -->
+							<h:panelGroup layout="block" styleClass="form-group">
+								<h:outputLabel for="stateCity">
+									#{msg['registration.form.city']}
+								</h:outputLabel>
+								<h:selectOneListbox id="stateCity" 
+									styleClass="form-control" required="true"
+									requiredMessage="#{msg['registration.messages.requiredCity']}">
+									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneCity']}" />
+								</h:selectOneListbox>
+								<p:messages for="stateCity" />
 								<!-- Terms agreement -->
 								<p>
 									<br/>

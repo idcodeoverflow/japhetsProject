@@ -212,3 +212,8 @@ footer {
 .ui-widget {
 	font-size: 14px !important;
 }
+
+/* Page title */
+.main-nav-header {
+	width: 306px !important;	
+}

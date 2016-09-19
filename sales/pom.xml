@@ -54,6 +54,8 @@
         <version.wildfly>9.0.0.Alpha1</version.wildfly>
 		
 		<version.primefaces>6.0</version.primefaces>
+		<version.primefaces.extensions>4.0.0</version.primefaces.extensions>
+		<version.gson>2.7</version.gson>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
