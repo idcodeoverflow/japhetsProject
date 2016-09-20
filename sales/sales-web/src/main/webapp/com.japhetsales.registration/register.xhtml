@@ -109,11 +109,15 @@
 								<h:outputLabel for="stateList">
 									#{msg['registration.form.state']}
 								</h:outputLabel>
-								<h:selectOneListbox id="stateList" 
+								<h:selectOneMenu id="stateList" value="#{registrationMB.stateId}"
 									styleClass="form-control" required="true" 
 									requiredMessage="#{msg['registration.messages.requiredState']}">
 									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneState']}" />
-								</h:selectOneListbox>
+									<f:selectItems value="#{statesMB.states}" var="state"  
+										itemLabel="#{state.name}" itemValue="#{state.stateId}" />
+									<f:ajax event="valueChange" render="stateCity"
+       									listener="#{registrationMB.setSelectedState(statesMB.findStateById(registrationMB.stateId))}" />
+								</h:selectOneMenu>
 								<p:messages for="stateList" />
 							</h:panelGroup>
 							<!-- State block -->
@@ -121,11 +125,13 @@
 								<h:outputLabel for="stateCity">
 									#{msg['registration.form.city']}
 								</h:outputLabel>
-								<h:selectOneListbox id="stateCity" 
+								<h:selectOneMenu id="stateCity" value="#{registrationMB.cityId}"
 									styleClass="form-control" required="true"
 									requiredMessage="#{msg['registration.messages.requiredCity']}">
 									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneCity']}" />
-								</h:selectOneListbox>
+									<f:selectItems value="#{registrationMB.selectedState.cities}" var="city"  
+										 itemLabel="#{city.name}" itemValue="#{city.cityId}"/>
+								</h:selectOneMenu>
 								<p:messages for="stateCity" />
 								<!-- Terms agreement -->
 								<p>

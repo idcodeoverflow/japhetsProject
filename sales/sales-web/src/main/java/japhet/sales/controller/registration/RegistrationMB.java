@@ -10,7 +10,9 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import japhet.sales.controller.GenericMB;
+import japhet.sales.model.impl.City;
 import japhet.sales.model.impl.Role;
+import japhet.sales.model.impl.State;
 import japhet.sales.model.impl.Status;
 import japhet.sales.model.impl.User;
 import japhet.sales.service.IUserService;
@@ -38,19 +40,22 @@ public class RegistrationMB extends GenericMB {
 	private Short age;
 	private String password;
 	private String confirmPassword;
-	private Integer countryId;
-	private Integer stateId;
+	private Short stateId;
+	private Short cityId;
 	
 	//Logic attributes
 	private User user;
 	private Role role;
 	private Status status;
+	private City city;
+	private State selectedState;
 	
 	@PostConstruct
 	public void init(){
 		user = new User();
 		role = new Role();
 		status = new Status();
+		city = new City();
 	}
 
 	public IUserService getUserService() {
@@ -110,28 +115,37 @@ public class RegistrationMB extends GenericMB {
 		this.confirmPassword = confirmPassword;
 	}
 
-	public Integer getCountryId() {
-		return countryId;
+	public Short getCityId() {
+		return cityId;
 	}
 
-	public void setCountryId(Integer countryId) {
-		this.countryId = countryId;
+	public void setCityId(Short cityId) {
+		this.cityId = cityId;
 	}
 
-	public Integer getStateId() {
+	public Short getStateId() {
 		return stateId;
 	}
 
-	public void setStateId(Integer stateId) {
+	public void setStateId(Short stateId) {
 		this.stateId = stateId;
 	}
 	
+	public State getSelectedState() {
+		return selectedState;
+	}
+
+	public void setSelectedState(State selectedState) {
+		this.selectedState = selectedState;
+	}
+
 	public void signUp() {
 		//TODO: complete role and status logic
 		logger.info("Persisting user into the DB...");
 		try {
 			role.setRoleId((short) 1);
 			status.setStatusId((short) 1);
+			city.setCityId(cityId);
 			user.setAge(age);
 			user.setEmail(email);
 			user.setLastModified(new Date());
@@ -142,6 +156,7 @@ public class RegistrationMB extends GenericMB {
 			user.setSignUpDate(new Date());
 			user.setStatus(status);
 			user.setUsername(username);
+			user.setCity(city);
 			userService.insertUser(user);
 		} catch (Exception e) {
 			logger.severe("Error trying to persist user into the DB." + e.getStackTrace());

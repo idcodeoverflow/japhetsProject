@@ -71,11 +71,16 @@ public class User implements IEntity {
 	@Column(name = "LAST_MODIFIED_DATE")
 	private Date lastModified;
 	
+	@JoinColumn(name = "CITY_ID")
+	@ManyToOne
+	private City city;
+	
 	public User() {}
 
 	public User(Long userId, String name, String lastName, 
 			String email, String username, String passw, Role role,
-			Short age, Status status, Date signUpDate, Date lastModified) {
+			Short age, Status status, Date signUpDate, Date lastModified,
+			City city) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -88,6 +93,7 @@ public class User implements IEntity {
 		this.status = status;
 		this.signUpDate = signUpDate;
 		this.lastModified = lastModified;
+		this.city = city;
 	}
 	
 	public Long getUserId() {
@@ -176,6 +182,14 @@ public class User implements IEntity {
 
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 }
