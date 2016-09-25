@@ -54,7 +54,7 @@ public class Role implements IEntity {
 	public Role(Short roleId, String name, Date startDate, Date endDate) {
 		super();
 		this.roleId = roleId;
-		this.name = name;
+		this.name = name.toUpperCase();
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
@@ -72,7 +72,7 @@ public class Role implements IEntity {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.toUpperCase();
 	}
 
 	public Date getStartDate() {

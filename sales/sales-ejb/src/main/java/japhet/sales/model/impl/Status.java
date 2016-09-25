@@ -55,7 +55,7 @@ public class Status implements IEntity {
 			Date endDate) {
 		super();
 		this.statusId = statusId;
-		this.name = name;
+		this.name = name.toUpperCase();
 		this.availableDate = availableDate;
 		this.endDate = endDate;
 	}
@@ -73,7 +73,7 @@ public class Status implements IEntity {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.toUpperCase();
 	}
 
 	public Date getAvailableDate() {
