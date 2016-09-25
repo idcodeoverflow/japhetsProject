@@ -1,6 +1,7 @@
 package japhet.sales.model.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -75,12 +78,21 @@ public class User implements IEntity {
 	@ManyToOne
 	private City city;
 	
+	@ManyToMany
+	@JoinTable(
+			name = "TB_SNETWORK_USER",
+			joinColumns = @JoinColumn(name = "USER_ID", 
+				referencedColumnName = "USER_ID"),
+			inverseJoinColumns = @JoinColumn(name = "SOCIAL_NETWORK_ID", 
+				referencedColumnName = "SOCIAL_NETWORK_ID"))
+	private List<SocialNetwork> socialNetwork;
+	
 	public User() {}
 
 	public User(Long userId, String name, String lastName, 
 			String email, String username, String passw, Role role,
 			Short age, Status status, Date signUpDate, Date lastModified,
-			City city) {
+			City city, List<SocialNetwork> socialNetwork) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -94,6 +106,7 @@ public class User implements IEntity {
 		this.signUpDate = signUpDate;
 		this.lastModified = lastModified;
 		this.city = city;
+		this.socialNetwork = socialNetwork;
 	}
 	
 	public Long getUserId() {
@@ -190,6 +203,14 @@ public class User implements IEntity {
 
 	public void setCity(City city) {
 		this.city = city;
+	}
+
+	public List<SocialNetwork> getSocialNetwork() {
+		return socialNetwork;
+	}
+
+	public void setSocialNetwork(List<SocialNetwork> socialNetwork) {
+		this.socialNetwork = socialNetwork;
 	}
 
 }

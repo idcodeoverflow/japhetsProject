@@ -95,19 +95,6 @@
 			<version>${version.primefaces}</version>
 		</dependency>
 		
-		<dependency>
-		    <groupId>org.primefaces.extensions</groupId>
-		    <artifactId>primefaces-extensions</artifactId>
-		    <version>${version.primefaces.extensions}</version>
-		</dependency>
-		
-		<dependency>
-		    <groupId>com.google.code.gson</groupId>
-		    <artifactId>gson</artifactId>
-		    <version>${version.gson}</version>
-		</dependency>
-				
-
 	</dependencies>
 
 	<build>

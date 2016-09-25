@@ -14,4 +14,7 @@ public interface IRoleService extends Serializable {
 	
 	public List<Role> getAllRoles();
 	
+	public List<Role> getAvailableRoles();
+
+	public void setAvailableRoles(List<Role> availableRoles);
 }

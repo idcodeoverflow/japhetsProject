@@ -4,8 +4,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pf="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/publicTemplate.xhtml">
 
 	<ui:define name="content">
@@ -25,11 +25,11 @@
 					<h:panelGroup layout="block" styleClass="panel-body">
 						<h:form id="uploadContentForm">
 							<!-- Upload files section -->
-							<pf:fileUpload mode="advanced" dragDropSupport="true"
+							<p:fileUpload mode="advanced" dragDropSupport="true"
 						                          update="messages" sizeLimit="100000" 
 						                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 						 	<!-- Page messages -->
-						    <pf:growl id="messages" showDetail="true" />
+						    <p:growl id="messages" showDetail="true" />
 						    <!-- Line to separate the file uploading section from the form -->
 						    <hr/>
 						    
@@ -69,10 +69,10 @@
 								<h:panelGroup layout="block" styleClass="col-md-6">
 									<h:panelGroup layout="block" styleClass="form-group">
 										<h:panelGrid columns="2" cellpadding="5">
-											<pf:outputLabel for="availableDate">
+											<p:outputLabel for="availableDate">
 								    			#{msg['upload.content.availableDate']}
-								    		</pf:outputLabel>
-											<pf:calendar id="availableDate" mode="inline" pattern="MM/dd/yyyy HH:mm:ss"
+								    		</p:outputLabel>
+											<p:calendar id="availableDate" mode="inline" pattern="MM/dd/yyyy HH:mm:ss"
 														styleClass="form-control" />
 										</h:panelGrid>
 									</h:panelGroup>
@@ -81,20 +81,20 @@
 								<h:panelGroup layout="block" styleClass="col-md-6">
 									<h:panelGroup layout="block" styleClass="form-group">
 									
-										<pf:outputLabel for="endDate">
+										<p:outputLabel for="endDate">
 							    			#{msg['upload.content.endDate']}
-							    		</pf:outputLabel>
-										<pf:calendar id="endDate" mode="inline" pattern="MM/dd/yyyy HH:mm:ss"
+							    		</p:outputLabel>
+										<p:calendar id="endDate" mode="inline" pattern="MM/dd/yyyy HH:mm:ss"
 													styleClass="form-control" value="#{calendarView.inlineDate}" />
 													
-										<pf:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
-									        <pf:panelGrid id="display" columns="2" columnClasses="label,value">
+										<p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
+									        <p:panelGrid id="display" columns="2" columnClasses="label,value">
 									            <h:outputText value="#{msg['upload.content.endDate']}" />
 									            <h:outputText value="#{calendarView.inlineDate}">
 									                <f:convertDateTime pattern="MM/dd/yyyy" />
 								            	</h:outputText>
-								            </pf:panelGrid>
-								      	</pf:dialog>
+								            </p:panelGrid>
+								      	</p:dialog>
 								      	
 									</h:panelGroup>
 								</h:panelGroup>

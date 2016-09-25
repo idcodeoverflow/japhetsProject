@@ -3,17 +3,18 @@ package japhet.sales.service.impl;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.RoleDAO;
 import japhet.sales.model.impl.Role;
 import japhet.sales.service.IRoleService;
 
-@LocalBean
-@Stateless
+@Startup
+@Singleton
 public class RoleService implements IRoleService {
 
 	/**
@@ -26,6 +27,13 @@ public class RoleService implements IRoleService {
 	
 	@EJB
 	private RoleDAO roleDAO;
+	
+	private List<Role> availableRoles;
+	
+	@PostConstruct
+	private void init(){
+		availableRoles = getAllAvailableRoles();
+	}
 	
 	@Override
 	public List<Role> getAllAvailableRoles() {
@@ -82,4 +90,11 @@ public class RoleService implements IRoleService {
 		return false;
 	}
 
+	public List<Role> getAvailableRoles() {
+		return availableRoles;
+	}
+
+	public void setAvailableRoles(List<Role> availableRoles) {
+		this.availableRoles = availableRoles;
+	}
 }

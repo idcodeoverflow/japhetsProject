@@ -6,9 +6,8 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:pe="http://primefaces.org/ui/extensions"
 	template="/WEB-INF/templates/publicTemplate.xhtml">
-
+	
 	<ui:define name="content">
 		<h:panelGroup layout="block" styleClass="row">
 		
@@ -35,8 +34,12 @@
 									value="#{registrationMB.firstName}"
 									maxlength="50" required="true"
 									requiredMessage="#{msg['registration.messages.requiredFirstName']}"
-									pt:placeholder="#{msg['registration.form.firstName']}">
+									pt:placeholder="#{msg['registration.form.firstName']}"
+									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
 								</h:inputText>
+								<p:keyFilter regEx="/[a-zA-Z\-\s]/i" 
+									for="firstNameInput"
+									preventPaste="false" />
 								<p:messages for="firstNameInput" />
 							</h:panelGroup>
 							<!-- Last Name block -->
@@ -48,10 +51,13 @@
 									value="#{registrationMB.lastName}"
 									maxlength="100" required="true"
 									requiredMessage="#{msg['registration.messages.requiredLastName']}"
-									pt:placeholder="#{msg['registration.form.lastName']}">
-									<f:validateRegex pattern="[a-zA-Z\\s]+"/>
+									pt:placeholder="#{msg['registration.form.lastName']}"
+									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
 								</h:inputText>
 								<p:messages for="lastNameInput" />
+								<p:keyFilter regEx="/[a-zA-Z\-\s]/i" 
+									for="lastNameInput"
+									preventPaste="false" />
 							</h:panelGroup>
 							<!-- Email block -->
 							<h:panelGroup layout="block" styleClass="form-group">
@@ -62,8 +68,12 @@
 									value="#{registrationMB.age}"
 									maxlength="3" required="true"
 									requiredMessage="#{msg['registration.messages.requiredAge']}"
-									pt:placeholder="#{msg['registration.form.age']}">
+									pt:placeholder="#{msg['registration.form.age']}"
+									onkeyup="deleteNonIntegerContent(this, '');">
 								</h:inputText>
+								<p:keyFilter mask="pint" 
+									for="ageInput"
+									preventPaste="false" />
 								<p:messages for="ageInput" />
 							</h:panelGroup>
 							<!-- Email block -->
@@ -75,9 +85,12 @@
 									value="#{registrationMB.email}"
 									maxlength="50" required="true"
 									requiredMessage="#{msg['registration.messages.requiredEmail']}"
-									pt:placeholder="#{msg['registration.form.email']}">
-									<f:validateRegex pattern="[a-zA-Z0-9\-\_@.]+"/>
+									pt:placeholder="#{msg['registration.form.email']}"
+									onkeyup="deleteNonAlphaContent(this, '-@._0123456789');">
 								</h:inputText>
+								<p:keyFilter mask="email" 
+									for="emailInput"
+									preventPaste="false" />
 								<p:messages for="emailInput" />
 							</h:panelGroup>
 							<!-- Password block -->
@@ -89,7 +102,10 @@
 									value="#{registrationMB.password}" 
 									maxlength="16" required="true"
 									requiredMessage="#{msg['registration.messages.requiredPassword']}"
-									pt:placeholder="#{msg['registration.form.password']}" />
+									pt:placeholder="#{msg['registration.form.password']}"
+									validatorMessage="#{msg['registration.messages.password.length.min']}">
+									<f:validateLength minimum="8" />
+								</h:inputSecret>
 								<p:messages for="passwordInput" />
 							</h:panelGroup>
 							<!-- Confirm password block -->
@@ -101,8 +117,25 @@
 									value="#{registrationMB.confirmPassword}"
 									maxlength="16" required="true"
 									requiredMessage="#{msg['registration.messages.requiredConfirmPassword']}"
-									pt:placeholder="#{msg['registration.form.confirmPassword']}" />
+									pt:placeholder="#{msg['registration.form.confirmPassword']}"
+									validatorMessage="#{msg['registration.messages.password.length.min']}">
+									<f:validateLength minimum="8" />
+								</h:inputSecret>
 								<p:messages for="confirmPasswordInput" />
+							</h:panelGroup>
+							<!-- Role block -->
+							<h:panelGroup layout="block" styleClass="form-group">
+								<h:outputLabel for="rolesList">
+									#{msg['registration.form.role']}
+								</h:outputLabel>
+								<h:selectOneMenu id="rolesList" value="#{registrationMB.roleId}"
+									styleClass="form-control" required="true" 
+									requiredMessage="#{msg['registration.messages.requiredRole']}">
+									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneRole']}" />
+									<f:selectItems value="#{roleMB.roles}" var="role"  
+										itemLabel="#{role.name}" itemValue="#{role.roleId}" />
+								</h:selectOneMenu>
+								<p:messages for="rolesList" />
 							</h:panelGroup>
 							<!-- Country block -->
 							<h:panelGroup layout="block" styleClass="form-group">
@@ -153,8 +186,9 @@
 							<!-- Facebook sign up button block -->
 							<h:panelGroup layout="block" styleClass="row">
 								<h:panelGroup layout="block" styleClass="col-md-12" >
-									<h:button styleClass="btn btn-primary btn-block btn-lg" 
-												value="#{msg['registration.form.signUp.facebook']}" />
+									<h:commandButton styleClass="btn btn-primary btn-block btn-lg" 
+												value="#{msg['registration.form.signUp.facebook']}" 
+												action="#{registrationMB.signUpWithFacebook()}" />
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:form>
@@ -166,4 +200,5 @@
 		
 		</h:panelGroup>
 	</ui:define>
+	<h:outputScript library="primefaces" name="jquery/jquery.js" />
 </ui:composition>

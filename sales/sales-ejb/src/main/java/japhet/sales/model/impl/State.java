@@ -46,7 +46,7 @@ public class State implements IEntity {
 	public State(Short stateId, String name, Set<City> cities) {
 		super();
 		this.stateId = stateId;
-		this.name = name;
+		this.name = name.toUpperCase();
 		this.cities = cities;
 	}
 
@@ -63,7 +63,7 @@ public class State implements IEntity {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.toUpperCase();
 	}
 
 	public Set<City> getCities() {

@@ -35,7 +35,7 @@ public class Role implements IEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "STATUS_ID")
+	@Column(name = "ROLE_ID")
 	private Short roleId;
 	
 	@Column(name = "NAME")

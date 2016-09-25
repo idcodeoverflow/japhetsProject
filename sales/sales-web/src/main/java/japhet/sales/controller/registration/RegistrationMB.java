@@ -1,6 +1,12 @@
 package japhet.sales.controller.registration;
 
+import static japhet.sales.catalogs.Roles.*;
+import static japhet.sales.catalogs.Status.*;
+import static japhet.sales.catalogs.SocialNetworks.*;
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -12,6 +18,7 @@ import javax.inject.Inject;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.model.impl.City;
 import japhet.sales.model.impl.Role;
+import japhet.sales.model.impl.SocialNetwork;
 import japhet.sales.model.impl.State;
 import japhet.sales.model.impl.Status;
 import japhet.sales.model.impl.User;
@@ -42,6 +49,7 @@ public class RegistrationMB extends GenericMB {
 	private String confirmPassword;
 	private Short stateId;
 	private Short cityId;
+	private Short roleId;
 	
 	//Logic attributes
 	private User user;
@@ -51,7 +59,7 @@ public class RegistrationMB extends GenericMB {
 	private State selectedState;
 	
 	@PostConstruct
-	public void init(){
+	private void init(){
 		user = new User();
 		role = new Role();
 		status = new Status();
@@ -131,6 +139,14 @@ public class RegistrationMB extends GenericMB {
 		this.stateId = stateId;
 	}
 	
+	public Short getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Short roleId) {
+		this.roleId = roleId;
+	}
+
 	public State getSelectedState() {
 		return selectedState;
 	}
@@ -143,26 +159,45 @@ public class RegistrationMB extends GenericMB {
 		//TODO: complete role and status logic
 		logger.info("Persisting user into the DB...");
 		try {
-			role.setRoleId((short) 1);
-			status.setStatusId((short) 1);
-			city.setCityId(cityId);
-			user.setAge(age);
-			user.setEmail(email);
-			user.setLastModified(new Date());
-			user.setLastName(lastName);
-			user.setName(firstName);
-			user.setPassw(password);
-			user.setRole(role);
-			user.setSignUpDate(new Date());
-			user.setStatus(status);
-			user.setUsername(username);
-			user.setCity(city);
-			userService.insertUser(user);
+			createUser(user);
 		} catch (Exception e) {
 			logger.severe("Error trying to persist user into the DB." + e.getStackTrace());
 			e.printStackTrace();
 		}
-		
+	}
+	
+	public void signUpWithFacebook() {
+		//TODO: complete role and status logic
+		logger.info("Persisting FB user into the DB...");
+		List<SocialNetwork> socialNetworks = new ArrayList<>();
+		try {
+			SocialNetwork facebook = new SocialNetwork();
+			facebook.setSocialNetworkId(FACEBOOK.getId());
+			socialNetworks.add(facebook);
+			user.setSocialNetwork(socialNetworks);
+			createUser(user);
+		} catch (Exception e) {
+			logger.severe("Error trying to persist FB user into the DB." + e.getStackTrace());
+			e.printStackTrace();
+		}
+	}
+	
+	private void createUser(User user) throws Exception {
+		role.setRoleId(((roleId == null ) ? USER.getId() : this.roleId));
+		status.setStatusId(ACTIVE.getId());
+		city.setCityId(cityId);
+		user.setAge(age);
+		user.setEmail(email);
+		user.setLastModified(new Date());
+		user.setLastName(lastName);
+		user.setName(firstName);
+		user.setPassw(password);
+		user.setRole(role);
+		user.setSignUpDate(new Date());
+		user.setStatus(status);
+		user.setUsername(username);
+		user.setCity(city);
+		userService.insertUser(user);
 	}
 	
 }

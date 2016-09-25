@@ -22,7 +22,7 @@ public class RoleDAO extends GenericDAO<Role, Short> {
 	
 	public List<Role> getAllRoles(){
 		List<Role> roles = null;
-		logger.info("Error while getting all the roles from the DB...");
+		logger.info("Obtaining while getting all the roles from the DB...");
 		try {
 			roles = executeQuery(QueryNames.GET_ALL_ROLES, null);
 		} catch (Exception e) {
@@ -34,7 +34,7 @@ public class RoleDAO extends GenericDAO<Role, Short> {
 	
 	public List<Role> getAllAvailableRoles(){
 		List<Role> roles = null;
-		logger.info("Error while getting all the available roles from the DB...");
+		logger.info("Obtaining all the available roles from the DB...");
 		try {
 			roles = executeQuery(QueryNames.GET_ALL_AVAILABLE_ROLES, null);
 		} catch (Exception e) {
