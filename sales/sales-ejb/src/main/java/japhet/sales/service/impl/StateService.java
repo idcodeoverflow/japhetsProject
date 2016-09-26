@@ -1,6 +1,5 @@
 package japhet.sales.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,7 @@ import japhet.sales.service.IStateService;
 
 @Singleton
 @Startup
-public class StateServiceImpl implements IStateService {
+public class StateService implements IStateService {
 
 	@Inject
 	private Logger logger;
@@ -28,12 +27,14 @@ public class StateServiceImpl implements IStateService {
 	
 	private Map<Short, State> allStates;
 	
+	private List<State> sortedStates;
+	
 	@PostConstruct
 	public void init(){
 		logger.info("Obtaining all states from the DB..");
-		List<State> states = stateDAO.getAllStates();
+		sortedStates = stateDAO.getAllStates();
 		allStates = new HashMap<>();
-		for (State state : states) {
+		for (State state : sortedStates) {
 			allStates.put(state.getStateId(), state);
 		}
 	}
@@ -46,7 +47,7 @@ public class StateServiceImpl implements IStateService {
 	@Override
 	public List<State> getAllStates() {
 		logger.info("Obtaining all states..");
-		return new ArrayList<>(allStates.values());
+		return sortedStates;
 	}
 
 	@Override

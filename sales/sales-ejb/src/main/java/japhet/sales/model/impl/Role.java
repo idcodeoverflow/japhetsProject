@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -48,7 +49,13 @@ public class Role implements IEntity {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "END_DATE")
 	private Date endDate;
-	
+
+	@PostLoad
+	public void init() {
+		//Convert to uppercase all names
+		this.name = this.name.toUpperCase();
+	}
+
 	public Role() {}
 
 	public Role(Short roleId, String name, Date startDate, Date endDate) {

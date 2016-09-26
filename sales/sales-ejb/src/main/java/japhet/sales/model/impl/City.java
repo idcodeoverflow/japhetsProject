@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 
 import japhet.sales.data.QueryNames;
@@ -20,7 +21,7 @@ import japhet.sales.model.IEntity;
 	@NamedQuery(name = QueryNames.GET_ALL_CITIES,
 			query = "SELECT c FROM City c")
 })
-public class City implements IEntity {
+public class City implements IEntity, Comparable<City> {
 
 	/**
 	 * Maven generated.
@@ -37,7 +38,13 @@ public class City implements IEntity {
 	@ManyToOne
 	@JoinColumn(name = "STATE_ID")
 	private State state;
-	
+
+	@PostLoad
+	public void init() {
+		//Convert to uppercase all names
+		this.name = this.name.toUpperCase();
+	}
+
 	public City() {}
 
 	public City(Short cityId, String name, State state) {
@@ -94,5 +101,10 @@ public class City implements IEntity {
 		} else if (!cityId.equals(other.cityId))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(City o) {
+		return name.compareToIgnoreCase(o.getName());
 	}
 }

@@ -14,7 +14,7 @@ import japhet.sales.service.ICityService;
 
 @LocalBean
 @Stateless
-public class CityServiceImpl implements ICityService {
+public class CityService implements ICityService {
 
 	@Inject
 	private Logger logger;
