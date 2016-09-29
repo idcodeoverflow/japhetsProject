@@ -1,5 +1,7 @@
 package japhet.sales.model.impl;
 
+import static japhet.sales.data.QueryNames.*;
+
 import java.util.Date;
 
 import javax.persistence.Cacheable;
@@ -11,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,6 +24,10 @@ import japhet.sales.model.IEntity;
 @Entity
 @Cacheable(value = true)
 @Table(name = "TB_USER_SEARCH")
+@NamedQueries(value = {
+		@NamedQuery(name = GET_USER_SEARCH_BY_USER, 
+				query = "SELECT u FROM UserSearch u WHERE u.user.userId = :userId")
+})
 public class UserSearch implements IEntity {
 
 	/**

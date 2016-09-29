@@ -82,17 +82,20 @@ public class User implements IEntity {
 	@JoinTable(
 			name = "TB_SNETWORK_USER",
 			joinColumns = @JoinColumn(name = "USER_ID", 
-				referencedColumnName = "USER_ID"),
+							referencedColumnName = "USER_ID"),
 			inverseJoinColumns = @JoinColumn(name = "SOCIAL_NETWORK_ID", 
-				referencedColumnName = "SOCIAL_NETWORK_ID"))
+							referencedColumnName = "SOCIAL_NETWORK_ID"))
 	private List<SocialNetwork> socialNetwork;
+	
+	private Boolean validatedAccount;
 	
 	public User() {}
 
 	public User(Long userId, String name, String lastName, 
 			String email, String username, String passw, Role role,
 			Short age, Status status, Date signUpDate, Date lastModified,
-			City city, List<SocialNetwork> socialNetwork) {
+			City city, List<SocialNetwork> socialNetwork, 
+			Boolean validatedAccount) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -107,6 +110,7 @@ public class User implements IEntity {
 		this.lastModified = lastModified;
 		this.city = city;
 		this.socialNetwork = socialNetwork;
+		this.setValidatedAccount(validatedAccount);
 	}
 	
 	public Long getUserId() {
@@ -211,6 +215,14 @@ public class User implements IEntity {
 
 	public void setSocialNetwork(List<SocialNetwork> socialNetwork) {
 		this.socialNetwork = socialNetwork;
+	}
+
+	public Boolean getValidatedAccount() {
+		return validatedAccount;
+	}
+
+	public void setValidatedAccount(Boolean validatedAccount) {
+		this.validatedAccount = validatedAccount;
 	}
 
 }
