@@ -1,0 +1,219 @@
+/* Modify the style for the main menu */
+.navbar {
+	font-size: 16px !important;
+	z-index: 100001;
+}
+
+/* Trademark icon style */
+#trademark-icon {
+	weight: 100% !important;
+	height: 40px !important;
+}
+
+/* Main menu style */
+.navbar, .navbar-right {
+	min-height: 65px !important;
+	background-color: #FF9923 !important;
+}
+
+/* Pills in the navigation bar styles */
+.navbar-right>ul>li {
+	min-height: 65px !important;
+}
+
+.navbar-nav>li>a {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+    color: white !important;
+    font-family: "Century Gothic", "Arial", "Helvetica" !important;
+    font-weight: normal;
+}
+
+.navbar-default .navbar-nav>.active>a {
+	background-color: #FF6700 !important;
+}
+/* Ends pills in the navigation bar styles */
+
+/* Styles for the carousel images */
+.item {
+	width: 100%;
+	height: 380px;
+}
+
+/* Add carousel images styles */
+.item-img {
+	height: 380px !important;
+	margin: auto !important;
+}
+
+/* Fix bootstrap glyphicons */
+@font-face {
+  font-family: 'Glyphicons Halflings';
+ 
+  src: url("#{resource['fonts/glyphicons-halflings-regular.eot']}");
+  src: url("#{resource['fonts/glyphicons-halflings-regular.eot']}&#iefix") format('embedded-opentype'),
+      url("#{resource['fonts/glyphicons-halflings-regular.woff']}") format('woff'),
+      url("#{resource['fonts/glyphicons-halflings-regular.ttf']}") format('truetype'),
+      url("#{resource['fonts/glyphicons-halflings-regular.svg']}#glyphicons_halflingsregular") format('svg');
+}
+
+/* Carousel indicators radios styles */
+.carousel-indicators li {
+	background-color: grey !important;
+}
+
+/* Carousel indicators radios styles */
+.carousel-indicators .active {
+	background-color: #FF6700 !important;
+}
+
+/* Styles for the main search box */
+#searchBox {
+	margin-bottom: 15px;
+}
+
+[id=searchBoxForm\:inputSearchBox] {
+	margin-top: 5px !important;
+}
+
+/* Styles for forms */
+.form-control {
+	height: 50px !important;
+}
+
+/* Styles for input groups */
+.btn-default {
+	background-color: #FFB21F !important;
+	color: white !important;
+}
+
+.btn {
+	margin: 5px 0px;
+}
+
+.searchBoxButton {
+	height: 50px !important;
+	background-color: #FF9923 !important;
+	color: white !important;
+	padding-top: 15px
+}
+
+/* Styles for the offers' images*/
+.offer-img{
+	width: 100%;
+	height: 171px;
+	border: 1px solid #999389;
+	margin-bottom: 15px;
+	margin-top: 15px;
+}
+
+/* Thumbnail styles */
+.thumbnail:hover {
+	transform:scale(1.08);
+    -ms-transform:scale(1.08); /* IE 9 */
+    -moz-transform:scale(1.08); /* Firefox */
+    -webkit-transform:scale(1.08); /* Safari and Chrome */
+    -o-transform:scale(1.08); /* Opera */
+    z-index: 10000 !important;
+    position: absolute !important;
+}
+
+/* Home carousel styles */
+#homeCarousel, #homeServiceCarousel {
+	margin-bottom: 30px;
+}
+
+/* Styles for the subtitles */
+.label-default {
+    background-color: #FF9923;
+}
+
+/* Footer style */
+footer {
+    background-color: #FF9923;
+    text-align: center;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+/* Footer styles icons */
+.footer-img {
+	height: 50px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+/* Styles for heading panels */
+.panel-default>.panel-heading{
+	background-color: #FF9923;
+	color: white;
+}
+
+.bs-docs-container {
+	max-width: 1170px !important;	
+}
+
+#home-scroller {
+	text-align: center !important;
+}
+
+.thumbnail-title {
+	color: #FF6700 !important;
+	line-height: 2px !important;
+}
+
+.thumbnail-price {
+	color: #FF9923 !important;
+	font-style: italic !important;
+	font-weight: bold !important;
+	text-decoration: underline !important;
+	line-height: 2px !important;
+}
+
+/* Button to go back to top */
+#top-link-container {
+	text-align: center !important;
+}
+
+.affix {
+    position: fixed !important;
+    top: 6px !important;
+    right: 47% !important;
+    z-index: 100000 !important;
+}
+
+.well {	
+    color: #FF9923 !important;
+    background-color: #FFCDA4 !important;
+    font-weight: bold !important;
+}
+
+/* Login Styles */
+#registerMeParagraph {
+	text-align: center;
+}
+
+/* Messages styles */
+.errorMessage {
+	color: #FF0000 !important;
+}
+
+.successMessage {
+	color: #2DA800 !important;
+}
+
+/* Input addon styles */
+.input-group-addon {
+	background-color: #FF9923 !important;
+	color: white !important;
+}
+
+/* Correct font size */
+.ui-widget {
+	font-size: 14px !important;
+}
+
+/* Page title */
+.main-nav-header {
+	width: 306px !important;	
+}

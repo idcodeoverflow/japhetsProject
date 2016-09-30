@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/template.xhtml">
+	
+	<ui:define name="content">
+		<!-- Carousel -->
+		<h:panelGroup layout="block" styleClass="row">
+			<h:panelGroup styleClass="col-md-6">
+				<h:panelGroup layout="block" styleClass="panel panel-default">
+				<h:panelGroup layout="block" styleClass="panel-heading">
+			    	<h2 class="panel-title">
+			    		#{msg['home.carousel.goods']}					
+			    	</h2>
+			  	</h:panelGroup>
+			  	<h:panelGroup layout="block" styleClass="panel-body">
+					<h:panelGroup id="homeCarousel" styleClass="carousel slide" 
+						layout="block" pt:data-ride="carousel">
+						<!-- Indicators -->
+						<ol class="carousel-indicators">
+							<li data-target="#homeCarousel" data-slide-to="0" class="active"></li>
+							<li data-target="#homeCarousel" data-slide-to="1"></li>
+							<li data-target="#homeCarousel" data-slide-to="2"></li>
+							<li data-target="#homeCarousel" data-slide-to="3"></li>
+						</ol>
+						
+						<!-- Wrapper for slides -->
+						<h:panelGroup layout="block" styleClass="carousel-inner" pt:role="listbox">
+							<h:panelGroup layout="block" styleClass="item active">
+								<h:graphicImage value="resources/media/carousel/a1.jpg" styleClass="item-img" />
+							</h:panelGroup>
+			
+							<h:panelGroup layout="block" styleClass="item">
+								<h:graphicImage value="resources/media/carousel/a2.jpg" styleClass="item-img" />
+							</h:panelGroup>
+			
+							<h:panelGroup layout="block" styleClass="item">
+								<h:graphicImage value="resources/media/carousel/a6.jpg" styleClass="item-img" />
+							</h:panelGroup>
+			
+							<h:panelGroup layout="block" styleClass="item">
+								<h:graphicImage value="resources/media/carousel/a7.jpg" styleClass="item-img" />
+							</h:panelGroup>
+						</h:panelGroup>
+			
+						<!-- Left and right controls -->
+						<a class="left carousel-control" href="#homeCarousel" role="button" data-slide="prev">
+			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-left" pt:aria-hidden="true"></h:panelGroup>
+			        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.previous']}</h:panelGroup>
+			      		</a>
+			      		<a class="right carousel-control" href="#homeCarousel" role="button" data-slide="next">
+			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-right" pt:aria-hidden="true"></h:panelGroup>
+			        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.next']}</h:panelGroup>
+			      		</a>
+					</h:panelGroup>
+				</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+			<!-- 2nd carousel -->
+			<h:panelGroup styleClass="col-md-6">
+				<h:panelGroup layout="block" styleClass="panel panel-default">
+				<h:panelGroup layout="block" styleClass="panel-heading">
+			    	<h2 class="panel-title">
+			    		#{msg['home.carousel.services']}
+			    	</h2>
+			  	</h:panelGroup>
+			  	<h:panelGroup layout="block" styleClass="panel-body">
+					<h:panelGroup id="homeServiceCarousel" styleClass="carousel slide" 
+						layout="block" pt:data-ride="carousel">
+						<!-- Indicators -->
+						<ol class="carousel-indicators">
+							<li data-target="#homeCarousel" data-slide-to="0" class="active"></li>
+							<li data-target="#homeCarousel" data-slide-to="1"></li>
+							<li data-target="#homeCarousel" data-slide-to="2"></li>
+							<li data-target="#homeCarousel" data-slide-to="3"></li>
+						</ol>
+						
+						<!-- Wrapper for slides -->
+						<h:panelGroup layout="block" styleClass="carousel-inner" pt:role="listbox">
+							<h:panelGroup layout="block" styleClass="item active">
+								<h:graphicImage value="resources/media/carousel/a1.jpg" styleClass="item-img" />
+							</h:panelGroup>
+			
+							<h:panelGroup layout="block" styleClass="item">
+								<h:graphicImage value="resources/media/carousel/a2.jpg" styleClass="item-img" />
+							</h:panelGroup>
+			
+							<h:panelGroup layout="block" styleClass="item">
+								<h:graphicImage value="resources/media/carousel/a6.jpg" styleClass="item-img" />
+							</h:panelGroup>
+			
+							<h:panelGroup layout="block" styleClass="item">
+								<h:graphicImage value="resources/media/carousel/a7.jpg" styleClass="item-img" />
+							</h:panelGroup>
+						</h:panelGroup>
+			
+						<!-- Left and right controls -->
+						<a class="left carousel-control" href="#homeCarousel" role="button" data-slide="prev">
+			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-left" pt:aria-hidden="true"></h:panelGroup>
+			        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.previous']}</h:panelGroup>
+			      		</a>
+			      		<a class="right carousel-control" href="#homeCarousel" role="button" data-slide="next">
+			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-right" pt:aria-hidden="true"></h:panelGroup>
+			        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.next']}</h:panelGroup>
+			      		</a>
+					</h:panelGroup>
+				</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+		<!-- Offers -->
+		<hr/>
+		<h:panelGroup layout="block" styleClass="panel panel-default">
+			<h:panelGroup layout="block" styleClass="panel-heading">
+		    	<h2 class="panel-title">
+		    		#{msg['home.offers.title']}
+					<span class="glyphicon glyphicon-tags"></span>
+		    	</h2>
+		  	</h:panelGroup>
+		  	<h:panelGroup layout="block" styleClass="panel-body" id="home-scroller">
+		  		<p:dataScroller value="#{homeOffersMB.imagesPath}" var="offer" 
+		  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
+			    	<h:panelGroup layout="block" styleClass="row">
+						<h:panelGroup styleClass="col-md-3 col-xs-6">
+							<h:panelGroup layout="block" styleClass="thumbnail">
+								<h:graphicImage value="#{offer}" styleClass="offer-img"/>
+								<h:panelGroup layout="block" styleClass="caption">
+									<h4 class="thumbnail-title"><i>Example Title</i></h4>
+									<p>Price example and description</p>
+									<p class="thumbnail-price">$0.00</p>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup styleClass="col-md-3 col-xs-6">
+							<h:panelGroup layout="block" styleClass="thumbnail">
+								<h:graphicImage value="#{offer}" styleClass="offer-img"/>
+								<h:panelGroup layout="block" styleClass="caption">
+									<h4 class="thumbnail-title"><i>Example Title</i></h4>
+									<p>Price example and description</p>
+									<p class="thumbnail-price">$0.00</p>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup styleClass="col-md-3 col-xs-6">
+							<h:panelGroup layout="block" styleClass="thumbnail">
+								<h:graphicImage value="#{offer}" styleClass="offer-img"/>
+								<h:panelGroup layout="block" styleClass="caption">
+									<h4 class="thumbnail-title"><i>Example Title</i></h4>
+									<p>Price example and description</p>
+									<p class="thumbnail-price">$0.00</p>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+						<h:panelGroup styleClass="col-md-3 col-xs-6">
+							<h:panelGroup layout="block" styleClass="thumbnail">
+								<h:graphicImage value="#{offer}" styleClass="offer-img"/>
+								<h:panelGroup layout="block" styleClass="caption">
+									<h4 class="thumbnail-title"><i>Example Title</i></h4>
+									<p>Price example and description</p>
+									<p class="thumbnail-price">$0.00</p>
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGroup>
+				</p:dataScroller>
+		  	</h:panelGroup>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>

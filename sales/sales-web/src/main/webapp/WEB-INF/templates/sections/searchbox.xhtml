@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<!-- Input box for searching -->
+	<h:panelGroup id="searchBox" layout="block" styleClass="row">
+		<h:panelGroup layout="block" styleClass="col-md-12">
+			<h:form id="searchBoxForm">
+		    	<h:panelGroup layout="block" styleClass="input-group">
+		      		<h:inputText id="inputSearchBox" styleClass="form-control" 
+		      			pt:placeholder="#{msg['main.template.searchFor']}" />
+		      		<h:panelGroup styleClass="input-group-btn">
+		        		<h:commandLink styleClass="btn btn-default searchBoxButton" >
+		        			<i class="glyphicon glyphicon-search"></i>
+		        		</h:commandLink>
+		      		</h:panelGroup>
+		    	</h:panelGroup>
+	    	</h:form>
+	 	</h:panelGroup>
+	</h:panelGroup>
+</html>
