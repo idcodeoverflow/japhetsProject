@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.Local;
+
 import japhet.sales.model.impl.UserProductHistorial;
 
+@Local
 public interface IUserProductHistorial extends Serializable {
 
 	public List<UserProductHistorial> getHistorialByUser(Map<String, Object> params);

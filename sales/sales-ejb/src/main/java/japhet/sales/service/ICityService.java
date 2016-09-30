@@ -13,6 +13,5 @@ public interface ICityService extends Serializable {
 	public List<City> getAllCities();
 	
 	public City getCity(Short cityId);
-	
-	
+		
 }

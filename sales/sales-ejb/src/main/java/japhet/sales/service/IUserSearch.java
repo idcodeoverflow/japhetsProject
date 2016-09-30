@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+import javax.ejb.Local;
+
 import japhet.sales.model.impl.UserSearch;
 
+@Local
 public interface IUserSearch extends Serializable {
 
 	public void insertUserSearch(UserSearch userSearch);

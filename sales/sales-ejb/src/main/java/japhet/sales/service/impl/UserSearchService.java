@@ -5,12 +5,16 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.UserSearchDAO;
 import japhet.sales.model.impl.UserSearch;
 import japhet.sales.service.IUserSearch;
 
+@LocalBean
+@Stateless
 public class UserSearchService implements IUserSearch {
 	
 	/**

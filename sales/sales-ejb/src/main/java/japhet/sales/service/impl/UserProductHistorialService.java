@@ -5,12 +5,16 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.UserProductHistorialDAO;
 import japhet.sales.model.impl.UserProductHistorial;
 import japhet.sales.service.IUserProductHistorial;
 
+@LocalBean
+@Stateless
 public class UserProductHistorialService implements IUserProductHistorial {
 
 	/**
