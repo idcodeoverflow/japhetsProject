@@ -6,7 +6,7 @@ package japhet.sales.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import japhet.sales.service.OfferService;
+import japhet.sales.service.IOfferService;
 
 /**
  * @author David
@@ -14,7 +14,7 @@ import japhet.sales.service.OfferService;
  */
 //@LocalBean
 //@Stateless
-public class OfferServiceImp implements OfferService {
+public class OfferService implements IOfferService {
 
 	/**
 	 * Maven generated.

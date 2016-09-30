@@ -11,7 +11,7 @@ import java.util.List;
  *
  */
 //@Local
-public interface OfferService extends Serializable {
+public interface IOfferService extends Serializable {
 
 	public static final String imagesHome = "resources/media/offers/";
 	

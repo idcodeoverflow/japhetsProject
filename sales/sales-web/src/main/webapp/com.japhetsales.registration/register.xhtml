@@ -4,10 +4,10 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pf="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/publicTemplate.xhtml">
-
+	
 	<ui:define name="content">
 		<h:panelGroup layout="block" styleClass="row">
 		
@@ -23,29 +23,75 @@
 					</h:panelGroup>
 					<h:panelGroup layout="block" styleClass="panel-body">
 						<h:form id="signUpForm">
+							<!-- Application messages -->
+							<p:messages id="messages" globalOnly="true"/>
 							<!-- First Name block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="firstNameInput">
 									#{msg['registration.form.firstName']}
 								</h:outputLabel>
 								<h:inputText id="firstNameInput" styleClass="form-control" 
-									p:placeholder="#{msg['registration.form.firstName']}" />
+									value="#{registrationMB.firstName}"
+									maxlength="50" required="true"
+									requiredMessage="#{msg['registration.messages.requiredFirstName']}"
+									pt:placeholder="#{msg['registration.form.firstName']}"
+									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
+								</h:inputText>
+								<p:keyFilter regEx="/[a-zA-Z\-\s]/i" 
+									for="firstNameInput"
+									preventPaste="false" />
+								<p:messages for="firstNameInput" />
 							</h:panelGroup>
 							<!-- Last Name block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="lastNameInput">
 									#{msg['registration.form.lastName']}
 								</h:outputLabel>
-								<h:inputText id="lastNameInput" styleClass="form-control" 
-									p:placeholder="#{msg['registration.form.lastName']}" />
+								<h:inputText id="lastNameInput" styleClass="form-control"  
+									value="#{registrationMB.lastName}"
+									maxlength="100" required="true"
+									requiredMessage="#{msg['registration.messages.requiredLastName']}"
+									pt:placeholder="#{msg['registration.form.lastName']}"
+									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
+								</h:inputText>
+								<p:messages for="lastNameInput" />
+								<p:keyFilter regEx="/[a-zA-Z\-\s]/i" 
+									for="lastNameInput"
+									preventPaste="false" />
+							</h:panelGroup>
+							<!-- Email block -->
+							<h:panelGroup layout="block" styleClass="form-group">
+								<h:outputLabel for="ageInput">
+									#{msg['registration.form.age']}
+								</h:outputLabel>
+								<h:inputText id="ageInput" styleClass="form-control"  
+									value="#{registrationMB.age}"
+									maxlength="3" required="true"
+									requiredMessage="#{msg['registration.messages.requiredAge']}"
+									pt:placeholder="#{msg['registration.form.age']}"
+									onkeyup="deleteNonIntegerContent(this, '');">
+								</h:inputText>
+								<p:keyFilter mask="pint" 
+									for="ageInput"
+									preventPaste="false" />
+								<p:messages for="ageInput" />
 							</h:panelGroup>
 							<!-- Email block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="emailInput">
 									#{msg['registration.form.email']}
 								</h:outputLabel>
-								<h:inputText id="emailInput" styleClass="form-control" 
-									p:placeholder="#{msg['registration.form.email']}" />
+								<h:inputText id="emailInput" styleClass="form-control"  
+									value="#{registrationMB.email}"
+									maxlength="50" required="true"
+									requiredMessage="#{msg['registration.messages.requiredEmail']}"
+									pt:placeholder="#{msg['registration.form.email']}"
+									onkeyup="deleteNonAlphaContent(this, '-@._0123456789');">
+								</h:inputText>
+								<p:keyFilter mask="email" 
+									for="emailInput"
+									preventPaste="false" />
+								<p:messages for="emailInput" />
 							</h:panelGroup>
 							<!-- Password block -->
 							<h:panelGroup layout="block" styleClass="form-group">
@@ -53,7 +99,14 @@
 									#{msg['registration.form.password']}
 								</h:outputLabel>
 								<h:inputSecret id="passwordInput" styleClass="form-control" 
-									p:placeholder="#{msg['registration.form.password']}" />
+									value="#{registrationMB.password}" 
+									maxlength="16" required="true"
+									requiredMessage="#{msg['registration.messages.requiredPassword']}"
+									pt:placeholder="#{msg['registration.form.password']}"
+									validatorMessage="#{msg['registration.messages.password.length.min']}">
+									<f:validateLength minimum="8" />
+								</h:inputSecret>
+								<p:messages for="passwordInput" />
 							</h:panelGroup>
 							<!-- Confirm password block -->
 							<h:panelGroup layout="block" styleClass="form-group">
@@ -61,25 +114,58 @@
 									#{msg['registration.form.confirmPassword']}
 								</h:outputLabel>
 								<h:inputSecret id="confirmPasswordInput" styleClass="form-control" 
-									p:placeholder="#{msg['registration.form.confirmPassword']}" />
+									value="#{registrationMB.confirmPassword}"
+									maxlength="16" required="true"
+									requiredMessage="#{msg['registration.messages.requiredConfirmPassword']}"
+									pt:placeholder="#{msg['registration.form.confirmPassword']}"
+									validatorMessage="#{msg['registration.messages.password.length.min']}">
+									<f:validateLength minimum="8" />
+								</h:inputSecret>
+								<p:messages for="confirmPasswordInput" />
+							</h:panelGroup>
+							<!-- Role block -->
+							<h:panelGroup layout="block" styleClass="form-group">
+								<h:outputLabel for="rolesList">
+									#{msg['registration.form.role']}
+								</h:outputLabel>
+								<h:selectOneMenu id="rolesList" value="#{registrationMB.roleId}"
+									styleClass="form-control" required="true" 
+									requiredMessage="#{msg['registration.messages.requiredRole']}">
+									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneRole']}" />
+									<f:selectItems value="#{roleMB.roles}" var="role"  
+										itemLabel="#{role.name}" itemValue="#{role.roleId}" />
+								</h:selectOneMenu>
+								<p:messages for="rolesList" />
 							</h:panelGroup>
 							<!-- Country block -->
-							<h:panelGroup layout="block" styleClass="form-group">
-								<h:outputLabel for="countryList">
-									#{msg['registration.form.country']}
-								</h:outputLabel>
-								<h:selectOneListbox id="countryList" styleClass="form-control">
-									<f:selectItem itemValue="0" itemLabel="#{msg['registration.form.selectOneCountry']}" />
-								</h:selectOneListbox>
-							</h:panelGroup>
-							<!-- State block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="stateList">
 									#{msg['registration.form.state']}
 								</h:outputLabel>
-								<h:selectOneListbox id="stateList" styleClass="form-control">
-									<f:selectItem itemValue="0" itemLabel="#{msg['registration.form.selectOneState']}" />
-								</h:selectOneListbox>
+								<h:selectOneMenu id="stateList" value="#{registrationMB.stateId}"
+									styleClass="form-control" required="true" 
+									requiredMessage="#{msg['registration.messages.requiredState']}">
+									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneState']}" />
+									<f:selectItems value="#{statesMB.states}" var="state"  
+										itemLabel="#{state.name}" itemValue="#{state.stateId}" />
+									<f:ajax event="valueChange" render="stateCity"
+       									listener="#{registrationMB.setSelectedState(statesMB.findStateById(registrationMB.stateId))}" />
+								</h:selectOneMenu>
+								<p:messages for="stateList" />
+							</h:panelGroup>
+							<!-- State block -->
+							<h:panelGroup layout="block" styleClass="form-group">
+								<h:outputLabel for="stateCity">
+									#{msg['registration.form.city']}
+								</h:outputLabel>
+								<h:selectOneMenu id="stateCity" value="#{registrationMB.cityId}"
+									styleClass="form-control" required="true"
+									requiredMessage="#{msg['registration.messages.requiredCity']}">
+									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneCity']}" />
+									<f:selectItems value="#{registrationMB.selectedState.cities}" var="city"  
+										 itemLabel="#{city.name}" itemValue="#{city.cityId}"/>
+								</h:selectOneMenu>
+								<p:messages for="stateCity" />
 								<!-- Terms agreement -->
 								<p>
 									<br/>
@@ -92,13 +178,17 @@
 							<!-- Sign up button block -->
 							<h:panelGroup layout="block" styleClass="row">
 								<h:panelGroup layout="block" styleClass="col-md-12" >
-									<h:button styleClass="btn btn-default btn-block btn-lg" value="#{msg['registration.form.signUp']}" />
+									<h:commandButton styleClass="btn btn-default btn-block btn-lg" 
+												value="#{msg['registration.form.signUp']}" 
+												action="#{registrationMB.signUp()}" />
 								</h:panelGroup>
 							</h:panelGroup>
 							<!-- Facebook sign up button block -->
 							<h:panelGroup layout="block" styleClass="row">
 								<h:panelGroup layout="block" styleClass="col-md-12" >
-									<h:button styleClass="btn btn-primary btn-block btn-lg" value="#{msg['registration.form.signUp.facebook']}" />
+									<h:commandButton styleClass="btn btn-primary btn-block btn-lg" 
+												value="#{msg['registration.form.signUp.facebook']}" 
+												action="#{registrationMB.signUpWithFacebook()}" />
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:form>
@@ -110,4 +200,5 @@
 		
 		</h:panelGroup>
 	</ui:define>
+	<h:outputScript library="primefaces" name="jquery/jquery.js" />
 </ui:composition>

@@ -11,8 +11,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 import japhet.sales.controller.GenericMB;
-import japhet.sales.service.OfferService;
-import japhet.sales.service.impl.OfferServiceImp;
+import japhet.sales.service.IOfferService;
+import japhet.sales.service.impl.OfferService;
 
 /**
  * @author David
@@ -28,14 +28,14 @@ public class HomeOffersMB extends GenericMB {
 	private static final long serialVersionUID = 9004457004000035745L;
 	
 	//EJBs
-	private OfferService offerServiceImp;
+	private IOfferService offerServiceImp;
 	
 	private List<String> imagesPath;
 	private final int scrollerChunkSize = 10;
 	
 	@PostConstruct
 	public void init(){
-		offerServiceImp = new OfferServiceImp();
+		offerServiceImp = new OfferService();
 		imagesPath = offerServiceImp.getImagesUrl();
 		for(String pic : imagesPath){
 			System.out.println("DEBUGGER: " + pic);
@@ -50,7 +50,7 @@ public class HomeOffersMB extends GenericMB {
 		return scrollerChunkSize;
 	}
 
-	public void setOfferServiceImp(OfferServiceImp offerServiceImp) {
+	public void setOfferServiceImp(OfferService offerServiceImp) {
 		this.offerServiceImp = offerServiceImp;
 	}
 }

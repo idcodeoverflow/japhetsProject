@@ -93,20 +93,26 @@ public abstract class GenericDAO<T extends IEntity, K> {
 	
 	public void populateNamedQueryParams(Query query, 
 			Map<String, Object> params) throws Exception {
-		throw new UnsupportedOperationException();
+		for(String key : params.keySet()){
+			query.setParameter(key, params.get(key));
+		}
 	}
 	
 	public List<T> executeQuery(String queryName, 
 			Map<String, Object> params) throws Exception {
 		Query namedQuery = em.createNamedQuery(queryName, getMyType());
-		populateNamedQueryParams(namedQuery, params);
+		if(params != null) {
+			populateNamedQueryParams(namedQuery, params);
+		}
 		return namedQuery.getResultList();
 	}
 	
 	public long executeUpdate(String queryName,
 			Map<String, Object> params) throws Exception {
 		Query namedQuery = em.createNamedQuery(queryName);
-		populateNamedQueryParams(namedQuery, params);
+		if(params != null) {
+			populateNamedQueryParams(namedQuery, params);
+		}
 		return namedQuery.executeUpdate();
 	}
 	

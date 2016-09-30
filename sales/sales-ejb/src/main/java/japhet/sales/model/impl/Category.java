@@ -8,15 +8,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.NamedQueries;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
 
 @Entity
 @Cacheable(value = true)
 @Table(name = "TB_CATEGORY")
+@NamedQueries ({
+	
+	@NamedQuery(name = QueryNames.GET_ALL_AVAILABLE_CATEGORIES, 
+		query = "SELECT c FROM Category c WHERE c.availableDate <= CURRENT_DATE AND c.endDate >= CURRENT_DATE"),
+	
+	@NamedQuery(name = QueryNames.GET_ALL_CATEGORIES, query = "SELECT c FROM Category c")
+})
 public class Category implements IEntity {
 
 	/**

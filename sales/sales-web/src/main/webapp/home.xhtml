@@ -4,8 +4,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
-	xmlns:pf="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/template.xhtml">
 	
 	<ui:define name="content">
@@ -20,7 +20,7 @@
 			  	</h:panelGroup>
 			  	<h:panelGroup layout="block" styleClass="panel-body">
 					<h:panelGroup id="homeCarousel" styleClass="carousel slide" 
-						layout="block" p:data-ride="carousel">
+						layout="block" pt:data-ride="carousel">
 						<!-- Indicators -->
 						<ol class="carousel-indicators">
 							<li data-target="#homeCarousel" data-slide-to="0" class="active"></li>
@@ -30,7 +30,7 @@
 						</ol>
 						
 						<!-- Wrapper for slides -->
-						<h:panelGroup layout="block" styleClass="carousel-inner" p:role="listbox">
+						<h:panelGroup layout="block" styleClass="carousel-inner" pt:role="listbox">
 							<h:panelGroup layout="block" styleClass="item active">
 								<h:graphicImage value="resources/media/carousel/a1.jpg" styleClass="item-img" />
 							</h:panelGroup>
@@ -50,11 +50,11 @@
 			
 						<!-- Left and right controls -->
 						<a class="left carousel-control" href="#homeCarousel" role="button" data-slide="prev">
-			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-left" p:aria-hidden="true"></h:panelGroup>
+			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-left" pt:aria-hidden="true"></h:panelGroup>
 			        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.previous']}</h:panelGroup>
 			      		</a>
 			      		<a class="right carousel-control" href="#homeCarousel" role="button" data-slide="next">
-			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-right" p:aria-hidden="true"></h:panelGroup>
+			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-right" pt:aria-hidden="true"></h:panelGroup>
 			        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.next']}</h:panelGroup>
 			      		</a>
 					</h:panelGroup>
@@ -71,7 +71,7 @@
 			  	</h:panelGroup>
 			  	<h:panelGroup layout="block" styleClass="panel-body">
 					<h:panelGroup id="homeServiceCarousel" styleClass="carousel slide" 
-						layout="block" p:data-ride="carousel">
+						layout="block" pt:data-ride="carousel">
 						<!-- Indicators -->
 						<ol class="carousel-indicators">
 							<li data-target="#homeCarousel" data-slide-to="0" class="active"></li>
@@ -81,7 +81,7 @@
 						</ol>
 						
 						<!-- Wrapper for slides -->
-						<h:panelGroup layout="block" styleClass="carousel-inner" p:role="listbox">
+						<h:panelGroup layout="block" styleClass="carousel-inner" pt:role="listbox">
 							<h:panelGroup layout="block" styleClass="item active">
 								<h:graphicImage value="resources/media/carousel/a1.jpg" styleClass="item-img" />
 							</h:panelGroup>
@@ -101,11 +101,11 @@
 			
 						<!-- Left and right controls -->
 						<a class="left carousel-control" href="#homeCarousel" role="button" data-slide="prev">
-			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-left" p:aria-hidden="true"></h:panelGroup>
+			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-left" pt:aria-hidden="true"></h:panelGroup>
 			        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.previous']}</h:panelGroup>
 			      		</a>
 			      		<a class="right carousel-control" href="#homeCarousel" role="button" data-slide="next">
-			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-right" p:aria-hidden="true"></h:panelGroup>
+			        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-right" pt:aria-hidden="true"></h:panelGroup>
 			        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.next']}</h:panelGroup>
 			      		</a>
 					</h:panelGroup>
@@ -123,7 +123,7 @@
 		    	</h2>
 		  	</h:panelGroup>
 		  	<h:panelGroup layout="block" styleClass="panel-body" id="home-scroller">
-		  		<pf:dataScroller value="#{homeOffersMB.imagesPath}" var="offer" 
+		  		<p:dataScroller value="#{homeOffersMB.imagesPath}" var="offer" 
 		  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
 			    	<h:panelGroup layout="block" styleClass="row">
 						<h:panelGroup styleClass="col-md-3 col-xs-6">
@@ -167,7 +167,7 @@
 							</h:panelGroup>
 						</h:panelGroup>
 					</h:panelGroup>
-				</pf:dataScroller>
+				</p:dataScroller>
 		  	</h:panelGroup>
 		</h:panelGroup>
 	</ui:define>
