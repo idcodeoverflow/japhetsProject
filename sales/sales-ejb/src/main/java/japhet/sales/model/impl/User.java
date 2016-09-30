@@ -1,6 +1,7 @@
 package japhet.sales.model.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -10,16 +11,23 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
+import japhet.sales.util.Encription;
 
 @Entity
 @Cacheable(value = true)
 @Table(name = "TB_USER")
+@NamedQuery(name = QueryNames.EXISTS_USER, 
+	query = "SELECT u.userId FROM User u WHERE u.username = :username AND u.passw = :passw")
 public class User implements IEntity {
 
 	/**
@@ -66,11 +74,28 @@ public class User implements IEntity {
 	@Column(name = "LAST_MODIFIED_DATE")
 	private Date lastModified;
 	
+	@JoinColumn(name = "CITY_ID")
+	@ManyToOne
+	private City city;
+	
+	@ManyToMany
+	@JoinTable(
+			name = "TB_SNETWORK_USER",
+			joinColumns = @JoinColumn(name = "USER_ID", 
+							referencedColumnName = "USER_ID"),
+			inverseJoinColumns = @JoinColumn(name = "SOCIAL_NETWORK_ID", 
+							referencedColumnName = "SOCIAL_NETWORK_ID"))
+	private List<SocialNetwork> socialNetwork;
+	
+	private Boolean validatedAccount;
+	
 	public User() {}
 
 	public User(Long userId, String name, String lastName, 
 			String email, String username, String passw, Role role,
-			Short age, Status status, Date signUpDate, Date lastModified) {
+			Short age, Status status, Date signUpDate, Date lastModified,
+			City city, List<SocialNetwork> socialNetwork, 
+			Boolean validatedAccount) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -83,6 +108,9 @@ public class User implements IEntity {
 		this.status = status;
 		this.signUpDate = signUpDate;
 		this.lastModified = lastModified;
+		this.city = city;
+		this.socialNetwork = socialNetwork;
+		this.setValidatedAccount(validatedAccount);
 	}
 	
 	public Long getUserId() {
@@ -129,8 +157,8 @@ public class User implements IEntity {
 		return passw;
 	}
 
-	public void setPassw(String passw) {
-		this.passw = passw;
+	public void setPassw(String passw) throws Exception {
+		this.passw = Encription.SHA256(passw);
 	}
 
 	public Role getRole() {
@@ -171,6 +199,30 @@ public class User implements IEntity {
 
 	public void setLastModified(Date lastModified) {
 		this.lastModified = lastModified;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public List<SocialNetwork> getSocialNetwork() {
+		return socialNetwork;
+	}
+
+	public void setSocialNetwork(List<SocialNetwork> socialNetwork) {
+		this.socialNetwork = socialNetwork;
+	}
+
+	public Boolean getValidatedAccount() {
+		return validatedAccount;
+	}
+
+	public void setValidatedAccount(Boolean validatedAccount) {
+		this.validatedAccount = validatedAccount;
 	}
 
 }

@@ -8,15 +8,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
 
 @Entity
 @Cacheable(value = true)
 @Table(name = "TB_ROLE")
+@NamedQueries({
+	@NamedQuery(name = QueryNames.GET_ALL_AVAILABLE_ROLES,
+			query = "SELECT r FROM Role r WHERE r.startDate <= CURRENT_DATE AND r.endDate >= CURRENT_DATE"),
+	@NamedQuery(name = QueryNames.GET_ALL_ROLES,
+			query = "SELECT r FROM Role r")
+})
 public class Role implements IEntity {
 
 	/**
@@ -26,7 +36,7 @@ public class Role implements IEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "STATUS_ID")
+	@Column(name = "ROLE_ID")
 	private Short roleId;
 	
 	@Column(name = "NAME")
@@ -39,13 +49,19 @@ public class Role implements IEntity {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "END_DATE")
 	private Date endDate;
-	
+
+	@PostLoad
+	public void init() {
+		//Convert to uppercase all names
+		this.name = this.name.toUpperCase();
+	}
+
 	public Role() {}
 
 	public Role(Short roleId, String name, Date startDate, Date endDate) {
 		super();
 		this.roleId = roleId;
-		this.name = name;
+		this.name = name.toUpperCase();
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
@@ -63,7 +79,7 @@ public class Role implements IEntity {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.name = name.toUpperCase();
 	}
 
 	public Date getStartDate() {

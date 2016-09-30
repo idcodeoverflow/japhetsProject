@@ -78,7 +78,7 @@
 
 /* Styles for forms */
 .form-control {
-	height: 50px;
+	height: 50px !important;
 }
 
 /* Styles for input groups */
@@ -211,4 +211,9 @@ footer {
 /* Correct font size */
 .ui-widget {
 	font-size: 14px !important;
+}
+
+/* Page title */
+.main-nav-header {
+	width: 306px !important;	
 }
