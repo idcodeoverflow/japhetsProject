@@ -21,8 +21,8 @@ import javax.persistence.TemporalType;
 
 import japhet.sales.model.IEntity;
 
-@Entity
 @Cacheable(value = true)
+@Entity
 @Table(name = "TB_USER_SEARCH")
 @NamedQueries(value = {
 		@NamedQuery(name = GET_USER_SEARCH_BY_USER, 

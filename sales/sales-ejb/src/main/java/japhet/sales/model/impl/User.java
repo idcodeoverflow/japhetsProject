@@ -23,8 +23,8 @@ import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
 import japhet.sales.util.Encription;
 
-@Entity
 @Cacheable(value = true)
+@Entity
 @Table(name = "TB_USER")
 @NamedQuery(name = QueryNames.EXISTS_USER, 
 	query = "SELECT u.userId FROM User u WHERE u.username = :username AND u.passw = :passw")

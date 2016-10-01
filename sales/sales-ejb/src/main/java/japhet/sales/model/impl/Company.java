@@ -13,8 +13,8 @@ import javax.persistence.Table;
 
 import japhet.sales.model.IEntity;
 
-@Entity
 @Cacheable(value = true)
+@Entity
 @Table(name = "TB_COMPANY")
 public class Company implements IEntity {
 
