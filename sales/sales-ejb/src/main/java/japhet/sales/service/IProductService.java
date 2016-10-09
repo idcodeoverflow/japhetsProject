@@ -12,4 +12,12 @@ public interface IProductService extends Serializable {
 
 	public List<Product> getAllAvailableProducts();
 	
+	public Product getProduct(Long productId);
+	
+	public boolean updateProduct(Product product);
+	
+	public boolean deleteProduct(Product product);
+	
+	public boolean insertProduct(Product product);
+	
 }

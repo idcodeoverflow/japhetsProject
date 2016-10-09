@@ -9,6 +9,15 @@
 	template="/WEB-INF/templates/template.xhtml">
 	
 	<ui:define name="content">
+		<!-- Embedded Video -->
+		<h:panelGroup layout="block" styleClass="row video-container">
+			<h:panelGroup layout="block" 
+				styleClass="embed-responsive embed-responsive-16by9">
+				<iframe id="home-video"
+					class="embed-responsive-item" 
+					src="#{urlMapperMB.homeVideoURL}" />
+			</h:panelGroup>
+		</h:panelGroup>
 		<!-- Carousel -->
 		<h:panelGroup layout="block" styleClass="row">
 			<h:panelGroup styleClass="col-md-6">

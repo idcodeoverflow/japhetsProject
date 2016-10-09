@@ -11,11 +11,11 @@ import javax.inject.Inject;
 
 import japhet.sales.data.impl.BuyProofDAO;
 import japhet.sales.model.impl.BuyProof;
-import japhet.sales.service.IBuyProof;
+import japhet.sales.service.IBuyProofService;
 
 @LocalBean
 @Stateless
-public class BuyProofService implements IBuyProof {
+public class BuyProofService implements IBuyProofService {
 
 	/**
 	 * Maven generated.

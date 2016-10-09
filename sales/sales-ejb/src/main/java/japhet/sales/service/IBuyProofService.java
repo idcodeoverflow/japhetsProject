@@ -9,7 +9,7 @@ import javax.ejb.Local;
 import japhet.sales.model.impl.BuyProof;
 
 @Local
-public interface IBuyProof extends Serializable {
+public interface IBuyProofService extends Serializable {
 
 	public BuyProof selectBuyProof(Long buyProofId);
 	

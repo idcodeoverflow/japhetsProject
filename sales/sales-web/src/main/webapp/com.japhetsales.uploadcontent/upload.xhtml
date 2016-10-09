@@ -9,8 +9,11 @@
 	template="/WEB-INF/templates/publicTemplate.xhtml">
 
 	<ui:define name="content">
+		<!-- Page messages -->
+		<p:growl id="messages" showDetail="true" />
+						    
 		<h:panelGroup layout="block" styleClass="row">
-		
+			
 			<h:panelGroup styleClass="col-md-2" />
 			
 			<h:panelGroup styleClass="col-md-8">
@@ -22,34 +25,78 @@
 							<h:panelGroup styleClass="glyphicon glyphicon-upload" />
 						</h2>
 					</h:panelGroup>
+					<!-- Image block -->
 					<h:panelGroup layout="block" styleClass="panel-body">
 						<h:form id="uploadContentForm">
 							<!-- Upload files section -->
 							<p:fileUpload mode="advanced" dragDropSupport="true"
-						                          update="messages" sizeLimit="100000" 
-						                          allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
-						 	<!-- Page messages -->
-						    <p:growl id="messages" showDetail="true" />
-						    <!-- Line to separate the file uploading section from the form -->
+								fileUploadListener="#{uploadContentMB.handleFileUpload}"
+								update="messages" sizeLimit="#{uploadContentMB.MAX_MEDIA_SIZE}"
+								required="true"
+								multiple="false"
+								auto="true"
+								requiredMessage="#{msg['upload.messages.image.required']}"
+								invalidSizeMessage="#{msg['upload.messages.image.sizeExceeded']}"
+								invalidFileMessage="#{msg['upload.messages.image.invalidFile']}"
+								label="#{msg['upload.tags.image.choose']}"
+								uploadLabel="#{msg['upload.tags.image.upload']}"
+								cancelLabel="#{msg['upload.tags.image.cancel']}"
+								allowTypes="/(\.|\/)(jpe?g|png)$/" />
+							<!-- Line to separate the file uploading section from the form -->
 						    <hr/>
 						    
+						    <!-- Title block -->
 						    <h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentTitleInput">
 						    		#{msg['upload.content.contentTitle']}
 						    	</h:outputLabel>
 						    	<h:inputText id="contentTitleInput" styleClass="form-control" 
-						    					placeholder="#{msg['upload.content.contentTitle']}"/>
+						    		required="true"
+									placeholder="#{msg['upload.content.contentTitle']}"
+									value="#{uploadContentMB.product.title}"/>
+						    	<p:messages for="contentTitleInput" />
 						    </h:panelGroup>
 						    
+						    <!-- Description input -->
 						    <h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentDescriptionInput">
 						    		#{msg['upload.content.contentDescription']}
 						    	</h:outputLabel>
 						    	<h:inputTextarea id="contentDescriptionInput" styleClass="form-control" 
-						    					placeholder="#{msg['upload.content.contentDescription']}"/>
+						    		required="true"
+						    		placeholder="#{msg['upload.content.contentDescription']}"
+						    		value="#{uploadContentMB.product.description}"/>
+						    	<p:messages for="contentDescriptionInput" />
 						    </h:panelGroup>
 						    
+						    <!-- Category block -->
+							<h:panelGroup layout="block" styleClass="form-group">
+								<h:outputLabel for="categoriesList">
+									#{msg['upload.content.category']}
+								</h:outputLabel>
+								<h:selectOneMenu id="categoriesList" value="#{uploadContentMB.category.categoryId}"
+									styleClass="form-control" 
+									required="true" 
+									requiredMessage="#{msg['upload.messages.category.required']}">
+									<f:selectItem itemValue="" itemLabel="#{msg['upload.content.selectCategory']}" />
+									<f:selectItems value="#{categoryMB.availableCategories}" var="category"  
+										itemLabel="#{category.name}" itemValue="#{category.categoryId}" />
+								</h:selectOneMenu>
+								<p:messages for="categoriesList" />
+							</h:panelGroup>
+						    
 						    <h:panelGroup layout="block" styleClass="form-group">
+						    	<h:outputLabel for="contentUrlInput">
+						    		#{msg['upload.content.url']}
+						    	</h:outputLabel>
+						    	<h:inputText id="contentUrlInput" styleClass="form-control" 
+						    		placeholder="#{msg['upload.content.url']}"
+						    		required="true"
+						    		value="#{uploadContentMB.product.url}"/>
+						    	<p:messages for="contentUrlInput" />
+						    </h:panelGroup>
+						    
+							<h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentPriceInput">
 						    		#{msg['upload.content.contentPrice']}
 						    	</h:outputLabel>
@@ -58,7 +105,24 @@
 								  		$
 								  	</h:panelGroup>
 								  	<h:inputText id="contentPriceInput" styleClass="form-control" 
-						    					placeholder="#{msg['upload.content.contentPrice']}"/>
+						    			placeholder="#{msg['upload.content.contentPrice']}"
+						    			value="#{uploadContentMB.product.price}"/>
+								</h:panelGroup>
+								<p:messages for="contentPriceInput" />
+						    </h:panelGroup>
+						    
+						    <h:panelGroup layout="block" styleClass="form-group">
+						    	<h:outputLabel for="contentPaybackInput">
+						    		#{msg['upload.content.contentPayback']}
+						    	</h:outputLabel>
+						    	<h:panelGroup styleClass="input-group" layout="block">
+						    	  	<h:inputText id="contentPaybackInput" styleClass="form-control"
+						    	  		value="#{uploadContentMB.product.paybackPercent}" 
+						    			placeholder="#{msg['upload.content.contentPayback']}"/>
+						    		<h:panelGroup styleClass="input-group-addon">
+								  		%
+								  	</h:panelGroup>
+								  	<p:messages for="contentPaybackInput" />
 								</h:panelGroup>
 						    </h:panelGroup>
 						    
@@ -69,36 +133,45 @@
 								<h:panelGroup layout="block" styleClass="col-md-6">
 									<h:panelGroup layout="block" styleClass="form-group">
 										<h:panelGrid columns="2" cellpadding="5">
-											<p:outputLabel for="availableDate">
+											<p:outputLabel for="uploadContentForm:availableDate">
 								    			#{msg['upload.content.availableDate']}
 								    		</p:outputLabel>
-											<p:calendar id="availableDate" mode="inline" pattern="MM/dd/yyyy HH:mm:ss"
-														styleClass="form-control" />
+											<p:calendar id="availableDate" pattern="MM/dd/yyyy HH:mm:ss"
+														styleClass="form-control" 
+														value="#{uploadContentMB.product.startDate}"/>
 										</h:panelGrid>
 									</h:panelGroup>
 								</h:panelGroup>
 								<!-- End date -->
 								<h:panelGroup layout="block" styleClass="col-md-6">
 									<h:panelGroup layout="block" styleClass="form-group">
-									
 										<p:outputLabel for="endDate">
 							    			#{msg['upload.content.endDate']}
 							    		</p:outputLabel>
-										<p:calendar id="endDate" mode="inline" pattern="MM/dd/yyyy HH:mm:ss"
-													styleClass="form-control" value="#{calendarView.inlineDate}" />
-													
-										<p:dialog modal="true" resizable="false" header="Values" widgetVar="dlg" showEffect="fold">
-									        <p:panelGrid id="display" columns="2" columnClasses="label,value">
-									            <h:outputText value="#{msg['upload.content.endDate']}" />
-									            <h:outputText value="#{calendarView.inlineDate}">
-									                <f:convertDateTime pattern="MM/dd/yyyy" />
-								            	</h:outputText>
-								            </p:panelGrid>
-								      	</p:dialog>
-								      	
+										<p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss"
+													styleClass="form-control" 
+													value="#{uploadContentMB.product.endDate}" />
 									</h:panelGroup>
 								</h:panelGroup>
 								
+								<!-- Dialogs for dates -->
+								<p:dialog modal="true" resizable="false" header="Values"
+									widgetVar="dlg" 
+									showEffect="fold">
+									<p:panelGrid id="display" 
+										columns="2"
+										columnClasses="label,value">
+										<h:outputText value="#{msg['upload.content.availableDate']}" />
+							            <h:outputText value="#{uploadContentMB.product.startDate}">
+							                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+							            </h:outputText>
+										
+										<h:outputText value="#{msg['upload.content.endDate']}" />
+										<h:outputText value="#{uploadContentMB.product.endDate}">
+											<f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+										</h:outputText>
+									</p:panelGrid>
+								</p:dialog>
 							</h:panelGroup>
 							
 							<!-- Buttons section -->
@@ -107,8 +180,10 @@
 						    	<h:panelGroup layout="block" styleClass="col-md-9" />
 						    	<!-- Save button -->
 								<h:panelGroup layout="block" styleClass="col-md-3" >
-									<h:button id="saveBt" styleClass="btn btn-default btn-block btn-lg" 
-												value="#{msg['upload.content.saveButton']}" />
+									<h:button id="saveBt" 
+										action="#{uploadContentMB.saveProduct()}"
+										styleClass="btn btn-default btn-block btn-lg" 
+										value="#{msg['upload.content.saveButton']}" />
 								</h:panelGroup>
 							</h:panelGroup>
 							

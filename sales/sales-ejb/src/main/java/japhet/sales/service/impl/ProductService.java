@@ -70,6 +70,7 @@ public class ProductService implements IProductService {
 		logger.info("Inserting product into the DB...");
 		try {
 			productDAO.insert(product);
+			return true;
 		} catch (Exception e) {
 			logger.severe("Error inserting product into the DB. \n" + e.getStackTrace());
 		}

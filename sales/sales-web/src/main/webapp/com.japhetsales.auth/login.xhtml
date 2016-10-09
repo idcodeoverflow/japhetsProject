@@ -37,7 +37,7 @@
 									#{msg['login.form.remember']}
 								</h:outputLabel>
 								<p><i>
-									<h:outputLink id="forgottenPassword" value="/japhet-project-web/com.japhetsales.recpassword/recover.jsf">
+									<h:outputLink id="forgottenPassword" value="#{urlMapperMB.recoverPasswordURL}">
 										#{msg['login.form.forgotten.password']}
 									</h:outputLink>
 								</i></p>
@@ -55,7 +55,7 @@
 							<h:panelGroup layout="block" styleClass="row">
 								<h:panelGroup layout="block" styleClass="col-md-12" >
 									<p class="h4" id="registerMeParagraph">
-										<h:outputLink id="registerMeLogin" value="/japhet-project-web/com.japhetsales.registration/register.jsf">
+										<h:outputLink id="registerMeLogin" value="#{urlMapperMB.registrationURL}">
 											#{msg['login.form.register']}
 										</h:outputLink>
 									</p>

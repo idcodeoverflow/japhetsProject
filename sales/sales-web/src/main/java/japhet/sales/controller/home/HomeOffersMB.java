@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -28,6 +29,7 @@ public class HomeOffersMB extends GenericMB {
 	private static final long serialVersionUID = 9004457004000035745L;
 	
 	//EJBs
+	@EJB
 	private IOfferService offerServiceImp;
 	
 	private List<String> imagesPath;
@@ -35,7 +37,7 @@ public class HomeOffersMB extends GenericMB {
 	
 	@PostConstruct
 	public void init(){
-		offerServiceImp = new OfferService();
+		//offerServiceImp = new OfferService();
 		imagesPath = offerServiceImp.getImagesUrl();
 		for(String pic : imagesPath){
 			System.out.println("DEBUGGER: " + pic);

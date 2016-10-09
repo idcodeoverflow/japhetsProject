@@ -62,6 +62,9 @@ public class Product implements IEntity {
 	@Column(name = "PRICE")
 	private Double price;
 	
+	@Column(name = "PAYBACK_PERCENT")
+	private Double paybackPercent;
+	
 	@Lob
 	@Column(name = "IMAGE")
 	private byte[] image;
@@ -89,17 +92,22 @@ public class Product implements IEntity {
 	@Column(name = "REDIRECT_NUMBER")
 	private Integer redirectNumber;
 	
+	@Column(name = "URL")
+	private String url;
+	
 	public Product() {}
 
 	public Product(Long productId, String title, String description, 
-			Double price, byte[] image, Date uploadDate, Date startDate, 
-			Date endDate, Company company, Category category, 
-			Integer redirectNumber) {
+			Double price, Double paybackPercent, byte[] image, 
+			Date uploadDate, Date startDate, Date endDate, 
+			Company company, Category category, Integer redirectNumber,
+			String url) {
 		super();
 		this.productId = productId;
 		this.title = title;
 		this.description = description;
 		this.price = price;
+		this.paybackPercent = paybackPercent;
 		this.image = image;
 		this.uploadDate = uploadDate;
 		this.startDate = startDate;
@@ -107,6 +115,7 @@ public class Product implements IEntity {
 		this.company = company;
 		this.category = category;
 		this.redirectNumber = redirectNumber;
+		this.url = url;
 	}
 
 	public Long getProductId() {
@@ -139,6 +148,14 @@ public class Product implements IEntity {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Double getPaybackPercent() {
+		return paybackPercent;
+	}
+
+	public void setPaybackPercent(Double paybackPercent) {
+		this.paybackPercent = paybackPercent;
 	}
 
 	public byte[] getImage() {
@@ -205,6 +222,14 @@ public class Product implements IEntity {
 		this.redirectNumber = redirectNumber;
 	}
 	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 	@SuppressWarnings("resource")
 	private byte[] convertFileTobytesArray(File file) throws IOException {
 		logger.info("Converting file to byte array...");

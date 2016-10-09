@@ -1,7 +1,7 @@
 /* Modify the style for the main menu */
 .navbar {
 	font-size: 16px !important;
-	z-index: 100001;
+	z-index: 1001;
 }
 
 /* Trademark icon style */
@@ -114,7 +114,7 @@
     -moz-transform:scale(1.08); /* Firefox */
     -webkit-transform:scale(1.08); /* Safari and Chrome */
     -o-transform:scale(1.08); /* Opera */
-    z-index: 10000 !important;
+    z-index: 1000 !important;
     position: absolute !important;
 }
 
@@ -179,7 +179,7 @@ footer {
     position: fixed !important;
     top: 6px !important;
     right: 47% !important;
-    z-index: 100000 !important;
+    z-index: 1000 !important;
 }
 
 .well {	
@@ -216,4 +216,20 @@ footer {
 /* Page title */
 .main-nav-header {
 	width: 306px !important;	
+}
+
+/* Overwrite iframe style */
+.embed-responsive {
+	margin: auto !important;
+	max-width: 854px !important;
+	padding-bottom: 40% !important;
+}
+
+.video-container {
+	text-align: center !important;
+	margin: 10px 5px;
+}
+
+#messages-container {
+	z-index: 90000 !important;
 }

@@ -95,12 +95,6 @@
 			<version>${version.primefaces}</version>
 		</dependency>
 		
-		<dependency>
-	        <groupId>org.springframework.security</groupId>
-	        <artifactId>spring-security-web</artifactId>
-	        <version>${version.spring.security}</version>
-    	</dependency>
-		
 	</dependencies>
 
 	<build>

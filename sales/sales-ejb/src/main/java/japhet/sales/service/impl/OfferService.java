@@ -6,14 +6,17 @@ package japhet.sales.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
+
 import japhet.sales.service.IOfferService;
 
 /**
  * @author David
  *
  */
-//@LocalBean
-//@Stateless
+@LocalBean
+@Stateless
 public class OfferService implements IOfferService {
 
 	/**
