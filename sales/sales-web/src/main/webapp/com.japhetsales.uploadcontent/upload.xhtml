@@ -85,6 +85,7 @@
 								<p:messages for="categoriesList" />
 							</h:panelGroup>
 						    
+						    <!-- URL block -->
 						    <h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentUrlInput">
 						    		#{msg['upload.content.url']}
@@ -96,6 +97,7 @@
 						    	<p:messages for="contentUrlInput" />
 						    </h:panelGroup>
 						    
+						    <!-- Price block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentPriceInput">
 						    		#{msg['upload.content.contentPrice']}
@@ -111,6 +113,7 @@
 								<p:messages for="contentPriceInput" />
 						    </h:panelGroup>
 						    
+						    <!-- Payback block -->
 						    <h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentPaybackInput">
 						    		#{msg['upload.content.contentPayback']}
@@ -132,14 +135,12 @@
 								<!-- Start date -->
 								<h:panelGroup layout="block" styleClass="col-md-6">
 									<h:panelGroup layout="block" styleClass="form-group">
-										<h:panelGrid columns="2" cellpadding="5">
-											<p:outputLabel for="uploadContentForm:availableDate">
-								    			#{msg['upload.content.availableDate']}
-								    		</p:outputLabel>
-											<p:calendar id="availableDate" pattern="MM/dd/yyyy HH:mm:ss"
-														styleClass="form-control" 
-														value="#{uploadContentMB.product.startDate}"/>
-										</h:panelGrid>
+										<p:outputLabel for="uploadContentForm:availableDate">
+								    		#{msg['upload.content.availableDate']}
+								    	</p:outputLabel>
+										<p:calendar id="availableDate" pattern="MM/dd/yyyy HH:mm:ss"
+											styleClass="form-control" 
+											value="#{uploadContentMB.product.startDate}"/>
 									</h:panelGroup>
 								</h:panelGroup>
 								<!-- End date -->
@@ -149,29 +150,10 @@
 							    			#{msg['upload.content.endDate']}
 							    		</p:outputLabel>
 										<p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss"
-													styleClass="form-control" 
-													value="#{uploadContentMB.product.endDate}" />
+											styleClass="form-control" 
+											value="#{uploadContentMB.product.endDate}" />
 									</h:panelGroup>
 								</h:panelGroup>
-								
-								<!-- Dialogs for dates -->
-								<p:dialog modal="true" resizable="false" header="Values"
-									widgetVar="dlg" 
-									showEffect="fold">
-									<p:panelGrid id="display" 
-										columns="2"
-										columnClasses="label,value">
-										<h:outputText value="#{msg['upload.content.availableDate']}" />
-							            <h:outputText value="#{uploadContentMB.product.startDate}">
-							                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-							            </h:outputText>
-										
-										<h:outputText value="#{msg['upload.content.endDate']}" />
-										<h:outputText value="#{uploadContentMB.product.endDate}">
-											<f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-										</h:outputText>
-									</p:panelGrid>
-								</p:dialog>
 							</h:panelGroup>
 							
 							<!-- Buttons section -->

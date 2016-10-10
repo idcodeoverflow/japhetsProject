@@ -64,7 +64,7 @@ public class UploadContentMB extends GenericMB {
 		}
     }
 	
-	public void saveProduct(){
+	public void saveProduct() {
 		//TODO: complete the login to obtain the CompanyId
 		//Set remaining values
 		product.setCategory(category);
