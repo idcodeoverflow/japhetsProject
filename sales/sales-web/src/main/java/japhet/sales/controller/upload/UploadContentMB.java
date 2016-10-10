@@ -1,7 +1,5 @@
 package japhet.sales.controller.upload;
 
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -14,7 +12,6 @@ import japhet.sales.controller.GenericMB;
 import japhet.sales.model.impl.Category;
 import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.Product;
-import japhet.sales.service.ICategoryService;
 import japhet.sales.service.IProductService;
 import japhet.sales.service.IUtilService;
 
@@ -39,6 +36,7 @@ public class UploadContentMB extends GenericMB {
 	private Category category;
 	private Company company;
 	
+	
 	//Object to persist
 	private Product product;
 	
@@ -47,6 +45,8 @@ public class UploadContentMB extends GenericMB {
 	
 	@PostConstruct
 	public void init(){
+		product = new Product();
+		company = new Company();
 		imageBytes = new byte[151000];
 	}
 			
@@ -66,6 +66,7 @@ public class UploadContentMB extends GenericMB {
 	
 	public void saveProduct() {
 		//TODO: complete the login to obtain the CompanyId
+		company.setCompanyId(1L);
 		//Set remaining values
 		product.setCategory(category);
 		product.setCompany(company);
