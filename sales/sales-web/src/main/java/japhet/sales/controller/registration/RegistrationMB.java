@@ -46,6 +46,7 @@ public class RegistrationMB extends GenericMB {
 	@PostConstruct
 	private void init(){
 		user = new User();
+		selectedState = new State();
 	}
 
 	public User getUser() {
@@ -62,6 +63,7 @@ public class RegistrationMB extends GenericMB {
 
 	public void setSelectedState(State selectedState) {
 		this.selectedState = selectedState;
+		logger.info("Si entro!!!!!!!" + selectedState.getStateId());
 	}
 
 	public String getPassword() {

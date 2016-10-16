@@ -142,13 +142,14 @@
 								<h:outputLabel for="stateList">
 									#{msg['registration.form.state']}
 								</h:outputLabel>
-								<h:selectOneMenu id="stateList" value="#{registrationMB.selectedState}"
+								<h:selectOneMenu id="stateList" value="#{registrationMB.selectedState.stateId}"
 									styleClass="form-control" required="true" 
 									requiredMessage="#{msg['registration.messages.requiredState']}">
 									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneState']}" />
 									<f:selectItems value="#{statesMB.states}" var="state"  
 										itemLabel="#{state.name}" itemValue="#{state.stateId}" />
-									<f:ajax event="valueChange" render="stateCity" />
+									<f:ajax event="valueChange" render="stateCity" 
+										listener="#{registrationMB.setSelectedState(statesMB.findStateById(registrationMB.selectedState.stateId))}"/>
 								</h:selectOneMenu>
 								<p:messages for="stateList" />
 							</h:panelGroup>
