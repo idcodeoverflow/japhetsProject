@@ -1,7 +1,6 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -11,6 +10,8 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.SocialNetworkDAO;
 import japhet.sales.model.impl.SocialNetwork;
 import japhet.sales.service.ISocialNetwork;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless

@@ -18,6 +18,7 @@ public class CategoryMB extends GenericMB {
 	 * Maven generated.
 	 */
 	private static final long serialVersionUID = -209520882103133937L;
+	
 	@EJB
 	private ICategoryService categoryService;
 	

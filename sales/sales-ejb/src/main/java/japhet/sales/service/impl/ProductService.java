@@ -1,7 +1,6 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -9,8 +8,11 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.ProductDAO;
+import japhet.sales.except.InvalidDateRangeException;
 import japhet.sales.model.impl.Product;
 import japhet.sales.service.IProductService;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -38,8 +40,8 @@ public class ProductService implements IProductService {
 		try {
 			return productDAO.select(productId);
 		} catch (Exception e) {
-			logger.severe("Error obtaining product " + productId 
-					+ " from the DB. \n" + e.getStackTrace());
+			logger.fatal("Error obtaining product " + productId 
+					+ " from the DB.", e);
 		}
 		return null;
 	}
@@ -50,7 +52,7 @@ public class ProductService implements IProductService {
 			productDAO.update(product);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error updating product into the DB. \n" + e.getStackTrace());
+			logger.fatal("Error updating product into the DB.", e);
 		}
 		return false;
 	}
@@ -61,18 +63,21 @@ public class ProductService implements IProductService {
 			productDAO.delete(product);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error deleting product into the DB. \n" + e.getStackTrace());
+			logger.fatal("Error deleting product into the DB.", e);
 		}
 		return false;
 	}
 	
-	public boolean insertProduct(Product product) {
+	public boolean insertProduct(Product product) throws InvalidDateRangeException {
 		logger.info("Inserting product into the DB...");
 		try {
+			if(product.getStartDate().after(product.getEndDate())) {
+				throw new InvalidDateRangeException("The range of dates is not valid.");
+			}
 			productDAO.insert(product);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error inserting product into the DB. \n" + e.getStackTrace());
+			logger.fatal("Error inserting product into the DB.", e);
 		}
 		return false;
 	}

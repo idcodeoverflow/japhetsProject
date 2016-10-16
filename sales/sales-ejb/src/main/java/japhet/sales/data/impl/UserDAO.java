@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -12,6 +11,8 @@ import javax.inject.Inject;
 import japhet.sales.data.GenericDAO;
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.impl.User;
+
+import org.apache.log4j.Logger;
 
 @Stateless
 public class UserDAO extends GenericDAO<User, Long> {
@@ -34,10 +35,8 @@ public class UserDAO extends GenericDAO<User, Long> {
 			executeQuery(QueryNames.EXISTS_USER, params);
 			userExists = users.size() > 0;
 		} catch (Exception e) {
-			logger.severe("Exception occurred searching the user credentials into the DB." + 
-					e.getStackTrace());
+			logger.fatal("Exception occurred searching the user credentials into the DB.", e);
 		}
 		return userExists;
 	}
-	
 }

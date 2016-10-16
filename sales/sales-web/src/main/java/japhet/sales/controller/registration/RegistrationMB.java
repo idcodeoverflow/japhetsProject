@@ -1,13 +1,9 @@
 package japhet.sales.controller.registration;
 
-import static japhet.sales.catalogs.Roles.*;
-import static japhet.sales.catalogs.Status.*;
-import static japhet.sales.catalogs.SocialNetworks.*;
+import static japhet.sales.catalogs.SocialNetworks.FACEBOOK;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,13 +12,13 @@ import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
 import japhet.sales.controller.GenericMB;
-import japhet.sales.model.impl.City;
-import japhet.sales.model.impl.Role;
+import japhet.sales.except.InvalidPasswordException;
 import japhet.sales.model.impl.SocialNetwork;
 import japhet.sales.model.impl.State;
-import japhet.sales.model.impl.Status;
 import japhet.sales.model.impl.User;
 import japhet.sales.service.IUserService;
+
+import org.apache.log4j.Logger;
 
 @ManagedBean
 @ViewScoped
@@ -40,71 +36,32 @@ public class RegistrationMB extends GenericMB {
 	private Logger logger;
 	
 	//View propertiess
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String username;
-	private Short age;
 	private String password;
 	private String confirmPassword;
-	private Short stateId;
-	private Short cityId;
-	private Short roleId;
 	
 	//Logic attributes
 	private User user;
-	private Role role;
-	private Status status;
-	private City city;
 	private State selectedState;
 	
 	@PostConstruct
 	private void init(){
 		user = new User();
-		role = new Role();
-		status = new Status();
-		city = new City();
 	}
 
-	public IUserService getUserService() {
-		return userService;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserService(IUserService userService) {
-		this.userService = userService;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public State getSelectedState() {
+		return selectedState;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-		this.username = email;
-	}
-
-	public Short getAge() {
-		return age;
-	}
-
-	public void setAge(Short age) {
-		this.age = age;
+	public void setSelectedState(State selectedState) {
+		this.selectedState = selectedState;
 	}
 
 	public String getPassword() {
@@ -123,46 +80,14 @@ public class RegistrationMB extends GenericMB {
 		this.confirmPassword = confirmPassword;
 	}
 
-	public Short getCityId() {
-		return cityId;
-	}
-
-	public void setCityId(Short cityId) {
-		this.cityId = cityId;
-	}
-
-	public Short getStateId() {
-		return stateId;
-	}
-
-	public void setStateId(Short stateId) {
-		this.stateId = stateId;
-	}
-	
-	public Short getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Short roleId) {
-		this.roleId = roleId;
-	}
-
-	public State getSelectedState() {
-		return selectedState;
-	}
-
-	public void setSelectedState(State selectedState) {
-		this.selectedState = selectedState;
-	}
-
 	public void signUp() {
 		//TODO: complete role and status logic
 		logger.info("Persisting user into the DB...");
 		try {
 			createUser(user);
 		} catch (Exception e) {
-			logger.severe("Error trying to persist user into the DB." + e.getStackTrace());
-			e.printStackTrace();
+			logger.fatal("Error trying to persist user into the DB.", e);
+			showErrorMessage("An error has ocurred registering the account.", "");
 		}
 	}
 	
@@ -177,27 +102,19 @@ public class RegistrationMB extends GenericMB {
 			user.setSocialNetwork(socialNetworks);
 			createUser(user);
 		} catch (Exception e) {
-			logger.severe("Error trying to persist FB user into the DB." + e.getStackTrace());
-			e.printStackTrace();
+			logger.fatal("Error trying to persist FB user into the DB.", e);
+			showErrorMessage("An error has ocurred while signing up.", "");
 		}
 	}
 	
-	private void createUser(User user) throws Exception {
-		role.setRoleId(((roleId == null ) ? USER.getId() : this.roleId));
-		status.setStatusId(ACTIVE.getId());
-		city.setCityId(cityId);
-		user.setAge(age);
-		user.setEmail(email);
-		user.setLastModified(new Date());
-		user.setLastName(lastName);
-		user.setName(firstName);
-		user.setPassw(password);
-		user.setRole(role);
-		user.setSignUpDate(new Date());
-		user.setStatus(status);
-		user.setUsername(username);
-		user.setCity(city);
-		userService.insertUser(user);
+	private void createUser(User user) {
+		try {
+			userService.validatePasswords(password, confirmPassword);
+			userService.insertUser(user);
+		} catch (InvalidPasswordException e) {
+			logger.fatal("The password is invalid.", e);
+			showErrorMessage("The password doesn't match or is invalid", "");
+		}
 	}
 	
 }

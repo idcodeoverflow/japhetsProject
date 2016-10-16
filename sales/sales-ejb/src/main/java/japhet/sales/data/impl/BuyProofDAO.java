@@ -4,13 +4,14 @@ import static japhet.sales.data.QueryNames.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.GenericDAO;
 import japhet.sales.model.impl.BuyProof;
+
+import org.apache.log4j.Logger;
 
 @Stateless
 public class BuyProofDAO extends GenericDAO<BuyProof, Long> {
@@ -28,7 +29,7 @@ public class BuyProofDAO extends GenericDAO<BuyProof, Long> {
 		try {
 			buyProofs = executeQuery(GET_BUY_PROOFS_BY_USER, params);
 		} catch (Exception e) {
-			logger.info("Error whule obtaining buy proofs by user.\n" + e.getStackTrace());
+			logger.fatal("Error whule obtaining buy proofs by user.\n", e);
 		}
 		return buyProofs;
 	}
@@ -39,7 +40,7 @@ public class BuyProofDAO extends GenericDAO<BuyProof, Long> {
 		try {
 			buyProofs = executeQuery(GET_BUY_PROOFS_BY_PRODUCT, params);
 		} catch (Exception e) {
-			logger.info("Error whule obtaining buy proofs by product.\n" + e.getStackTrace());
+			logger.fatal("Error whule obtaining buy proofs by product.\n", e);
 		}
 		return buyProofs;
 	}

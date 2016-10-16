@@ -3,7 +3,6 @@ package japhet.sales.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,6 +13,8 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.StateDAO;
 import japhet.sales.model.impl.State;
 import japhet.sales.service.IStateService;
+
+import org.apache.log4j.Logger;
 
 @Singleton
 @Startup
@@ -31,11 +32,15 @@ public class StateService implements IStateService {
 	
 	@PostConstruct
 	public void init(){
-		logger.info("Obtaining all states from the DB..");
-		sortedStates = stateDAO.getAllStates();
-		allStates = new HashMap<>();
-		for (State state : sortedStates) {
-			allStates.put(state.getStateId(), state);
+		try {
+			logger.info("Obtaining all states from the DB..");
+			sortedStates = stateDAO.getAllStates();
+			allStates = new HashMap<>();
+			for (State state : sortedStates) {
+				allStates.put(state.getStateId(), state);
+			}
+		} catch (Exception e) {
+			logger.fatal("Error initializing States Service.", e);
 		}
 	}
 	
@@ -57,8 +62,7 @@ public class StateService implements IStateService {
 		try {
 			state = allStates.get(stateId);
 		} catch (Exception e) {
-			logger.severe("Error obtaining state: " + stateId + 
-					"\n" + e.getStackTrace());
+			logger.fatal("Error obtaining state: " + stateId, e);
 		}
 		return state;
 	}

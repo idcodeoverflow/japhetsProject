@@ -4,13 +4,14 @@ import static japhet.sales.data.QueryNames.*;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.GenericDAO;
 import japhet.sales.model.impl.UserSearch;
+
+import org.apache.log4j.Logger;
 
 @Stateless
 public class UserSearchDAO extends GenericDAO<UserSearch, Long> {
@@ -28,8 +29,7 @@ public class UserSearchDAO extends GenericDAO<UserSearch, Long> {
 		try {
 			userSearchs = executeQuery(GET_USER_SEARCH_BY_USER, params);
 		} catch (Exception e) {
-			logger.severe("Error obtaining user search by user.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error obtaining user search by user.\n", e);
 		}
 		return userSearchs;
 	}

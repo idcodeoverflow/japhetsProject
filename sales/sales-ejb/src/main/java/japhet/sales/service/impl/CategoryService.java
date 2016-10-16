@@ -1,7 +1,6 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -11,6 +10,8 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.CategoryDAO;
 import japhet.sales.model.impl.Category;
 import japhet.sales.service.ICategoryService;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -44,7 +45,7 @@ public class CategoryService implements ICategoryService {
 			categoryDAO.insert(category);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error inserting category: \n" + e.getStackTrace());
+			logger.fatal("Error inserting category:", e);
 		}
 		return false;
 	}
@@ -53,8 +54,7 @@ public class CategoryService implements ICategoryService {
 		try {
 			return categoryDAO.select(categoryId);
 		} catch (Exception e) {
-			logger.severe("Error finding category: " + categoryId 
-					+ "\n" + e.getStackTrace());
+			logger.fatal("Error finding category: " + categoryId, e);
 		}
 		return null;
 	}
@@ -64,7 +64,7 @@ public class CategoryService implements ICategoryService {
 			categoryDAO.update(category);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error finding category: \n" + e.getStackTrace());
+			logger.fatal("Error finding category: ", e);
 		}
 		return false;
 	}
@@ -73,7 +73,7 @@ public class CategoryService implements ICategoryService {
 		try {
 			categoryDAO.delete(category);
 		} catch (Exception e) {
-			logger.severe("Error deleting category: \n" + e.getStackTrace());
+			logger.fatal("Error deleting category: ", e);
 		}
 		return false;
 	}

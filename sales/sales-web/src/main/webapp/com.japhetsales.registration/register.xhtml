@@ -31,7 +31,7 @@
 									#{msg['registration.form.firstName']}
 								</h:outputLabel>
 								<h:inputText id="firstNameInput" styleClass="form-control" 
-									value="#{registrationMB.firstName}"
+									value="#{registrationMB.user.name}"
 									maxlength="50" required="true"
 									requiredMessage="#{msg['registration.messages.requiredFirstName']}"
 									pt:placeholder="#{msg['registration.form.firstName']}"
@@ -48,7 +48,7 @@
 									#{msg['registration.form.lastName']}
 								</h:outputLabel>
 								<h:inputText id="lastNameInput" styleClass="form-control"  
-									value="#{registrationMB.lastName}"
+									value="#{registrationMB.user.lastName}"
 									maxlength="100" required="true"
 									requiredMessage="#{msg['registration.messages.requiredLastName']}"
 									pt:placeholder="#{msg['registration.form.lastName']}"
@@ -65,7 +65,7 @@
 									#{msg['registration.form.age']}
 								</h:outputLabel>
 								<h:inputText id="ageInput" styleClass="form-control"  
-									value="#{registrationMB.age}"
+									value="#{registrationMB.user.age}"
 									maxlength="3" required="true"
 									requiredMessage="#{msg['registration.messages.requiredAge']}"
 									pt:placeholder="#{msg['registration.form.age']}"
@@ -82,7 +82,7 @@
 									#{msg['registration.form.email']}
 								</h:outputLabel>
 								<h:inputText id="emailInput" styleClass="form-control"  
-									value="#{registrationMB.email}"
+									value="#{registrationMB.user.email}"
 									maxlength="50" required="true"
 									requiredMessage="#{msg['registration.messages.requiredEmail']}"
 									pt:placeholder="#{msg['registration.form.email']}"
@@ -128,7 +128,7 @@
 								<h:outputLabel for="rolesList">
 									#{msg['registration.form.role']}
 								</h:outputLabel>
-								<h:selectOneMenu id="rolesList" value="#{registrationMB.roleId}"
+								<h:selectOneMenu id="rolesList" value="#{registrationMB.user.role.roleId}"
 									styleClass="form-control" required="true" 
 									requiredMessage="#{msg['registration.messages.requiredRole']}">
 									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneRole']}" />
@@ -142,14 +142,13 @@
 								<h:outputLabel for="stateList">
 									#{msg['registration.form.state']}
 								</h:outputLabel>
-								<h:selectOneMenu id="stateList" value="#{registrationMB.stateId}"
+								<h:selectOneMenu id="stateList" value="#{registrationMB.selectedState}"
 									styleClass="form-control" required="true" 
 									requiredMessage="#{msg['registration.messages.requiredState']}">
 									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneState']}" />
 									<f:selectItems value="#{statesMB.states}" var="state"  
 										itemLabel="#{state.name}" itemValue="#{state.stateId}" />
-									<f:ajax event="valueChange" render="stateCity"
-       									listener="#{registrationMB.setSelectedState(statesMB.findStateById(registrationMB.stateId))}" />
+									<f:ajax event="valueChange" render="stateCity" />
 								</h:selectOneMenu>
 								<p:messages for="stateList" />
 							</h:panelGroup>
@@ -158,7 +157,7 @@
 								<h:outputLabel for="stateCity">
 									#{msg['registration.form.city']}
 								</h:outputLabel>
-								<h:selectOneMenu id="stateCity" value="#{registrationMB.cityId}"
+								<h:selectOneMenu id="stateCity" value="#{registrationMB.user.city.cityId}"
 									styleClass="form-control" required="true"
 									requiredMessage="#{msg['registration.messages.requiredCity']}">
 									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneCity']}" />

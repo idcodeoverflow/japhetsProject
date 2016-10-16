@@ -1,7 +1,6 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -11,6 +10,8 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.StatusDAO;
 import japhet.sales.model.impl.Status;
 import japhet.sales.service.IStatusService;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -44,8 +45,8 @@ public class StatusService implements IStatusService {
 		try {
 			return statusDAO.select(statusId);
 		} catch (Exception e) {
-			logger.severe("Error obtaining status" + statusId + 
-					" from the DB. \n" + e.getStackTrace());
+			logger.fatal("Error obtaining status" + statusId + 
+					" from the DB.", e);
 		}
 		return null;
 	}
@@ -56,7 +57,7 @@ public class StatusService implements IStatusService {
 			statusDAO.update(status);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error updating status into the DB.\n" + e.getStackTrace());
+			logger.fatal("Error updating status into the DB.", e);
 		}
 		return false;
 	}
@@ -67,7 +68,7 @@ public class StatusService implements IStatusService {
 			statusDAO.delete(status);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error deleting status into the DB.\n" + e.getStackTrace());
+			logger.fatal("Error deleting status into the DB.", e);
 		}
 		return false;
 	}
@@ -77,9 +78,8 @@ public class StatusService implements IStatusService {
 		try {
 			statusDAO.insert(status);
 		} catch (Exception e) {
-			logger.severe("Error inserting status into the DB.\n" + e.getStackTrace());
+			logger.fatal("Error inserting status into the DB.", e);
 		}
 		return false;
 	}
-
 }

@@ -1,15 +1,16 @@
 package japhet.sales.service.impl;
 
-import java.util.logging.Logger;
-
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.UserDAO;
+import japhet.sales.except.InvalidPasswordException;
 import japhet.sales.model.impl.User;
 import japhet.sales.service.IUserService;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -35,8 +36,7 @@ public class UserService implements IUserService {
 			user.setPassw(passw);
 			return userDAO.doesUserExists(user);
 		} catch (Exception e) {
-			logger.severe("Error verifying user credentials: " + username 
-					+ "\n" + e.getStackTrace());
+			logger.fatal("Error verifying user credentials: " + username, e);
 		}
 		return false;
 	}
@@ -47,7 +47,7 @@ public class UserService implements IUserService {
 		try {
 			return userDAO.select(userId);
 		} catch (Exception e) {
-			logger.severe("Error obtaining user " + userId + " from the DB.");
+			logger.fatal("Error obtaining user " + userId + " from the DB.", e);
 		}
 		return null;
 	}
@@ -59,7 +59,7 @@ public class UserService implements IUserService {
 			userDAO.update(user);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error updating user into the DB.");
+			logger.fatal("Error updating user into the DB.", e);
 		}
 		return false;
 	}
@@ -71,7 +71,7 @@ public class UserService implements IUserService {
 			userDAO.delete(user);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error deleting user into the DB.");
+			logger.fatal("Error deleting user into the DB.", e);
 		}
 		return false;
 	}
@@ -83,9 +83,24 @@ public class UserService implements IUserService {
 			userDAO.insert(user);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error inserting user into the DB.");
+			logger.fatal("Error inserting user into the DB.", e);
 		}
 		return false;
+	}
+	
+	@Override
+	public void validatePasswords(String pass1, String pass2) throws InvalidPasswordException{
+		logger.info("Validating password...");
+		try {
+			if(pass1.length() < MINIMUM_PASSWORD_LENGTH){
+				throw new InvalidPasswordException("The length of the password is lower than the minimum.");
+			}
+			if(!pass1.equals(pass2)){
+				throw new InvalidPasswordException("The passwords doesn't match.");
+			}
+		} catch (Exception e) {
+			logger.fatal("Error validating the password.", e);
+		}
 	}
 	
 }

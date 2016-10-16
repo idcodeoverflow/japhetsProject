@@ -1,5 +1,7 @@
 package japhet.sales.controller.upload;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -9,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.event.FileUploadEvent;
 
 import japhet.sales.controller.GenericMB;
+import japhet.sales.except.InvalidDateRangeException;
 import japhet.sales.model.impl.Category;
 import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.Product;
@@ -45,9 +48,7 @@ public class UploadContentMB extends GenericMB {
 	
 	@PostConstruct
 	public void init(){
-		product = new Product();
-		company = new Company();
-		imageBytes = new byte[151000];
+		clearAll();
 	}
 			
 	public void handleFileUpload(FileUploadEvent event) {
@@ -71,12 +72,26 @@ public class UploadContentMB extends GenericMB {
 		product.setCategory(category);
 		product.setCompany(company);
 		product.setImage(imageBytes);
-		//Persist product
-		if(productService.insertProduct(product)){
-			showInfoMessage("Guardo satisfactoriamente", "");
-		} else {
-			showErrorMessage("El producto falló al guardarse,\nintentalo mas tarde", "");
+		try {
+			//Persist product
+			if(productService.insertProduct(product)){
+				showInfoMessage("Guardado satisfactoriamente", "");
+				clearAll();
+			} else {
+				showErrorMessage("El producto falló al guardarse,\nintentalo mas tarde", "");
+			}
+		} catch (InvalidDateRangeException e) {
+			showErrorMessage("El rango de fechas es invalido", "");
 		}
+	}
+	
+	public void clearAll(){
+		product = new Product();
+		company = new Company();
+		category = new Category();
+		imageBytes = new byte[151000];
+		//Initialize the number of redirections to this product in 0
+		product.setRedirectNumber(0);
 	}
 	
 	public long getMAX_MEDIA_SIZE() {
@@ -97,6 +112,10 @@ public class UploadContentMB extends GenericMB {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	
+	public Date getCurrentDate() {
+		return new Date();
 	}
 
 }

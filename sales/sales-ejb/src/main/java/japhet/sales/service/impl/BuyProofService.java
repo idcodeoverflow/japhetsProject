@@ -2,7 +2,6 @@ package japhet.sales.service.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -12,6 +11,8 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.BuyProofDAO;
 import japhet.sales.model.impl.BuyProof;
 import japhet.sales.service.IBuyProofService;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -35,8 +36,7 @@ public class BuyProofService implements IBuyProofService {
 		try {
 			buyProof = buyProofDAO.select(buyProofId);
 		} catch (Exception e) {
-			logger.severe("Error while trying to get the buy proof.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error while trying to get the buy proof.\n", e);
 		}
 		return buyProof;
 	}
@@ -59,8 +59,7 @@ public class BuyProofService implements IBuyProofService {
 		try {
 			buyProofDAO.update(buyProof);
 		} catch (Exception e) {
-			logger.severe("Error while trying to update buy proof.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error while trying to update buy proof.\n", e);
 		}
 	}
 
@@ -70,8 +69,7 @@ public class BuyProofService implements IBuyProofService {
 		try {
 			buyProofDAO.delete(buyProof);
 		} catch (Exception e) {
-			logger.severe("Error while trying to delete buy proof.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error while trying to delete buy proof.\n", e);
 		}
 	}
 
@@ -81,8 +79,7 @@ public class BuyProofService implements IBuyProofService {
 		try {
 			buyProofDAO.insert(buyProof);
 		} catch (Exception e) {
-			logger.severe("Error while trying to insert buy proof.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error while trying to insert buy proof.\n", e);
 		}
 	}
 

@@ -1,7 +1,6 @@
 package japhet.sales.data.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -9,6 +8,8 @@ import javax.inject.Inject;
 import japhet.sales.data.GenericDAO;
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.impl.Status;
+
+import org.apache.log4j.Logger;
 
 @Stateless
 public class StatusDAO extends GenericDAO<Status, Short> {
@@ -26,7 +27,7 @@ public class StatusDAO extends GenericDAO<Status, Short> {
 		try {
 			status = executeQuery(QueryNames.GET_ALL_STATUS, null);
 		} catch (Exception e) {
-			logger.severe("Error while obtaining all the status from the DB.");
+			logger.fatal("Error while obtaining all the status from the DB.", e);
 		}
 		return status;
 	}
@@ -37,7 +38,7 @@ public class StatusDAO extends GenericDAO<Status, Short> {
 		try {
 			status = executeQuery(QueryNames.GET_ALL_AVAILABLE_STATUS, null);
 		} catch (Exception e) {
-			logger.severe("Error while obtaining all the available status from the DB.");
+			logger.fatal("Error while obtaining all the available status from the DB.", e);
 		}
 		return status;
 	}

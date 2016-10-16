@@ -2,7 +2,6 @@ package japhet.sales.service.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -12,6 +11,8 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.UserSearchDAO;
 import japhet.sales.model.impl.UserSearch;
 import japhet.sales.service.IUserSearch;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -34,8 +35,7 @@ public class UserSearchService implements IUserSearch {
 		try {
 			userSearchDAO.insert(userSearch);
 		} catch (Exception e) {
-			logger.severe("Error while saving the user search.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error while saving the user search.", e);
 		}
 	}
 
@@ -45,8 +45,7 @@ public class UserSearchService implements IUserSearch {
 		try {
 			userSearchDAO.update(userSearch);
 		} catch (Exception e) {
-			logger.severe("Error while updating the user search.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error while updating the user search.", e);
 		}
 	}
 
@@ -56,8 +55,7 @@ public class UserSearchService implements IUserSearch {
 		try {
 			userSearchDAO.delete(userSearch);
 		} catch (Exception e) {
-			logger.severe("Error while deleting the user search.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error while deleting the user search.", e);
 		}
 	}
 
@@ -68,8 +66,7 @@ public class UserSearchService implements IUserSearch {
 		try {
 			userSearch = userSearchDAO.select(userSearchId);
 		} catch (Exception e) {
-			logger.severe("Error while selecting user search.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error while selecting user search.", e);
 		}
 		return userSearch;
 	}

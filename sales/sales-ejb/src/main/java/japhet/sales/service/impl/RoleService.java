@@ -1,7 +1,6 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -12,6 +11,8 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.RoleDAO;
 import japhet.sales.model.impl.Role;
 import japhet.sales.service.IRoleService;
+
+import org.apache.log4j.Logger;
 
 @Startup
 @Singleton
@@ -52,7 +53,7 @@ public class RoleService implements IRoleService {
 		try {
 			return roleDAO.select(roleId);
 		} catch (Exception e) {
-			logger.severe("Error obtaining role " + roleId + " from the DB.");
+			logger.fatal("Error obtaining role " + roleId + " from the DB.", e);
 		}
 		return null;
 	}
@@ -63,7 +64,7 @@ public class RoleService implements IRoleService {
 			roleDAO.update(role);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error updating role into the DB. \n" + e.getStackTrace());
+			logger.fatal("Error updating role into the DB.", e);
 		}
 		return false;
 	}
@@ -74,7 +75,7 @@ public class RoleService implements IRoleService {
 			roleDAO.delete(role);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error deleting role into the DB. \n" + e.getStackTrace());
+			logger.fatal("Error deleting role into the DB.", e);
 		}
 		return false;
 	}
@@ -85,7 +86,7 @@ public class RoleService implements IRoleService {
 			roleDAO.insert(role);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error inserting role into the DB. \n" + e.getStackTrace());
+			logger.fatal("Error inserting role into the DB.", e);
 		}
 		return false;
 	}

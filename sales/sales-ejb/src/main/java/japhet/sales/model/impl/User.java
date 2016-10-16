@@ -1,6 +1,7 @@
 package japhet.sales.model.impl;
 
 import java.util.Date;
+
 import java.util.List;
 
 import javax.persistence.Cacheable;
@@ -19,6 +20,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import japhet.sales.catalogs.Roles;
+import japhet.sales.catalogs.Statuses;
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
 import japhet.sales.util.Encription;
@@ -87,9 +90,18 @@ public class User implements IEntity {
 							referencedColumnName = "SOCIAL_NETWORK_ID"))
 	private List<SocialNetwork> socialNetwork;
 	
+	@Column(name = "VALIDATED_ACCOUNT")
 	private Boolean validatedAccount;
 	
-	public User() {}
+	public User() {
+		this.validatedAccount = false;
+		//Add the default value for the role
+		this.role = new Role();
+		this.role.setRoleId(Roles.USER.getId());
+		//Add the default value for the status
+		this.status = new Status();
+		this.status.setStatusId(Statuses.DISABLED.getId());
+	}
 
 	public User(Long userId, String name, String lastName, 
 			String email, String username, String passw, Role role,

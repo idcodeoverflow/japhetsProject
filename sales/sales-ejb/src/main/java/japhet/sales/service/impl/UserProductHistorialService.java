@@ -2,7 +2,6 @@ package japhet.sales.service.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -12,6 +11,8 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.UserProductHistorialDAO;
 import japhet.sales.model.impl.UserProductHistorial;
 import japhet.sales.service.IUserProductHistorial;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -46,8 +47,7 @@ public class UserProductHistorialService implements IUserProductHistorial {
 		try {
 			userProductHistorialDAO.insert(userProductHistorial);
 		} catch (Exception e) {
-			logger.info("Error inserting the product historial related to the user.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error inserting the product historial related to the user.", e);
 		}
 	}
 
@@ -57,8 +57,7 @@ public class UserProductHistorialService implements IUserProductHistorial {
 		try {
 			userProductHistorialDAO.update(userProductHistorial);
 		} catch (Exception e) {
-			logger.info("Error updating the product historial related to the user.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error updating the product historial related to the user.", e);
 		}
 	}
 
@@ -68,8 +67,7 @@ public class UserProductHistorialService implements IUserProductHistorial {
 		try {
 			userProductHistorialDAO.delete(userProductHistorial);
 		} catch (Exception e) {
-			logger.info("Error deleting the product historial related to the user.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error deleting the product historial related to the user.", e);
 		}
 	}
 
@@ -79,8 +77,7 @@ public class UserProductHistorialService implements IUserProductHistorial {
 		try {
 			userProductHistorialDAO.select(historialId);
 		} catch (Exception e) {
-			logger.info("Error getting the product historial related to the user.\n" 
-					+ e.getStackTrace());
+			logger.fatal("Error getting the product historial related to the user.", e);
 		}
 	}
 	

@@ -29,7 +29,7 @@
 					<h:panelGroup layout="block" styleClass="panel-body">
 						<h:form id="uploadContentForm">
 							<!-- Upload files section -->
-							<p:fileUpload mode="advanced" dragDropSupport="true"
+							<p:fileUpload id="uploadImage" mode="advanced" dragDropSupport="true"
 								fileUploadListener="#{uploadContentMB.handleFileUpload}"
 								update="messages" sizeLimit="#{uploadContentMB.MAX_MEDIA_SIZE}"
 								required="true"
@@ -42,7 +42,6 @@
 								uploadLabel="#{msg['upload.tags.image.upload']}"
 								cancelLabel="#{msg['upload.tags.image.cancel']}"
 								allowTypes="/(\.|\/)(jpe?g|png)$/" />
-							<p:messages for="contentPaybackInput" />
 							<!-- Line to separate the file uploading section from the form -->
 						    <hr/>
 						    
@@ -55,7 +54,11 @@
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.title']}"
 									placeholder="#{msg['upload.content.contentTitle']}"
-									value="#{uploadContentMB.product.title}"/>
+									value="#{uploadContentMB.product.title}"
+									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- 1234567890'); deleteExtraBlankSpaces(this);"/>
+								<p:keyFilter regEx="/[0-9a-zA-Z\-\s]/i" 
+									for="contentTitleInput"
+									preventPaste="false" />
 						    	<p:messages for="contentTitleInput" />
 						    </h:panelGroup>
 						    
@@ -68,8 +71,12 @@
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.description']}"
 						    		placeholder="#{msg['upload.content.contentDescription']}"
-						    		value="#{uploadContentMB.product.description}"/>
+						    		value="#{uploadContentMB.product.description}"
+									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- 1234567890'); deleteExtraBlankSpaces(this);"/>
 						    	<p:messages for="contentDescriptionInput" />
+						    	<p:keyFilter regEx="/[$%0-9a-zA-Z\-\s]/i" 
+									for="contentDescriptionInput"
+									preventPaste="false" />
 						    </h:panelGroup>
 						    
 						    <!-- Category block -->
@@ -97,7 +104,8 @@
 						    		placeholder="#{msg['upload.content.url']}"
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.url']}"
-						    		value="#{uploadContentMB.product.url}"/>
+						    		value="#{uploadContentMB.product.url}"
+									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- .#=?\'/:1234567890'); deleteExtraBlankSpaces(this);"/>
 						    	<p:messages for="contentUrlInput" />
 						    </h:panelGroup>
 						    
@@ -114,10 +122,14 @@
 								  		required="true"
 										requiredMessage="#{msg['upload.messages.required.price']}"
 						    			placeholder="#{msg['upload.content.contentPrice']}"
-						    			value="#{uploadContentMB.product.price}"/>
+						    			value="#{uploadContentMB.product.price}"
+										onkeyup="deleteNonIntegerContent(this, '.');"/>
 								</h:panelGroup>
+								<p:keyFilter regEx="/[0-9\.]/i" 
+									for="contentPriceInput"
+									preventPaste="false" />
 								<p:messages for="contentPriceInput" />
-						    </h:panelGroup>
+							</h:panelGroup>
 						    
 						    <!-- Payback block -->
 						    <h:panelGroup layout="block" styleClass="form-group">
@@ -129,11 +141,15 @@
 						    	  		required="true"
 										requiredMessage="#{msg['upload.messages.required.payback']}"
 						    	  		value="#{uploadContentMB.product.paybackPercent}" 
-						    			placeholder="#{msg['upload.content.contentPayback']}"/>
+						    			placeholder="#{msg['upload.content.contentPayback']}"
+										onkeyup="deleteNonIntegerContent(this, '.');"/>
 						    		<h:panelGroup styleClass="input-group-addon">
 								  		%
 								  	</h:panelGroup>
 								</h:panelGroup>
+								<p:keyFilter regEx="/[0-9\.]/i" 
+									for="contentPaybackInput"
+									preventPaste="false" />
 							  	<p:messages for="contentPaybackInput" />
 						    </h:panelGroup>
 						    
@@ -149,8 +165,10 @@
 										<p:calendar id="availableDate" pattern="MM/dd/yyyy HH:mm:ss"
 											styleClass="form-control" 
 											required="true"
+											mindate="#{uploadContentMB.currentDate}"
 											requiredMessage="#{msg['upload.messages.required.startDate']}"
-											value="#{uploadContentMB.product.startDate}"/>
+											value="#{uploadContentMB.product.startDate}"
+											onkeyup="deleteNonIntegerContent(this, ' /:');"/>
 									</h:panelGroup>
 									<p:messages for="availableDate" />
 								</h:panelGroup>
@@ -163,8 +181,10 @@
 										<p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss"
 											styleClass="form-control"  
 											required="true"
+											mindate="#{uploadContentMB.currentDate}"
 											requiredMessage="#{msg['upload.messages.required.endDate']}"
-											value="#{uploadContentMB.product.endDate}" />
+											value="#{uploadContentMB.product.endDate}"
+											onkeyup="deleteNonIntegerContent(this, ' /:');" />
 									</h:panelGroup>
 									<p:messages for="endDate" />
 								</h:panelGroup>

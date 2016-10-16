@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import japhet.sales.except.InvalidDateRangeException;
 import japhet.sales.model.impl.Product;
 
 @Local
@@ -18,6 +19,6 @@ public interface IProductService extends Serializable {
 	
 	public boolean deleteProduct(Product product);
 	
-	public boolean insertProduct(Product product);
+	public boolean insertProduct(Product product) throws InvalidDateRangeException;
 	
 }

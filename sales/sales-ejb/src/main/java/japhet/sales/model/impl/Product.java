@@ -8,7 +8,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
@@ -30,6 +29,8 @@ import javax.persistence.TemporalType;
 
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
+
+import org.apache.log4j.Logger;
 
 @Cacheable(value = true)
 @Entity
@@ -95,7 +96,10 @@ public class Product implements IEntity {
 	@Column(name = "URL")
 	private String url;
 	
-	public Product() {}
+	public Product() {
+		this.redirectNumber = 0;
+		this.uploadDate = new Date();
+	}
 
 	public Product(Long productId, String title, String description, 
 			Double price, Double paybackPercent, byte[] image, 

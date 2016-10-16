@@ -1,7 +1,6 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -11,6 +10,8 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.CityDAO;
 import japhet.sales.model.impl.City;
 import japhet.sales.service.ICityService;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -40,8 +41,7 @@ public class CityService implements ICityService {
 		try {
 			city = cityDAO.select(cityId);
 		} catch (Exception e) {
-			logger.severe("Error while obtaining city: " + cityId 
-					+ "\n" + e.getStackTrace());
+			logger.fatal("Error while obtaining city: " + cityId, e);
 		}
 		return city;
 	}
