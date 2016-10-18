@@ -18,6 +18,11 @@ public abstract class GenericMB implements Serializable, Navigator {
 		return FacesContext.getCurrentInstance();
 	}
 	
+	protected String getRequestParam(String name) {
+		return getCurrentFacesInstance().getExternalContext().
+				getRequestParameterMap().get(name);
+	}
+	
 	protected FacesMessage createInfoMessage(String message, String detail){
 		return new FacesMessage(FacesMessage.SEVERITY_INFO, message, detail);
 	}

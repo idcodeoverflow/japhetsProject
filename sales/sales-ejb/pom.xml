@@ -81,7 +81,12 @@
             <scope>provided</scope>
         </dependency>
 
-
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>${version.primefaces}</version>
+		</dependency>
+		
         <!-- Test scope dependencies -->
         <dependency>
             <groupId>junit</groupId>

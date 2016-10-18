@@ -170,6 +170,11 @@ footer {
 	line-height: 2px !important;
 }
 
+.thumbnail-description {
+	font-style: italic !important;
+	font-weight: bold !important;
+}
+
 /* Button to go back to top */
 #top-link-container {
 	text-align: center !important;

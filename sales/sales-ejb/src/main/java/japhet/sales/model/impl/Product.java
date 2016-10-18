@@ -27,10 +27,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.log4j.Logger;
+
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
-
-import org.apache.log4j.Logger;
 
 @Cacheable(value = true)
 @Entity

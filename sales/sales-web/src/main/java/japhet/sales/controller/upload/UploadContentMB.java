@@ -73,6 +73,8 @@ public class UploadContentMB extends GenericMB {
 		product.setCompany(company);
 		product.setImage(imageBytes);
 		try {
+			//Divide the entry to generate the percentage
+			product.setPaybackPercent((double)(product.getPaybackPercent() / 100.0));
 			//Persist product
 			if(productService.insertProduct(product)){
 				showInfoMessage("Guardado satisfactoriamente", "");

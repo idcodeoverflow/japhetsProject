@@ -132,46 +132,35 @@
 		    	</h2>
 		  	</h:panelGroup>
 		  	<h:panelGroup layout="block" styleClass="panel-body" id="home-scroller">
-		  		<p:dataScroller value="#{homeOffersMB.imagesPath}" var="offer" 
+		  		<p:dataScroller value="#{homeMB.availableProducts}" var="product" 
 		  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
 			    	<h:panelGroup layout="block" styleClass="row">
 						<h:panelGroup styleClass="col-md-3 col-xs-6">
 							<h:panelGroup layout="block" styleClass="thumbnail">
-								<h:graphicImage value="#{offer}" styleClass="offer-img"/>
+								<p:graphicImage value="#{homeMB.streamedImage}" 
+									styleClass="offer-img">
+									<f:param name="#{homeMB.PRODUCT_IMAGE_REQ_PARAM}" 
+										value="#{product.productId}" />
+								</p:graphicImage>
 								<h:panelGroup layout="block" styleClass="caption">
-									<h4 class="thumbnail-title"><i>Example Title</i></h4>
-									<p>Price example and description</p>
-									<p class="thumbnail-price">$0.00</p>
-								</h:panelGroup>
-							</h:panelGroup>
-						</h:panelGroup>
-						<h:panelGroup styleClass="col-md-3 col-xs-6">
-							<h:panelGroup layout="block" styleClass="thumbnail">
-								<h:graphicImage value="#{offer}" styleClass="offer-img"/>
-								<h:panelGroup layout="block" styleClass="caption">
-									<h4 class="thumbnail-title"><i>Example Title</i></h4>
-									<p>Price example and description</p>
-									<p class="thumbnail-price">$0.00</p>
-								</h:panelGroup>
-							</h:panelGroup>
-						</h:panelGroup>
-						<h:panelGroup styleClass="col-md-3 col-xs-6">
-							<h:panelGroup layout="block" styleClass="thumbnail">
-								<h:graphicImage value="#{offer}" styleClass="offer-img"/>
-								<h:panelGroup layout="block" styleClass="caption">
-									<h4 class="thumbnail-title"><i>Example Title</i></h4>
-									<p>Price example and description</p>
-									<p class="thumbnail-price">$0.00</p>
-								</h:panelGroup>
-							</h:panelGroup>
-						</h:panelGroup>
-						<h:panelGroup styleClass="col-md-3 col-xs-6">
-							<h:panelGroup layout="block" styleClass="thumbnail">
-								<h:graphicImage value="#{offer}" styleClass="offer-img"/>
-								<h:panelGroup layout="block" styleClass="caption">
-									<h4 class="thumbnail-title"><i>Example Title</i></h4>
-									<p>Price example and description</p>
-									<p class="thumbnail-price">$0.00</p>
+									<h4 class="thumbnail-title">
+										<i>
+											<h:outputText value="#{product.title}" />
+										</i>
+									</h4>
+									<p><h:outputText value="#{product.description}" /></p>
+									<p class="thumbnail-description">
+										#{msg['home.product.price']}
+										<h:outputText value="#{product.price}" >
+											<f:convertNumber type="currency"/>
+										</h:outputText>
+									</p>
+									<p class="thumbnail-price">
+										#{msg['home.product.payback']}
+										<h:outputText value="#{product.paybackPercent}" >
+											<f:convertNumber type="percent"/>
+										</h:outputText>
+									</p>
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>

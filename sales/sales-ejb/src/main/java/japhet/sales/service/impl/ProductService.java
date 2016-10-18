@@ -7,12 +7,12 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import japhet.sales.data.impl.ProductDAO;
 import japhet.sales.except.InvalidDateRangeException;
 import japhet.sales.model.impl.Product;
 import japhet.sales.service.IProductService;
-
-import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -81,5 +81,4 @@ public class ProductService implements IProductService {
 		}
 		return false;
 	}
-
 }
