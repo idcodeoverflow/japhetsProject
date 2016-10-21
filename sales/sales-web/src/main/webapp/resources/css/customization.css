@@ -115,7 +115,7 @@
     -webkit-transform:scale(1.08) !important; /* Safari and Chrome */
     -o-transform:scale(1.08) !important; /* Opera */
     z-index: 1000 !important;
-    position: absolute !important;
+    position: relative !important;
 }
 
 /* Home carousel styles */
@@ -226,7 +226,7 @@ footer {
 /* Overwrite iframe style */
 .embed-responsive {
 	margin: auto !important;
-	max-width: 854px !important;
+	width: 100% !important;
 	padding-bottom: 40% !important;
 }
 
