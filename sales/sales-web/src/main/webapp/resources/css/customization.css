@@ -1,3 +1,8 @@
+/* General styles */
+body {
+	background-color: #ECEFE9 !important;
+}
+
 /* Modify the style for the main menu */
 .navbar {
 	font-size: 16px !important;
@@ -13,7 +18,7 @@
 /* Main menu style */
 .navbar, .navbar-right {
 	min-height: 65px !important;
-	background-color: #FF9923 !important;
+	background-color: #97E063 !important;
 }
 
 /* Pills in the navigation bar styles */
@@ -93,7 +98,7 @@
 
 .searchBoxButton {
 	height: 50px !important;
-	background-color: #FF9923 !important;
+	background-color: #97E063 !important;
 	color: white !important;
 	padding-top: 15px !important;
 }
@@ -125,12 +130,12 @@
 
 /* Styles for the subtitles */
 .label-default {
-    background-color: #FF9923 !important;
+    background-color: #97E063 !important;
 }
 
 /* Footer style */
 footer {
-    background-color: #FF9923 !important;
+    background-color: #97E063 !important;
     text-align: center !important;
 	padding-top: 15px !important;
 	padding-bottom: 15px !important;
@@ -145,7 +150,7 @@ footer {
 
 /* Styles for heading panels */
 .panel-default>.panel-heading{
-	background-color: #FF9923 !important;
+	background-color: #97E063 !important;
 	color: white !important;
 }
 
@@ -163,7 +168,7 @@ footer {
 }
 
 .thumbnail-price {
-	color: #FF9923 !important;
+	color: #97E063 !important;
 	font-style: italic !important;
 	font-weight: bold !important;
 	text-decoration: underline !important;
@@ -188,7 +193,7 @@ footer {
 }
 
 .well {	
-    color: #FF9923 !important;
+    color: #97E063 !important;
     background-color: #FFCDA4 !important;
     font-weight: bold !important;
 }
@@ -209,7 +214,7 @@ footer {
 
 /* Input addon styles */
 .input-group-addon {
-	background-color: #FF9923 !important;
+	background-color: #97E063 !important;
 	color: white !important;
 }
 
@@ -233,7 +238,12 @@ footer {
 /* Container for the embeded video */
 .video-container {
 	text-align: center !important;
-	margin: 10px 5px !important;
+	margin: 10px 0px !important;
+	max-height: 400px !important;
+}
+
+.video-container iframe {
+	max-height: 400px !important;
 }
 
 /* Container for the growl messages */

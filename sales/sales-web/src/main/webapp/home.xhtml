@@ -8,8 +8,8 @@
 	xmlns:p="http://primefaces.org/ui"
 	template="/WEB-INF/templates/template.xhtml">
 	
-	<ui:define name="content">
-		<!-- Embedded Video -->
+	<!-- Embedded Video -->
+	<ui:define name="welcome-video">
 		<h:panelGroup layout="block" styleClass="row video-container">
 			<h:panelGroup layout="block" 
 				styleClass="embed-responsive embed-responsive-16by9">
@@ -18,6 +18,9 @@
 					src="#{urlMapperMB.homeVideoURL}" />
 			</h:panelGroup>
 		</h:panelGroup>
+	</ui:define>
+	
+	<ui:define name="content">
 		<!-- Carousel -->
 		<h:panelGroup layout="block" styleClass="row">
 			<h:panelGroup styleClass="col-md-6">
@@ -123,7 +126,6 @@
 			</h:panelGroup>
 		</h:panelGroup>
 		<!-- Offers -->
-		<hr/>
 		<h:panelGroup layout="block" styleClass="panel panel-default">
 			<h:panelGroup layout="block" styleClass="panel-heading">
 		    	<h2 class="panel-title">

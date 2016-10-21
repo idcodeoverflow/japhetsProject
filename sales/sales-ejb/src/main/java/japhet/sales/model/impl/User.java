@@ -49,6 +49,9 @@ public class User implements IEntity {
 	@Column(name = "LAST_NAME")
 	private String lastName;
 	
+	@Column(name = "CURP")
+	private String curp;
+	
 	@Column(name = "EMAIL")
 	private String email;
 	
@@ -103,7 +106,7 @@ public class User implements IEntity {
 		this.status.setStatusId(Statuses.DISABLED.getId());
 	}
 
-	public User(Long userId, String name, String lastName, 
+	public User(Long userId, String name, String lastName, String curp,
 			String email, String username, String passw, Role role,
 			Short age, Status status, Date signUpDate, Date lastModified,
 			City city, List<SocialNetwork> socialNetwork, 
@@ -112,6 +115,7 @@ public class User implements IEntity {
 		this.userId = userId;
 		this.name = name;
 		this.lastName = lastName;
+		this.curp = curp;
 		this.email = email;
 		this.username = username;
 		this.passw = passw;
@@ -147,6 +151,14 @@ public class User implements IEntity {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getCurp() {
+		return curp;
+	}
+
+	public void setCurp(String curp) {
+		this.curp = curp;
 	}
 
 	public String getEmail() {
