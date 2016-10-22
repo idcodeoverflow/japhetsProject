@@ -25,6 +25,6 @@ public interface IProductService extends Serializable {
 			throws BusinessServiceException;
 	
 	public boolean insertProduct(Product product) 
-			throws InvalidDateRangeException;
+			throws InvalidDateRangeException, BusinessServiceException;
 	
 }

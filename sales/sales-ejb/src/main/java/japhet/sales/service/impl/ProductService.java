@@ -33,20 +33,31 @@ public class ProductService implements IProductService {
 	@Override
 	public List<Product> getAllAvailableProducts()   
 			throws BusinessServiceException {
+		List<Product> products = null;
 		logger.info("Obtaining all available products...");
-		return productDAO.getAvailableProducts();
+		try {
+			products = productDAO.getAvailableProducts();
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting all available products.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return products;
 	}
 
 	public Product getProduct(Long productId)   
 			throws BusinessServiceException {
 		logger.info("Obtaining product " + productId + " from the DB...");
+		Product product = null;
 		try {
-			return productDAO.select(productId);
+			product = productDAO.select(productId);
 		} catch (Exception e) {
-			logger.fatal("Error obtaining product " + productId 
-					+ " from the DB.", e);
+			final String errorMsg = "Error obtaining product " + productId 
+					+ " from the DB: " + stringifyProduct(product);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return null;
+		return product;
 	}
 	
 	public boolean updateProduct(Product product)   
@@ -56,9 +67,11 @@ public class ProductService implements IProductService {
 			productDAO.update(product);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error updating product into the DB.", e);
+			final String errorMsg = "Error updating product into the DB: " 
+					+ stringifyProduct(product);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
 	public boolean deleteProduct(Product product)   
@@ -68,13 +81,15 @@ public class ProductService implements IProductService {
 			productDAO.delete(product);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error deleting product into the DB.", e);
+			final String errorMsg = "Error deleting product into the DB: " 
+					+ stringifyProduct(product);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
 	public boolean insertProduct(Product product) 
-			throws InvalidDateRangeException {
+			throws InvalidDateRangeException, BusinessServiceException {
 		logger.info("Inserting product into the DB...");
 		try {
 			if(product.getStartDate().after(product.getEndDate())) {
@@ -83,8 +98,15 @@ public class ProductService implements IProductService {
 			productDAO.insert(product);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error inserting product into the DB.", e);
+			final String errorMsg = "Error inserting product into the DB: " 
+					+ stringifyProduct(product);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
+	}
+	
+	private Long stringifyProduct(Product product) {
+		return ((product != null && product.getProductId() != null) 
+				? product.getProductId() : null);
 	}
 }

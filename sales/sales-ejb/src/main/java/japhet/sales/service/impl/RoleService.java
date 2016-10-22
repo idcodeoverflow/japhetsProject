@@ -45,15 +45,31 @@ public class RoleService implements IRoleService {
 	@Override
 	public List<Role> getAllAvailableRoles()   
 			throws BusinessServiceException {
+		List<Role> roles = null;
 		logger.info("Obtaining all available roles...");
-		return roleDAO.getAllAvailableRoles();
+		try {
+			roles = roleDAO.getAllAvailableRoles();
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting all available roles.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return roles;
 	}
 
 	@Override
 	public List<Role> getAllRoles()   
 			throws BusinessServiceException {
 		logger.info("Obtaining all roles...");
-		return roleDAO.getAllRoles();
+		List<Role> roles = null;
+		try {
+			roles = roleDAO.getAllRoles();
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting all roles.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return roles;
 	}
 	
 	public Role getRole(Short roleId)   
@@ -62,9 +78,10 @@ public class RoleService implements IRoleService {
 		try {
 			return roleDAO.select(roleId);
 		} catch (Exception e) {
-			logger.fatal("Error obtaining role " + roleId + " from the DB.", e);
+			final String errorMsg = "Error obtaining role " + roleId + " from the DB.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return null;
 	}
 	
 	public boolean updateRole(Role role)   
@@ -74,9 +91,11 @@ public class RoleService implements IRoleService {
 			roleDAO.update(role);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error updating role into the DB.", e);
+			final String errorMsg = "Error updating role into the DB: " 
+					+ stringifyRole(role);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
 	public boolean deleteRole(Role role)   
@@ -86,9 +105,11 @@ public class RoleService implements IRoleService {
 			roleDAO.delete(role);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error deleting role into the DB.", e);
+			final String errorMsg = "Error deleting role into the DB: " 
+					+ stringifyRole(role);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
 	public boolean insertRole(Role role)   
@@ -98,9 +119,11 @@ public class RoleService implements IRoleService {
 			roleDAO.insert(role);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error inserting role into the DB.", e);
+			final String errorMsg = "Error inserting role into the DB: " 
+					+ stringifyRole(role);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 
 	public List<Role> getAvailableRoles()   
@@ -111,5 +134,10 @@ public class RoleService implements IRoleService {
 	public void setAvailableRoles(List<Role> availableRoles)   
 			throws BusinessServiceException {
 		this.availableRoles = availableRoles;
+	}
+	
+	private Short stringifyRole(Role role) {
+		return ((role != null && role.getRoleId() != null) 
+				? role.getRoleId() : null);
 	}
 }
