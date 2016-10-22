@@ -6,18 +6,24 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.UserSearch;
 
 @Local
 public interface IUserSearch extends Serializable {
 
-	public void insertUserSearch(UserSearch userSearch);
+	public void insertUserSearch(UserSearch userSearch) 
+			throws BusinessServiceException;
 	
-	public void updateUserSearch(UserSearch userSearch);
+	public void updateUserSearch(UserSearch userSearch) 
+			throws BusinessServiceException;
 	
-	public void deleteUserSearch(UserSearch userSearch);
+	public void deleteUserSearch(UserSearch userSearch) 
+			throws BusinessServiceException;
 	
-	public UserSearch selectUserSearch(Long userSearchId);
+	public UserSearch selectUserSearch(Long userSearchId) 
+			throws BusinessServiceException;
 	
-	public List<UserSearch> getSearchByUser(Map<String, Object> params);
+	public List<UserSearch> getSearchByUser(Map<String, Object> params) 
+			throws BusinessServiceException;
 }

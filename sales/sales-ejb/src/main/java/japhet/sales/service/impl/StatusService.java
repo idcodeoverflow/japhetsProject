@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.StatusDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.Status;
 import japhet.sales.service.IStatusService;
 
@@ -29,18 +30,21 @@ public class StatusService implements IStatusService {
 	private StatusDAO statusDAO;
 	
 	@Override
-	public List<Status> getAllAvailableStatus() {
+	public List<Status> getAllAvailableStatus()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all available status...");
 		return statusDAO.getAllAvailableStatus();
 	}
 
 	@Override
-	public List<Status> getAllStatus() {
+	public List<Status> getAllStatus()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all status...");
 		return statusDAO.getAllStatus();
 	}
 	
-	public Status getStatus(Short statusId) {
+	public Status getStatus(Short statusId)   
+			throws BusinessServiceException {
 		logger.info("Obtaining status " + statusId + " from the DB...");
 		try {
 			return statusDAO.select(statusId);
@@ -51,7 +55,8 @@ public class StatusService implements IStatusService {
 		return null;
 	}
 	
-	public boolean updateStatus(Status status) {
+	public boolean updateStatus(Status status)   
+			throws BusinessServiceException {
 		logger.info("Updating status into the DB...");
 		try {
 			statusDAO.update(status);
@@ -62,7 +67,8 @@ public class StatusService implements IStatusService {
 		return false;
 	}
 	
-	public boolean deleteStatus(Status status){
+	public boolean deleteStatus(Status status)   
+			throws BusinessServiceException {
 		logger.info("Deleting status into the DB...");
 		try {
 			statusDAO.delete(status);
@@ -73,7 +79,8 @@ public class StatusService implements IStatusService {
 		return false;
 	}
 	
-	public boolean insertStatus(Status status) {
+	public boolean insertStatus(Status status)   
+			throws BusinessServiceException {
 		logger.info("Inserting status into the DB...");
 		try {
 			statusDAO.insert(status);

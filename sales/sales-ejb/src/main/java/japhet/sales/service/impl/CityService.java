@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.CityDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.City;
 import japhet.sales.service.ICityService;
 
@@ -29,13 +30,15 @@ public class CityService implements ICityService {
 	private static final long serialVersionUID = -4659743105602399164L;
 
 	@Override
-	public List<City> getAllCities() {
+	public List<City> getAllCities()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all cities...");
 		return cityDAO.getAllCities();
 	}
 
 	@Override
-	public City getCity(Short cityId) {
+	public City getCity(Short cityId)   
+			throws BusinessServiceException {
 		logger.info("Obtaining city: " + cityId);
 		City city = null;
 		try {

@@ -6,21 +6,28 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.BuyProof;
 
 @Local
 public interface IBuyProofService extends Serializable {
 
-	public BuyProof selectBuyProof(Long buyProofId);
+	public BuyProof selectBuyProof(Long buyProofId) 
+			throws BusinessServiceException;
 	
-	public List<BuyProof> getBuyProofsByUser(Map<String, Object> params);
+	public List<BuyProof> getBuyProofsByUser(Map<String, Object> params) 
+			throws BusinessServiceException;
 	
-	public List<BuyProof> getBuyProofsByProduct(Map<String, Object> params);
+	public List<BuyProof> getBuyProofsByProduct(Map<String, Object> params) 
+			throws BusinessServiceException;
 	
-	public void updateBuyProof(BuyProof buyProof);
+	public void updateBuyProof(BuyProof buyProof) 
+			throws BusinessServiceException;
 	
-	public void deleteBuyProof(BuyProof buyProof);
+	public void deleteBuyProof(BuyProof buyProof) 
+			throws BusinessServiceException;
 	
-	public void insertBuyProof(BuyProof buyProof);
+	public void insertBuyProof(BuyProof buyProof) 
+			throws BusinessServiceException;
 	
 }

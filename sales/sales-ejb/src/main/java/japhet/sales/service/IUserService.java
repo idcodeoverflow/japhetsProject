@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.ejb.Local;
 
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidPasswordException;
 import japhet.sales.model.impl.User;
 
@@ -12,16 +13,22 @@ public interface IUserService extends Serializable {
 
 	public short MINIMUM_PASSWORD_LENGTH = 8;
 	
-	public boolean doesUserExists(String username, String passw);
+	public boolean doesUserExists(String username, String passw) 
+			throws BusinessServiceException;
 	
-	public User getUser(Long userId);
+	public User getUser(Long userId) 
+			throws BusinessServiceException;
 	
-	public boolean updateUser(User user);
+	public boolean updateUser(User user) 
+			throws BusinessServiceException;
 	
-	public boolean deleteUser(User user);
+	public boolean deleteUser(User user) 
+			throws BusinessServiceException;
 	
-	public boolean insertUser(User user);
+	public boolean insertUser(User user) 
+			throws BusinessServiceException;
 	
-	public void validatePasswords(String pass1, String pass2) throws InvalidPasswordException;
+	public void validatePasswords(String pass1, String pass2) 
+			throws InvalidPasswordException;
 	
 }

@@ -25,6 +25,7 @@
 						<h:form id="signUpForm">
 							<!-- Application messages -->
 							<p:messages id="messages" globalOnly="true"/>
+							
 							<!-- First Name block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="firstNameInput">
@@ -42,6 +43,7 @@
 									preventPaste="false" />
 								<p:messages for="firstNameInput" />
 							</h:panelGroup>
+							
 							<!-- Last Name block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="lastNameInput">
@@ -59,7 +61,26 @@
 									for="lastNameInput"
 									preventPaste="false" />
 							</h:panelGroup>
-							<!-- Email block -->
+							
+							<!-- CURP block -->
+							<h:panelGroup layout="block" styleClass="form-group">
+								<h:outputLabel for="curpInput">
+									#{msg['registration.form.curp']}
+								</h:outputLabel>
+								<h:inputText id="curpInput" styleClass="form-control"  
+									value="#{registrationMB.user.curp}"
+									maxlength="18" required="true" minlength="18"
+									requiredMessage="#{msg['registration.messages.requiredCurp']}"
+									pt:placeholder="#{msg['registration.form.curp']}"
+									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '0123456789');">
+								</h:inputText>
+								<p:messages for="curpInput" />
+								<p:keyFilter regEx="/[a-zA-Z0-9]/i" 
+									for="curpInput"
+									preventPaste="false" />
+							</h:panelGroup>
+							
+							<!-- Age block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="ageInput">
 									#{msg['registration.form.age']}
@@ -76,6 +97,7 @@
 									preventPaste="false" />
 								<p:messages for="ageInput" />
 							</h:panelGroup>
+							
 							<!-- Email block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="emailInput">
@@ -93,6 +115,7 @@
 									preventPaste="false" />
 								<p:messages for="emailInput" />
 							</h:panelGroup>
+							
 							<!-- Password block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="passwordInput">
@@ -108,6 +131,7 @@
 								</h:inputSecret>
 								<p:messages for="passwordInput" />
 							</h:panelGroup>
+							
 							<!-- Confirm password block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="confirmPasswordInput">
@@ -123,6 +147,7 @@
 								</h:inputSecret>
 								<p:messages for="confirmPasswordInput" />
 							</h:panelGroup>
+							
 							<!-- Role block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="rolesList">
@@ -137,6 +162,7 @@
 								</h:selectOneMenu>
 								<p:messages for="rolesList" />
 							</h:panelGroup>
+							
 							<!-- Country block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="stateList">
@@ -153,6 +179,7 @@
 								</h:selectOneMenu>
 								<p:messages for="stateList" />
 							</h:panelGroup>
+							
 							<!-- State block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="stateCity">
@@ -175,6 +202,7 @@
 									</h:outputLink>
 								</p>
 							</h:panelGroup>
+							
 							<!-- Sign up button block -->
 							<h:panelGroup layout="block" styleClass="row">
 								<h:panelGroup layout="block" styleClass="col-md-12" >

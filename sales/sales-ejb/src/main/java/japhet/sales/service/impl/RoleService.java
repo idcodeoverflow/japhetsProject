@@ -9,6 +9,7 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.RoleDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.Role;
 import japhet.sales.service.IRoleService;
 
@@ -33,22 +34,30 @@ public class RoleService implements IRoleService {
 	
 	@PostConstruct
 	private void init(){
-		availableRoles = getAllAvailableRoles();
+		try {
+			logger.info("Initializing Role Service...");
+			availableRoles = getAllAvailableRoles();
+		} catch (BusinessServiceException e) {
+			logger.fatal("Error initializing Role Service.", e);
+		}
 	}
 	
 	@Override
-	public List<Role> getAllAvailableRoles() {
+	public List<Role> getAllAvailableRoles()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all available roles...");
 		return roleDAO.getAllAvailableRoles();
 	}
 
 	@Override
-	public List<Role> getAllRoles() {
+	public List<Role> getAllRoles()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all roles...");
 		return roleDAO.getAllRoles();
 	}
 	
-	public Role getRole(Short roleId) {
+	public Role getRole(Short roleId)   
+			throws BusinessServiceException {
 		logger.info("Obtaining role " + roleId + " from the DB...");
 		try {
 			return roleDAO.select(roleId);
@@ -58,7 +67,8 @@ public class RoleService implements IRoleService {
 		return null;
 	}
 	
-	public boolean updateRole(Role role) {
+	public boolean updateRole(Role role)   
+			throws BusinessServiceException {
 		logger.info("Updating role into the DB...");
 		try {
 			roleDAO.update(role);
@@ -69,7 +79,8 @@ public class RoleService implements IRoleService {
 		return false;
 	}
 	
-	public boolean deleteRole(Role role) {
+	public boolean deleteRole(Role role)   
+			throws BusinessServiceException {
 		logger.info("Deleting role into the DB...");
 		try {
 			roleDAO.delete(role);
@@ -80,7 +91,8 @@ public class RoleService implements IRoleService {
 		return false;
 	}
 	
-	public boolean insertRole(Role role) {
+	public boolean insertRole(Role role)   
+			throws BusinessServiceException {
 		logger.info("Inserting role into the DB...");
 		try {
 			roleDAO.insert(role);
@@ -91,11 +103,13 @@ public class RoleService implements IRoleService {
 		return false;
 	}
 
-	public List<Role> getAvailableRoles() {
+	public List<Role> getAvailableRoles()   
+			throws BusinessServiceException {
 		return availableRoles;
 	}
 
-	public void setAvailableRoles(List<Role> availableRoles) {
+	public void setAvailableRoles(List<Role> availableRoles)   
+			throws BusinessServiceException {
 		this.availableRoles = availableRoles;
 	}
 }

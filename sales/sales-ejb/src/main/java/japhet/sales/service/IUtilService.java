@@ -5,10 +5,13 @@ import java.io.Serializable;
 
 import javax.ejb.Local;
 
+import japhet.sales.except.BusinessServiceException;
+
 @Local
 public interface IUtilService extends Serializable {
 	
-	byte[] getBiteArrayFromStream(InputStream is) throws Exception;
+	byte[] getBiteArrayFromStream(InputStream is) 
+			throws BusinessServiceException;
 	
 	
 }

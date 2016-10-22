@@ -6,6 +6,7 @@ import java.io.InputStream;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.service.IUtilService;
 
 @LocalBean
@@ -20,12 +21,18 @@ public class UtilService implements IUtilService {
 	private final int END_OF_STREAM = -1;
 
 	@Override
-	public byte[] getBiteArrayFromStream(InputStream is) throws Exception {
+	public byte[] getBiteArrayFromStream(InputStream is) 
+			throws BusinessServiceException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		int reads = is.read();
-		while(reads != END_OF_STREAM){
-			baos.write(reads);
-			reads = is.read();
+		try {
+			int reads = is.read();
+			while(reads != END_OF_STREAM){
+				baos.write(reads);
+				reads = is.read();
+			}
+		} catch (Exception e) {
+			throw new BusinessServiceException(
+					"Error converting the bytes array into a stream.", e);
 		}
 		return baos.toByteArray();
 	}

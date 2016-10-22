@@ -9,6 +9,16 @@ body {
 	z-index: 1001 !important;
 }
 
+/* Footer rows */
+footer .row {
+	width: 100% !important;
+}
+
+/* Footer links */
+footer a {
+	color: #000000 !important;
+}
+
 /* Trademark icon style */
 #trademark-icon {
 	weight: 100% !important;
@@ -88,8 +98,12 @@ body {
 
 /* Styles for input groups */
 .btn-default {
-	background-color: #FFB21F !important;
+	background-color: #05B105 !important;
 	color: white !important;
+}
+
+.btn-default:hover {
+	background-color: #1B851B !important;
 }
 
 .btn {
@@ -193,7 +207,7 @@ footer {
 }
 
 .well {	
-    color: #97E063 !important;
+    color: #ffffff !important;
     background-color: #FFCDA4 !important;
     font-weight: bold !important;
 }

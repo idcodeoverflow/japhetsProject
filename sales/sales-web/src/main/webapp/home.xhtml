@@ -141,6 +141,7 @@
 							<h:panelGroup layout="block" styleClass="thumbnail">
 								<p:graphicImage value="#{homeImagesMB.streamedImage}" 
 									styleClass="offer-img">
+									<h:outputLink value="#{product.url}" />
 									<f:param name="#{homeImagesMB.PRODUCT_IMAGE_REQ_PARAM}" 
 										value="#{product.productId}" />
 								</p:graphicImage>

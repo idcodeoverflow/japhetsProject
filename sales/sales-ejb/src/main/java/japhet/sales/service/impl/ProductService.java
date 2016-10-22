@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.apache.log4j.Logger;
 
 import japhet.sales.data.impl.ProductDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidDateRangeException;
 import japhet.sales.model.impl.Product;
 import japhet.sales.service.IProductService;
@@ -30,12 +31,14 @@ public class ProductService implements IProductService {
 	private ProductDAO productDAO;
 	
 	@Override
-	public List<Product> getAllAvailableProducts() {
+	public List<Product> getAllAvailableProducts()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all available products...");
 		return productDAO.getAvailableProducts();
 	}
 
-	public Product getProduct(Long productId) {
+	public Product getProduct(Long productId)   
+			throws BusinessServiceException {
 		logger.info("Obtaining product " + productId + " from the DB...");
 		try {
 			return productDAO.select(productId);
@@ -46,7 +49,8 @@ public class ProductService implements IProductService {
 		return null;
 	}
 	
-	public boolean updateProduct(Product product) {
+	public boolean updateProduct(Product product)   
+			throws BusinessServiceException {
 		logger.info("Updating product into the DB...");
 		try {
 			productDAO.update(product);
@@ -57,7 +61,8 @@ public class ProductService implements IProductService {
 		return false;
 	}
 	
-	public boolean deleteProduct(Product product) {
+	public boolean deleteProduct(Product product)   
+			throws BusinessServiceException {
 		logger.info("Deleting product into the DB...");
 		try {
 			productDAO.delete(product);
@@ -68,7 +73,8 @@ public class ProductService implements IProductService {
 		return false;
 	}
 	
-	public boolean insertProduct(Product product) throws InvalidDateRangeException {
+	public boolean insertProduct(Product product) 
+			throws InvalidDateRangeException {
 		logger.info("Inserting product into the DB...");
 		try {
 			if(product.getStartDate().after(product.getEndDate())) {

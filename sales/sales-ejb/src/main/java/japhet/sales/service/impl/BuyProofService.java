@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.BuyProofDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.BuyProof;
 import japhet.sales.service.IBuyProofService;
 
@@ -30,56 +31,86 @@ public class BuyProofService implements IBuyProofService {
 	private BuyProofDAO buyProofDAO;
 	
 	@Override
-	public BuyProof selectBuyProof(Long buyProofId) {
+	public BuyProof selectBuyProof(Long buyProofId)  
+			throws BusinessServiceException {
 		logger.info("Getting buy proof: " + buyProofId + "...");
 		BuyProof buyProof = null;
 		try {
 			buyProof = buyProofDAO.select(buyProofId);
 		} catch (Exception e) {
-			logger.fatal("Error while trying to get the buy proof.\n", e);
+			final String errorMsg = "Error while trying to get the buy proof.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 		return buyProof;
 	}
 
 	@Override
-	public List<BuyProof> getBuyProofsByUser(Map<String, Object> params) {
+	public List<BuyProof> getBuyProofsByUser(Map<String, Object> params)   
+			throws BusinessServiceException {
 		logger.info("Getting buy proofs by user...");
-		return buyProofDAO.getBuyProofsByUser(params);
+		List<BuyProof> buyProofs = null;
+		try {
+			buyProofs = buyProofDAO.getBuyProofsByUser(params);
+		} catch (Exception e) {
+			final String errorMsg = "Error while trying to get the buy proofs by user.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return buyProofs;
 	}
 
 	@Override
-	public List<BuyProof> getBuyProofsByProduct(Map<String, Object> params) {
+	public List<BuyProof> getBuyProofsByProduct(Map<String, Object> params)   
+			throws BusinessServiceException {
 		logger.info("Getting buy proofs by product...");
-		return buyProofDAO.getBuyProofsByProduct(params);
+		List<BuyProof> buyProofs = null;
+		try {
+			buyProofs = buyProofDAO.getBuyProofsByProduct(params);
+		} catch (Exception e) {
+			final String errorMsg = "Error while trying to get the buy proofs by product.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return buyProofs;
 	}
 
 	@Override
-	public void updateBuyProof(BuyProof buyProof) {
+	public void updateBuyProof(BuyProof buyProof)   
+			throws BusinessServiceException {
 		logger.info("Updating buy proof...");
 		try {
 			buyProofDAO.update(buyProof);
 		} catch (Exception e) {
-			logger.fatal("Error while trying to update buy proof.\n", e);
+			final String errorMsg = "Error while trying to update buy proof.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 	}
 
 	@Override
-	public void deleteBuyProof(BuyProof buyProof) {
+	public void deleteBuyProof(BuyProof buyProof)   
+			throws BusinessServiceException {
 		logger.info("Deleting buy proof...");
 		try {
 			buyProofDAO.delete(buyProof);
 		} catch (Exception e) {
-			logger.fatal("Error while trying to delete buy proof.\n", e);
+			final String errorMsg = "Error while trying to delete buy proof.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 	}
 
 	@Override
-	public void insertBuyProof(BuyProof buyProof) {
+	public void insertBuyProof(BuyProof buyProof)   
+			throws BusinessServiceException {
 		logger.info("Inserting buy proof...");
 		try {
 			buyProofDAO.insert(buyProof);
 		} catch (Exception e) {
-			logger.fatal("Error while trying to insert buy proof.\n", e);
+			final String errorMsg = "Error while trying to insert buy proof.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 	}
 

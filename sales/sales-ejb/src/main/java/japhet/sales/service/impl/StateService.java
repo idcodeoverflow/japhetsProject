@@ -11,6 +11,7 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.StateDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.State;
 import japhet.sales.service.IStateService;
 
@@ -50,13 +51,15 @@ public class StateService implements IStateService {
 	private static final long serialVersionUID = 1036437709475395893L;
 
 	@Override
-	public List<State> getAllStates() {
+	public List<State> getAllStates()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all states..");
 		return sortedStates;
 	}
 
 	@Override
-	public State getState(Short stateId) {
+	public State getState(Short stateId)   
+			throws BusinessServiceException {
 		State state = null;
 		logger.info("Obtaining state: " + stateId);
 		try {

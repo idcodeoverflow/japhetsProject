@@ -6,6 +6,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.UserDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidPasswordException;
 import japhet.sales.model.impl.User;
 import japhet.sales.service.IUserService;
@@ -28,7 +29,8 @@ public class UserService implements IUserService {
 	private UserDAO userDAO;
 
 	@Override
-	public boolean doesUserExists(String username, String passw) {
+	public boolean doesUserExists(String username, String passw)   
+			throws BusinessServiceException {
 		logger.info("Verifying user credentials: " + username);
 		try {
 			User user = new User();
@@ -42,7 +44,8 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public User getUser(Long userId) {
+	public User getUser(Long userId)   
+			throws BusinessServiceException {
 		logger.info("Obtaining user " + userId + " from the DB...");
 		try {
 			return userDAO.select(userId);
@@ -53,7 +56,8 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public boolean updateUser(User user) {
+	public boolean updateUser(User user)   
+			throws BusinessServiceException {
 		logger.info("Updating user into the DB...");
 		try {
 			userDAO.update(user);
@@ -65,7 +69,8 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public boolean deleteUser(User user) {
+	public boolean deleteUser(User user)   
+			throws BusinessServiceException {
 		logger.info("Deleting user into the DB...");
 		try {
 			userDAO.delete(user);
@@ -77,7 +82,8 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public boolean insertUser(User user) {
+	public boolean insertUser(User user)   
+			throws BusinessServiceException {
 		logger.info("Inserting user into the DB...");
 		try {
 			userDAO.insert(user);
@@ -89,7 +95,8 @@ public class UserService implements IUserService {
 	}
 	
 	@Override
-	public void validatePasswords(String pass1, String pass2) throws InvalidPasswordException{
+	public void validatePasswords(String pass1, String pass2) 
+			throws InvalidPasswordException {
 		logger.info("Validating password...");
 		try {
 			if(pass1.length() < MINIMUM_PASSWORD_LENGTH){
@@ -100,7 +107,7 @@ public class UserService implements IUserService {
 			}
 		} catch (Exception e) {
 			logger.fatal("Error validating the password.", e);
+			throw new InvalidPasswordException("Invalid passwords.");
 		}
 	}
-	
 }

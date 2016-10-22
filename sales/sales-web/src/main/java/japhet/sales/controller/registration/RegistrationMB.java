@@ -45,8 +45,7 @@ public class RegistrationMB extends GenericMB {
 	
 	@PostConstruct
 	private void init(){
-		user = new User();
-		selectedState = new State();
+		clear();
 	}
 
 	public User getUser() {
@@ -63,7 +62,6 @@ public class RegistrationMB extends GenericMB {
 
 	public void setSelectedState(State selectedState) {
 		this.selectedState = selectedState;
-		logger.info("Si entro!!!!!!!" + selectedState.getStateId());
 	}
 
 	public String getPassword() {
@@ -87,6 +85,11 @@ public class RegistrationMB extends GenericMB {
 		logger.info("Persisting user into the DB...");
 		try {
 			createUser(user);
+			clear();
+			redirect(SIGN_IN_URL);
+		} catch (InvalidPasswordException e) {
+			logger.fatal("The password is invalid.", e);
+			showErrorMessage("The password doesn't match or is invalid", "");
 		} catch (Exception e) {
 			logger.fatal("Error trying to persist user into the DB.", e);
 			showErrorMessage("An error has ocurred registering the account.", "");
@@ -109,14 +112,18 @@ public class RegistrationMB extends GenericMB {
 		}
 	}
 	
-	private void createUser(User user) {
-		try {
-			userService.validatePasswords(password, confirmPassword);
-			userService.insertUser(user);
-		} catch (InvalidPasswordException e) {
-			logger.fatal("The password is invalid.", e);
-			showErrorMessage("The password doesn't match or is invalid", "");
-		}
+	private void createUser(User user) throws Exception {
+		userService.validatePasswords(password, confirmPassword);
+		user.setPassw(password);
+		//Replace with username field if exists
+		//user.setUsername(user.getEmail());
+		userService.insertUser(user);
 	}
 	
+	private void clear() {
+		this.user = new User();
+		this.confirmPassword = null;
+		this.password = null;
+		this.selectedState = new State();
+	}
 }

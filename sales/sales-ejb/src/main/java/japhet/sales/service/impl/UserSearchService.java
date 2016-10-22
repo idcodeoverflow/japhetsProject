@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.UserSearchDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.UserSearch;
 import japhet.sales.service.IUserSearch;
 
@@ -30,7 +31,8 @@ public class UserSearchService implements IUserSearch {
 	private UserSearchDAO userSearchDAO;
 
 	@Override
-	public void insertUserSearch(UserSearch userSearch) {
+	public void insertUserSearch(UserSearch userSearch)   
+			throws BusinessServiceException {
 		logger.info("Saving user search...");
 		try {
 			userSearchDAO.insert(userSearch);
@@ -40,7 +42,8 @@ public class UserSearchService implements IUserSearch {
 	}
 
 	@Override
-	public void updateUserSearch(UserSearch userSearch) {
+	public void updateUserSearch(UserSearch userSearch)   
+			throws BusinessServiceException {
 		logger.info("Updating user search...");
 		try {
 			userSearchDAO.update(userSearch);
@@ -50,7 +53,8 @@ public class UserSearchService implements IUserSearch {
 	}
 
 	@Override
-	public void deleteUserSearch(UserSearch userSearch) {
+	public void deleteUserSearch(UserSearch userSearch)   
+			throws BusinessServiceException {
 		logger.info("Deleting user search...");
 		try {
 			userSearchDAO.delete(userSearch);
@@ -60,7 +64,8 @@ public class UserSearchService implements IUserSearch {
 	}
 
 	@Override
-	public UserSearch selectUserSearch(Long userSearchId) {
+	public UserSearch selectUserSearch(Long userSearchId)   
+			throws BusinessServiceException {
 		logger.info("Getting user search: " + userSearchId + "...");
 		UserSearch userSearch = null;
 		try {
@@ -72,7 +77,8 @@ public class UserSearchService implements IUserSearch {
 	}
 
 	@Override
-	public List<UserSearch> getSearchByUser(Map<String, Object> params) {
+	public List<UserSearch> getSearchByUser(Map<String, Object> params)   
+			throws BusinessServiceException {
 		logger.info("Getting user searchs by user...");
 		return userSearchDAO.getUserSearchByUser(params);
 	}

@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.UserProductHistorialDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.UserProductHistorial;
 import japhet.sales.service.IUserProductHistorial;
 
@@ -30,19 +31,22 @@ public class UserProductHistorialService implements IUserProductHistorial {
 	private UserProductHistorialDAO userProductHistorialDAO;
 
 	@Override
-	public List<UserProductHistorial> getHistorialByUser(Map<String, Object> params) {
+	public List<UserProductHistorial> getHistorialByUser(Map<String, Object> params)   
+			throws BusinessServiceException {
 		logger.info("Getting historial by user id...");
 		return userProductHistorialDAO.getHistorialByUser(params);
 	}
 
 	@Override
-	public List<UserProductHistorial> getHistorialByProduct(Map<String, Object> params) {
+	public List<UserProductHistorial> getHistorialByProduct(Map<String, Object> params)   
+			throws BusinessServiceException {
 		logger.info("Getting historial by product id...");
 		return userProductHistorialDAO.getHistorialByProduct(params);
 	}
 
 	@Override
-	public void insertProductHistorial(UserProductHistorial userProductHistorial) {
+	public void insertProductHistorial(UserProductHistorial userProductHistorial)   
+			throws BusinessServiceException {
 		logger.info("Inserting the product historial related to the user...");
 		try {
 			userProductHistorialDAO.insert(userProductHistorial);
@@ -52,7 +56,8 @@ public class UserProductHistorialService implements IUserProductHistorial {
 	}
 
 	@Override
-	public void updateProductHistorial(UserProductHistorial userProductHistorial) {
+	public void updateProductHistorial(UserProductHistorial userProductHistorial)   
+			throws BusinessServiceException {
 		logger.info("Updating the product historial related to the user...");
 		try {
 			userProductHistorialDAO.update(userProductHistorial);
@@ -62,7 +67,8 @@ public class UserProductHistorialService implements IUserProductHistorial {
 	}
 
 	@Override
-	public void deleteProductHistorial(UserProductHistorial userProductHistorial) {
+	public void deleteProductHistorial(UserProductHistorial userProductHistorial)   
+			throws BusinessServiceException {
 		logger.info("Deleting the product historial related to the user...");
 		try {
 			userProductHistorialDAO.delete(userProductHistorial);
@@ -72,7 +78,8 @@ public class UserProductHistorialService implements IUserProductHistorial {
 	}
 
 	@Override
-	public void getProductHistorialById(Long historialId) {
+	public void getProductHistorialById(Long historialId)   
+			throws BusinessServiceException {
 		logger.info("Getting the product historial related to the user...");
 		try {
 			userProductHistorialDAO.select(historialId);

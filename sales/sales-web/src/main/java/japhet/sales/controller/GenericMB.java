@@ -1,9 +1,13 @@
 package japhet.sales.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+
+import org.apache.log4j.Logger;
 
 import japhet.sales.util.Navigator;
 
@@ -13,6 +17,9 @@ public abstract class GenericMB implements Serializable, Navigator {
 	 * Maven generated.
 	 */
 	private static final long serialVersionUID = -5589709030464138421L;
+	
+	@Inject
+	private Logger logger;
 	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
@@ -57,5 +64,14 @@ public abstract class GenericMB implements Serializable, Navigator {
 	protected void showFatalMessage(String message, String detail){
 		getCurrentFacesInstance().
 			addMessage(null, createFatalMessage(message, detail));
+	}
+	
+	protected void redirect(String url){
+		try {
+			getCurrentFacesInstance().getExternalContext().redirect(url);
+		} catch (IOException e) {
+			logger.error("Error while redirecting to: " + url, e);
+			showErrorMessage("Error while redirecting to: " + url, "");
+		}
 	}
 }

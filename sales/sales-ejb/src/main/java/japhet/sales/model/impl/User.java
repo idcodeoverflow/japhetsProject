@@ -104,6 +104,11 @@ public class User implements IEntity {
 		//Add the default value for the status
 		this.status = new Status();
 		this.status.setStatusId(Statuses.DISABLED.getId());
+		//Instantiate a City
+		this.city = new City();
+		//Initialize dates
+		this.lastModified = new Date();
+		this.signUpDate = new Date();
 	}
 
 	public User(Long userId, String name, String lastName, String curp,

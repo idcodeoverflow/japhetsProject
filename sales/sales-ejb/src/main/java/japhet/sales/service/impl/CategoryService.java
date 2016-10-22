@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.CategoryDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.Category;
 import japhet.sales.service.ICategoryService;
 
@@ -29,18 +30,21 @@ public class CategoryService implements ICategoryService {
 	private CategoryDAO categoryDAO;
 	
 	@Override
-	public List<Category> getAllAvailableCategories() {
+	public List<Category> getAllAvailableCategories()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all available categories from the DB...");
 		return categoryDAO.getAllAvailableCategories();
 	}
 
 	@Override
-	public List<Category> getAllCategories() {
+	public List<Category> getAllCategories()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all categories from the DB...");
 		return categoryDAO.getAllCategories();
 	}
 	
-	public boolean insertCategory(Category category) {
+	public boolean insertCategory(Category category)   
+			throws BusinessServiceException {
 		try {
 			categoryDAO.insert(category);
 			return true;
@@ -50,7 +54,8 @@ public class CategoryService implements ICategoryService {
 		return false;
 	}
 	
-	public Category findCategory(Short categoryId) {
+	public Category findCategory(Short categoryId)   
+			throws BusinessServiceException {
 		try {
 			return categoryDAO.select(categoryId);
 		} catch (Exception e) {
@@ -59,7 +64,8 @@ public class CategoryService implements ICategoryService {
 		return null;
 	}
 	
-	public boolean updateCategory(Category category) {
+	public boolean updateCategory(Category category)   
+			throws BusinessServiceException {
 		try {
 			categoryDAO.update(category);
 			return true;
@@ -69,7 +75,8 @@ public class CategoryService implements ICategoryService {
 		return false;
 	}
 	
-	public boolean deleteCategory(Category category) {
+	public boolean deleteCategory(Category category)   
+			throws BusinessServiceException {
 		try {
 			categoryDAO.delete(category);
 		} catch (Exception e) {
