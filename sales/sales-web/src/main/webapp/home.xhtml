@@ -133,31 +133,39 @@
 					<span class="glyphicon glyphicon-tags"></span>
 		    	</h2>
 		  	</h:panelGroup>
+		  	<!-- Products scroller -->
 		  	<h:panelGroup layout="block" styleClass="panel-body" id="home-scroller">
 		  		<p:dataScroller value="#{homeMB.availableProducts}" var="product" 
 		  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
 			    	<h:panelGroup layout="block" styleClass="row">
+			    		<!-- Product info block -->
 						<h:panelGroup styleClass="col-md-3 col-xs-6">
 							<h:panelGroup layout="block" styleClass="thumbnail">
-								<p:graphicImage value="#{homeImagesMB.streamedImage}" 
-									styleClass="offer-img">
-									<h:outputLink value="#{product.url}" />
-									<f:param name="#{homeImagesMB.PRODUCT_IMAGE_REQ_PARAM}" 
-										value="#{product.productId}" />
-								</p:graphicImage>
+								<!-- Product image -->
+								<h:outputLink value="https://#{product.url}">
+									<p:graphicImage value="#{homeImagesMB.streamedImage}" 
+										styleClass="offer-img">
+										<f:param name="#{homeImagesMB.PRODUCT_IMAGE_REQ_PARAM}" 
+											value="#{product.productId}" />
+									</p:graphicImage>
+								</h:outputLink>
 								<h:panelGroup layout="block" styleClass="caption">
+									<!-- Product title -->
 									<h4 class="thumbnail-title">
 										<i>
 											<h:outputText value="#{product.title}" />
 										</i>
 									</h4>
+									<!-- Product description -->
 									<p><h:outputText value="#{product.description}" /></p>
+									<!-- Product price -->
 									<p class="thumbnail-description">
 										#{msg['home.product.price']}
 										<h:outputText value="#{product.price}" >
 											<f:convertNumber type="currency"/>
 										</h:outputText>
 									</p>
+									<!-- Product payback percent -->
 									<p class="thumbnail-price">
 										#{msg['home.product.payback']}
 										<h:outputText value="#{product.paybackPercent}" >
