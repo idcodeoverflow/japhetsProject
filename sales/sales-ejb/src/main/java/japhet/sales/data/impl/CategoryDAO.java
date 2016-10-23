@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import japhet.sales.data.GenericDAO;
 import japhet.sales.data.QueryNames;
+import japhet.sales.except.DataLayerException;
 import japhet.sales.model.impl.Category;
 
 import org.apache.log4j.Logger;
@@ -21,24 +22,30 @@ public class CategoryDAO extends GenericDAO<Category, Short>{
 		super(Category.class, Short.class);
 	}
 	
-	public List<Category> getAllCategories() {
+	public List<Category> getAllCategories() 
+			throws DataLayerException {
 		logger.info("Obtaining all the categories from the DB.");
 		List<Category> categories = null;
 		try {
 			categories = executeQuery(QueryNames.GET_ALL_CATEGORIES, null);
 		} catch (Exception e) {
-			logger.fatal("Error while getting all the categories from the DB. ", e);
+			final String errorMsg = "Error while getting all the categories from the DB.";
+			logger.fatal(errorMsg, e);
+			throw new DataLayerException(errorMsg, e);
 		}
 		return categories;
 	}
 	
-	public List<Category> getAllAvailableCategories() {
+	public List<Category> getAllAvailableCategories() 
+			throws DataLayerException {
 		logger.info("Obtaining all the categories from the DB.");
 		List<Category> categories = null;
 		try {
 			categories = executeQuery(QueryNames.GET_ALL_AVAILABLE_CATEGORIES, null);
 		} catch (Exception e) {
-			logger.fatal("Error while getting all the categories from the DB. ", e);
+			final String errorMsg = "Error while getting all the categories from the DB.";
+			logger.fatal(errorMsg, e);
+			throw new DataLayerException(errorMsg, e);
 		}
 		return categories;
 	}

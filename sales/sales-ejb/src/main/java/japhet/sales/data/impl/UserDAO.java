@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import japhet.sales.data.GenericDAO;
 import japhet.sales.data.QueryNames;
+import japhet.sales.except.DataLayerException;
 import japhet.sales.model.impl.User;
 
 import org.apache.log4j.Logger;
@@ -24,7 +25,8 @@ public class UserDAO extends GenericDAO<User, Long> {
 		super(User.class, Long.class);
 	}	
 	
-	public boolean doesUserExists(User user){
+	public boolean doesUserExists(User user) 
+			throws DataLayerException {
 		boolean userExists = false;
 		try {
 			logger.info("Validating credentials...");
@@ -35,7 +37,9 @@ public class UserDAO extends GenericDAO<User, Long> {
 			executeQuery(QueryNames.EXISTS_USER, params);
 			userExists = users.size() > 0;
 		} catch (Exception e) {
-			logger.fatal("Exception occurred searching the user credentials into the DB.", e);
+			final String errorMsg = "Exception occurred searching the user credentials into the DB.";
+			logger.fatal(errorMsg, e);
+			throw new DataLayerException(errorMsg, e);
 		}
 		return userExists;
 	}

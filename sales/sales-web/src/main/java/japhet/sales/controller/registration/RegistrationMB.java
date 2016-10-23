@@ -116,7 +116,7 @@ public class RegistrationMB extends GenericMB {
 		userService.validatePasswords(password, confirmPassword);
 		user.setPassw(password);
 		//Replace with username field if exists
-		//user.setUsername(user.getEmail());
+		user.setUsername(user.getEmail());
 		userService.insertUser(user);
 	}
 	
