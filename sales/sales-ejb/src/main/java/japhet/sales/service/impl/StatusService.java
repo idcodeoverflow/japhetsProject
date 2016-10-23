@@ -33,26 +33,45 @@ public class StatusService implements IStatusService {
 	public List<Status> getAllAvailableStatus()   
 			throws BusinessServiceException {
 		logger.info("Obtaining all available status...");
-		return statusDAO.getAllAvailableStatus();
+		List<Status> status = null;
+		try {
+			status = statusDAO.getAllAvailableStatus();
+		} catch (Exception e) {
+			final String errorMsg = "Error while obtaining all the available status.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return status;
 	}
 
 	@Override
 	public List<Status> getAllStatus()   
 			throws BusinessServiceException {
 		logger.info("Obtaining all status...");
-		return statusDAO.getAllStatus();
+		List<Status> status = null;
+		try {
+			status = statusDAO.getAllStatus();
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting all the Status.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return status;
 	}
 	
 	public Status getStatus(Short statusId)   
 			throws BusinessServiceException {
 		logger.info("Obtaining status " + statusId + " from the DB...");
+		Status status = null;
 		try {
-			return statusDAO.select(statusId);
+			status = statusDAO.select(statusId);
 		} catch (Exception e) {
-			logger.fatal("Error obtaining status" + statusId + 
-					" from the DB.", e);
+			final String errorMsg = "Error obtaining status" + statusId + 
+					" from the DB.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return null;
+		return status;
 	}
 	
 	public boolean updateStatus(Status status)   
@@ -62,9 +81,11 @@ public class StatusService implements IStatusService {
 			statusDAO.update(status);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error updating status into the DB.", e);
+			final String errorMsg = "Error updating status into the DB: " 
+					+ stringifyStatus(status);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
 	public boolean deleteStatus(Status status)   
@@ -74,9 +95,11 @@ public class StatusService implements IStatusService {
 			statusDAO.delete(status);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error deleting status into the DB.", e);
+			final String errorMsg = "Error deleting status into the DB: " 
+					+ stringifyStatus(status);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
 	public boolean insertStatus(Status status)   
@@ -85,8 +108,16 @@ public class StatusService implements IStatusService {
 		try {
 			statusDAO.insert(status);
 		} catch (Exception e) {
-			logger.fatal("Error inserting status into the DB.", e);
+			final String errorMsg = "Error inserting status into the DB: " 
+					+ stringifyStatus(status);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 		return false;
+	}
+	
+	private Short stringifyStatus(Status status){
+		return ((status != null && status.getStatusId() != null) 
+				? status.getStatusId() : null);
 	}
 }

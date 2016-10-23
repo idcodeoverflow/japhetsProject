@@ -128,7 +128,16 @@ public class RoleService implements IRoleService {
 
 	public List<Role> getAvailableRoles()   
 			throws BusinessServiceException {
-		return availableRoles;
+		logger.info("Getting all available Roles...");
+		List<Role> roles = null;
+		try {
+			roles = availableRoles;
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting available roles.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return roles;
 	}
 
 	public void setAvailableRoles(List<Role> availableRoles)   

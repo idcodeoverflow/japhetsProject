@@ -54,7 +54,13 @@ public class StatesMB extends GenericMB {
 	}
 
 	public State getState(Short stateId) {
-		return iStateService.getState(stateId);
+		State state = null;
+		try {
+			state = iStateService.getState(stateId);
+		} catch (Exception e) {
+			logger.fatal("Error while trying to obtain the state: " + stateId);
+		}
+		return state;
 	}
 	
 	public List<State> getStates() {
@@ -70,7 +76,7 @@ public class StatesMB extends GenericMB {
 	}
 
 	public State findStateById(Short stateId){
-		return iStateService.getState(stateId);
+		return getState(stateId);
 	}
 	
 }

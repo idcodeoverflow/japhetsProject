@@ -37,7 +37,9 @@ public class UserSearchService implements IUserSearch {
 		try {
 			userSearchDAO.insert(userSearch);
 		} catch (Exception e) {
-			logger.fatal("Error while saving the user search.", e);
+			final String errorMsg = "Error while saving the user search.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 	}
 
@@ -48,7 +50,9 @@ public class UserSearchService implements IUserSearch {
 		try {
 			userSearchDAO.update(userSearch);
 		} catch (Exception e) {
-			logger.fatal("Error while updating the user search.", e);
+			final String errorMsg = "Error while updating the user search.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 	}
 
@@ -59,7 +63,9 @@ public class UserSearchService implements IUserSearch {
 		try {
 			userSearchDAO.delete(userSearch);
 		} catch (Exception e) {
-			logger.fatal("Error while deleting the user search.", e);
+			final String errorMsg = "Error while deleting the user search.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 	}
 
@@ -71,7 +77,9 @@ public class UserSearchService implements IUserSearch {
 		try {
 			userSearch = userSearchDAO.select(userSearchId);
 		} catch (Exception e) {
-			logger.fatal("Error while selecting user search.", e);
+			final String errorMsg = "Error while selecting user search.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 		return userSearch;
 	}
@@ -80,7 +88,15 @@ public class UserSearchService implements IUserSearch {
 	public List<UserSearch> getSearchByUser(Map<String, Object> params)   
 			throws BusinessServiceException {
 		logger.info("Getting user searchs by user...");
-		return userSearchDAO.getUserSearchByUser(params);
+		List<UserSearch> userSearchs = null;
+		try {
+			userSearchs = userSearchDAO.getUserSearchByUser(params);
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting searchs by user.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return userSearchs;
 	}
 
 }

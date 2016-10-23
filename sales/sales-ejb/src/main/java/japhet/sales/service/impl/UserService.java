@@ -38,9 +38,10 @@ public class UserService implements IUserService {
 			user.setPassw(passw);
 			return userDAO.doesUserExists(user);
 		} catch (Exception e) {
-			logger.fatal("Error verifying user credentials: " + username, e);
+			final String errorMsg = "Error verifying user credentials: " + username;
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
 	@Override
@@ -50,9 +51,10 @@ public class UserService implements IUserService {
 		try {
 			return userDAO.select(userId);
 		} catch (Exception e) {
-			logger.fatal("Error obtaining user " + userId + " from the DB.", e);
+			final String errorMsg = "Error obtaining user " + userId + " from the DB.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return null;
 	}
 	
 	@Override
@@ -63,9 +65,11 @@ public class UserService implements IUserService {
 			userDAO.update(user);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error updating user into the DB.", e);
+			final String errorMsg = "Error updating user into the DB: " 
+					+ stringifyUser(user);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
 	@Override
@@ -76,9 +80,11 @@ public class UserService implements IUserService {
 			userDAO.delete(user);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error deleting user into the DB.", e);
+			final String errorMsg = "Error deleting user into the DB: "
+					+ stringifyUser(user);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
 	@Override
@@ -89,9 +95,11 @@ public class UserService implements IUserService {
 			userDAO.insert(user);
 			return true;
 		} catch (Exception e) {
-			logger.fatal("Error inserting user into the DB.", e);
+			final String errorMsg = "Error inserting user into the DB: "
+					+ stringifyUser(user);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
 	@Override
@@ -109,5 +117,10 @@ public class UserService implements IUserService {
 			logger.fatal("Error validating the password.", e);
 			throw new InvalidPasswordException("Invalid passwords.");
 		}
+	}
+	
+	private Long stringifyUser(User user) {
+		return ((user != null && user.getUserId() != null) ? 
+				user.getUserId() : null);
 	}
 }

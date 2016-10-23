@@ -11,6 +11,7 @@ import javax.faces.bean.ViewScoped;
 import org.primefaces.event.FileUploadEvent;
 
 import japhet.sales.controller.GenericMB;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidDateRangeException;
 import japhet.sales.model.impl.Category;
 import japhet.sales.model.impl.Company;
@@ -77,13 +78,19 @@ public class UploadContentMB extends GenericMB {
 			product.setPaybackPercent((double)(product.getPaybackPercent() / 100.0));
 			//Persist product
 			if(productService.insertProduct(product)){
-				showInfoMessage("Guardado satisfactoriamente", "");
+				showInfoMessage("Contenido guardado", "");
+				logger.info("Content succesfully saved.");
 				clearAll();
 			} else {
 				showErrorMessage("El producto falló al guardarse,\nintentalo mas tarde", "");
+				logger.error("An error has ocurred (product insert).");
 			}
 		} catch (InvalidDateRangeException e) {
 			showErrorMessage("El rango de fechas es invalido", "");
+			logger.error("Invalid range for the dates.", e);
+		} catch (BusinessServiceException e) {
+			showErrorMessage("Ocurrio un error al guardar el contenido.", "");
+			logger.error("An error has occurred while saving the content.", e);
 		}
 	}
 	

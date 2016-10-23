@@ -11,8 +11,7 @@ import japhet.sales.model.impl.State;
 @Local
 public interface IStateService extends Serializable {
 
-	public List<State> getAllStates() 
-			throws BusinessServiceException;
+	public List<State> getAllStates();
 	
 	public State getState(Short stateId) 
 			throws BusinessServiceException;

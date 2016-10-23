@@ -34,7 +34,7 @@ public class StateService implements IStateService {
 	@PostConstruct
 	public void init(){
 		try {
-			logger.info("Obtaining all states from the DB..");
+			logger.info("Initializing StateService...\nObtaining all states from the DB..");
 			sortedStates = stateDAO.getAllStates();
 			allStates = new HashMap<>();
 			for (State state : sortedStates) {
@@ -51,8 +51,7 @@ public class StateService implements IStateService {
 	private static final long serialVersionUID = 1036437709475395893L;
 
 	@Override
-	public List<State> getAllStates()   
-			throws BusinessServiceException {
+	public List<State> getAllStates() {
 		logger.info("Obtaining all states..");
 		return sortedStates;
 	}
@@ -65,7 +64,9 @@ public class StateService implements IStateService {
 		try {
 			state = allStates.get(stateId);
 		} catch (Exception e) {
-			logger.fatal("Error obtaining state: " + stateId, e);
+			final String errorMsg = "Error obtaining state: " + stateId;
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 		return state;
 	}

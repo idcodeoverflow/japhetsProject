@@ -27,7 +27,7 @@ public interface IUserProductHistorial extends Serializable {
 	public void deleteProductHistorial(UserProductHistorial userProductHistorial) 
 			throws BusinessServiceException;
 	
-	public void getProductHistorialById(Long historialId) 
+	public UserProductHistorial getProductHistorialById(Long historialId) 
 			throws BusinessServiceException;
 	
 }

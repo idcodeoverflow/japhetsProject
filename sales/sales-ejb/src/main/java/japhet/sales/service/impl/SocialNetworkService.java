@@ -33,13 +33,29 @@ public class SocialNetworkService implements ISocialNetwork {
 	public List<SocialNetwork> getAllSocialNetworks()   
 			throws BusinessServiceException {
 		logger.info("Obtaining all social networks...");
-		return socialNetworkDAO.getAllSocialNetworks();
+		List<SocialNetwork> socialNetworks = null;
+		try {
+			socialNetworks = socialNetworkDAO.getAllSocialNetworks();
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting all Social Networks.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return socialNetworks;
 	}
 
 	@Override
 	public List<SocialNetwork> getAllAvailableSocialNetworks()   
 			throws BusinessServiceException {
 		logger.info("Obtaining all available social networks...");
-		return socialNetworkDAO.getAllAvailableSocialNetworks();
+		List<SocialNetwork> socialNetworks = null;
+		try {
+			socialNetworks = socialNetworkDAO.getAllAvailableSocialNetworks();
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting all available Social Networks.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return socialNetworks;
 	}
 }

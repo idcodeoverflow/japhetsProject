@@ -5,6 +5,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.NoneScoped;
+import javax.inject.Inject;
+
+import org.apache.log4j.Logger;
 
 import japhet.sales.controller.GenericMB;
 import japhet.sales.model.impl.Category;
@@ -19,12 +22,20 @@ public class CategoryMB extends GenericMB {
 	 */
 	private static final long serialVersionUID = -209520882103133937L;
 	
+	@Inject
+	private Logger logger;
+	
 	@EJB
 	private ICategoryService categoryService;
 	
-
 	public List<Category> getAvailableCategories(){
-		return categoryService.getAllAvailableCategories();
+		List<Category> categories = null;
+		try {
+			categories = categoryService.getAllAvailableCategories();
+		} catch (Exception e) {
+			logger.fatal("Error while obtaining all available categories.", e);
+		}
+		return categories;
 	}
 	
 	

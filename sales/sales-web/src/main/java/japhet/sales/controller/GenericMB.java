@@ -19,7 +19,7 @@ public abstract class GenericMB implements Serializable, Navigator {
 	private static final long serialVersionUID = -5589709030464138421L;
 	
 	@Inject
-	private Logger logger;
+	protected Logger logger;
 	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
