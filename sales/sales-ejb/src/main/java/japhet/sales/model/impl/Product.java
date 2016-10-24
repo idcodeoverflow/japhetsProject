@@ -231,6 +231,10 @@ public class Product implements IEntity {
 	}
 
 	public void setUrl(String url) {
+		final String httpsChain = "https://";
+		if(!url.contains(httpsChain)) {
+			url = httpsChain + url;
+		}
 		this.url = url;
 	}
 

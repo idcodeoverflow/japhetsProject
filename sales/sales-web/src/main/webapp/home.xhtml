@@ -135,14 +135,14 @@
 		  	</h:panelGroup>
 		  	<!-- Products scroller -->
 		  	<h:panelGroup layout="block" styleClass="panel-body" id="home-scroller">
-		  		<p:dataScroller value="#{homeMB.availableProducts}" var="product" 
-		  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
-			    	<h:panelGroup layout="block" styleClass="row">
+		  		<h:panelGroup layout="block" styleClass="row">
+				    <p:dataScroller value="#{homeMB.availableProducts}" var="product" 
+			  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
 			    		<!-- Product info block -->
 						<h:panelGroup styleClass="col-md-3 col-xs-6">
 							<h:panelGroup layout="block" styleClass="thumbnail">
 								<!-- Product image -->
-								<h:outputLink value="https://#{product.url}">
+								<h:outputLink value="#{product.url}">
 									<p:graphicImage value="#{homeImagesMB.streamedImage}" 
 										styleClass="offer-img">
 										<f:param name="#{homeImagesMB.PRODUCT_IMAGE_REQ_PARAM}" 
@@ -175,8 +175,8 @@
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>
-					</h:panelGroup>
-				</p:dataScroller>
+					</p:dataScroller>
+				</h:panelGroup>
 		  	</h:panelGroup>
 		</h:panelGroup>
 	</ui:define>
