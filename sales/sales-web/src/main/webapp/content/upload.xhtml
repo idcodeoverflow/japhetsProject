@@ -55,9 +55,9 @@
 									requiredMessage="#{msg['upload.messages.required.title']}"
 									placeholder="#{msg['upload.content.contentTitle']}"
 									value="#{uploadContentMB.product.title}"
-									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- 1234567890');"
+									onkeyup="deleteNonAlphaContent(this, '- 1234567890áéíóú');"
 									onblur="deleteExtraBlankSpaces(this);"/>
-								<p:keyFilter regEx="/[0-9a-zA-Z\-\s]/i" 
+								<p:keyFilter regEx="/[0-9a-zA-Z\-\sáéíóú]/i" 
 									for="contentTitleInput"
 									preventPaste="false" />
 						    	<p:messages for="contentTitleInput" />
@@ -73,10 +73,10 @@
 									requiredMessage="#{msg['upload.messages.required.description']}"
 						    		placeholder="#{msg['upload.content.contentDescription']}"
 						    		value="#{uploadContentMB.product.description}"
-									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- 1234567890');"
+									onkeyup="deleteNonAlphaContent(this, '- 1234567890áéíóú');"
 									onblur="deleteExtraBlankSpaces(this);"/>
 						    	<p:messages for="contentDescriptionInput" />
-						    	<p:keyFilter regEx="/[$%0-9a-zA-Z\-\s]/i" 
+						    	<p:keyFilter regEx="/[$%0-9a-zA-Z\-\sáéíóú]/i" 
 									for="contentDescriptionInput"
 									preventPaste="false" />
 						    </h:panelGroup>
@@ -107,7 +107,7 @@
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.url']}"
 						    		value="#{uploadContentMB.product.url}"
-									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- .#=?\'/:1234567890');"
+									onkeyup="deleteNonAlphaContent(this, '- .#=?\'/:1234567890áéíóú');"
 									onblur="deleteExtraBlankSpaces(this);"/>
 						    	<p:messages for="contentUrlInput" />
 						    </h:panelGroup>

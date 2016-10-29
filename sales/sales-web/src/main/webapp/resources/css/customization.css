@@ -286,3 +286,33 @@ footer {
 .ui-widget-header .ui-state-error {
     border: 1px solid #a8a8a8 !important;
 }
+
+#productsDataScroller .ui-corner-all {
+	border: 0px solid transparent !important;
+}
+
+#banksList {
+	text-align: center !important;
+	text-align: -webkit-center !important;
+}
+
+#home-right-pane {
+	max-height: 478px !important;
+	margin-bottom: 5px !important;
+}
+
+.home-right-pane-container {
+	max-height: 239px !important;
+	overflow-y: scroll !important;
+	overflow-x: hidden !important;
+}
+
+.overflowless {
+	max-height: 226px !important;
+	overflow: hidden !important;
+}
+
+.container-separator {
+	margin: 0px !important;
+	border: 4px solid #97E063 !important;
+}

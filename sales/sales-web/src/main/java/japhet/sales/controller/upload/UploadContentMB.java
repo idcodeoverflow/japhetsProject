@@ -45,7 +45,7 @@ public class UploadContentMB extends GenericMB {
 	private Product product;
 	
 	//Validation properties
-	private final long MAX_MEDIA_SIZE = 150000;
+	private final long MAX_MEDIA_SIZE = 300000;
 	
 	@PostConstruct
 	public void init(){

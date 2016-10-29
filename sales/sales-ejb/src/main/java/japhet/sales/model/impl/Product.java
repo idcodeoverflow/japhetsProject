@@ -232,7 +232,9 @@ public class Product implements IEntity {
 
 	public void setUrl(String url) {
 		final String httpsChain = "https://";
-		if(!url.contains(httpsChain)) {
+		final String httpChain = "http://";
+		if(!(url.toLowerCase()).contains(httpsChain) && 
+				!(url.toLowerCase()).contains(httpChain)) {
 			url = httpsChain + url;
 		}
 		this.url = url;

@@ -35,4 +35,60 @@ public class URLMapperMB extends GenericMB {
 	public String getHomeVideoURL(){
 		return HOME_VIDEO_URL;
 	}
+	
+	public String getBanksNDepositsURL(){
+		return BANKS_N_DEPOSITS;
+	}
+	
+	public String getCarouselsURL(){
+		return CAROUSELS;
+	}
+	
+	public String getOffersURL(){
+		return OFFERS;
+	}
+	
+	public String getInbursaURL(){
+		return INBURSA;
+	}
+	
+	public String getProfuturoURL(){
+		return PROFUTURO;
+	}
+	
+	public String getPensionisssteURL(){
+		return PENSIONISSSTE;
+	}
+	
+	public String getCoppelURL(){
+		return COPPEL;
+	}
+	
+	public String getAztecaURL(){
+		return AZTECA;
+	}
+	
+	public String getBanorteURL(){
+		return BANORTE;
+	}
+
+	public String getMetlifeURL(){
+		return METLIFE;
+	}
+
+	public String getCitibanamexURL(){
+		return CITIBANAMEX;
+	}
+	
+	public String getInvercapURL(){
+		return INBURSA;
+	}
+	
+	public String getSuraURL(){
+		return SURA;
+	}
+	
+	public String getPrincipalURL(){
+		return PRINCIPAL;
+	}
 }
