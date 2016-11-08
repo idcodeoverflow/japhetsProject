@@ -91,4 +91,8 @@ public class URLMapperMB extends GenericMB {
 	public String getPrincipalURL(){
 		return PRINCIPAL;
 	}
+	
+	public static String removeHostNameFromURL(String url){
+		return url.replace(HOST_NAME, "");
+	}
 }

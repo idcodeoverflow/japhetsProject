@@ -4,6 +4,9 @@ public interface Navigator {
 	
 	PropertiesReader pReader = new PropertiesReader("urls.properties");
 	
+	/***** SERVER PAGES *****/
+	String HOST_NAME = pReader.getValueFromKey(URL.HOST_NAME.getName());
+	/***** APPLICATION PAGES *****/
 	String HOME_URL = pReader.getValueFromKey(URL.HOME.getName());
 	String BANKS_N_DEPOSITS = pReader.getValueFromKey(URL.BANKS_N_DEPOSITS.getName());
 	String CAROUSELS = pReader.getValueFromKey(URL.CAROUSELS.getName());;
@@ -25,4 +28,8 @@ public interface Navigator {
 	String INVERCAP = pReader.getValueFromKey(URL.INVERCAP.getName());
 	String SURA = pReader.getValueFromKey(URL.SURA.getName());
 	String PRINCIPAL = pReader.getValueFromKey(URL.PRINCIPAL.getName());
+	/***** SPRING SECURITY *****/
+	String SPRING_LOGIN = pReader.getValueFromKey(URL.SPRING_LOGIN.getName());
+	String SPRING_LOGOUT = pReader.getValueFromKey(URL.SPRING_LOGOUT.getName());
+
 }

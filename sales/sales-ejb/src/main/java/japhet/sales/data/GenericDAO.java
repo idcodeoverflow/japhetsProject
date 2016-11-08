@@ -107,6 +107,15 @@ public abstract class GenericDAO<T extends IEntity, K> {
 		return namedQuery.getResultList();
 	}
 	
+	public <Y> List<Y> executeTypoQuery(String queryName, 
+			Map<String, Object> params, Class<Y> typo) throws Exception {
+		Query namedQuery = em.createNamedQuery(queryName, typo);
+		if(params != null) {
+			populateNamedQueryParams(namedQuery, params);
+		}
+		return namedQuery.getResultList();
+	}
+	
 	public long executeUpdate(String queryName,
 			Map<String, Object> params) throws Exception {
 		Query namedQuery = em.createNamedQuery(queryName);

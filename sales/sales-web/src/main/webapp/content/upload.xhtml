@@ -206,7 +206,10 @@
 									<h:commandButton id="saveBt" 
 										action="#{uploadContentMB.saveProduct()}"
 										styleClass="btn btn-default btn-block btn-lg" 
-										value="#{msg['upload.content.saveButton']}" />
+										value="#{msg['upload.content.saveButton']}">
+										<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+									</h:commandButton>
 								</h:panelGroup>
 							</h:panelGroup>
 							

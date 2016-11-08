@@ -142,6 +142,16 @@ footer a {
 	margin-bottom: 30px !important;
 }
 
+/* Margin for the goods carousel */
+#goodsCarouselContainer {
+	margin-right: 0px !important;
+}
+
+/* Margin for the goods carousel */
+#servicesCarouselContainer {
+	margin-left: 0px !important;
+}
+
 /* Styles for the subtitles */
 .label-default {
     background-color: #97E063 !important;
@@ -176,6 +186,11 @@ footer {
 	text-align: center !important;
 }
 
+/* Offer boxes */
+.thumbnail {
+	height: 346px;
+}
+
 .thumbnail-title {
 	color: #FF6700 !important;
 	line-height: 2px !important;
@@ -187,6 +202,7 @@ footer {
 	font-weight: bold !important;
 	text-decoration: underline !important;
 	line-height: 2px !important;
+	vertical-align: text-bottom;
 }
 
 .thumbnail-description {
@@ -303,8 +319,7 @@ footer {
 
 .home-right-pane-container {
 	max-height: 239px !important;
-	overflow-y: scroll !important;
-	overflow-x: hidden !important;
+	overflow: hidden !important;
 }
 
 .overflowless {
@@ -315,4 +330,14 @@ footer {
 .container-separator {
 	margin: 0px !important;
 	border: 4px solid #97E063 !important;
+}
+
+/* Logout button container in the navbar */
+#logoutBtnContainer {
+	padding: 0px !important;
+}
+
+/* Logout button in the navbar */
+#logoutButton {
+	margin: 0px !important;
 }

@@ -34,8 +34,8 @@ public class UserDAO extends GenericDAO<User, Long> {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("username", user.getUsername());
 			params.put("passw", user.getPassw());
-			executeQuery(QueryNames.EXISTS_USER, params);
-			userExists = users.size() > 0;
+			users = executeQuery(QueryNames.EXISTS_USER, params);
+			userExists = users != null && users.size() > 0;
 		} catch (Exception e) {
 			final String errorMsg = "Exception occurred searching the user credentials into the DB.";
 			logger.fatal(errorMsg, e);

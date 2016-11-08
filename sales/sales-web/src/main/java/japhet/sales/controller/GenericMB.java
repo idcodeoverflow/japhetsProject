@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
@@ -23,6 +26,10 @@ public abstract class GenericMB implements Serializable, Navigator {
 	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
+	}
+	
+	protected ExternalContext getExternalContext(){
+		return getCurrentFacesInstance().getExternalContext();
 	}
 	
 	protected String getRequestParam(String name) {
@@ -73,5 +80,17 @@ public abstract class GenericMB implements Serializable, Navigator {
 			logger.error("Error while redirecting to: " + url, e);
 			showErrorMessage("Error while redirecting to: " + url, "");
 		}
+	}
+	
+	protected HttpServletResponse getResponse(){
+		HttpServletResponse response = (HttpServletResponse) 
+				FacesContext.getCurrentInstance().getExternalContext().getResponse();
+		return response;
+	}
+	
+	protected HttpServletRequest getRequest(){
+		HttpServletRequest request = (HttpServletRequest) 
+				FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		return request;
 	}
 }

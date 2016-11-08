@@ -21,6 +21,8 @@ public class UserService implements IUserService {
 	 * Maven generated.
 	 */
 	private static final long serialVersionUID = -9215801294999528333L;
+	public static final String JNDI_BINDING = 
+			"java:app/sales-ejb/UserService!japhet.sales.service.impl.UserService";
 
 	@Inject
 	private Logger logger;

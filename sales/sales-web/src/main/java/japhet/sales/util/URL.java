@@ -1,6 +1,9 @@
 package japhet.sales.util;
 
 public enum URL {
+	//Server Pages
+	HOST_NAME("server.hostName"),
+	//Application Pages
 	HOME("home"),
 	LOGIN("login"),
 	UPLOAD("upload"),
@@ -21,7 +24,10 @@ public enum URL {
 	CITIBANAMEX("banks.citibanamex"),
 	INVERCAP("banks.invercap"),
 	SURA("banks.sura"),
-	PRINCIPAL("banks.principal")
+	PRINCIPAL("banks.principal"),
+	//Security
+	SPRING_LOGIN("security.login"),
+	SPRING_LOGOUT("security.logout")
 	;
 	
 

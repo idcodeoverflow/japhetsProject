@@ -11,6 +11,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import japhet.sales.controller.AuthConstants;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.InvalidPasswordException;
 import japhet.sales.model.impl.SocialNetwork;
@@ -22,7 +23,8 @@ import org.apache.log4j.Logger;
 
 @ManagedBean
 @ViewScoped
-public class RegistrationMB extends GenericMB {
+public class RegistrationMB extends GenericMB 
+	implements AuthConstants {
 	
 	/**
 	 * Maven generated.
@@ -46,38 +48,6 @@ public class RegistrationMB extends GenericMB {
 	@PostConstruct
 	private void init(){
 		clear();
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public State getSelectedState() {
-		return selectedState;
-	}
-
-	public void setSelectedState(State selectedState) {
-		this.selectedState = selectedState;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getConfirmPassword() {
-		return confirmPassword;
-	}
-
-	public void setConfirmPassword(String confirmPassword) {
-		this.confirmPassword = confirmPassword;
 	}
 
 	public void signUp() {
@@ -125,5 +95,49 @@ public class RegistrationMB extends GenericMB {
 		this.confirmPassword = null;
 		this.password = null;
 		this.selectedState = new State();
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public State getSelectedState() {
+		return selectedState;
+	}
+
+	public void setSelectedState(State selectedState) {
+		this.selectedState = selectedState;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+	
+	public short getMIN_PASSWORD_LENGTH() {
+		return MIN_PASSWORD_LENGTH;
+	}
+	
+	public short getMAX_PASSWORD_LENGTH() {
+		return MAX_PASSWORD_LENGTH;
+	}
+	
+	public short getMAX_EMAIL_LENGTH() {
+		return MAX_EMAIL_LENGTH;
 	}
 }

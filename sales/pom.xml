@@ -67,6 +67,7 @@
         <version.surefire.plugin>2.16</version.surefire.plugin>
         <version.war.plugin>2.5</version.war.plugin>
         <version.log4j>1.2.17</version.log4j>
+        <version.javax.servlet>3.1.0</version.javax.servlet>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.7</maven.compiler.target>

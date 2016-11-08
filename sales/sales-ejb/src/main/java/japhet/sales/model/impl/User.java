@@ -30,7 +30,7 @@ import japhet.sales.util.Encription;
 @Entity
 @Table(name = "TB_USER")
 @NamedQuery(name = QueryNames.EXISTS_USER, 
-	query = "SELECT u.userId FROM User u WHERE u.username = :username AND u.passw = :passw")
+	query = "SELECT u FROM User u WHERE u.username = :username AND u.passw = :passw")
 public class User implements IEntity {
 
 	/**

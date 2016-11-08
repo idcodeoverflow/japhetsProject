@@ -105,7 +105,8 @@
 								</h:outputLabel>
 								<h:inputText id="emailInput" styleClass="form-control"  
 									value="#{registrationMB.user.email}"
-									maxlength="50" required="true"
+									maxlength="#{loginMB.MAX_EMAIL_LENGTH}" 
+									required="true"
 									requiredMessage="#{msg['registration.messages.requiredEmail']}"
 									pt:placeholder="#{msg['registration.form.email']}"
 									onkeyup="deleteNonAlphaContent(this, '-@._0123456789');">
@@ -121,13 +122,14 @@
 								<h:outputLabel for="passwordInput">
 									#{msg['registration.form.password']}
 								</h:outputLabel>
-								<h:inputSecret id="passwordInput" styleClass="form-control" 
+								<h:inputSecret id="passwordInput" 
+									styleClass="form-control" 
 									value="#{registrationMB.password}" 
-									maxlength="16" required="true"
+									maxlength="#{registrationMB.MAX_PASSWORD_LENGTH}" required="true"
 									requiredMessage="#{msg['registration.messages.requiredPassword']}"
 									pt:placeholder="#{msg['registration.form.password']}"
 									validatorMessage="#{msg['registration.messages.password.length.min']}">
-									<f:validateLength minimum="8" />
+									<f:validateLength minimum="#{registrationMB.MIN_PASSWORD_LENGTH}" />
 								</h:inputSecret>
 								<p:messages for="passwordInput" />
 							</h:panelGroup>
@@ -139,11 +141,11 @@
 								</h:outputLabel>
 								<h:inputSecret id="confirmPasswordInput" styleClass="form-control" 
 									value="#{registrationMB.confirmPassword}"
-									maxlength="16" required="true"
+									maxlength="#{registrationMB.MAX_PASSWORD_LENGTH}" required="true"
 									requiredMessage="#{msg['registration.messages.requiredConfirmPassword']}"
 									pt:placeholder="#{msg['registration.form.confirmPassword']}"
 									validatorMessage="#{msg['registration.messages.password.length.min']}">
-									<f:validateLength minimum="8" />
+									<f:validateLength minimum="#{registrationMB.MIN_PASSWORD_LENGTH}" />
 								</h:inputSecret>
 								<p:messages for="confirmPasswordInput" />
 							</h:panelGroup>
@@ -207,16 +209,22 @@
 							<h:panelGroup layout="block" styleClass="row">
 								<h:panelGroup layout="block" styleClass="col-md-12" >
 									<h:commandButton styleClass="btn btn-default btn-block btn-lg" 
-												value="#{msg['registration.form.signUp']}" 
-												action="#{registrationMB.signUp()}" />
+										value="#{msg['registration.form.signUp']}" 
+										action="#{registrationMB.signUp()}">
+										<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+									</h:commandButton>
 								</h:panelGroup>
 							</h:panelGroup>
 							<!-- Facebook sign up button block -->
 							<h:panelGroup layout="block" styleClass="row">
 								<h:panelGroup layout="block" styleClass="col-md-12" >
 									<h:commandButton styleClass="btn btn-primary btn-block btn-lg" 
-												value="#{msg['registration.form.signUp.facebook']}" 
-												action="#{registrationMB.signUpWithFacebook()}" />
+										value="#{msg['registration.form.signUp.facebook']}" 
+										action="#{registrationMB.signUpWithFacebook()}">
+										<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+									</h:commandButton>
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:form>
