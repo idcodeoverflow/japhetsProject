@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/publicTemplate.xhtml">
+
+	<ui:define name="content">
+		<!-- Page messages -->
+		<p:growl id="messages" showDetail="true" globalOnly="true" />
+						   
+		<!-- User --> 
+		<h:panelGroup id="userPanel" layout="block" styleClass="row">
+			
+			<!-- Wallet -->
+			<h:panelGroup styleClass="col-md-6">
+				<h:panelGroup layout="block" 
+					styleClass="panel panel-default account-mngr-container">
+					<h:panelGroup layout="block" styleClass="panel-heading">
+				    	<h2 class="panel-title">
+				    		#{msg['account.user.wallet']}
+				    		<h:panelGroup styleClass="glyphicon glyphicon-usd"/>		
+				    	</h2>
+				  	</h:panelGroup>
+				  	<h:panelGroup layout="block" styleClass="panel-body">
+				  		
+				  		<!-- Budget section -->
+				  		<h:panelGroup layout="block" styleClass="row">
+					  		<!-- Total budget -->
+							<h:panelGroup styleClass="col-md-6">
+								<h:panelGroup layout="block" styleClass="form-group">
+							    	<h:outputLabel for="totalBudgetInput">
+							    		#{msg['account.user.wallet.totalBudget']}
+							    	</h:outputLabel>
+							    	<h:panelGroup styleClass="input-group" layout="block">
+							    	  	<h:panelGroup styleClass="input-group-addon">
+									  		$
+									  	</h:panelGroup>
+							    	  	<h:inputText id="totalBudgetInput" 
+							    	  		styleClass="form-control red-text"
+							    	  		value="259.00" 
+							    	  		readonly="true">
+											<f:convertNumber minFractionDigits="2" 
+												maxFractionDigits="2"/>
+										</h:inputText>
+									</h:panelGroup>
+								 </h:panelGroup>
+							</h:panelGroup>
+							
+							<!-- Available budget -->
+						  	<h:panelGroup styleClass="col-md-6">
+								<h:panelGroup layout="block" styleClass="form-group">
+							    	<h:outputLabel for="availableBudgetInput">
+							    		#{msg['account.user.wallet.availableBudget']}
+							    	</h:outputLabel>
+							    	<h:panelGroup styleClass="input-group" layout="block">
+							    	  	<h:panelGroup styleClass="input-group-addon">
+									  		$
+									  	</h:panelGroup>
+							    	  	<h:inputText id="availableBudgetInput" 
+							    	  		styleClass="form-control"
+							    	  		value="259.00" 
+							    	  		readonly="true">
+											<f:convertNumber minFractionDigits="2" 
+												maxFractionDigits="2"/>
+										</h:inputText>
+									</h:panelGroup>
+								 </h:panelGroup>
+						    </h:panelGroup>
+						</h:panelGroup>
+						
+					    <!-- Claim budget -->
+					    <h:panelGroup layout="block" styleClass="row">
+						    <h:panelGroup styleClass="col-md-3" />
+							<h:panelGroup styleClass="col-md-6">
+						    	<h:commandButton id="claimBudgetButton"
+							    	value="#{msg['account.user.wallet.depositRequest']}" 
+							    	styleClass="btn btn-default btn-block btn-lg"/>
+						    </h:panelGroup>
+						    <h:panelGroup styleClass="col-md-3" />
+						</h:panelGroup>
+						
+					    <!-- Minimum amount message -->
+					    <h:panelGroup layout="block" styleClass="row">
+						    <h:panelGroup layout="block" styleClass="col-md-12">
+						    	#{msg['account.user.wallet.minimumAmmountMessage']}
+						    </h:panelGroup>
+						</h:panelGroup>
+						
+					    <!-- Deposits status table -->
+					    <h:panelGroup layout="block" styleClass="row">
+						    <h:panelGroup layout="block" styleClass="col-md-12">
+						    	<h:dataTable id="depositsStatusTable" 
+						    		value="#{accountManagerMB.deposits}"
+						    		var="deposit"
+						    		styleClass="table table-striped text-center">
+								    <f:facet name="header">
+								        <h:outputText 
+								        	value="#{msg['account.user.wallet.depositsTable.title']}" />
+								    </f:facet>
+								    <h:column headerClass="text-center">
+								        <f:facet name="header">
+								            <h:outputText 
+								            	value="#{msg['account.user.wallet.depositsTable.nRequest']}" />
+								        </f:facet>
+								        <h:outputText value="#{deposit}" />
+								    </h:column>
+								    <h:column headerClass="text-center">
+								        <f:facet name="header">
+								            <h:outputText 
+								            	value="#{msg['account.user.wallet.depositsTable.requestDate']}" />
+								        </f:facet>
+								        <h:outputText value="01/11/2016" />
+								    </h:column>
+								    <h:column headerClass="text-center">
+								        <f:facet name="header">
+								            <h:outputText 
+								            	value="#{msg['account.user.wallet.depositsTable.status']}" />
+								        </f:facet>
+								        <h:outputText value="Depositado" />
+								    </h:column>
+								    <h:column headerClass="text-center">
+								        <f:facet name="header">
+								            <h:outputText 
+								            	value="#{msg['account.user.wallet.depositsTable.resolutionDate']}" />
+								        </f:facet>
+								        <h:outputText value="09/11/2016" />
+								    </h:column>
+								</h:dataTable>	
+						    </h:panelGroup>
+						</h:panelGroup>
+						
+					    <!-- Clarifications message -->
+					    <h:panelGroup layout="block" styleClass="row">
+						    <h:panelGroup layout="block" styleClass="col-md-12">
+						    	#{msg['account.user.wallet.depositsClarificationMessage']}
+						    </h:panelGroup>
+						</h:panelGroup>
+					    
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<!-- Bonifications -->
+			<h:panelGroup styleClass="col-md-6">
+				<h:panelGroup layout="block" 
+					styleClass="panel panel-default account-mngr-container">
+					<h:panelGroup layout="block" styleClass="panel-heading">
+				    	<h2 class="panel-title">
+				    		#{msg['account.user.pendingBonifications']}
+				    		<h:panelGroup styleClass="glyphicon glyphicon-list-alt"/>		
+				    	</h2>
+				  	</h:panelGroup>
+				  	<h:panelGroup layout="block" styleClass="panel-body">
+				  	
+				  		<!-- Deposits status table -->
+					    <h:panelGroup layout="block" styleClass="col-md-12">
+					    	<h:dataTable id="bonificationStatusTable" 
+					    		value="#{accountManagerMB.deposits}"
+					    		var="deposit"
+					    		styleClass="table table-striped text-center">
+							    <f:facet name="header">
+							        <h:outputText 
+							        	value="#{msg['account.user.wallet.depositsTable.title']}" />
+							    </f:facet>
+							    <h:column headerClass="text-center">
+							        <f:facet name="header">
+							            <h:outputText 
+							            	value="#{msg['account.user.pendingBonifications.nBonification']}" />
+							        </f:facet>
+							        <h:outputText value="#{deposit}" />
+							    </h:column>
+							    <h:column headerClass="text-center">
+							        <f:facet name="header">
+							            <h:outputText 
+							            	value="#{msg['account.user.pendingBonifications.uploadDate']}" />
+							        </f:facet>
+							        <h:outputText value="01/11/2016" />
+							    </h:column>
+							    <h:column headerClass="text-center">
+							        <f:facet name="header">
+							            <h:outputText 
+							            	value="#{msg['account.user.pendingBonifications.status']}" />
+							        </f:facet>
+							        <h:outputText value="Depositado" />
+							    </h:column>
+							    <h:column headerClass="text-center">
+							        <f:facet name="header">
+							            <h:outputText 
+							            	value="#{msg['account.user.pendingBonifications.resolutionDate']}" />
+							        </f:facet>
+							        <h:outputText value="09/11/2016" />
+							    </h:column>
+							    <h:column headerClass="text-center">
+							        <f:facet name="header">
+							            <h:outputText 
+							            	value="#{msg['account.user.pendingBonifications.file']}" />
+							        </f:facet>
+							        <h:commandButton 
+							        	styleClass="btn btn-default btn-block"
+							        	value="#{msg['account.user.pendingBonifications.downloadFile']}"/>
+							    </h:column>
+							</h:dataTable>	
+					    </h:panelGroup>
+				  	
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		
+		</h:panelGroup>
+		
+		<!-- Company -->
+		<h:panelGroup id="companyPanel" layout="block" styleClass="row">
+			
+			<h:panelGroup styleClass="col-md-2" />
+			
+			<h:panelGroup styleClass="col-md-8">
+				
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="col-md-2" />
+		
+		</h:panelGroup>
+		
+		<!-- Administrator -->
+		<h:panelGroup id="administratorPanel" layout="block" styleClass="row">
+			
+			<h:panelGroup styleClass="col-md-2" />
+			
+			<h:panelGroup styleClass="col-md-8">
+				
+			</h:panelGroup>
+			
+			<h:panelGroup layout="block" styleClass="col-md-2" />
+		
+		</h:panelGroup>
+	</ui:define>
+	
+</ui:composition>

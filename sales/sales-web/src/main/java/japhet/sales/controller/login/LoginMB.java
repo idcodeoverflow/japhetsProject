@@ -33,11 +33,7 @@ public class LoginMB extends GenericMB
 	private static final long serialVersionUID = 2539935060263981778L;
 	
 	@PostConstruct
-	private void init(){
-		//If the current user is currently signed in redirect to home
-		if(isSignedIn()){
-			redirect(HOME_URL);
-		}
+	private void init() {
 		//Update messages for the user
 		updateMessages();
 	}
@@ -50,7 +46,7 @@ public class LoginMB extends GenericMB
         ExternalContext context = getExternalContext();
         RequestDispatcher dispatcher = 
         		((ServletRequest) context.getRequest()).
-        		getRequestDispatcher(SPRING_LOGIN);
+        			getRequestDispatcher(SPRING_LOGIN);
         dispatcher.forward((ServletRequest) context.getRequest(), 
         		(ServletResponse) context.getResponse());
         getCurrentFacesInstance().responseComplete();
@@ -58,7 +54,7 @@ public class LoginMB extends GenericMB
     }
 	
 	public String doLogout() throws IOException, ServletException {
-		if (isSignedIn()){    
+		if (isSignedIn()){   
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	        logger.info("User: " + auth.getName() + " signed out.");
 			new SecurityContextLogoutHandler().logout(getRequest(), getResponse(), auth);
@@ -66,18 +62,20 @@ public class LoginMB extends GenericMB
 	    return null;
     }
 	
-	public boolean isSignedIn(){
+	public boolean isSignedIn() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return auth != null && !(auth instanceof AnonymousAuthenticationToken);
+		return auth != null 
+				&& !(auth instanceof AnonymousAuthenticationToken);
 	}
 	
-	public void updateMessages() {
+	private void updateMessages() {
 	    Exception ex = (Exception)getExternalContext().
 	    		getSessionMap().get(WebAttributes.AUTHENTICATION_EXCEPTION);
-		if(ex != null) {
-		    logger.error("Authentication Failed!", ex);
-		    showErrorMessage("Intente de nuevo", ex.getMessage());
-		}
+	    //If something went wrong
+	    if(ex != null) {
+	        logger.error("Authentication Failed!", ex);
+			showErrorMessage("Intente de nuevo", ex.getMessage());
+	    }
 	}
 	
 	public short getMIN_PASSWORD_LENGTH() {
@@ -88,7 +86,7 @@ public class LoginMB extends GenericMB
 		return MAX_PASSWORD_LENGTH;
 	}
 	
-	public short getMAX_EMAIL_LENGTH(){
+	public short getMAX_EMAIL_LENGTH() {
 		return MAX_EMAIL_LENGTH;
 	}
 }

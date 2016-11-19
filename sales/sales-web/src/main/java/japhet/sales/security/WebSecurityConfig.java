@@ -33,6 +33,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/resources/media/**").permitAll()
 				/* Fonts and libraries stuff*/
 				.antMatchers("/faces/javax.faces.resource/**").permitAll()
+				/* Home Page */
+				.antMatchers(URLMapperMB.removeHostNameFromURL(HOME_URL)).permitAll()
 				/* Sign Up page */
 				.antMatchers(URLMapperMB.removeHostNameFromURL(
 						REGISTRATION_URL)).permitAll()
@@ -42,8 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage(URLMapperMB.removeHostNameFromURL(SIGN_IN_URL))
 				.usernameParameter("username").passwordParameter("password")
 				.permitAll()
-			.defaultSuccessUrl(URLMapperMB.removeHostNameFromURL(HOME_URL)).	
-			and().
+			.defaultSuccessUrl(URLMapperMB.removeHostNameFromURL(HOME_URL))	
+			.and().
 				/* Logout configuration */
 				logout().    
 				logoutSuccessUrl(URLMapperMB.removeHostNameFromURL(SIGN_IN_URL));

@@ -12,6 +12,7 @@ public enum URL {
 	OFFERS("offers"),
 	RECOVER_PASSWORD("recoverPassword"),
 	SIGN_UP("signUp"),
+	ACCOUNT_MANAGER("accountManager"),
 	HOME_VIDEO_URL("homeVideoUrl"),
 	//Banks
 	INBURSA("banks.inbursa"),

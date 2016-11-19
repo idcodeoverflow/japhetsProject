@@ -341,3 +341,18 @@ footer {
 #logoutButton {
 	margin: 0px !important;
 }
+
+/* Style to get text in wine color */
+.red-text {
+	color: red !important;
+}
+
+/* Account manager container for the budget and bonifications */
+.account-mngr-container {
+	height: 500px !important;
+}
+
+/* Table with elements centered on X & Y axis */
+#bonificationStatusTable td {
+	vertical-align: middle !important;
+}

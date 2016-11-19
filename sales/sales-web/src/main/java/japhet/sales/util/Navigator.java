@@ -15,6 +15,7 @@ public interface Navigator {
 	String UPLOAD_CONTENT_URL = pReader.getValueFromKey(URL.UPLOAD.getName());
 	String RECOVER_PASSWOR_URL = pReader.getValueFromKey(URL.RECOVER_PASSWORD.getName());
 	String SIGN_IN_URL = pReader.getValueFromKey(URL.LOGIN.getName());
+	String ACCOUNT_MANAGER = pReader.getValueFromKey(URL.ACCOUNT_MANAGER.getName());
 	String HOME_VIDEO_URL = pReader.getValueFromKey(URL.HOME_VIDEO_URL.getName());
 	/***** BANKS *****/
 	String INBURSA = pReader.getValueFromKey(URL.INBURSA.getName());
