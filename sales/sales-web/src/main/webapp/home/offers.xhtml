@@ -18,7 +18,8 @@
 	  	<h:panelGroup layout="block" styleClass="panel-body" id="home-scroller">
 	  		<h:panelGroup layout="block" styleClass="row">
 			    <p:dataScroller id="productsDataScroller"
-			    	value="#{homeMB.availableProducts}" var="product" 
+			    	value="#{homeMB.availableProducts}" 
+			    	var="product" 
 		  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
 		    		<!-- Product info block -->
 					<h:panelGroup styleClass="col-md-3 col-xs-6" layout="block">

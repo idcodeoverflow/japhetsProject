@@ -14,7 +14,8 @@ import org.junit.Ignore;
 import japhet.sales.model.IEntity;
 
 @SuppressWarnings(value = "all")
-public abstract class GenericDAO<T extends IEntity, K> {
+public abstract class GenericDAO<T extends IEntity, K> 
+	implements QueryNames {
 
 	@Inject
 	protected EntityManager em;

@@ -93,6 +93,15 @@ public class User implements IEntity {
 							referencedColumnName = "SOCIAL_NETWORK_ID"))
 	private List<SocialNetwork> socialNetwork;
 	
+	@ManyToMany
+	@JoinTable(
+			name = "TB_USER_CATEGORIES",
+			joinColumns = @JoinColumn(name = "USER_ID", 
+							referencedColumnName = "USER_ID"),
+			inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID",
+							referencedColumnName = "CATEGORY_ID"))
+	private List<Category> categories;
+	
 	@Column(name = "VALIDATED_ACCOUNT")
 	private Boolean validatedAccount;
 	
@@ -115,7 +124,7 @@ public class User implements IEntity {
 			String email, String username, String passw, Role role,
 			Short age, Status status, Date signUpDate, Date lastModified,
 			City city, List<SocialNetwork> socialNetwork, 
-			Boolean validatedAccount) {
+			List<Category> categories, Boolean validatedAccount) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -131,6 +140,7 @@ public class User implements IEntity {
 		this.lastModified = lastModified;
 		this.city = city;
 		this.socialNetwork = socialNetwork;
+		this.categories = categories;
 		this.setValidatedAccount(validatedAccount);
 	}
 	
@@ -244,6 +254,14 @@ public class User implements IEntity {
 
 	public void setSocialNetwork(List<SocialNetwork> socialNetwork) {
 		this.socialNetwork = socialNetwork;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	public Boolean getValidatedAccount() {

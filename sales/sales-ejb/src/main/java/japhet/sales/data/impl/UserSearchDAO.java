@@ -1,18 +1,16 @@
 package japhet.sales.data.impl;
 
-import static japhet.sales.data.QueryNames.*;
-
 import java.util.List;
 import java.util.Map;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import japhet.sales.data.GenericDAO;
 import japhet.sales.except.DataLayerException;
 import japhet.sales.model.impl.UserSearch;
-
-import org.apache.log4j.Logger;
 
 @Stateless
 public class UserSearchDAO extends GenericDAO<UserSearch, Long> {

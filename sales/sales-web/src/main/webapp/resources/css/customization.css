@@ -303,7 +303,8 @@ footer {
     border: 1px solid #a8a8a8 !important;
 }
 
-#productsDataScroller .ui-corner-all {
+#productsDataScroller .ui-corner-all, 
+#userControlPanelForm\:categoriesDataScroller .ui-corner-all {
 	border: 0px solid transparent !important;
 }
 
@@ -349,7 +350,7 @@ footer {
 
 /* Account manager container for the budget and bonifications */
 .account-mngr-container {
-	height: 500px !important;
+	min-height: 523px !important;
 }
 
 /* Table with elements centered on X & Y axis */

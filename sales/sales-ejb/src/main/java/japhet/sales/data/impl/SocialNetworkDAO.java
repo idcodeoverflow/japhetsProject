@@ -1,17 +1,15 @@
 package japhet.sales.data.impl;
 
-import static japhet.sales.data.QueryNames.*;
-
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import japhet.sales.data.GenericDAO;
 import japhet.sales.except.DataLayerException;
 import japhet.sales.model.impl.SocialNetwork;
-
-import org.apache.log4j.Logger;
 
 @Stateless
 public class SocialNetworkDAO extends GenericDAO<SocialNetwork, Short>{
