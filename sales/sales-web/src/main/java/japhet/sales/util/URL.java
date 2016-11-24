@@ -13,6 +13,7 @@ public enum URL {
 	RECOVER_PASSWORD("recoverPassword"),
 	SIGN_UP("signUp"),
 	ACCOUNT_MANAGER("accountManager"),
+	USER_ACCOUNT_MANAGER("userAccountManager"),
 	HOME_VIDEO_URL("homeVideoUrl"),
 	//Banks
 	INBURSA("banks.inbursa"),

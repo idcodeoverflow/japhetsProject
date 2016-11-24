@@ -13,7 +13,7 @@
 		<p:growl id="messages" showDetail="true" globalOnly="true" />
 							   
 		<!-- User --> 
-		<ui:include src="/userAccount.xhtml" />
+		<ui:include src="#{urlMapperMB.userAccountManager}" />
 		
 		<!-- Company -->
 		<h:panelGroup id="companyPanel" layout="block" styleClass="row">

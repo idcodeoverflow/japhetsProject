@@ -96,6 +96,10 @@ public class URLMapperMB extends GenericMB {
 		return ACCOUNT_MANAGER;
 	}
 	
+	public String getUserAccountManager(){
+		return USER_ACCOUNT_MANAGER;
+	}
+	
 	public static String removeHostNameFromURL(String url){
 		return url.replace(HOST_NAME, "");
 	}
