@@ -1,15 +1,10 @@
 package japhet.sales.model.impl;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -31,6 +26,7 @@ import org.apache.log4j.Logger;
 
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
+import japhet.sales.util.StreamUtil;
 
 @Cacheable(value = true)
 @Entity
@@ -39,7 +35,8 @@ import japhet.sales.model.IEntity;
 		@NamedQuery(name = QueryNames.GET_AVAILABLE_PRODUCTS,
 				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE")
 })
-public class Product implements IEntity {
+public class Product extends StreamUtil 
+	implements IEntity {
 	
 	/**
 	 * Maven generated.
@@ -231,6 +228,7 @@ public class Product implements IEntity {
 	}
 
 	public void setUrl(String url) {
+		logger.info(String.format("Validation URL: %s", url));
 		final String httpsChain = "https://";
 		final String httpChain = "http://";
 		if(!(url.toLowerCase()).contains(httpsChain) && 
@@ -238,42 +236,5 @@ public class Product implements IEntity {
 			url = httpsChain + url;
 		}
 		this.url = url;
-	}
-
-	@SuppressWarnings("resource")
-	private byte[] convertFileTobytesArray(File file) throws IOException {
-		logger.info("Converting file to byte array...");
-		InputStream is = new FileInputStream(file);
-		long length = file.length();
-		
-		if (length > Integer.MAX_VALUE) {
-			throw new IOException("The file is too big for the DB.");
-		}
-		byte[] bytes = new byte[(int) length];
-
-		int offset = 0;
-		int numRead = is.read(bytes, offset, bytes.length - offset);
-		while (offset < bytes.length && numRead != 0) {
-			offset += numRead;
-			numRead = is.read(bytes, offset, bytes.length - offset);
-		}
-
-		if (offset < bytes.length) {
-			throw new IOException("Could not completely read file " + file.getName());
-		}
-		is.close();
-		logger.info("File succesfully converted to bytes array.");
-		
-		return bytes;
-	}
-	
-	private Image convertByteArrayToFile(byte[] bytes) throws IOException {
-		logger.info("Converting byte array to image...");
-		Image image = null;
-		BufferedImage bfImage = null;
-		bfImage = ImageIO.read(new ByteArrayInputStream(bytes));
-		image = bfImage;
-		logger.info("Bytes array succesfully converted to image.");
-		return image;
 	}
 }

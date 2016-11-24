@@ -7,19 +7,24 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import japhet.sales.catalogs.Roles;
 import japhet.sales.controller.AuthConstants;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.InvalidPasswordException;
 import japhet.sales.model.impl.SocialNetwork;
 import japhet.sales.model.impl.State;
 import japhet.sales.model.impl.User;
+import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IUserService;
+import japhet.sales.service.IUtilService;
 
 import org.apache.log4j.Logger;
+import org.primefaces.event.FileUploadEvent;
 
 @ManagedBean
 @ViewScoped
@@ -31,15 +36,21 @@ public class RegistrationMB extends GenericMB
 	 */
 	private static final long serialVersionUID = -799929358184487082L;
 	
-	@EJB
-	private IUserService userService;
-	
 	@Inject
 	private Logger logger;
+	
+	//EJB's
+	@EJB
+	private IUserService userService;
+	@EJB
+	private IUtilService utilService;
+	@EJB
+	private ICompanyService companyService;
 	
 	//View propertiess
 	private String password;
 	private String confirmPassword;
+	private byte[] imageBytes;
 	
 	//Logic attributes
 	private User user;
@@ -50,11 +61,30 @@ public class RegistrationMB extends GenericMB
 		clear();
 	}
 
+	public void handleFileUpload(FileUploadEvent event) {
+        FacesMessage message = new FacesMessage("Imagen cargada: ", 
+        		event.getFile().getFileName());
+        getCurrentFacesInstance().addMessage(null, message);
+        try {
+			imageBytes = utilService.getBiteArrayFromStream(
+					event.getFile().getInputstream());
+			showInfoMessage("La imagen está lista para guardarse,", "");
+		} catch (Exception e) {
+			showErrorMessage("Ocurrió un error al subir la imagen.", 
+					event.getFile().getFileName());
+		}
+    }
+	
 	public void signUp() {
 		//TODO: complete role and status logic
 		logger.info("Persisting user into the DB...");
 		try {
+			//Persist user entity
 			createUser(user);
+			//Persist company entity
+			if(user.getRole().getRoleId() == Roles.COMPANY.getId()) {
+				
+			}
 			clear();
 			redirect(SIGN_IN_URL);
 		} catch (InvalidPasswordException e) {

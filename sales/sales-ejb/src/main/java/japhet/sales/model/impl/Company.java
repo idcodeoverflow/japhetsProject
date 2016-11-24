@@ -1,5 +1,7 @@
 package japhet.sales.model.impl;
 
+import static japhet.sales.data.QueryNames.*;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,15 +11,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import japhet.sales.model.IEntity;
+import japhet.sales.util.StreamUtil;
 
 @Cacheable(value = true)
 @Entity
 @Table(name = "TB_COMPANY")
-public class Company implements IEntity {
+@NamedQueries(value = {
+		@NamedQuery(name = GET_ALL_AVAILABLE_COMPANIES, 
+				query = "SELECT c FROM Company c"),
+		@NamedQuery(name = GET_ALL_COMPANIES, 
+			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :validStatuses")
+})
+public class Company extends StreamUtil 
+	implements IEntity {
 
 	/**
 	 * Maven generated.
