@@ -42,7 +42,7 @@ public class CompanyDAO extends GenericDAO<Company, Long> {
 		return companies;
 	}
 	
-	public List<Company> getAllAvailableCompanies() 
+	public List<Company> getAllCompanies() 
 		throws DataLayerException {
 		logger.info("Getting all companies...");
 		List<Company> companies = null;

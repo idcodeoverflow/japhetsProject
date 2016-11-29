@@ -1,5 +1,6 @@
 package japhet.sales.service.impl;
 
+import java.util.ArrayList;	
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -9,6 +10,8 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
+import japhet.sales.catalogs.Statuses;
+import japhet.sales.data.impl.CompanyDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.Company;
 import japhet.sales.service.ICompanyService;
@@ -26,48 +29,100 @@ public class CompanyService implements ICompanyService {
 	private Logger logger;
 	
 	@EJB
-	private ICompanyService companyService;
+	private CompanyDAO companyDAO;
 	
 	@Override
-	public List<Company> getAllAvailableCompanies(List<Short> idStatuses) 
+	public List<Company> getAllAvailableCompanies() 
 			throws BusinessServiceException {
 		logger.info("Getting all available companies...");
-		return null;
+		List<Company> companies = null;
+		List<Short> validStatuses = new ArrayList<>();
+		try {
+			//Define valid statuses
+			validStatuses.add(Statuses.ACTIVE.getId());
+			//Get valid companies
+			companies = companyDAO.getAllAvailableCompanies(validStatuses);
+		} catch(Exception e) {
+			final String ERROR_MSG = "Error while getting all available companies...";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return companies;
 	}
 
 	@Override
-	public List<Company> getAllCompanies(List<Short> idStatuses) 
+	public List<Company> getAllCompanies() 
 			throws BusinessServiceException {
 		logger.info("Getting all companies...");
-		return null;
+		List<Company> companies = null;
+		try {
+			companies = companyDAO.getAllCompanies();
+		} catch(Exception e) {
+			final String ERROR_MSG = "Error while getting all companies...";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return companies;
 	}
 
 	@Override
 	public Company selectCompany(Long companyId) 
 			throws BusinessServiceException {
 		logger.info("Getting company: " + companyId + "...");
-		return null;
+		Company company = null;
+		try {
+			company = companyDAO.select(companyId);
+		} catch(Exception e) {
+			final String ERROR_MSG = "Error while getting company: " + companyId + "...";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return company;
 	}
 
 	@Override
-	public boolean updateCompany(Company companyId) 
+	public boolean updateCompany(Company company) 
 			throws BusinessServiceException {
-		logger.info("Updating company: " + companyId + "...");
-		return false;
+		logger.info("Updating company: " + company.getCompanyId() + "...");
+		try {
+			companyDAO.update(company);
+			return true;
+		} catch(Exception e) {
+			final String ERROR_MSG = "Error while updating company: " + 
+					company.getCompanyId() + "...";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
 	}
 
 	@Override
-	public boolean deleteCompany(Company companyId) 
+	public boolean deleteCompany(Company company) 
 			throws BusinessServiceException {
-		logger.info("Deleting company: " + companyId + "...");
-		return false;
+		logger.info("Deleting company: " + company.getCompanyId() + "...");
+		try {
+			companyDAO.delete(company);
+			return true;
+		} catch(Exception e) {
+			final String ERROR_MSG = "Error while getting company: " + 
+					company.getCompanyId() + "...";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
 	}
 
 	@Override
-	public boolean insertCompany(Company companyId) 
+	public boolean insertCompany(Company company) 
 			throws BusinessServiceException {
-		logger.info("Inserting company: " + companyId + "...");
-		return false;
+		logger.info("Inserting company: " + company.getUser().getName() + "...");
+		try {
+			companyDAO.insert(company);
+			return true;
+		} catch(Exception e) {
+			final String ERROR_MSG = "Error while inserting company: " + 
+					company.getUser().getName() + "...";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
 	}
 
 }

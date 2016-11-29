@@ -93,7 +93,7 @@ footer a {
 
 /* Styles for forms */
 .form-control {
-	height: 50px !important;
+	min-height: 50px !important;
 }
 
 /* Styles for input groups */
@@ -173,7 +173,7 @@ footer {
 }
 
 /* Styles for heading panels */
-.panel-default>.panel-heading{
+.panel-default>.panel-heading {
 	background-color: #97E063 !important;
 	color: white !important;
 }

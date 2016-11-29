@@ -16,6 +16,7 @@ import japhet.sales.catalogs.Roles;
 import japhet.sales.controller.AuthConstants;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.InvalidPasswordException;
+import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.SocialNetwork;
 import japhet.sales.model.impl.State;
 import japhet.sales.model.impl.User;
@@ -36,6 +37,8 @@ public class RegistrationMB extends GenericMB
 	 */
 	private static final long serialVersionUID = -799929358184487082L;
 	
+	private final short MAX_MEDIA_SIZE = 3000;
+	
 	@Inject
 	private Logger logger;
 	
@@ -54,6 +57,7 @@ public class RegistrationMB extends GenericMB
 	
 	//Logic attributes
 	private User user;
+	private Company company;
 	private State selectedState;
 	
 	@PostConstruct
@@ -82,8 +86,12 @@ public class RegistrationMB extends GenericMB
 			//Persist user entity
 			createUser(user);
 			//Persist company entity
-			if(user.getRole().getRoleId() == Roles.COMPANY.getId()) {
-				
+			if(isCompany()) {
+				//Fill company object
+				company.setImage(imageBytes);
+				company.setUser(user);
+				//Persist company entity
+				companyService.insertCompany(company);
 			}
 			clear();
 			redirect(SIGN_IN_URL);
@@ -122,9 +130,16 @@ public class RegistrationMB extends GenericMB
 	
 	private void clear() {
 		this.user = new User();
+		this.company = new Company();
+		this.imageBytes = null;
 		this.confirmPassword = null;
 		this.password = null;
 		this.selectedState = new State();
+	}
+	
+	public boolean isCompany(){
+		return user!= null && user.getRole() != null &&
+				user.getRole().getRoleId() == Roles.COMPANY.getId();
 	}
 
 	public User getUser() {
@@ -133,6 +148,14 @@ public class RegistrationMB extends GenericMB
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	public State getSelectedState() {
@@ -169,5 +192,9 @@ public class RegistrationMB extends GenericMB
 	
 	public short getMAX_EMAIL_LENGTH() {
 		return MAX_EMAIL_LENGTH;
+	}
+
+	public short getMAX_MEDIA_SIZE() {
+		return MAX_MEDIA_SIZE;
 	}
 }

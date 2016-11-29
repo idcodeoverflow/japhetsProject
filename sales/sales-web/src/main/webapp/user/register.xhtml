@@ -26,6 +26,31 @@
 							<!-- Application messages -->
 							<p:messages id="messages" globalOnly="true"/>
 							
+							<!-- Company logo -->
+							<h:panelGroup layout="block" 
+								rendered="#{registrationMB.company}"
+								styleClass="form-group">
+								<h:outputLabel for="companyLogo" 
+			  						value="#{msg['registration.form.image']}" />
+					  			<!-- Upload files section -->
+								<p:fileUpload id="companyLogo" 
+									mode="advanced" 
+									dragDropSupport="true"
+									fileUploadListener="#{registrationMB.handleFileUpload}"
+									update="messages" 
+									sizeLimit="#{registrationMB.MAX_MEDIA_SIZE}"
+									required="true"
+									multiple="false"
+									auto="false"
+									requiredMessage="#{msg['registration.message.image.required']}"
+									invalidSizeMessage="#{msg['registration.message.image.sizeExceeded']} #{registrationMB.MAX_MEDIA_SIZE}"
+									invalidFileMessage="#{msg['registration.message.image.invalidFile']}"
+									label="#{msg['registration.form.image.choose']}"
+									uploadLabel="#{msg['registration.form.image.upload']}"
+									cancelLabel="#{msg['registration.form.image.cancel']}"
+									allowTypes="/(\.|\/)(jpe?g|png)$/" />
+							</h:panelGroup>
+								
 							<!-- First Name block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="firstNameInput">
@@ -51,7 +76,8 @@
 								</h:outputLabel>
 								<h:inputText id="lastNameInput" styleClass="form-control"  
 									value="#{registrationMB.user.lastName}"
-									maxlength="100" required="true"
+									maxlength="100" 
+									required="#{!registrationMB.company}"
 									requiredMessage="#{msg['registration.messages.requiredLastName']}"
 									pt:placeholder="#{msg['registration.form.lastName']}"
 									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
@@ -63,7 +89,9 @@
 							</h:panelGroup>
 							
 							<!-- CURP block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								rendered="#{!registrationMB.company}"
+								styleClass="form-group">
 								<h:outputLabel for="curpInput">
 									#{msg['registration.form.curp']}
 								</h:outputLabel>
@@ -80,8 +108,30 @@
 									preventPaste="false" />
 							</h:panelGroup>
 							
+							<!-- RFC block -->
+							<h:panelGroup layout="block" 
+								rendered="#{registrationMB.company}"
+								styleClass="form-group">
+								<h:outputLabel for="rfcInput">
+									#{msg['registration.form.rfc']}
+								</h:outputLabel>
+								<h:inputText id="rfcInput" styleClass="form-control"  
+									value="#{registrationMB.user.curp}"
+									maxlength="18" required="true" minlength="13"
+									requiredMessage="#{msg['registration.messages.requiredRFC']}"
+									pt:placeholder="#{msg['registration.form.rfc']}"
+									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '0123456789');">
+								</h:inputText>
+								<p:messages for="rfcInput" />
+								<p:keyFilter regEx="/[a-zA-Z0-9]/i" 
+									for="rfcInput"
+									preventPaste="false" />
+							</h:panelGroup>
+							
 							<!-- Age block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								rendered="#{!registrationMB.company}"
+								styleClass="form-group">
 								<h:outputLabel for="ageInput">
 									#{msg['registration.form.age']}
 								</h:outputLabel>
@@ -151,18 +201,61 @@
 							</h:panelGroup>
 							
 							<!-- Role block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
 								<h:outputLabel for="rolesList">
 									#{msg['registration.form.role']}
 								</h:outputLabel>
-								<h:selectOneMenu id="rolesList" value="#{registrationMB.user.role.roleId}"
-									styleClass="form-control" required="true" 
+								<h:selectOneMenu id="rolesList" 
+									value="#{registrationMB.user.role.roleId}"
+									styleClass="form-control" 
+									immediate="true"
+									required="true" 
 									requiredMessage="#{msg['registration.messages.requiredRole']}">
 									<f:selectItem itemValue="" itemLabel="#{msg['registration.form.selectOneRole']}" />
 									<f:selectItems value="#{roleMB.roles}" var="role"  
 										itemLabel="#{role.name}" itemValue="#{role.roleId}" />
+									<p:ajax async="true"
+										event="change" 
+										update="@form" />
 								</h:selectOneMenu>
 								<p:messages for="rolesList" />
+							</h:panelGroup>
+							
+							<!-- URL block -->
+							<h:panelGroup layout="block" 
+								rendered="#{registrationMB.company}"
+								styleClass="form-group">
+								<h:outputLabel for="urlInput">
+									#{msg['registration.form.url']}
+								</h:outputLabel>
+								<h:inputText id="urlInput" styleClass="form-control"  
+									value="#{registrationMB.company.url}"
+									required="true"
+									requiredMessage="#{msg['registration.messages.requiredURL']}"
+									pt:placeholder="#{msg['registration.form.url']}"
+									onkeyup="deleteNonAlphaContent(this, '- .#=?\'/:1234567890áéíóú');"
+									onblur="deleteExtraBlankSpaces(this);">
+								</h:inputText>
+								<p:messages for="urlInput" />
+							</h:panelGroup>
+							
+							<!-- Policy block -->
+							<h:panelGroup layout="block" 
+								rendered="#{registrationMB.company}"
+								styleClass="form-group">
+								<h:outputLabel for="policyInput">
+									#{msg['registration.form.policy']}
+								</h:outputLabel>
+								<h:inputTextarea id="policyInput" styleClass="form-control"  
+									value="#{registrationMB.company.privacyPolicy}"
+									required="true"
+									requiredMessage="#{msg['registration.messages.requiredPolicy']}"
+									pt:placeholder="#{msg['registration.form.policy']}"
+									onkeyup="deleteNonAlphaContent(this, '- .#=?\'/:1234567890áéíóú');"
+									onblur="deleteExtraBlankSpaces(this);">
+								</h:inputTextarea>
+								<p:messages for="policyInput" />
 							</h:panelGroup>
 							
 							<!-- Country block -->

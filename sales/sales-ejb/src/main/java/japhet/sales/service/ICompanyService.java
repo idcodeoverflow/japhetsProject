@@ -11,10 +11,10 @@ import japhet.sales.model.impl.Company;
 @Local
 public interface ICompanyService extends Serializable {
 
-	public List<Company> getAllAvailableCompanies(List<Short> idStatuses) 
+	public List<Company> getAllAvailableCompanies() 
 			throws BusinessServiceException;
 	
-	public List<Company> getAllCompanies(List<Short> idStatuses) 
+	public List<Company> getAllCompanies() 
 			throws BusinessServiceException;
 	
 	public Company selectCompany(Long companyId) 
