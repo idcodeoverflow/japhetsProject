@@ -86,7 +86,7 @@ public class RegistrationMB extends GenericMB
 			//Persist user entity
 			createUser(user);
 			//Persist company entity
-			if(isCompany()) {
+			if(isCompanyRole()) {
 				//Fill company object
 				company.setImage(imageBytes);
 				company.setUser(user);
@@ -130,6 +130,7 @@ public class RegistrationMB extends GenericMB
 	
 	private void clear() {
 		this.user = new User();
+		this.user.getRole().setRoleId(null);
 		this.company = new Company();
 		this.imageBytes = null;
 		this.confirmPassword = null;
@@ -137,11 +138,16 @@ public class RegistrationMB extends GenericMB
 		this.selectedState = new State();
 	}
 	
-	public boolean isCompany(){
+	public boolean isCompanyRole(){
 		return user!= null && user.getRole() != null &&
 				user.getRole().getRoleId() == Roles.COMPANY.getId();
 	}
 
+	public void updateRole(Short roleId) {
+		logger.info("Company Role Selected..." + roleId);
+		this.user.getRole().setRoleId(roleId);
+	}
+	
 	public User getUser() {
 		return user;
 	}

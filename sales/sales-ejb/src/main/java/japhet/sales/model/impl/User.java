@@ -88,18 +88,22 @@ public class User implements IEntity {
 	@JoinTable(
 			name = "TB_SNETWORK_USER",
 			joinColumns = @JoinColumn(name = "USER_ID", 
-							referencedColumnName = "USER_ID"),
+							referencedColumnName = "USER_ID",
+							insertable = true),
 			inverseJoinColumns = @JoinColumn(name = "SOCIAL_NETWORK_ID", 
-							referencedColumnName = "SOCIAL_NETWORK_ID"))
+							referencedColumnName = "SOCIAL_NETWORK_ID",
+							insertable = true))
 	private List<SocialNetwork> socialNetwork;
 	
 	@ManyToMany
 	@JoinTable(
 			name = "TB_USER_CATEGORIES",
 			joinColumns = @JoinColumn(name = "USER_ID", 
-							referencedColumnName = "USER_ID"),
+							referencedColumnName = "USER_ID",
+							insertable = true),
 			inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID",
-							referencedColumnName = "CATEGORY_ID"))
+							referencedColumnName = "CATEGORY_ID",
+							insertable = true))
 	private List<Category> categories;
 	
 	@Column(name = "VALIDATED_ACCOUNT")

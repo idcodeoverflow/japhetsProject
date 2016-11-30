@@ -2,6 +2,8 @@ package japhet.sales.model.impl;
 
 import static japhet.sales.data.QueryNames.*;
 
+import java.util.List;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -55,16 +59,33 @@ public class Company extends StreamUtil
 	@Column(name = "PRIVACY_POLICY")
 	private String privacyPolicy;
 	
+	@Column(name = "COMPANY_TYPE")
+	private CompanyType companyType;
+	
+	@ManyToMany
+	@JoinTable(name = "TB_COMPANY_CATEGORY",
+			joinColumns = @JoinColumn(name = "COMPANY_ID",
+					referencedColumnName = "COMPANY_ID",
+					insertable = true),
+			inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID",
+					referencedColumnName = "CATEGORY_ID",
+					insertable = true)
+	)
+	private List<Category> categories;
+	
 	public Company() {}
 
 	public Company(Long companyId, User user, String url, 
-			byte[] image, String privacyPolicy) {
+			byte[] image, String privacyPolicy, 
+			CompanyType companyType, List<Category> categories) {
 		super();
 		this.companyId = companyId;
 		this.user = user;
 		this.url = url;
 		this.image = image;
 		this.privacyPolicy = privacyPolicy;
+		this.companyType = companyType;
+		this.categories = categories;
 	}
 
 	public Long getCompanyId() {
@@ -105,5 +126,21 @@ public class Company extends StreamUtil
 
 	public void setPrivacyPolicy(String privacyPolicy) {
 		this.privacyPolicy = privacyPolicy;
+	}
+
+	public CompanyType getCompanyType() {
+		return companyType;
+	}
+
+	public void setCompanyType(CompanyType companyType) {
+		this.companyType = companyType;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 }
