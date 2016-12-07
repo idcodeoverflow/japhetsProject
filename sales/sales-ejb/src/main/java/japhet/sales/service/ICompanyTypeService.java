@@ -9,7 +9,7 @@ import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.CompanyType;
 
 @Local
-public interface ICompanyType extends Serializable {
+public interface ICompanyTypeService extends Serializable {
 	
 	public boolean insertCompanyType(CompanyType companyType) 
 			throws BusinessServiceException;
@@ -24,5 +24,8 @@ public interface ICompanyType extends Serializable {
 			throws BusinessServiceException;
 
 	public List<CompanyType> getAllCompanyTypes()
+			throws BusinessServiceException;
+	
+	public List<CompanyType> getCachedCompanyTypes()
 			throws BusinessServiceException;
 }

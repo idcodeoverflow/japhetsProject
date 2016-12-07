@@ -2,9 +2,10 @@ package japhet.sales.service.impl;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.LocalBean;
-import javax.ejb.Stateless;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
@@ -12,11 +13,11 @@ import org.apache.log4j.Logger;
 import japhet.sales.data.impl.CompanyTypeDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.CompanyType;
-import japhet.sales.service.ICompanyType;
+import japhet.sales.service.ICompanyTypeService;
 
-@LocalBean
-@Stateless
-public class CompanyTypeService implements ICompanyType {
+@Startup
+@Singleton
+public class CompanyTypeService implements ICompanyTypeService {
 
 	/**
 	 * Maven generated.
@@ -28,6 +29,19 @@ public class CompanyTypeService implements ICompanyType {
 	
 	@EJB
 	private CompanyTypeDAO companyTypeDAO;
+	
+	//Cache attributes
+	private List<CompanyType> companyTypes;
+	
+	@PostConstruct
+	private void init() {
+		try {
+			logger.info("Initializing CompanyTypeService...");
+			this.companyTypes = getAllCompanyTypes();
+		} catch (BusinessServiceException e) {
+			logger.fatal("Error while initializing CompanyTypeService.", e);
+		}
+	}
 	
 	@Override
 	public boolean insertCompanyType(CompanyType companyType) 
@@ -95,16 +109,21 @@ public class CompanyTypeService implements ICompanyType {
 	@Override
 	public List<CompanyType> getAllCompanyTypes() 
 			throws BusinessServiceException {
-		List<CompanyType> companyTypes = null;
+		this.companyTypes = null;
 		try {
 			logger.info("Getting all company types...");
-			companyTypes = companyTypeDAO.getAllCompanyTypes();
+			this.companyTypes = companyTypeDAO.getAllCompanyTypes();
 		} catch (Exception e) {
 			final String ERROR_MSG = "Error while getting all company types.";
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
-		return companyTypes;
+		return this.companyTypes;
 	}
-
+	
+	@Override
+	public List<CompanyType> getCachedCompanyTypes()
+			throws BusinessServiceException {
+		return this.companyTypes;
+	}
 }

@@ -28,6 +28,7 @@
 							
 							<!-- Company logo -->
 							<h:panelGroup layout="block" 
+								id="logoPanel"
 								rendered="#{registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="companyLogo" 
@@ -100,9 +101,9 @@
 								<h:inputText id="curpInput" 
 									styleClass="form-control"  
 									value="#{registrationMB.user.curp}"
-									maxlength="18" 
+									maxlength="#{registrationMB.MAX_CURP_LENGTH}" 
 									required="true" 
-									minlength="18"
+									minlength="#{registrationMB.MIN_CURP_LENGTH}"
 									requiredMessage="#{msg['registration.messages.requiredCurp']}"
 									pt:placeholder="#{msg['registration.form.curp']}"
 									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '0123456789');">
@@ -123,9 +124,9 @@
 								<h:inputText id="rfcInput" 
 									styleClass="form-control"  
 									value="#{registrationMB.user.curp}"
-									maxlength="18" 
+									maxlength="#{registrationMB.MAX_RFC_LENGTH}" 
 									required="true" 
-									minlength="13"
+									minlength="#{registrationMB.MIN_RFC_LENGTH}"
 									requiredMessage="#{msg['registration.messages.requiredRFC']}"
 									pt:placeholder="#{msg['registration.form.rfc']}"
 									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '0123456789');">
@@ -138,6 +139,7 @@
 							
 							<!-- Age block -->
 							<h:panelGroup layout="block" 
+								id="ageBlock"
 								rendered="#{!registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="ageInput">
@@ -146,7 +148,9 @@
 								<h:inputText id="ageInput" 
 									styleClass="form-control"  
 									value="#{registrationMB.user.age}"
-									maxlength="3" required="true"
+									maxlength="#{registrationMB.MAX_AGE_LENGTH}" 
+									minlength="#{registrationMB.MIN_AGE_LENGTH}"
+									required="true"
 									requiredMessage="#{msg['registration.messages.requiredAge']}"
 									pt:placeholder="#{msg['registration.form.age']}"
 									onkeyup="deleteNonIntegerContent(this, '');">
@@ -230,8 +234,35 @@
 										var="role"  
 										itemLabel="#{role.name}" 
 										itemValue="#{role.roleId}" />
+									<f:param name="#{_csrf.parameterName}" 
+										value="#{_csrf.token}" />
+									<p:ajax update="@form"
+										event="change"
+										listener="#{registrationMB.updateRole(registrationMB.user.role.roleId)}"/>
 								</h:selectOneMenu>
 								<p:messages for="rolesList" />
+							</h:panelGroup>
+							
+							<!-- Company Type block -->
+							<h:panelGroup layout="block" 
+								rendered="#{registrationMB.companyRole}"
+								styleClass="form-group">
+								<h:outputLabel for="companyTypeList">
+									#{msg['registration.form.companyType']}
+								</h:outputLabel>
+								<h:selectOneMenu id="companyTypeList" 
+									value="#{registrationMB.company.companyType.companyTypeId}"
+									styleClass="form-control" 
+									required="true" 
+									requiredMessage="#{msg['registration.messages.requiredCompanyType']}">
+									<f:selectItem itemValue="" 
+										itemLabel="#{msg['registration.form.selectOneCompanyType']}" />
+									<f:selectItems value="#{companyTypeMB.companyTypes}" 
+										var="companyType"  
+										itemLabel="#{internationalizationI18NMB.getI18NMessage(companyType.name)}" 
+										itemValue="#{companyType.companyTypeId}" />
+								</h:selectOneMenu>
+								<p:messages for="companyTypeList" />
 							</h:panelGroup>
 							
 							<!-- URL block -->
@@ -273,7 +304,7 @@
 								<p:messages for="policyInput" />
 							</h:panelGroup>
 							
-							<!-- Country block -->
+							<!-- State block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="stateList">
 									#{msg['registration.form.state']}
@@ -281,7 +312,7 @@
 								<h:selectOneMenu id="stateList" 
 									value="#{registrationMB.selectedState.stateId}"
 									styleClass="form-control" 
-									required="true" 
+									required="true"
 									requiredMessage="#{msg['registration.messages.requiredState']}">
 									<f:selectItem itemValue="" 
 										itemLabel="#{msg['registration.form.selectOneState']}" />
@@ -289,14 +320,16 @@
 										var="state"  
 										itemLabel="#{state.name}" 
 										itemValue="#{state.stateId}" />
-									<f:ajax event="valueChange" 
-										render="stateCity" 
-										listener="#{registrationMB.setSelectedState(statesMB.findStateById(registrationMB.selectedState.stateId))}"/>
+									<f:param name="#{_csrf.parameterName}" 
+										value="#{_csrf.token}" />
+									<p:ajax update="stateCity"
+										event="change"
+										listener="#{registrationMB.setSelectedState(statesMB.findStateById(registrationMB.selectedState.stateId))}" />
 								</h:selectOneMenu>
 								<p:messages for="stateList" />
 							</h:panelGroup>
 							
-							<!-- State block -->
+							<!-- City block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="stateCity">
 									#{msg['registration.form.city']}

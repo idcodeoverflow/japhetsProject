@@ -37,7 +37,13 @@ public class RegistrationMB extends GenericMB
 	 */
 	private static final long serialVersionUID = -799929358184487082L;
 	
-	private final short MAX_MEDIA_SIZE = 3000;
+	private static final short MAX_MEDIA_SIZE = 3000;
+	private static final short MAX_RFC_LENGTH = 13;
+	private static final short MAX_CURP_LENGTH = 18;
+	private static final short MIN_RFC_LENGTH = 12;
+	private static final short MIN_CURP_LENGTH = 18;
+	private static final short MAX_AGE_LENGTH = 3;
+	private static final short MIN_AGE_LENGTH = 1;
 	
 	@Inject
 	private Logger logger;
@@ -140,11 +146,10 @@ public class RegistrationMB extends GenericMB
 	
 	public boolean isCompanyRole(){
 		return user!= null && user.getRole() != null &&
-				user.getRole().getRoleId() == Roles.COMPANY.getId();
+			user.getRole().getRoleId() == Roles.COMPANY.getId();
 	}
 
 	public void updateRole(Short roleId) {
-		logger.info("Company Role Selected..." + roleId);
 		this.user.getRole().setRoleId(roleId);
 	}
 	
@@ -202,5 +207,29 @@ public class RegistrationMB extends GenericMB
 
 	public short getMAX_MEDIA_SIZE() {
 		return MAX_MEDIA_SIZE;
+	}
+
+	public short getMAX_RFC_LENGTH() {
+		return MAX_RFC_LENGTH;
+	}
+
+	public short getMAX_CURP_LENGTH() {
+		return MAX_CURP_LENGTH;
+	}
+
+	public short getMIN_RFC_LENGTH() {
+		return MIN_RFC_LENGTH;
+	}
+
+	public short getMIN_CURP_LENGTH() {
+		return MIN_CURP_LENGTH;
+	}
+
+	public short getMAX_AGE_LENGTH() {
+		return MAX_AGE_LENGTH;
+	}
+
+	public short getMIN_AGE_LENGTH() {
+		return MIN_AGE_LENGTH;
 	}
 }

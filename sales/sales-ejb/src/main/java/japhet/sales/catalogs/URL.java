@@ -1,4 +1,4 @@
-package japhet.sales.util;
+package japhet.sales.catalogs;
 
 public enum URL {
 	//Server Pages

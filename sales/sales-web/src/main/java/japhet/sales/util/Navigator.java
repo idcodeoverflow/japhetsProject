@@ -1,5 +1,7 @@
 package japhet.sales.util;
 
+import japhet.sales.catalogs.URL;
+
 public interface Navigator {
 	
 	PropertiesReader pReader = new PropertiesReader("urls.properties");

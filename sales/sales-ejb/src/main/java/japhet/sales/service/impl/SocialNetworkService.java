@@ -10,13 +10,13 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.SocialNetworkDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.SocialNetwork;
-import japhet.sales.service.ISocialNetwork;
+import japhet.sales.service.ISocialNetworkService;
 
 import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
-public class SocialNetworkService implements ISocialNetwork {
+public class SocialNetworkService implements ISocialNetworkService {
 
 	/**
 	 * Maven generated.

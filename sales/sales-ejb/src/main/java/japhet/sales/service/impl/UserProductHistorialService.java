@@ -11,13 +11,13 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.UserProductHistorialDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.UserProductHistorial;
-import japhet.sales.service.IUserProductHistorial;
+import japhet.sales.service.IUserProductHistorialService;
 
 import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
-public class UserProductHistorialService implements IUserProductHistorial {
+public class UserProductHistorialService implements IUserProductHistorialService {
 
 	/**
 	 * Maven generated.

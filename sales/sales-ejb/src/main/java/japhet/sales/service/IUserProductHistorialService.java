@@ -10,7 +10,7 @@ import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.UserProductHistorial;
 
 @Local
-public interface IUserProductHistorial extends Serializable {
+public interface IUserProductHistorialService extends Serializable {
 
 	public List<UserProductHistorial> getHistorialByUser(Map<String, Object> params) 
 			throws BusinessServiceException;

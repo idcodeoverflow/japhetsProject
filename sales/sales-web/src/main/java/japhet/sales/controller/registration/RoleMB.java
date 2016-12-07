@@ -34,7 +34,7 @@ public class RoleMB extends GenericMB {
 	@PostConstruct
 	private void init() {
 		try {
-			logger.info("Inicializando roles desde la bd...");
+			logger.info("Initializing RoleMB...");
 			roles = roleService.getAvailableRoles();
 		} catch (Exception e) {
 			logger.fatal("Error while initializing RolesMB.", e);

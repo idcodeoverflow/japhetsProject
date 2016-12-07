@@ -9,7 +9,7 @@ import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.SocialNetwork;
 
 @Local
-public interface ISocialNetwork extends Serializable {
+public interface ISocialNetworkService extends Serializable {
 	
 	public List<SocialNetwork> getAllSocialNetworks() 
 			throws BusinessServiceException;
