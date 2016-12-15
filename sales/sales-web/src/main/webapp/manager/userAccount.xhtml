@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form id="userControlPanelForm">
+	<!-- User panel -->							
+	<h:panelGroup id="userPanel" 
+		layout="block" 
+		styleClass="row">
+		
+			<!-- Wallet -->
+			<h:panelGroup styleClass="col-md-6">
+				<h:panelGroup layout="block" 
+					styleClass="panel panel-default account-mngr-container">
+					<h:panelGroup layout="block" 
+						styleClass="panel-heading">
+				    	<h2 class="panel-title">
+				    		#{msg['account.user.wallet']}
+				    		<h:panelGroup styleClass="glyphicon glyphicon-usd"/>		
+				    	</h2>
+				  	</h:panelGroup>
+				  	<h:panelGroup layout="block" 
+				  		styleClass="panel-body">
+				  		
+				  		<!-- Budget section -->
+				  		<h:panelGroup layout="block" styleClass="row">
+					  		<!-- Total budget -->
+							<h:panelGroup layout="block" 
+								styleClass="col-md-6">
+								<h:panelGroup layout="block" 
+									styleClass="form-group">
+							    	<h:outputLabel for="totalBudgetInput">
+							    		#{msg['account.user.wallet.totalBudget']}
+							    	</h:outputLabel>
+							    	<h:panelGroup styleClass="input-group" 
+							    		layout="block">
+							    	  	<h:panelGroup styleClass="input-group-addon">
+									  		$
+									  	</h:panelGroup>
+							    	  	<h:inputText id="totalBudgetInput" 
+							    	  		styleClass="form-control red-text"
+							    	  		value="259.00" 
+							    	  		readonly="true">
+											<f:convertNumber minFractionDigits="2" 
+												maxFractionDigits="2"/>
+										</h:inputText>
+									</h:panelGroup>
+								 </h:panelGroup>
+							</h:panelGroup>
+							
+							<!-- Available budget -->
+						  	<h:panelGroup layout="block"
+						  		styleClass="col-md-6">
+								<h:panelGroup layout="block" 
+									styleClass="form-group">
+							    	<h:outputLabel for="availableBudgetInput">
+							    		#{msg['account.user.wallet.availableBudget']}
+							    	</h:outputLabel>
+							    	<h:panelGroup styleClass="input-group" 
+							    		layout="block">
+							    	  	<h:panelGroup styleClass="input-group-addon">
+									  		$
+									  	</h:panelGroup>
+							    	  	<h:inputText id="availableBudgetInput" 
+							    	  		styleClass="form-control"
+							    	  		value="259.00" 
+							    	  		readonly="true">
+											<f:convertNumber minFractionDigits="2" 
+												maxFractionDigits="2"/>
+										</h:inputText>
+									</h:panelGroup>
+								 </h:panelGroup>
+						    </h:panelGroup>
+						</h:panelGroup>
+						
+					    <!-- Claim budget -->
+					    <h:panelGroup layout="block" 
+					    	styleClass="row">
+						    <h:panelGroup layout="block" 
+						    	styleClass="col-md-3" />
+							<h:panelGroup layout="block" 
+								styleClass="col-md-6">
+						    	<h:commandButton id="claimBudgetButton"
+							    	value="#{msg['account.user.wallet.depositRequest']}" 
+							    	styleClass="btn btn-default btn-block btn-lg"/>
+						    </h:panelGroup>
+						    <h:panelGroup styleClass="col-md-3" />
+						</h:panelGroup>
+						
+					    <!-- Minimum amount message -->
+					    <h:panelGroup layout="block" 
+					    	styleClass="row">
+						    <h:panelGroup layout="block" 
+						    	styleClass="col-md-12">
+						    	#{msg['account.user.wallet.minimumAmmountMessage']}
+						    </h:panelGroup>
+						</h:panelGroup>
+						
+					    <!-- Deposits status table -->
+					    <h:panelGroup layout="block" 
+					    	styleClass="row">
+						    <h:panelGroup layout="block" 
+						    	styleClass="col-md-12">
+						    	<p:dataTable id="depositsStatusTable" 
+						    		value="#{userAccountManagerMB.deposits}"
+						    		var="deposit"
+						    		paginator="true"
+						    		paginatorPosition="bottom"
+						    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         			rowsPerPageTemplate="5"
+						    		styleClass="table table-striped text-center">
+								    <f:facet name="header">
+								        <h:outputText 
+								        	value="#{msg['account.user.wallet.depositsTable.title']}" />
+								    </f:facet>
+								    <p:column headerClass="text-center" 
+								    	headerText="#{msg['account.user.wallet.depositsTable.nRequest']}">
+								        <h:outputText value="#{deposit}" />
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	headerText="#{msg['account.user.wallet.depositsTable.requestDate']}">
+								        <h:outputText value="01/11/2016" />
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	headerText="#{msg['account.user.wallet.depositsTable.status']}">
+								        <h:outputText value="Depositado" />
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	headerText="#{msg['account.user.wallet.depositsTable.resolutionDate']}">
+								        <h:outputText value="09/11/2016" />
+								    </p:column>
+								</p:dataTable>	
+						    </h:panelGroup>
+						</h:panelGroup>
+						
+					    <!-- Clarifications message -->
+					    <h:panelGroup layout="block" 
+					    	styleClass="row">
+						    <h:panelGroup layout="block" 
+						    	styleClass="col-md-12">
+						    	#{msg['account.user.wallet.depositsClarificationMessage']}
+						    </h:panelGroup>
+						</h:panelGroup>
+					    
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+			
+			<!-- Bonifications -->
+			<h:panelGroup styleClass="col-md-6">
+				<h:panelGroup layout="block" 
+					styleClass="panel panel-default account-mngr-container">
+					<h:panelGroup layout="block" 
+						styleClass="panel-heading">
+				    	<h2 class="panel-title">
+				    		#{msg['account.user.pendingBonifications']}
+				    		<h:panelGroup styleClass="glyphicon glyphicon-list-alt"/>		
+				    	</h2>
+				  	</h:panelGroup>
+				  	<h:panelGroup layout="block" 
+				  		styleClass="panel-body">
+				  		
+				  		<!-- Upload buy documents -->
+				  		<h:panelGroup layout="block" styleClass="row">
+				  			<h:panelGroup layout="block" styleClass="col-md-12">
+				  				<h:panelGroup layout="block" styleClass="form-group">
+				  					<h:outputLabel for="uploadBuyProof" 
+				  						value="#{msg['userAccount.tags.upload']}" />
+						  			<!-- Upload files section -->
+									<p:fileUpload id="uploadBuyProof" 
+										mode="advanced" 
+										dragDropSupport="true"
+										fileUploadListener="#{uploadContentMB.handleFileUpload}"
+										update="messages" 
+										sizeLimit="#{userAccountManagerMB.MAX_MEDIA_SIZE}"
+										required="true"
+										multiple="false"
+										auto="false"
+										requiredMessage="#{msg['userAccount.messages.image.required']}"
+										invalidSizeMessage="#{msg['userAccount.messages.image.sizeExceeded']} #{userAccountManagerMB.MAX_MEDIA_SIZE}"
+										invalidFileMessage="#{msg['userAccount.messages.image.invalidFile']}"
+										label="#{msg['userAccount.tags.image.choose']}"
+										uploadLabel="#{msg['userAccount.tags.image.upload']}"
+										cancelLabel="#{msg['userAccount.tags.image.cancel']}"
+										allowTypes="/(\.|\/)(jpe?g|png)$/" />
+									</h:panelGroup>
+								</h:panelGroup>
+				  		</h:panelGroup>
+				  	
+				  		<!-- Deposits status table -->
+				  		<h:panelGroup layout="block" styleClass="row">
+						    <h:panelGroup layout="block" styleClass="col-md-12">
+						    	<p:dataTable id="bonificationStatusTable" 
+						    		value="#{userAccountManagerMB.deposits}"
+						    		var="deposit"
+						    		paginator="true"
+						    		paginatorPosition="bottom"
+						    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                         			rowsPerPageTemplate="5"
+						    		styleClass="table table-striped text-center">
+								    <f:facet name="header">
+								        <h:outputText 
+								        	value="#{msg['account.user.wallet.depositsTable.title']}" />
+								    </f:facet>
+								    <p:column headerClass="text-center"
+								    	headerText="#{msg['account.user.pendingBonifications.nBonification']}">
+								        <h:outputText value="#{deposit}" />
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	headerText="#{msg['account.user.pendingBonifications.uploadDate']}">
+								        <h:outputText value="01/11/2016" />
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	headerText="#{msg['account.user.pendingBonifications.status']}">
+								        <h:outputText value="Depositado" />
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	headerText="#{msg['account.user.pendingBonifications.resolutionDate']}">
+								        <h:outputText value="09/11/2016" />
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	headerText="#{msg['account.user.pendingBonifications.file']}">
+								        <h:commandButton 
+								        	styleClass="btn btn-default btn-block"
+								        	value="#{msg['account.user.pendingBonifications.downloadFile']}"/>
+								    </p:column>
+								</p:dataTable>	
+						    </h:panelGroup>
+					    </h:panelGroup>
+				  	
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+			
+		<!-- Categories -->
+		<h:panelGroup layout="block" 
+			styleClass="row">
+		    <h:panelGroup layout="block" 
+		    	styleClass="col-md-12">
+				<h:panelGroup layout="block" 
+					styleClass="panel panel-default">
+					<h:panelGroup layout="block" 
+						styleClass="panel-heading">
+				    	<h2 class="panel-title">
+				    		#{msg['userAccount.categories.title']}
+				    		<h:panelGroup styleClass="glyphicon glyphicon-heart"/>		
+				    	</h2>
+				  	</h:panelGroup>
+				  	<h:panelGroup layout="block" 
+				  		styleClass="panel-body">
+						<h:panelGroup layout="block" 
+							styleClass="row">
+						    <p:dataScroller id="categoriesDataScroller"
+						    	value="#{userAccountManagerMB.categories}" 
+						    	var="category" 
+					  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
+					  			<h:panelGroup styleClass="col-md-3"
+					  				layout="block">
+						  			<h:selectBooleanCheckbox>
+						  				<h:outputLabel value="#{category.name}" />
+						  			</h:selectBooleanCheckbox>
+					  			</h:panelGroup>
+					  		</p:dataScroller>
+					  	</h:panelGroup>
+					  	<h:panelGroup layout="block" 
+							styleClass="row">
+							<h:panelGroup layout="block"
+								styleClass="col-md-9"/>
+							<h:panelGroup layout="block"
+								styleClass="col-md-3">
+								<h:commandButton 
+									action="#{userAccountManagerMB.saveFavoriteCategories()}" 
+									value="#{msg['userAccount.categories.save']}"
+									styleClass="btn btn-default btn-block btn-lg" />
+							</h:panelGroup>
+						</h:panelGroup>
+				  	</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</h:form>
+</ui:composition>

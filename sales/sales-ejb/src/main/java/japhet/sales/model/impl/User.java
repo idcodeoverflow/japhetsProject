@@ -1,6 +1,7 @@
 package japhet.sales.model.impl;
 
 import java.util.Date;
+
 import java.util.List;
 
 import javax.persistence.Cacheable;
@@ -19,15 +20,17 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import japhet.sales.catalogs.Roles;
+import japhet.sales.catalogs.Statuses;
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
 import japhet.sales.util.Encription;
 
-@Entity
 @Cacheable(value = true)
+@Entity
 @Table(name = "TB_USER")
 @NamedQuery(name = QueryNames.EXISTS_USER, 
-	query = "SELECT u.userId FROM User u WHERE u.username = :username AND u.passw = :passw")
+	query = "SELECT u FROM User u WHERE u.username = :username AND u.passw = :passw")
 public class User implements IEntity {
 
 	/**
@@ -45,6 +48,9 @@ public class User implements IEntity {
 	
 	@Column(name = "LAST_NAME")
 	private String lastName;
+	
+	@Column(name = "CURP")
+	private String curp;
 	
 	@Column(name = "EMAIL")
 	private String email;
@@ -82,24 +88,52 @@ public class User implements IEntity {
 	@JoinTable(
 			name = "TB_SNETWORK_USER",
 			joinColumns = @JoinColumn(name = "USER_ID", 
-							referencedColumnName = "USER_ID"),
+							referencedColumnName = "USER_ID",
+							insertable = true),
 			inverseJoinColumns = @JoinColumn(name = "SOCIAL_NETWORK_ID", 
-							referencedColumnName = "SOCIAL_NETWORK_ID"))
+							referencedColumnName = "SOCIAL_NETWORK_ID",
+							insertable = true))
 	private List<SocialNetwork> socialNetwork;
 	
+	@ManyToMany
+	@JoinTable(
+			name = "TB_USER_CATEGORIES",
+			joinColumns = @JoinColumn(name = "USER_ID", 
+							referencedColumnName = "USER_ID",
+							insertable = true),
+			inverseJoinColumns = @JoinColumn(name = "CATEGORY_ID",
+							referencedColumnName = "CATEGORY_ID",
+							insertable = true))
+	private List<Category> categories;
+	
+	@Column(name = "VALIDATED_ACCOUNT")
 	private Boolean validatedAccount;
 	
-	public User() {}
+	public User() {
+		this.validatedAccount = false;
+		//Add the default value for the role
+		this.role = new Role();
+		this.role.setRoleId(Roles.USER.getId());
+		//Add the default value for the status
+		this.status = new Status();
+		this.status.setStatusId(Statuses.DISABLED.getId());
+		//Instantiate a City
+		this.city = new City();
+		//Initialize dates
+		this.lastModified = new Date();
+		this.signUpDate = new Date();
+	}
 
-	public User(Long userId, String name, String lastName, 
+	public User(Long userId, String name, String lastName, String curp,
 			String email, String username, String passw, Role role,
 			Short age, Status status, Date signUpDate, Date lastModified,
 			City city, List<SocialNetwork> socialNetwork, 
-			Boolean validatedAccount) {
+			List<Category> categories, Boolean validatedAccount) {
 		super();
 		this.userId = userId;
 		this.name = name;
 		this.lastName = lastName;
+		this.curp = curp;
 		this.email = email;
 		this.username = username;
 		this.passw = passw;
@@ -110,6 +144,7 @@ public class User implements IEntity {
 		this.lastModified = lastModified;
 		this.city = city;
 		this.socialNetwork = socialNetwork;
+		this.categories = categories;
 		this.setValidatedAccount(validatedAccount);
 	}
 	
@@ -135,6 +170,14 @@ public class User implements IEntity {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public String getCurp() {
+		return curp;
+	}
+
+	public void setCurp(String curp) {
+		this.curp = curp;
 	}
 
 	public String getEmail() {
@@ -215,6 +258,14 @@ public class User implements IEntity {
 
 	public void setSocialNetwork(List<SocialNetwork> socialNetwork) {
 		this.socialNetwork = socialNetwork;
+	}
+
+	public List<Category> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
 	}
 
 	public Boolean getValidatedAccount() {

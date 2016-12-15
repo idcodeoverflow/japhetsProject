@@ -5,24 +5,21 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import org.junit.Ignore;
 
 import japhet.sales.model.IEntity;
 
 @SuppressWarnings(value = "all")
-public abstract class GenericDAO<T extends IEntity, K> {
+public abstract class GenericDAO<T extends IEntity, K> 
+	implements QueryNames {
 
 	@Inject
 	protected EntityManager em;
 	
 	private final Class<T> type;
 	private final Class<K> key;
-
-    public GenericDAO(Class<T> type, Class<K> key) {
+	
+	public GenericDAO(Class<T> type, Class<K> key) {
          this.type = type;
          this.key = key;
     }
@@ -107,6 +104,15 @@ public abstract class GenericDAO<T extends IEntity, K> {
 		return namedQuery.getResultList();
 	}
 	
+	public <Y> List<Y> executeTypoQuery(String queryName, 
+			Map<String, Object> params, Class<Y> typo) throws Exception {
+		Query namedQuery = em.createNamedQuery(queryName, typo);
+		if(params != null) {
+			populateNamedQueryParams(namedQuery, params);
+		}
+		return namedQuery.getResultList();
+	}
+	
 	public long executeUpdate(String queryName,
 			Map<String, Object> params) throws Exception {
 		Query namedQuery = em.createNamedQuery(queryName);
@@ -115,5 +121,4 @@ public abstract class GenericDAO<T extends IEntity, K> {
 		}
 		return namedQuery.executeUpdate();
 	}
-	
 }

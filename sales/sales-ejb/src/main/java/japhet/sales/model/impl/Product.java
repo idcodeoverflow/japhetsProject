@@ -1,16 +1,10 @@
 package japhet.sales.model.impl;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
-import java.util.logging.Logger;
 
-import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -28,17 +22,21 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.log4j.Logger;
+
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
+import japhet.sales.util.StreamUtil;
 
-@Entity
 @Cacheable(value = true)
+@Entity
 @Table(name = "TB_PRODUCT")
 @NamedQueries({
 		@NamedQuery(name = QueryNames.GET_AVAILABLE_PRODUCTS,
 				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE")
 })
-public class Product implements IEntity {
+public class Product extends StreamUtil 
+	implements IEntity {
 	
 	/**
 	 * Maven generated.
@@ -61,6 +59,9 @@ public class Product implements IEntity {
 	
 	@Column(name = "PRICE")
 	private Double price;
+	
+	@Column(name = "PAYBACK_PERCENT")
+	private Double paybackPercent;
 	
 	@Lob
 	@Column(name = "IMAGE")
@@ -89,17 +90,25 @@ public class Product implements IEntity {
 	@Column(name = "REDIRECT_NUMBER")
 	private Integer redirectNumber;
 	
-	public Product() {}
+	@Column(name = "URL")
+	private String url;
+	
+	public Product() {
+		this.redirectNumber = 0;
+		this.uploadDate = new Date();
+	}
 
 	public Product(Long productId, String title, String description, 
-			Double price, byte[] image, Date uploadDate, Date startDate, 
-			Date endDate, Company company, Category category, 
-			Integer redirectNumber) {
+			Double price, Double paybackPercent, byte[] image, 
+			Date uploadDate, Date startDate, Date endDate, 
+			Company company, Category category, Integer redirectNumber,
+			String url) {
 		super();
 		this.productId = productId;
 		this.title = title;
 		this.description = description;
 		this.price = price;
+		this.paybackPercent = paybackPercent;
 		this.image = image;
 		this.uploadDate = uploadDate;
 		this.startDate = startDate;
@@ -107,6 +116,7 @@ public class Product implements IEntity {
 		this.company = company;
 		this.category = category;
 		this.redirectNumber = redirectNumber;
+		this.url = url;
 	}
 
 	public Long getProductId() {
@@ -139,6 +149,14 @@ public class Product implements IEntity {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Double getPaybackPercent() {
+		return paybackPercent;
+	}
+
+	public void setPaybackPercent(Double paybackPercent) {
+		this.paybackPercent = paybackPercent;
 	}
 
 	public byte[] getImage() {
@@ -205,40 +223,18 @@ public class Product implements IEntity {
 		this.redirectNumber = redirectNumber;
 	}
 	
-	@SuppressWarnings("resource")
-	private byte[] convertFileTobytesArray(File file) throws IOException {
-		logger.info("Converting file to byte array...");
-		InputStream is = new FileInputStream(file);
-		long length = file.length();
-		
-		if (length > Integer.MAX_VALUE) {
-			throw new IOException("The file is too big for the DB.");
-		}
-		byte[] bytes = new byte[(int) length];
-
-		int offset = 0;
-		int numRead = is.read(bytes, offset, bytes.length - offset);
-		while (offset < bytes.length && numRead != 0) {
-			offset += numRead;
-			numRead = is.read(bytes, offset, bytes.length - offset);
-		}
-
-		if (offset < bytes.length) {
-			throw new IOException("Could not completely read file " + file.getName());
-		}
-		is.close();
-		logger.info("File succesfully converted to bytes array.");
-		
-		return bytes;
+	public String getUrl() {
+		return url;
 	}
-	
-	private Image convertByteArrayToFile(byte[] bytes) throws IOException {
-		logger.info("Converting byte array to image...");
-		Image image = null;
-		BufferedImage bfImage = null;
-		bfImage = ImageIO.read(new ByteArrayInputStream(bytes));
-		image = bfImage;
-		logger.info("Bytes array succesfully converted to image.");
-		return image;
+
+	public void setUrl(String url) {
+		logger.info(String.format("Validation URL: %s", url));
+		final String httpsChain = "https://";
+		final String httpChain = "http://";
+		if(!(url.toLowerCase()).contains(httpsChain) && 
+				!(url.toLowerCase()).contains(httpChain)) {
+			url = httpsChain + url;
+		}
+		this.url = url;
 	}
 }

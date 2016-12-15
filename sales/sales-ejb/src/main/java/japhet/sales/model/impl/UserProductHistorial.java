@@ -21,8 +21,8 @@ import javax.persistence.TemporalType;
 
 import japhet.sales.model.IEntity;
 
-@Entity
 @Cacheable(value = true)
+@Entity
 @Table(name = "TB_USR_PRDCT_HISTORIAL")
 @NamedQueries(value = {
 		@NamedQuery(name = GET_ALL_PRODUCT_HISTORIAL_BY_USER, 

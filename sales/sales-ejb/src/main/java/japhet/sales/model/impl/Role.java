@@ -18,8 +18,8 @@ import javax.persistence.TemporalType;
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
 
-@Entity
 @Cacheable(value = true)
+@Entity
 @Table(name = "TB_ROLE")
 @NamedQueries({
 	@NamedQuery(name = QueryNames.GET_ALL_AVAILABLE_ROLES,

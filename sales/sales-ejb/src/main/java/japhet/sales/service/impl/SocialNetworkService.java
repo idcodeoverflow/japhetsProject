@@ -1,7 +1,6 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -9,12 +8,15 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.SocialNetworkDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.SocialNetwork;
-import japhet.sales.service.ISocialNetwork;
+import japhet.sales.service.ISocialNetworkService;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
-public class SocialNetworkService implements ISocialNetwork {
+public class SocialNetworkService implements ISocialNetworkService {
 
 	/**
 	 * Maven generated.
@@ -28,14 +30,32 @@ public class SocialNetworkService implements ISocialNetwork {
 	private SocialNetworkDAO socialNetworkDAO;
 	
 	@Override
-	public List<SocialNetwork> getAllSocialNetworks() {
+	public List<SocialNetwork> getAllSocialNetworks()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all social networks...");
-		return socialNetworkDAO.getAllSocialNetworks();
+		List<SocialNetwork> socialNetworks = null;
+		try {
+			socialNetworks = socialNetworkDAO.getAllSocialNetworks();
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting all Social Networks.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return socialNetworks;
 	}
 
 	@Override
-	public List<SocialNetwork> getAllAvailableSocialNetworks() {
+	public List<SocialNetwork> getAllAvailableSocialNetworks()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all available social networks...");
-		return socialNetworkDAO.getAllAvailableSocialNetworks();
+		List<SocialNetwork> socialNetworks = null;
+		try {
+			socialNetworks = socialNetworkDAO.getAllAvailableSocialNetworks();
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting all available Social Networks.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return socialNetworks;
 	}
 }

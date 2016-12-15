@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import japhet.sales.catalogs.Statuses;
 import japhet.sales.model.IEntity;
 
 @Cacheable(value = true)
@@ -65,6 +66,10 @@ public class BuyProof implements IEntity {
 	@Column(name = "REGISTERED_ON")
 	private Date registeredOn;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "VALIDATED_BY")
+	private User validatedBy;
+	
 	@Temporal(value = TemporalType.DATE)
 	@Column(name = "PAYED_ON")
 	private Date payedOn;
@@ -77,12 +82,23 @@ public class BuyProof implements IEntity {
 	@JoinColumn(name = "STATUS")
 	private Status status;
 	
-	public BuyProof() {}
+	@Column(name = "PAYMENT_REQUEST_ID")
+	private Long paymentRequestId;
+	
+	public BuyProof() {
+		this.registeredOn = new Date();
+		this.lastUpdate = new Date();
+		this.paybackApplied = false;
+		//Set initial status
+		this.status = new Status();
+		this.status.setStatusId(Statuses.VALIDATION_PENDING.getId());
+	}
 
 	public BuyProof(Long buyProofId, User user, Product product, 
 			String fingerPrint, byte[] ticketImage,
 			Boolean paybackApplied, Date registeredOn, Date payedOn, 
-			Date lastUpdate, Status status) {
+			Date lastUpdate, Status status, Long paymentRequestId,
+			User validatedBy) {
 		super();
 		this.buyProofId = buyProofId;
 		this.user = user;
@@ -92,8 +108,10 @@ public class BuyProof implements IEntity {
 		this.paybackApplied = paybackApplied;
 		this.registeredOn = registeredOn;
 		this.payedOn = payedOn;
+		this.validatedBy = validatedBy;
 		this.lastUpdate = lastUpdate;
 		this.status = status;
+		this.paymentRequestId = paymentRequestId;
 	}
 
 	public Long getBuyProofId() {
@@ -152,6 +170,14 @@ public class BuyProof implements IEntity {
 		this.registeredOn = registeredOn;
 	}
 
+	public User getValidatedBy() {
+		return validatedBy;
+	}
+
+	public void setValidatedBy(User validatedBy) {
+		this.validatedBy = validatedBy;
+	}
+
 	public Date getPayedOn() {
 		return payedOn;
 	}
@@ -174,5 +200,13 @@ public class BuyProof implements IEntity {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public Long getPaymentRequestId() {
+		return paymentRequestId;
+	}
+
+	public void setPaymentRequestId(Long paymentRequestId) {
+		this.paymentRequestId = paymentRequestId;
 	}
 }

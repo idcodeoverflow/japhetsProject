@@ -53,8 +53,12 @@
         <version.jboss.bom>8.2.1.Final</version.jboss.bom>
         <version.wildfly>9.0.0.Alpha1</version.wildfly>
 		
+		<!-- Web plugins -->
 		<version.primefaces>6.0</version.primefaces>
 		<version.gson>2.7</version.gson>
+
+		<!-- Security stuff -->
+		<version.spring.security>4.1.3.RELEASE</version.spring.security>
 
         <!-- other plugin versions -->
         <version.compiler.plugin>3.1</version.compiler.plugin>
@@ -62,6 +66,8 @@
         <version.ejb.plugin>2.3</version.ejb.plugin>
         <version.surefire.plugin>2.16</version.surefire.plugin>
         <version.war.plugin>2.5</version.war.plugin>
+        <version.log4j>1.2.17</version.log4j>
+        <version.javax.servlet>3.1.0</version.javax.servlet>
 
         <!-- maven-compiler-plugin -->
         <maven.compiler.target>1.7</maven.compiler.target>
