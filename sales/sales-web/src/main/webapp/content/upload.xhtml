@@ -9,9 +9,10 @@
 	template="/WEB-INF/templates/publicTemplate.xhtml">
 
 	<ui:define name="content">
-		<!-- Page messages -->
-		<p:growl id="messages" showDetail="true" globalOnly="true" />
-						    
+		<!-- CSRF protection -->
+		<meta name="#{_csrf.parameterName}" content="#{_csrf.token}"/>
+		<meta name="_csrf_header" content="#{_csrf.headerName}"/>
+	
 		<h:panelGroup layout="block" styleClass="row">
 			
 			<h:panelGroup styleClass="col-md-2" />
@@ -28,6 +29,10 @@
 					<!-- Form block -->
 					<h:panelGroup layout="block" styleClass="panel-body">
 						<h:form id="uploadContentForm">
+							
+							<!-- Page messages -->
+							<p:messages id="messages" showDetail="true" globalOnly="true" />
+				
 							<!-- Upload files section -->
 							<p:fileUpload id="uploadImage" 
 								mode="advanced" 
@@ -38,6 +43,7 @@
 								required="true"
 								multiple="false"
 								auto="true"
+								onstart="csrfValidation()"
 								requiredMessage="#{msg['upload.messages.image.required']}"
 								invalidSizeMessage="#{msg['upload.messages.image.sizeExceeded']}"
 								invalidFileMessage="#{msg['upload.messages.image.invalidFile']}"

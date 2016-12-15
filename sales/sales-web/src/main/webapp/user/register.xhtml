@@ -9,6 +9,11 @@
 	template="/WEB-INF/templates/publicTemplate.xhtml">
 	
 	<ui:define name="content">
+		
+		<!-- CSRF protection -->
+		<meta name="#{_csrf.parameterName}" content="#{_csrf.token}"/>
+		<meta name="_csrf_header" content="#{_csrf.headerName}"/>
+	
 		<h:panelGroup layout="block" styleClass="row">
 		
 			<h:panelGroup layout="block" styleClass="col-md-3" />
@@ -43,6 +48,7 @@
 									required="true"
 									multiple="false"
 									auto="false"
+									onstart="csrfValidation()"
 									requiredMessage="#{msg['registration.message.image.required']}"
 									invalidSizeMessage="#{msg['registration.message.image.sizeExceeded']} #{registrationMB.MAX_MEDIA_SIZE}"
 									invalidFileMessage="#{msg['registration.message.image.invalidFile']}"
@@ -50,8 +56,6 @@
 									uploadLabel="#{msg['registration.form.image.upload']}"
 									cancelLabel="#{msg['registration.form.image.cancel']}"
 									allowTypes="/(\.|\/)(jpe?g|png)$/">
-									<f:attribute name="#{_csrf.parameterName}" 
-											value="#{_csrf.token}" />
 								</p:fileUpload>
 							</h:panelGroup>
 								
