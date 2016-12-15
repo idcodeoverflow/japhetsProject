@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -59,7 +60,8 @@ public class Company extends StreamUtil
 	@Column(name = "PRIVACY_POLICY")
 	private String privacyPolicy;
 	
-	@Column(name = "COMPANY_TYPE")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "COMPANY_TYPE_ID")
 	private CompanyType companyType;
 	
 	@ManyToMany
@@ -73,7 +75,10 @@ public class Company extends StreamUtil
 	)
 	private List<Category> categories;
 	
-	public Company() {}
+	public Company() {
+		super();
+		this.companyType = new CompanyType();
+	}
 
 	public Company(Long companyId, User user, String url, 
 			byte[] image, String privacyPolicy, 

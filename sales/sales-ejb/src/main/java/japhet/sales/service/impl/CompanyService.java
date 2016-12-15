@@ -6,14 +6,18 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.data.impl.CompanyDAO;
+import japhet.sales.data.impl.UserDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.Company;
+import japhet.sales.model.impl.User;
 import japhet.sales.service.ICompanyService;
 
 @LocalBean
@@ -30,6 +34,9 @@ public class CompanyService implements ICompanyService {
 	
 	@EJB
 	private CompanyDAO companyDAO;
+	
+	@EJB
+	private UserDAO userDAO;
 	
 	@Override
 	public List<Company> getAllAvailableCompanies() 
@@ -125,4 +132,20 @@ public class CompanyService implements ICompanyService {
 		}
 	}
 
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public boolean insertCompany(Company company, User user)
+			throws BusinessServiceException, Exception {
+		logger.info("Inserting company: " + company.getUser().getName() + "...");
+		try {
+			userDAO.insert(user);
+			companyDAO.insert(company);
+			return true;
+		} catch(Exception e) {
+			final String ERROR_MSG = "Error while inserting company: " + 
+					company.getUser().getName() + ". Rolling back transaction...";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+	}
 }

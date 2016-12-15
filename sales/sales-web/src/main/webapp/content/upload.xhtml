@@ -29,9 +29,12 @@
 					<h:panelGroup layout="block" styleClass="panel-body">
 						<h:form id="uploadContentForm">
 							<!-- Upload files section -->
-							<p:fileUpload id="uploadImage" mode="advanced" dragDropSupport="true"
+							<p:fileUpload id="uploadImage" 
+								mode="advanced" 
+								dragDropSupport="true"
 								fileUploadListener="#{uploadContentMB.handleFileUpload}"
-								update="messages" sizeLimit="#{uploadContentMB.MAX_MEDIA_SIZE}"
+								update="messages" 
+								sizeLimit="#{uploadContentMB.MAX_MEDIA_SIZE}"
 								required="true"
 								multiple="false"
 								auto="true"

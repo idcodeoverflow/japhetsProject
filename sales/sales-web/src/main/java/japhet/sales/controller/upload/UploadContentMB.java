@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -23,7 +22,6 @@ import japhet.sales.service.IUtilService;
 @ViewScoped
 public class UploadContentMB extends GenericMB {
 
-	
 	/**
 	 * Maven generated.
 	 */
@@ -45,7 +43,7 @@ public class UploadContentMB extends GenericMB {
 	private Product product;
 	
 	//Validation properties
-	private final long MAX_MEDIA_SIZE = 300000;
+	private final long MAX_MEDIA_SIZE = 2500000L;
 	
 	@PostConstruct
 	public void init(){
@@ -53,9 +51,6 @@ public class UploadContentMB extends GenericMB {
 	}
 			
 	public void handleFileUpload(FileUploadEvent event) {
-        FacesMessage message = new FacesMessage("Imagen cargada: ", 
-        		event.getFile().getFileName());
-        getCurrentFacesInstance().addMessage(null, message);
         try {
 			imageBytes = utilService.getBiteArrayFromStream(
 					event.getFile().getInputstream());

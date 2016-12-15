@@ -7,10 +7,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+
+import org.apache.log4j.Logger;
+import org.primefaces.event.FileUploadEvent;
 
 import japhet.sales.catalogs.Roles;
 import japhet.sales.controller.AuthConstants;
@@ -24,9 +26,6 @@ import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IUserService;
 import japhet.sales.service.IUtilService;
 
-import org.apache.log4j.Logger;
-import org.primefaces.event.FileUploadEvent;
-
 @ManagedBean
 @ViewScoped
 public class RegistrationMB extends GenericMB 
@@ -37,7 +36,7 @@ public class RegistrationMB extends GenericMB
 	 */
 	private static final long serialVersionUID = -799929358184487082L;
 	
-	private static final short MAX_MEDIA_SIZE = 3000;
+	private static final long MAX_MEDIA_SIZE = 2500000L;
 	private static final short MAX_RFC_LENGTH = 13;
 	private static final short MAX_CURP_LENGTH = 18;
 	private static final short MIN_RFC_LENGTH = 12;
@@ -72,14 +71,14 @@ public class RegistrationMB extends GenericMB
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
-        FacesMessage message = new FacesMessage("Imagen cargada: ", 
-        		event.getFile().getFileName());
-        getCurrentFacesInstance().addMessage(null, message);
         try {
+        	logger.info("Uploading Company Image...");
 			imageBytes = utilService.getBiteArrayFromStream(
 					event.getFile().getInputstream());
+			logger.info("Company Image Uploaded succesfuly!");
 			showInfoMessage("La imagen está lista para guardarse,", "");
 		} catch (Exception e) {
+			logger.error("Error while uploading Company Image.", e);
 			showErrorMessage("Ocurrió un error al subir la imagen.", 
 					event.getFile().getFileName());
 		}
@@ -87,17 +86,21 @@ public class RegistrationMB extends GenericMB
 	
 	public void signUp() {
 		//TODO: complete role and status logic
-		logger.info("Persisting user into the DB...");
+		logger.info("Signing Up user...");
 		try {
-			//Persist user entity
 			createUser(user);
-			//Persist company entity
-			if(isCompanyRole()) {
+			//Persist entities
+			if(isUserRole()) {
+				//Persist user entity
+				userService.insertUser(user);
+			} else if(isCompanyRole()) {
+				//Set age as 0
+				user.setAge((short) 0);
 				//Fill company object
 				company.setImage(imageBytes);
 				company.setUser(user);
 				//Persist company entity
-				companyService.insertCompany(company);
+				companyService.insertCompany(company, user);
 			}
 			clear();
 			redirect(SIGN_IN_URL);
@@ -131,7 +134,6 @@ public class RegistrationMB extends GenericMB
 		user.setPassw(password);
 		//Replace with username field if exists
 		user.setUsername(user.getEmail());
-		userService.insertUser(user);
 	}
 	
 	private void clear() {
@@ -147,6 +149,11 @@ public class RegistrationMB extends GenericMB
 	public boolean isCompanyRole(){
 		return user!= null && user.getRole() != null &&
 			user.getRole().getRoleId() == Roles.COMPANY.getId();
+	}
+	
+	public boolean isUserRole(){
+		return user!= null && user.getRole() != null &&
+			user.getRole().getRoleId() == Roles.USER.getId();
 	}
 
 	public void updateRole(Short roleId) {
@@ -205,7 +212,7 @@ public class RegistrationMB extends GenericMB
 		return MAX_EMAIL_LENGTH;
 	}
 
-	public short getMAX_MEDIA_SIZE() {
+	public long getMAX_MEDIA_SIZE() {
 		return MAX_MEDIA_SIZE;
 	}
 

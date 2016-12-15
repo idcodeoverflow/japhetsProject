@@ -1,8 +1,8 @@
 package japhet.sales.catalogs;
 
 public enum CompanyTypes {
-	GOODS((short) 1, "GOODS"),
-	SERVICES((short) 2, "SERVICES");
+	GOODS((short) 1, "catalog.companyType.goods"),
+	SERVICES((short) 2, "catalog.companyType.services");
 	
 	private short companyTypeId;
 	private String name;

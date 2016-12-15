@@ -49,7 +49,10 @@
 									label="#{msg['registration.form.image.choose']}"
 									uploadLabel="#{msg['registration.form.image.upload']}"
 									cancelLabel="#{msg['registration.form.image.cancel']}"
-									allowTypes="/(\.|\/)(jpe?g|png)$/" />
+									allowTypes="/(\.|\/)(jpe?g|png)$/">
+									<f:attribute name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+								</p:fileUpload>
 							</h:panelGroup>
 								
 							<!-- First Name block -->
@@ -63,7 +66,7 @@
 									maxlength="50" required="true"
 									requiredMessage="#{msg['registration.messages.requiredFirstName']}"
 									pt:placeholder="#{msg['registration.form.firstName']}"
-									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
+									onkeyup="deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
 								</h:inputText>
 								<p:keyFilter regEx="/[a-zA-Z\-\s]/i" 
 									for="firstNameInput"
@@ -80,10 +83,10 @@
 									styleClass="form-control"  
 									value="#{registrationMB.user.lastName}"
 									maxlength="100" 
-									required="#{!registrationMB.company}"
+									required="#{!registrationMB.companyRole}"
 									requiredMessage="#{msg['registration.messages.requiredLastName']}"
 									pt:placeholder="#{msg['registration.form.lastName']}"
-									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
+									onkeyup="deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
 								</h:inputText>
 								<p:messages for="lastNameInput" />
 								<p:keyFilter regEx="/[a-zA-Z\-\s]/i" 
@@ -106,7 +109,7 @@
 									minlength="#{registrationMB.MIN_CURP_LENGTH}"
 									requiredMessage="#{msg['registration.messages.requiredCurp']}"
 									pt:placeholder="#{msg['registration.form.curp']}"
-									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '0123456789');">
+									onkeyup="deleteNonAlphaContent(this, '0123456789');">
 								</h:inputText>
 								<p:messages for="curpInput" />
 								<p:keyFilter regEx="/[a-zA-Z0-9]/i" 
@@ -129,7 +132,7 @@
 									minlength="#{registrationMB.MIN_RFC_LENGTH}"
 									requiredMessage="#{msg['registration.messages.requiredRFC']}"
 									pt:placeholder="#{msg['registration.form.rfc']}"
-									onkeyup="contentToUpperCase(this); deleteNonAlphaContent(this, '0123456789');">
+									onkeyup="deleteNonAlphaContent(this, '0123456789');">
 								</h:inputText>
 								<p:messages for="rfcInput" />
 								<p:keyFilter regEx="/[a-zA-Z0-9]/i" 
@@ -390,5 +393,4 @@
 		
 		</h:panelGroup>
 	</ui:define>
-	<h:outputScript library="primefaces" name="jquery/jquery.js" />
 </ui:composition>

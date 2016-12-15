@@ -7,6 +7,7 @@ import javax.ejb.Local;
 
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.Company;
+import japhet.sales.model.impl.User;
 
 @Local
 public interface ICompanyService extends Serializable {
@@ -26,6 +27,9 @@ public interface ICompanyService extends Serializable {
 	public boolean deleteCompany(Company companyId) 
 			throws BusinessServiceException;
 	
-	public boolean insertCompany(Company companyId) 
+	public boolean insertCompany(Company company) 
 			throws BusinessServiceException;
+	
+	public boolean insertCompany(Company company, User user)
+			throws BusinessServiceException, Exception;
 }

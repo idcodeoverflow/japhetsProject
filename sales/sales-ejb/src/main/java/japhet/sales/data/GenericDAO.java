@@ -5,11 +5,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NamedQuery;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import org.junit.Ignore;
 
 import japhet.sales.model.IEntity;
 
@@ -22,8 +18,8 @@ public abstract class GenericDAO<T extends IEntity, K>
 	
 	private final Class<T> type;
 	private final Class<K> key;
-
-    public GenericDAO(Class<T> type, Class<K> key) {
+	
+	public GenericDAO(Class<T> type, Class<K> key) {
          this.type = type;
          this.key = key;
     }
@@ -125,5 +121,4 @@ public abstract class GenericDAO<T extends IEntity, K>
 		}
 		return namedQuery.executeUpdate();
 	}
-	
 }
