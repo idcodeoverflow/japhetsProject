@@ -1,13 +1,9 @@
 package japhet.sales.controller.registration;
 
-import static japhet.sales.catalogs.Roles.*;
-import static japhet.sales.catalogs.Status.*;
-import static japhet.sales.catalogs.SocialNetworks.*;
+import static japhet.sales.catalogs.SocialNetworks.FACEBOOK;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -15,96 +11,177 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+import org.primefaces.event.FileUploadEvent;
+
+import japhet.sales.catalogs.Roles;
+import japhet.sales.controller.AuthConstants;
 import japhet.sales.controller.GenericMB;
-import japhet.sales.model.impl.City;
-import japhet.sales.model.impl.Role;
+import japhet.sales.except.InvalidPasswordException;
+import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.SocialNetwork;
 import japhet.sales.model.impl.State;
-import japhet.sales.model.impl.Status;
 import japhet.sales.model.impl.User;
+import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IUserService;
+import japhet.sales.service.IUtilService;
 
 @ManagedBean
 @ViewScoped
-public class RegistrationMB extends GenericMB {
+public class RegistrationMB extends GenericMB 
+	implements AuthConstants {
 	
 	/**
 	 * Maven generated.
 	 */
 	private static final long serialVersionUID = -799929358184487082L;
 	
-	@EJB
-	private IUserService userService;
+	private static final long MAX_MEDIA_SIZE = 2500000L;
+	private static final short MAX_RFC_LENGTH = 13;
+	private static final short MAX_CURP_LENGTH = 18;
+	private static final short MIN_RFC_LENGTH = 12;
+	private static final short MIN_CURP_LENGTH = 18;
+	private static final short MAX_AGE_LENGTH = 3;
+	private static final short MIN_AGE_LENGTH = 1;
 	
 	@Inject
 	private Logger logger;
 	
+	//EJB's
+	@EJB
+	private IUserService userService;
+	@EJB
+	private IUtilService utilService;
+	@EJB
+	private ICompanyService companyService;
+	
 	//View propertiess
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String username;
-	private Short age;
 	private String password;
 	private String confirmPassword;
-	private Short stateId;
-	private Short cityId;
-	private Short roleId;
+	private byte[] imageBytes;
 	
 	//Logic attributes
 	private User user;
-	private Role role;
-	private Status status;
-	private City city;
+	private Company company;
 	private State selectedState;
 	
 	@PostConstruct
 	private void init(){
-		user = new User();
-		role = new Role();
-		status = new Status();
-		city = new City();
+		clear();
 	}
 
-	public IUserService getUserService() {
-		return userService;
+	public void handleFileUpload(FileUploadEvent event) {
+        try {
+        	logger.info("Uploading Company Image...");
+			imageBytes = utilService.getBiteArrayFromStream(
+					event.getFile().getInputstream());
+			logger.info("Company Image Uploaded succesfuly!");
+			showInfoMessage("La imagen está lista para guardarse,", "");
+		} catch (Exception e) {
+			logger.error("Error while uploading Company Image.", e);
+			showErrorMessage("Ocurrió un error al subir la imagen.", 
+					event.getFile().getFileName());
+		}
+    }
+	
+	public void signUp() {
+		//TODO: complete role and status logic
+		logger.info("Signing Up user...");
+		try {
+			createUser(user);
+			//Persist entities
+			if(isUserRole()) {
+				//Persist user entity
+				userService.insertUser(user);
+			} else if(isCompanyRole()) {
+				//Set age as 0
+				user.setAge((short) 0);
+				//Fill company object
+				company.setImage(imageBytes);
+				company.setUser(user);
+				//Persist company entity
+				companyService.insertCompany(company, user);
+			}
+			clear();
+			redirect(SIGN_IN_URL);
+		} catch (InvalidPasswordException e) {
+			logger.fatal("The password is invalid.", e);
+			showErrorMessage("The password doesn't match or is invalid", "");
+		} catch (Exception e) {
+			logger.fatal("Error trying to persist user into the DB.", e);
+			showErrorMessage("An error has ocurred registering the account.", "");
+		}
+	}
+	
+	public void signUpWithFacebook() {
+		//TODO: complete role and status logic
+		logger.info("Persisting FB user into the DB...");
+		List<SocialNetwork> socialNetworks = new ArrayList<>();
+		try {
+			SocialNetwork facebook = new SocialNetwork();
+			facebook.setSocialNetworkId(FACEBOOK.getId());
+			socialNetworks.add(facebook);
+			user.setSocialNetwork(socialNetworks);
+			createUser(user);
+		} catch (Exception e) {
+			logger.fatal("Error trying to persist FB user into the DB.", e);
+			showErrorMessage("An error has ocurred while signing up.", "");
+		}
+	}
+	
+	private void createUser(User user) throws Exception {
+		userService.validatePasswords(password, confirmPassword);
+		user.setPassw(password);
+		//Replace with username field if exists
+		user.setUsername(user.getEmail());
+	}
+	
+	private void clear() {
+		this.user = new User();
+		this.user.getRole().setRoleId(null);
+		this.company = new Company();
+		this.imageBytes = null;
+		this.confirmPassword = null;
+		this.password = null;
+		this.selectedState = new State();
+	}
+	
+	public boolean isCompanyRole(){
+		return user!= null && user.getRole() != null &&
+			user.getRole().getRoleId() == Roles.COMPANY.getId();
+	}
+	
+	public boolean isUserRole(){
+		return user!= null && user.getRole() != null &&
+			user.getRole().getRoleId() == Roles.USER.getId();
 	}
 
-	public void setUserService(IUserService userService) {
-		this.userService = userService;
+	public void updateRole(Short roleId) {
+		this.user.getRole().setRoleId(roleId);
+	}
+	
+	public User getUser() {
+		return user;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public Company getCompany() {
+		return company;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public State getSelectedState() {
+		return selectedState;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-		this.username = email;
-	}
-
-	public Short getAge() {
-		return age;
-	}
-
-	public void setAge(Short age) {
-		this.age = age;
+	public void setSelectedState(State selectedState) {
+		this.selectedState = selectedState;
 	}
 
 	public String getPassword() {
@@ -122,82 +199,44 @@ public class RegistrationMB extends GenericMB {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-
-	public Short getCityId() {
-		return cityId;
-	}
-
-	public void setCityId(Short cityId) {
-		this.cityId = cityId;
-	}
-
-	public Short getStateId() {
-		return stateId;
-	}
-
-	public void setStateId(Short stateId) {
-		this.stateId = stateId;
+	
+	public short getMIN_PASSWORD_LENGTH() {
+		return MIN_PASSWORD_LENGTH;
 	}
 	
-	public Short getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Short roleId) {
-		this.roleId = roleId;
-	}
-
-	public State getSelectedState() {
-		return selectedState;
-	}
-
-	public void setSelectedState(State selectedState) {
-		this.selectedState = selectedState;
-	}
-
-	public void signUp() {
-		//TODO: complete role and status logic
-		logger.info("Persisting user into the DB...");
-		try {
-			createUser(user);
-		} catch (Exception e) {
-			logger.severe("Error trying to persist user into the DB." + e.getStackTrace());
-			e.printStackTrace();
-		}
+	public short getMAX_PASSWORD_LENGTH() {
+		return MAX_PASSWORD_LENGTH;
 	}
 	
-	public void signUpWithFacebook() {
-		//TODO: complete role and status logic
-		logger.info("Persisting FB user into the DB...");
-		List<SocialNetwork> socialNetworks = new ArrayList<>();
-		try {
-			SocialNetwork facebook = new SocialNetwork();
-			facebook.setSocialNetworkId(FACEBOOK.getId());
-			socialNetworks.add(facebook);
-			user.setSocialNetwork(socialNetworks);
-			createUser(user);
-		} catch (Exception e) {
-			logger.severe("Error trying to persist FB user into the DB." + e.getStackTrace());
-			e.printStackTrace();
-		}
+	public short getMAX_EMAIL_LENGTH() {
+		return MAX_EMAIL_LENGTH;
 	}
-	
-	private void createUser(User user) throws Exception {
-		role.setRoleId(((roleId == null ) ? USER.getId() : this.roleId));
-		status.setStatusId(ACTIVE.getId());
-		city.setCityId(cityId);
-		user.setAge(age);
-		user.setEmail(email);
-		user.setLastModified(new Date());
-		user.setLastName(lastName);
-		user.setName(firstName);
-		user.setPassw(password);
-		user.setRole(role);
-		user.setSignUpDate(new Date());
-		user.setStatus(status);
-		user.setUsername(username);
-		user.setCity(city);
-		userService.insertUser(user);
+
+	public long getMAX_MEDIA_SIZE() {
+		return MAX_MEDIA_SIZE;
 	}
-	
+
+	public short getMAX_RFC_LENGTH() {
+		return MAX_RFC_LENGTH;
+	}
+
+	public short getMAX_CURP_LENGTH() {
+		return MAX_CURP_LENGTH;
+	}
+
+	public short getMIN_RFC_LENGTH() {
+		return MIN_RFC_LENGTH;
+	}
+
+	public short getMIN_CURP_LENGTH() {
+		return MIN_CURP_LENGTH;
+	}
+
+	public short getMAX_AGE_LENGTH() {
+		return MAX_AGE_LENGTH;
+	}
+
+	public short getMIN_AGE_LENGTH() {
+		return MIN_AGE_LENGTH;
+	}
 }

@@ -1,7 +1,6 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -9,8 +8,11 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.StatusDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.Status;
 import japhet.sales.service.IStatusService;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -28,58 +30,94 @@ public class StatusService implements IStatusService {
 	private StatusDAO statusDAO;
 	
 	@Override
-	public List<Status> getAllAvailableStatus() {
+	public List<Status> getAllAvailableStatus()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all available status...");
-		return statusDAO.getAllAvailableStatus();
+		List<Status> status = null;
+		try {
+			status = statusDAO.getAllAvailableStatus();
+		} catch (Exception e) {
+			final String errorMsg = "Error while obtaining all the available status.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return status;
 	}
 
 	@Override
-	public List<Status> getAllStatus() {
+	public List<Status> getAllStatus()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all status...");
-		return statusDAO.getAllStatus();
-	}
-	
-	public Status getStatus(Short statusId) {
-		logger.info("Obtaining status " + statusId + " from the DB...");
+		List<Status> status = null;
 		try {
-			return statusDAO.select(statusId);
+			status = statusDAO.getAllStatus();
 		} catch (Exception e) {
-			logger.severe("Error obtaining status" + statusId + 
-					" from the DB. \n" + e.getStackTrace());
+			final String errorMsg = "Error while getting all the Status.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return null;
+		return status;
 	}
 	
-	public boolean updateStatus(Status status) {
+	public Status getStatus(Short statusId)   
+			throws BusinessServiceException {
+		logger.info("Obtaining status " + statusId + " from the DB...");
+		Status status = null;
+		try {
+			status = statusDAO.select(statusId);
+		} catch (Exception e) {
+			final String errorMsg = "Error obtaining status" + statusId + 
+					" from the DB.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return status;
+	}
+	
+	public boolean updateStatus(Status status)   
+			throws BusinessServiceException {
 		logger.info("Updating status into the DB...");
 		try {
 			statusDAO.update(status);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error updating status into the DB.\n" + e.getStackTrace());
+			final String errorMsg = "Error updating status into the DB: " 
+					+ stringifyStatus(status);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
-	public boolean deleteStatus(Status status){
+	public boolean deleteStatus(Status status)   
+			throws BusinessServiceException {
 		logger.info("Deleting status into the DB...");
 		try {
 			statusDAO.delete(status);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error deleting status into the DB.\n" + e.getStackTrace());
+			final String errorMsg = "Error deleting status into the DB: " 
+					+ stringifyStatus(status);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
-	public boolean insertStatus(Status status) {
+	public boolean insertStatus(Status status)   
+			throws BusinessServiceException {
 		logger.info("Inserting status into the DB...");
 		try {
 			statusDAO.insert(status);
 		} catch (Exception e) {
-			logger.severe("Error inserting status into the DB.\n" + e.getStackTrace());
+			final String errorMsg = "Error inserting status into the DB: " 
+					+ stringifyStatus(status);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 		return false;
 	}
-
+	
+	private Short stringifyStatus(Status status){
+		return ((status != null && status.getStatusId() != null) 
+				? status.getStatusId() : null);
+	}
 }

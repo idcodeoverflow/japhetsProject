@@ -1,7 +1,6 @@
 package japhet.sales.controller.registration;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -12,6 +11,8 @@ import javax.inject.Inject;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.model.impl.Role;
 import japhet.sales.service.IRoleService;
+
+import org.apache.log4j.Logger;
 
 @ManagedBean
 @ApplicationScoped
@@ -32,8 +33,12 @@ public class RoleMB extends GenericMB {
 	
 	@PostConstruct
 	private void init() {
-		logger.info("Inicializando roles desde la bd...");
-		roles = roleService.getAvailableRoles();
+		try {
+			logger.info("Initializing RoleMB...");
+			roles = roleService.getAvailableRoles();
+		} catch (Exception e) {
+			logger.fatal("Error while initializing RolesMB.", e);
+		}
 	}
 
 	public List<Role> getRoles() {

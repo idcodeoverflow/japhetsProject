@@ -1,14 +1,16 @@
 package japhet.sales.data.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.GenericDAO;
 import japhet.sales.data.QueryNames;
+import japhet.sales.except.DataLayerException;
 import japhet.sales.model.impl.City;
+
+import org.apache.log4j.Logger;
 
 @Stateless
 public class CityDAO extends GenericDAO<City, Short> {
@@ -20,14 +22,16 @@ public class CityDAO extends GenericDAO<City, Short> {
 		super(City.class, Short.class);
 	}
 	
-	public List<City> getAllCities() {
+	public List<City> getAllCities() 
+			throws DataLayerException {
 		List<City> cities = null;
 		try {
 			logger.info("Obtaining all cities...");
 			cities = executeQuery(QueryNames.GET_ALL_CITIES, null);
 		} catch (Exception e) {
-			logger.severe("Error trying to obtain all cities." + 
-					e.getStackTrace());
+			final String errorMsg = "Error trying to obtain all cities.";
+			logger.fatal(errorMsg, e);
+			throw new DataLayerException(errorMsg, e);
 		}
 		return cities;
 	}

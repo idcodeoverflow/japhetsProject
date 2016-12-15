@@ -1,7 +1,6 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -9,8 +8,11 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.CategoryDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.Category;
 import japhet.sales.service.ICategoryService;
+
+import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
@@ -28,54 +30,88 @@ public class CategoryService implements ICategoryService {
 	private CategoryDAO categoryDAO;
 	
 	@Override
-	public List<Category> getAllAvailableCategories() {
+	public List<Category> getAllAvailableCategories()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all available categories from the DB...");
-		return categoryDAO.getAllAvailableCategories();
+		List<Category> categories = null;
+		try {
+			categories = categoryDAO.getAllAvailableCategories();
+		} catch (Exception e) {
+			final String errorMsg = "Error obtaining all available categories.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return categories;
 	}
 
 	@Override
-	public List<Category> getAllCategories() {
+	public List<Category> getAllCategories()   
+			throws BusinessServiceException {
 		logger.info("Obtaining all categories from the DB...");
-		return categoryDAO.getAllCategories();
+		List<Category> categories = null;
+		try {
+			categories = categoryDAO.getAllCategories();
+		} catch (Exception e) {
+			final String errorMsg= "Error obtaining all categories.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return categories;
 	}
 	
-	public boolean insertCategory(Category category) {
+	public boolean insertCategory(Category category)   
+			throws BusinessServiceException {
+		logger.info("Inserting category...");
 		try {
 			categoryDAO.insert(category);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error inserting category: \n" + e.getStackTrace());
+			final String errorMsg = "Error inserting category:";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
-	public Category findCategory(Short categoryId) {
+	public Category findCategory(Short categoryId)   
+			throws BusinessServiceException {
 		try {
 			return categoryDAO.select(categoryId);
 		} catch (Exception e) {
-			logger.severe("Error finding category: " + categoryId 
-					+ "\n" + e.getStackTrace());
+			final String errorMsg = "Error finding category: " + categoryId;
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return null;
 	}
 	
-	public boolean updateCategory(Category category) {
+	public boolean updateCategory(Category category)   
+			throws BusinessServiceException {
 		try {
 			categoryDAO.update(category);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error finding category: \n" + e.getStackTrace());
+			final String errorMsg = "Error updating category: " + 
+					stringifyCategory(category);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
-	public boolean deleteCategory(Category category) {
+	public boolean deleteCategory(Category category)   
+			throws BusinessServiceException {
 		try {
 			categoryDAO.delete(category);
+			return true;
 		} catch (Exception e) {
-			logger.severe("Error deleting category: \n" + e.getStackTrace());
+			final String errorMsg = "Error deleting category: " + 
+					stringifyCategory(category);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
+	}
+	
+	private Short stringifyCategory(Category category) {
+		return ((category != null && category.getCategoryId() != null) ? 
+				category.getCategoryId() : null);
 	}
 
 }

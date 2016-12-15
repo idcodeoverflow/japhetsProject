@@ -7,7 +7,7 @@ function contentToUpperCase(tag) {
 }
 
 function deleteNonAlphaContent(tag, exceptions) {
-	var content = tag.value.trim();
+	var content = tag.value;
 	var newContent = "";
 	var character = '';
 	if(validContentNTrim(tag)) {
@@ -27,7 +27,7 @@ function deleteNonAlphaContent(tag, exceptions) {
 }
 
 function deleteNonIntegerContent(tag, exceptions) {
-	var content = tag.value.trim();
+	var content = tag.value;
 	var newContent = "";
 	var character = '';
 	if(validContentNTrim(tag)) {
@@ -70,6 +70,5 @@ function validContentNTrim(tag) {
 	if(content === undefined || typeof content !== "string"){
 		return false;
 	}
-	content.trim();
 	true;
 }

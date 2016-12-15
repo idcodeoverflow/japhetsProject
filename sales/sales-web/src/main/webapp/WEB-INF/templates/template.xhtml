@@ -14,10 +14,13 @@
 		<!-- Javascript libraries -->
 		<h:outputScript library="js" name="bootstrap.min.js" />
 		<h:outputScript library="js" name="utilities/inputUtils.js" />
+		<h:outputScript library="js" name="utilities/validationUtils.js" />
 	</h:head>
 	<h:body>
 		<!-- Nav Bar -->
 		<ui:include src="/WEB-INF/templates/sections/navbar.xhtml"></ui:include>
+		<!-- Home video -->
+		<ui:insert name="welcome-video"></ui:insert>
 		<!-- Content -->
 		<h:panelGroup styleClass="container bs-docs-container" layout="block">
 			<!-- Search box -->
