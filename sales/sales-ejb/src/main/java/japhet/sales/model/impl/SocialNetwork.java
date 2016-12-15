@@ -4,6 +4,7 @@ import static japhet.sales.data.QueryNames.*;
 
 import java.util.Date;
 
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,6 +16,7 @@ import javax.persistence.TemporalType;
 
 import japhet.sales.model.IEntity;
 
+@Cacheable(value = true)
 @Entity
 @Table(name = "TB_SOCIAL_NETWORK")
 @NamedQueries(value = {
@@ -45,7 +47,7 @@ public class SocialNetwork implements IEntity {
 	private Date startDate;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name = "START_DATE")
+	@Column(name = "END_DATE")
 	private Date endDate;
 	
 	public SocialNetwork() {}

@@ -3,7 +3,6 @@ package japhet.sales.service.impl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -12,8 +11,11 @@ import javax.ejb.Startup;
 import javax.inject.Inject;
 
 import japhet.sales.data.impl.StateDAO;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.State;
 import japhet.sales.service.IStateService;
+
+import org.apache.log4j.Logger;
 
 @Singleton
 @Startup
@@ -31,11 +33,15 @@ public class StateService implements IStateService {
 	
 	@PostConstruct
 	public void init(){
-		logger.info("Obtaining all states from the DB..");
-		sortedStates = stateDAO.getAllStates();
-		allStates = new HashMap<>();
-		for (State state : sortedStates) {
-			allStates.put(state.getStateId(), state);
+		try {
+			logger.info("Initializing StateService...\nObtaining all states from the DB..");
+			sortedStates = stateDAO.getAllStates();
+			allStates = new HashMap<>();
+			for (State state : sortedStates) {
+				allStates.put(state.getStateId(), state);
+			}
+		} catch (Exception e) {
+			logger.fatal("Error initializing States Service.", e);
 		}
 	}
 	
@@ -51,14 +57,16 @@ public class StateService implements IStateService {
 	}
 
 	@Override
-	public State getState(Short stateId) {
+	public State getState(Short stateId)   
+			throws BusinessServiceException {
 		State state = null;
 		logger.info("Obtaining state: " + stateId);
 		try {
 			state = allStates.get(stateId);
 		} catch (Exception e) {
-			logger.severe("Error obtaining state: " + stateId + 
-					"\n" + e.getStackTrace());
+			final String errorMsg = "Error obtaining state: " + stateId;
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
 		return state;
 	}

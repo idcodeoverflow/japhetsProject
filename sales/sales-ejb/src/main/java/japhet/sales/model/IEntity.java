@@ -2,6 +2,8 @@ package japhet.sales.model;
 
 import java.io.Serializable;
 
-public interface IEntity extends Serializable {
+import japhet.sales.data.QueryNames;
+
+public interface IEntity extends Serializable, QueryNames {
 
 }

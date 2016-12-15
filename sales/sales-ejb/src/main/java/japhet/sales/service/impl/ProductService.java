@@ -1,14 +1,17 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import japhet.sales.data.impl.ProductDAO;
+import japhet.sales.except.BusinessServiceException;
+import japhet.sales.except.InvalidDateRangeException;
 import japhet.sales.model.impl.Product;
 import japhet.sales.service.IProductService;
 
@@ -28,52 +31,82 @@ public class ProductService implements IProductService {
 	private ProductDAO productDAO;
 	
 	@Override
-	public List<Product> getAllAvailableProducts() {
+	public List<Product> getAllAvailableProducts()   
+			throws BusinessServiceException {
+		List<Product> products = null;
 		logger.info("Obtaining all available products...");
-		return productDAO.getAvailableProducts();
+		try {
+			products = productDAO.getAvailableProducts();
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting all available products.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return products;
 	}
 
-	public Product getProduct(Long productId) {
+	public Product getProduct(Long productId)   
+			throws BusinessServiceException {
 		logger.info("Obtaining product " + productId + " from the DB...");
+		Product product = null;
 		try {
-			return productDAO.select(productId);
+			product = productDAO.select(productId);
 		} catch (Exception e) {
-			logger.severe("Error obtaining product " + productId 
-					+ " from the DB. \n" + e.getStackTrace());
+			final String errorMsg = "Error obtaining product " + productId 
+					+ " from the DB: " + stringifyProduct(product);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return null;
+		return product;
 	}
 	
-	public boolean updateProduct(Product product) {
+	public boolean updateProduct(Product product)   
+			throws BusinessServiceException {
 		logger.info("Updating product into the DB...");
 		try {
 			productDAO.update(product);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error updating product into the DB. \n" + e.getStackTrace());
+			final String errorMsg = "Error updating product into the DB: " 
+					+ stringifyProduct(product);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
-	public boolean deleteProduct(Product product) {
+	public boolean deleteProduct(Product product)   
+			throws BusinessServiceException {
 		logger.info("Deleting product into the DB...");
 		try {
 			productDAO.delete(product);
 			return true;
 		} catch (Exception e) {
-			logger.severe("Error deleting product into the DB. \n" + e.getStackTrace());
+			final String errorMsg = "Error deleting product into the DB: " 
+					+ stringifyProduct(product);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
 	
-	public boolean insertProduct(Product product) {
+	public boolean insertProduct(Product product) 
+			throws InvalidDateRangeException, BusinessServiceException {
 		logger.info("Inserting product into the DB...");
 		try {
+			if(product.getStartDate().after(product.getEndDate())) {
+				throw new InvalidDateRangeException("The range of dates is not valid.");
+			}
 			productDAO.insert(product);
+			return true;
 		} catch (Exception e) {
-			logger.severe("Error inserting product into the DB. \n" + e.getStackTrace());
+			final String errorMsg = "Error inserting product into the DB: " 
+					+ stringifyProduct(product);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
 		}
-		return false;
 	}
-
+	
+	private Long stringifyProduct(Product product) {
+		return ((product != null && product.getProductId() != null) 
+				? product.getProductId() : null);
+	}
 }

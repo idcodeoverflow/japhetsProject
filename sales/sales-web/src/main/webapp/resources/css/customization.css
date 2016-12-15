@@ -1,7 +1,22 @@
+/* General styles */
+body {
+	background-color: #ECEFE9 !important;
+}
+
 /* Modify the style for the main menu */
 .navbar {
 	font-size: 16px !important;
-	z-index: 100001;
+	z-index: 1001 !important;
+}
+
+/* Footer rows */
+footer .row {
+	width: 100% !important;
+}
+
+/* Footer links */
+footer a {
+	color: #000000 !important;
 }
 
 /* Trademark icon style */
@@ -13,7 +28,7 @@
 /* Main menu style */
 .navbar, .navbar-right {
 	min-height: 65px !important;
-	background-color: #FF9923 !important;
+	background-color: #97E063 !important;
 }
 
 /* Pills in the navigation bar styles */
@@ -26,7 +41,7 @@
     padding-bottom: 24px !important;
     color: white !important;
     font-family: "Century Gothic", "Arial", "Helvetica" !important;
-    font-weight: normal;
+    font-weight: normal !important;
 }
 
 .navbar-default .navbar-nav>.active>a {
@@ -36,8 +51,8 @@
 
 /* Styles for the carousel images */
 .item {
-	width: 100%;
-	height: 380px;
+	width: 100% !important;
+	height: 380px !important;
 }
 
 /* Add carousel images styles */
@@ -69,7 +84,7 @@
 
 /* Styles for the main search box */
 #searchBox {
-	margin-bottom: 15px;
+	margin-bottom: 15px !important;
 }
 
 [id=searchBoxForm\:inputSearchBox] {
@@ -78,75 +93,90 @@
 
 /* Styles for forms */
 .form-control {
-	height: 50px !important;
+	min-height: 50px !important;
 }
 
 /* Styles for input groups */
 .btn-default {
-	background-color: #FFB21F !important;
+	background-color: #05B105 !important;
 	color: white !important;
 }
 
+.btn-default:hover {
+	background-color: #1B851B !important;
+}
+
 .btn {
-	margin: 5px 0px;
+	margin: 5px 0px !important;
 }
 
 .searchBoxButton {
 	height: 50px !important;
-	background-color: #FF9923 !important;
+	background-color: #97E063 !important;
 	color: white !important;
-	padding-top: 15px
+	padding-top: 15px !important;
 }
 
 /* Styles for the offers' images*/
 .offer-img{
-	width: 100%;
-	height: 171px;
-	border: 1px solid #999389;
-	margin-bottom: 15px;
-	margin-top: 15px;
+	width: 100% !important;
+	height: 171px !important;
+	border: 1px solid #999389 !important;
+	margin-bottom: 15px !importants;
+	margin-top: 15px !important;
 }
 
 /* Thumbnail styles */
 .thumbnail:hover {
-	transform:scale(1.08);
-    -ms-transform:scale(1.08); /* IE 9 */
-    -moz-transform:scale(1.08); /* Firefox */
-    -webkit-transform:scale(1.08); /* Safari and Chrome */
-    -o-transform:scale(1.08); /* Opera */
-    z-index: 10000 !important;
-    position: absolute !important;
+	transform:scale(1.08) !important;
+    -ms-transform:scale(1.08) !important; /* IE 9 */
+    -moz-transform:scale(1.08) !important; /* Firefox */
+    -webkit-transform:scale(1.08) !important; /* Safari and Chrome */
+    -o-transform:scale(1.08) !important; /* Opera */
+    z-index: 1000 !important;
+    position: relative !important;
 }
 
 /* Home carousel styles */
 #homeCarousel, #homeServiceCarousel {
-	margin-bottom: 30px;
+	margin-bottom: 30px !important;
+}
+
+/* Margin for the goods carousel */
+#goodsCarouselContainer {
+	margin-right: 0px !important;
+}
+
+/* Margin for the goods carousel */
+#servicesCarouselContainer {
+	margin-left: 0px !important;
 }
 
 /* Styles for the subtitles */
 .label-default {
-    background-color: #FF9923;
+    background-color: #97E063 !important;
 }
 
 /* Footer style */
 footer {
-    background-color: #FF9923;
-    text-align: center;
-	padding-top: 15px;
-	padding-bottom: 15px;
+    background-color: #97E063 !important;
+    text-align: center !important;
+	padding-top: 15px !important;
+	padding-bottom: 15px !important;
 }
 
 /* Footer styles icons */
 .footer-img {
-	height: 50px;
-	margin-left: 5px;
-	margin-right: 5px;
+	height: 50px !important;
+	margin-left: 5px !important;
+	margin-right: 5px !important;
+	border: 2px solid #E9EAE9 !important;
 }
 
 /* Styles for heading panels */
-.panel-default>.panel-heading{
-	background-color: #FF9923;
-	color: white;
+.panel-default>.panel-heading {
+	background-color: #97E063 !important;
+	color: white !important;
 }
 
 .bs-docs-container {
@@ -157,17 +187,28 @@ footer {
 	text-align: center !important;
 }
 
+/* Offer boxes */
+.thumbnail {
+	height: 346px;
+}
+
 .thumbnail-title {
 	color: #FF6700 !important;
 	line-height: 2px !important;
 }
 
 .thumbnail-price {
-	color: #FF9923 !important;
+	color: #97E063 !important;
 	font-style: italic !important;
 	font-weight: bold !important;
 	text-decoration: underline !important;
 	line-height: 2px !important;
+	vertical-align: text-bottom;
+}
+
+.thumbnail-description {
+	font-style: italic !important;
+	font-weight: bold !important;
 }
 
 /* Button to go back to top */
@@ -179,18 +220,18 @@ footer {
     position: fixed !important;
     top: 6px !important;
     right: 47% !important;
-    z-index: 100000 !important;
+    z-index: 1000 !important;
 }
 
 .well {	
-    color: #FF9923 !important;
+    color: #ffffff !important;
     background-color: #FFCDA4 !important;
     font-weight: bold !important;
 }
 
 /* Login Styles */
 #registerMeParagraph {
-	text-align: center;
+	text-align: center !important;
 }
 
 /* Messages styles */
@@ -204,7 +245,7 @@ footer {
 
 /* Input addon styles */
 .input-group-addon {
-	background-color: #FF9923 !important;
+	background-color: #97E063 !important;
 	color: white !important;
 }
 
@@ -216,4 +257,104 @@ footer {
 /* Page title */
 .main-nav-header {
 	width: 306px !important;	
+}
+
+/* Overwrite iframe style */
+.embed-responsive {
+	margin: auto !important;
+	width: 100% !important;
+	padding-bottom: 40% !important;
+}
+
+/* Container for the embeded video */
+.video-container {
+	text-align: center !important;
+	margin: 10px 0px !important;
+	max-height: 400px !important;
+}
+
+.video-container iframe {
+	max-height: 400px !important;
+}
+
+/* Container for the growl messages */
+#messages-container {
+	z-index: 90000 !important;
+}
+
+/* Input text boxes for primefaces */
+.ui-inputfield {
+	border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+	width: 100% !important;
+    height: 100% !important;
+}
+
+/* Primefaces calendar */
+.ui-calendar {
+	padding: 0px !important;
+    border-color: transparent !important;
+}
+
+/* Primefaces error state */
+.ui-state-error, .ui-widget-content .ui-state-error, 
+.ui-widget-header .ui-state-error {
+    border: 1px solid #a8a8a8 !important;
+}
+
+#productsDataScroller .ui-corner-all, 
+#userControlPanelForm\:categoriesDataScroller .ui-corner-all {
+	border: 0px solid transparent !important;
+}
+
+#banksList {
+	text-align: center !important;
+	text-align: -webkit-center !important;
+}
+
+#home-right-pane {
+	max-height: 478px !important;
+	margin-bottom: 5px !important;
+}
+
+.home-right-pane-container {
+	max-height: 239px !important;
+	overflow: hidden !important;
+}
+
+.overflowless {
+	max-height: 226px !important;
+	overflow: hidden !important;
+}
+
+.container-separator {
+	margin: 0px !important;
+	border: 4px solid #97E063 !important;
+}
+
+/* Logout button container in the navbar */
+#logoutBtnContainer {
+	padding: 0px !important;
+}
+
+/* Logout button in the navbar */
+#logoutButton {
+	margin: 0px !important;
+}
+
+/* Style to get text in wine color */
+.red-text {
+	color: red !important;
+}
+
+/* Account manager container for the budget and bonifications */
+.account-mngr-container {
+	min-height: 523px !important;
+}
+
+/* Table with elements centered on X & Y axis */
+#bonificationStatusTable td {
+	vertical-align: middle !important;
 }

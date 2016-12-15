@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<h:panelGroup id="home-right-pane" layout="block" >
+		<hr class="container-separator"/>
+		<!-- Banks list container -->
+		<h:panelGroup layout="block" 
+			styleClass="home-right-pane-container">
+			<ul id="banksList" class="list-group">
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.inbursaURL}">
+						<h:graphicImage value="/resources/media/banks/inbursaAfore.jpg" 
+							styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.profuturoURL}">
+						<h:graphicImage value="/resources/media/banks/profuturoAfore.jpg" 
+						styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.pensionisssteURL}">
+						<h:graphicImage value="/resources/media/banks/pensionisssteAfore.png" 
+							styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.coppelURL}">
+						<h:graphicImage value="/resources/media/banks/coppelAfore.jpg" 
+							styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.aztecaURL}">
+						<h:graphicImage value="/resources/media/banks/aztecaAfore.jpg" 
+							styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.banorteURL}">
+						<h:graphicImage value="/resources/media/banks/banorteAfore.png" 
+							styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.metlifeURL}">
+						<h:graphicImage value="/resources/media/banks/metlifeAfore.png" 
+							styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.citibanamexURL}">
+						<h:graphicImage value="/resources/media/banks/citibanamexAfore.jpg" 
+							styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.invercapURL}">
+						<h:graphicImage value="/resources/media/banks/invercapAfore.png" 
+							styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.suraURL}">
+						<h:graphicImage value="/resources/media/banks/suraAfore.png" 
+							styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+				<li class="list-group-item">
+					<h:outputLink value="#{urlMapperMB.principalURL}">
+						<h:graphicImage value="/resources/media/banks/principalAfore.png" 
+							styleClass="img-responsive" />
+					</h:outputLink>
+				</li>
+			</ul>
+		</h:panelGroup>
+		<!-- Section separation -->
+		<hr class="container-separator"/>
+		<!-- Last paybacks container -->
+		<h:panelGroup layout="block" 
+			styleClass="overflowless">
+			<ul class="list-group">
+				<li class="list-group-item">Alguien acaba de recibir <b>$768.10</b> en payback.</li>
+				<li class="list-group-item">Alguien acaba de recibir <b>$356.10</b> en payback.</li>
+				<li class="list-group-item">Alguien acaba de recibir <b>$429.10</b> en payback.</li>
+				<li class="list-group-item">Alguien acaba de recibir <b>$540.10</b> en payback.</li>
+				<li class="list-group-item">Alguien acaba de recibir <b>$712.10</b> en payback.</li>
+			</ul>
+		</h:panelGroup>
+	</h:panelGroup>
+	<!-- Animations utils -->
+	<h:outputScript library="js" name="utilities/homeAnimations.js" />
+</html>
