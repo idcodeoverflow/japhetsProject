@@ -30,6 +30,8 @@ import japhet.sales.util.StreamUtil;
 @NamedQueries(value = {
 		@NamedQuery(name = GET_ALL_AVAILABLE_COMPANIES, 
 				query = "SELECT c FROM Company c"),
+		@NamedQuery(name = GET_ALL_AVAILABLE_COMPANIES_OF_TYPE, 
+			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :validStatuses AND c.companyType.companyTypeId = :companyTypeId"),
 		@NamedQuery(name = GET_ALL_COMPANIES, 
 			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :validStatuses")
 })
