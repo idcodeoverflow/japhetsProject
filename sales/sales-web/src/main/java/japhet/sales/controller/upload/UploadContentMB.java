@@ -43,7 +43,7 @@ public class UploadContentMB extends GenericMB {
 	private Product product;
 	
 	//Validation properties
-	private final long MAX_MEDIA_SIZE = 2500000L;
+	private final int MAX_MEDIA_SIZE = 2500000;
 	
 	@PostConstruct
 	public void init(){
@@ -93,7 +93,7 @@ public class UploadContentMB extends GenericMB {
 		product = new Product();
 		company = new Company();
 		category = new Category();
-		imageBytes = new byte[151000];
+		imageBytes = new byte[MAX_MEDIA_SIZE];
 		//Initialize the number of redirections to this product in 0
 		product.setRedirectNumber(0);
 	}

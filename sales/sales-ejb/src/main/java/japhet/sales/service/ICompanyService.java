@@ -15,6 +15,9 @@ public interface ICompanyService extends Serializable {
 	public List<Company> getAllAvailableCompanies() 
 			throws BusinessServiceException;
 	
+	public List<Company> getAllAvailableCompaniesOfType(Short companyTypeId)
+			throws BusinessServiceException;
+	
 	public List<Company> getAllCompanies() 
 			throws BusinessServiceException;
 	
