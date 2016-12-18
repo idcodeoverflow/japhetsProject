@@ -1,11 +1,12 @@
 package japhet.sales.model.impl;
 
+import static japhet.sales.util.StringUtils.urlCompletion;
+
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-import javax.inject.Inject;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,8 +22,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.apache.log4j.Logger;
 
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
@@ -43,9 +42,6 @@ public class Product extends StreamUtil
 	 */
 	private static final long serialVersionUID = -2885883717993765366L;
 	
-	@Inject
-	private transient Logger logger;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PRODUCT_ID")
@@ -228,13 +224,6 @@ public class Product extends StreamUtil
 	}
 
 	public void setUrl(String url) {
-		logger.info(String.format("Validation URL: %s", url));
-		final String httpsChain = "https://";
-		final String httpChain = "http://";
-		if(!(url.toLowerCase()).contains(httpsChain) && 
-				!(url.toLowerCase()).contains(httpChain)) {
-			url = httpsChain + url;
-		}
-		this.url = url;
+		this.url = urlCompletion(url);
 	}
 }
