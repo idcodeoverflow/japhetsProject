@@ -1,6 +1,6 @@
 package japhet.sales.service.impl;
 
-import java.util.ArrayList;	
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -57,6 +57,28 @@ public class CompanyService implements ICompanyService {
 		return companies;
 	}
 
+	@Override
+	public List<Company> getAllAvailableCompaniesOfType(Short companyTypeId)
+			throws BusinessServiceException {
+		final String LOGGER_MSG = String.format("Getting all available companies of type: %d...", 
+				companyTypeId);
+		logger.info(LOGGER_MSG);
+		List<Company> companies = null;
+		List<Short> validStatuses = new ArrayList<>();
+		try {
+			//Define valid statuses
+			validStatuses.add(Statuses.ACTIVE.getId());
+			//Get valid companies
+			companies = companyDAO.getAllAvailableCompaniesOfType(validStatuses, companyTypeId);
+		} catch(Exception e) {
+			final String ERROR_MSG = String.format("Error while getting all available companies of type: %d.", 
+					companyTypeId);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return companies;
+	}
+	
 	@Override
 	public List<Company> getAllCompanies() 
 			throws BusinessServiceException {

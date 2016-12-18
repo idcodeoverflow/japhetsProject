@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import japhet.sales.controller.GenericMB;
 import japhet.sales.model.impl.Product;
+import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IProductService;
 
 @ManagedBean
@@ -29,6 +30,9 @@ public class HomeMB extends GenericMB {
 	@EJB
 	private IProductService productService;
 	
+	@EJB
+	private ICompanyService companyService;
+	
 	//View properties
 	private List<Product> availableProducts;
 	
@@ -36,13 +40,13 @@ public class HomeMB extends GenericMB {
 	private void init(){
 		try {
 			logger.info("Initializing HomeMB...");
-			//Initialize images map and products
+			//Initialize products
 			setAvailableProducts(productService.getAllAvailableProducts());
 		} catch (Exception e) {
 			logger.error("Error at initializing the HomeMB.", e);
 		}
 	}
-
+	
 	public List<Product> getAvailableProducts() {
 		return availableProducts;
 	}

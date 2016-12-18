@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 	
-	<!-- Carousel -->
+	<!-- Goods carousel -->
 	<h:panelGroup layout="block" styleClass="row">
 		<h:panelGroup 
 			id="goodsCarouselContainer" 
@@ -21,29 +23,27 @@
 					layout="block" pt:data-ride="carousel">
 					<!-- Indicators -->
 					<ol class="carousel-indicators">
-						<li data-target="#homeCarousel" data-slide-to="0" class="active"></li>
-						<li data-target="#homeCarousel" data-slide-to="1"></li>
-						<li data-target="#homeCarousel" data-slide-to="2"></li>
-						<li data-target="#homeCarousel" data-slide-to="3"></li>
+						<ui:repeat var="company" value="#{homeCarouselMB.goodsCompanies}">
+							<li data-target="#homeCarousel" 
+								data-slide-to="#{homeCarouselMB.goodsCompaniesIndex}" 
+								class="#{homeCarouselMB.getGoodsCompanyElementStyleClass(company)}"></li>
+						</ui:repeat>
 					</ol>
 					
 					<!-- Wrapper for slides -->
 					<h:panelGroup layout="block" styleClass="carousel-inner" pt:role="listbox">
-						<h:panelGroup layout="block" styleClass="item active">
-							<h:graphicImage value="/resources/media/carousel/a1.jpg" styleClass="item-img" />
-						</h:panelGroup>
-		
-						<h:panelGroup layout="block" styleClass="item">
-							<h:graphicImage value="/resources/media/carousel/a2.jpg" styleClass="item-img" />
-						</h:panelGroup>
-		
-						<h:panelGroup layout="block" styleClass="item">
-							<h:graphicImage value="/resources/media/carousel/a6.jpg" styleClass="item-img" />
-						</h:panelGroup>
-		
-						<h:panelGroup layout="block" styleClass="item">
-							<h:graphicImage value="/resources/media/carousel/a7.jpg" styleClass="item-img" />
-						</h:panelGroup>
+						<ui:repeat var="company" value="#{homeCarouselMB.goodsCompanies}">
+							<h:panelGroup layout="block" 
+								styleClass="item #{homeCarouselMB.getGoodsCompanyElementStyleClass(company)}">
+								<h:outputLink value="#{company.url}">
+									<p:graphicImage value="#{homeImagesMB.streamedCompanyImage}" 
+										styleClass="item-img">
+										<f:param name="#{homeImagesMB.COMPANY_IMAGE_REQ_PARAM}" 
+											value="#{company.companyId}" />
+									</p:graphicImage>
+								</h:outputLink>
+							</h:panelGroup>
+						</ui:repeat>
 					</h:panelGroup>
 		
 					<!-- Left and right controls -->
@@ -59,7 +59,7 @@
 			</h:panelGroup>
 			</h:panelGroup>
 		</h:panelGroup>
-		<!-- 2nd carousel -->
+		<!-- Services carousel -->
 		<h:panelGroup id="servicesCarouselContainer" 
 			styleClass="col-md-6"
 			layout="block">
@@ -74,29 +74,27 @@
 					layout="block" pt:data-ride="carousel">
 					<!-- Indicators -->
 					<ol class="carousel-indicators">
-						<li data-target="#homeCarousel" data-slide-to="0" class="active"></li>
-						<li data-target="#homeCarousel" data-slide-to="1"></li>
-						<li data-target="#homeCarousel" data-slide-to="2"></li>
-						<li data-target="#homeCarousel" data-slide-to="3"></li>
+						<ui:repeat var="company" value="#{homeCarouselMB.servicesCompanies}">
+							<li data-target="#homeServiceCarousel" 
+								data-slide-to="#{homeCarouselMB.servicesCompaniesIndex}" 
+								class="#{homeCarouselMB.getServicesCompanyElementStyleClass(company)}"></li>
+						</ui:repeat>
 					</ol>
 					
 					<!-- Wrapper for slides -->
 					<h:panelGroup layout="block" styleClass="carousel-inner" pt:role="listbox">
-						<h:panelGroup layout="block" styleClass="item active">
-							<h:graphicImage value="/resources/media/carousel/a1.jpg" styleClass="item-img" />
-						</h:panelGroup>
-		
-						<h:panelGroup layout="block" styleClass="item">
-							<h:graphicImage value="/resources/media/carousel/a2.jpg" styleClass="item-img" />
-						</h:panelGroup>
-		
-						<h:panelGroup layout="block" styleClass="item">
-							<h:graphicImage value="/resources/media/carousel/a6.jpg" styleClass="item-img" />
-						</h:panelGroup>
-		
-						<h:panelGroup layout="block" styleClass="item">
-							<h:graphicImage value="/resources/media/carousel/a7.jpg" styleClass="item-img" />
-						</h:panelGroup>
+						<ui:repeat var="company" value="#{homeCarouselMB.servicesCompanies}">
+							<h:panelGroup layout="block" 
+								styleClass="item #{homeCarouselMB.getServicesCompanyElementStyleClass(company)}">
+								<h:outputLink value="#{company.url}">
+									<p:graphicImage value="#{homeImagesMB.streamedCompanyImage}" 
+										styleClass="item-img">
+										<f:param name="#{homeImagesMB.COMPANY_IMAGE_REQ_PARAM}" 
+											value="#{company.companyId}" />
+									</p:graphicImage>
+								</h:outputLink>
+							</h:panelGroup>
+						</ui:repeat>
 					</h:panelGroup>
 		
 					<!-- Left and right controls -->

@@ -58,9 +58,33 @@
 									allowTypes="/(\.|\/)(jpe?g|png)$/">
 								</p:fileUpload>
 							</h:panelGroup>
-								
+							
+							<!-- Company Name -->
+							<h:panelGroup layout="block" 
+								rendered="#{registrationMB.companyRole}"
+								styleClass="form-group">
+								<h:outputLabel for="companyNameInput">
+									#{msg['registration.form.companyName']}
+								</h:outputLabel>
+								<h:inputText id="companyNameInput" 
+									styleClass="form-control" 
+									value="#{registrationMB.user.name}"
+									maxlength="200" required="true"
+									requiredMessage="#{msg['registration.messages.requiredCompanyName']}"
+									pt:placeholder="#{msg['registration.form.companyName']}"
+									onkeyup="deleteNonAlphaContent(this, '.- ');"
+									onblur="deleteExtraBlankSpaces(this);">
+								</h:inputText>
+								<p:keyFilter regEx="/[a-zA-Z\-\s.]/i" 
+									for="companyNameInput"
+									preventPaste="false" />
+								<p:messages for="companyNameInput" />
+							</h:panelGroup>
+							
 							<!-- First Name block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								rendered="#{!registrationMB.companyRole}"
+								styleClass="form-group">
 								<h:outputLabel for="firstNameInput">
 									#{msg['registration.form.firstName']}
 								</h:outputLabel>
@@ -70,7 +94,8 @@
 									maxlength="50" required="true"
 									requiredMessage="#{msg['registration.messages.requiredFirstName']}"
 									pt:placeholder="#{msg['registration.form.firstName']}"
-									onkeyup="deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
+									onkeyup="deleteNonAlphaContent(this, '- ');"
+									onblur="deleteExtraBlankSpaces(this);">
 								</h:inputText>
 								<p:keyFilter regEx="/[a-zA-Z\-\s]/i" 
 									for="firstNameInput"
@@ -79,7 +104,9 @@
 							</h:panelGroup>
 							
 							<!-- Last Name block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								rendered="#{!registrationMB.companyRole}"
+								styleClass="form-group">
 								<h:outputLabel for="lastNameInput">
 									#{msg['registration.form.lastName']}
 								</h:outputLabel>
@@ -90,7 +117,8 @@
 									required="#{!registrationMB.companyRole}"
 									requiredMessage="#{msg['registration.messages.requiredLastName']}"
 									pt:placeholder="#{msg['registration.form.lastName']}"
-									onkeyup="deleteNonAlphaContent(this, '- '); deleteExtraBlankSpaces(this);">
+									onkeyup="deleteNonAlphaContent(this, '- ');"
+									onblur="deleteExtraBlankSpaces(this);">
 								</h:inputText>
 								<p:messages for="lastNameInput" />
 								<p:keyFilter regEx="/[a-zA-Z\-\s]/i" 

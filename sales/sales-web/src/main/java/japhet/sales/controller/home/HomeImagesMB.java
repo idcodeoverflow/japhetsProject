@@ -17,7 +17,9 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import japhet.sales.controller.GenericMB;
+import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.Product;
+import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IProductService;
 
 @ManagedBean
@@ -29,9 +31,11 @@ public class HomeImagesMB extends GenericMB {
 	 */
 	private static final long serialVersionUID = 1192715924260847873L;
 	private static final String PRODUCT_IMAGE_REQ_PARAM = "productId";
+	private static final String COMPANY_IMAGE_REQ_PARAM = "companyId";
 
 	//View properties
 	private Map<Long, byte[]> imagesMap;
+	private Map<Long, byte[]> companyImagesMap;
 	
 	@Inject
 	private Logger logger;
@@ -39,20 +43,53 @@ public class HomeImagesMB extends GenericMB {
 	@EJB
 	private IProductService productService;
 	
+	@EJB
+	private ICompanyService companyService;
+	
 	@PostConstruct
-	public void init(){
+	public void init() {
 		logger.info("Initializing HomeImagesMB...");
 		imagesMap = new HashMap<>();
+		companyImagesMap = new HashMap<>();
 		try {
+			//Get product images
 			List<Product> products = productService.getAllAvailableProducts();
-			for(Product prod : products){
+			for(Product prod : products) {
 				imagesMap.put(prod.getProductId(), prod.getImage());
+			}
+			//Get company images
+			List<Company> companies = companyService.getAllAvailableCompanies();
+			for(Company company : companies) {
+				companyImagesMap.put(company.getCompanyId(), company.getImage());
 			}
 		} catch (Exception e) {
 			logger.fatal("Error initializing the HomeImagesMB.", e);
 		}
 	}
 
+	public StreamedContent getStreamedImage() {
+		return generateStreamedContent(imagesMap, PRODUCT_IMAGE_REQ_PARAM);
+	}
+	
+	public StreamedContent getStreamedCompanyImage() {
+		return generateStreamedContent(companyImagesMap, COMPANY_IMAGE_REQ_PARAM);
+	}
+	
+	private StreamedContent generateStreamedContent(Map<Long, byte[]> imagesMap, 
+			final String REQ_PARAM) {
+		StreamedContent streamedContent = new DefaultStreamedContent();
+		try {
+			if (getCurrentFacesInstance().getCurrentPhaseId() != PhaseId.RENDER_RESPONSE) {
+				Long companyId = Long.valueOf(getRequestParam(REQ_PARAM));
+				streamedContent = new DefaultStreamedContent(
+						new ByteArrayInputStream(imagesMap.get(companyId)), "image/jpg");
+			}
+		} catch (Exception e) {
+			logger.error("Error while generating the company image from bytes array.", e);
+		}
+		return streamedContent;
+	}
+	
 	public Map<Long, byte[]> getImagesMap() {
 		return imagesMap;
 	}
@@ -61,21 +98,19 @@ public class HomeImagesMB extends GenericMB {
 		this.imagesMap = imagesMap;
 	}
 	
-	public StreamedContent getStreamedImage() {
-		StreamedContent streamedContent = new DefaultStreamedContent();
-		try {
-			if (getCurrentFacesInstance().getCurrentPhaseId() != PhaseId.RENDER_RESPONSE) {
-				Long productId = Long.valueOf(getRequestParam(PRODUCT_IMAGE_REQ_PARAM));
-				streamedContent = new DefaultStreamedContent(
-						new ByteArrayInputStream(imagesMap.get(productId)), "image/jpg");
-			}
-		} catch (Exception e) {
-			logger.error("Error while generating image from bytes array.", e);
-		}
-		return streamedContent;
+	public Map<Long, byte[]> getCompanyImagesMap() {
+		return companyImagesMap;
 	}
-	
-	public String getPRODUCT_IMAGE_REQ_PARAM(){
+
+	public void setCompanyImagesMap(Map<Long, byte[]> companyImagesMap) {
+		this.companyImagesMap = companyImagesMap;
+	}
+
+	public String getPRODUCT_IMAGE_REQ_PARAM() {
 		return PRODUCT_IMAGE_REQ_PARAM;
 	}	
+	
+	public String getCOMPANY_IMAGE_REQ_PARAM() {
+		return COMPANY_IMAGE_REQ_PARAM;
+	}
 }
