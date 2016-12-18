@@ -21,7 +21,7 @@ public class CompanyDAO extends GenericDAO<Company, Long> {
 	
 	//Query parameters
 	final String VALID_STATUSES = "validStatuses";
-	final String COMPANY_TYPE_ID = "idStatuses";
+	final String COMPANY_TYPE_ID = "companyTypeId";
 	
 	public CompanyDAO() {
 		super(Company.class, Long.class);

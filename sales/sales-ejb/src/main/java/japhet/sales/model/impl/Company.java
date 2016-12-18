@@ -1,6 +1,7 @@
 package japhet.sales.model.impl;
 
 import static japhet.sales.data.QueryNames.*;
+import static japhet.sales.util.StringUtils.urlCompletion;
 
 import java.util.List;
 
@@ -29,11 +30,11 @@ import japhet.sales.util.StreamUtil;
 @Table(name = "TB_COMPANY")
 @NamedQueries(value = {
 		@NamedQuery(name = GET_ALL_AVAILABLE_COMPANIES, 
-				query = "SELECT c FROM Company c"),
+			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :validStatuses"),
 		@NamedQuery(name = GET_ALL_AVAILABLE_COMPANIES_OF_TYPE, 
 			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :validStatuses AND c.companyType.companyTypeId = :companyTypeId"),
 		@NamedQuery(name = GET_ALL_COMPANIES, 
-			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :validStatuses")
+			query = "SELECT c FROM Company c")
 })
 public class Company extends StreamUtil 
 	implements IEntity {
@@ -42,7 +43,7 @@ public class Company extends StreamUtil
 	 * Maven generated.
 	 */
 	private static final long serialVersionUID = -7669292815087490687L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "COMPANY_ID")
@@ -116,7 +117,7 @@ public class Company extends StreamUtil
 	}
 
 	public void setUrl(String url) {
-		this.url = url;
+		this.url = urlCompletion(url);
 	}
 
 	public byte[] getImage() {

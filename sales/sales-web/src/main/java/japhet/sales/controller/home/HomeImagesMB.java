@@ -68,24 +68,19 @@ public class HomeImagesMB extends GenericMB {
 	}
 
 	public StreamedContent getStreamedImage() {
-		StreamedContent streamedContent = new DefaultStreamedContent();
-		try {
-			if (getCurrentFacesInstance().getCurrentPhaseId() != PhaseId.RENDER_RESPONSE) {
-				Long productId = Long.valueOf(getRequestParam(PRODUCT_IMAGE_REQ_PARAM));
-				streamedContent = new DefaultStreamedContent(
-						new ByteArrayInputStream(imagesMap.get(productId)), "image/jpg");
-			}
-		} catch (Exception e) {
-			logger.error("Error while generating the product image from bytes array.", e);
-		}
-		return streamedContent;
+		return generateStreamedContent(imagesMap, PRODUCT_IMAGE_REQ_PARAM);
 	}
 	
 	public StreamedContent getStreamedCompanyImage() {
+		return generateStreamedContent(companyImagesMap, COMPANY_IMAGE_REQ_PARAM);
+	}
+	
+	private StreamedContent generateStreamedContent(Map<Long, byte[]> imagesMap, 
+			final String REQ_PARAM) {
 		StreamedContent streamedContent = new DefaultStreamedContent();
 		try {
 			if (getCurrentFacesInstance().getCurrentPhaseId() != PhaseId.RENDER_RESPONSE) {
-				Long companyId = Long.valueOf(getRequestParam(COMPANY_IMAGE_REQ_PARAM));
+				Long companyId = Long.valueOf(getRequestParam(REQ_PARAM));
 				streamedContent = new DefaultStreamedContent(
 						new ByteArrayInputStream(imagesMap.get(companyId)), "image/jpg");
 			}
