@@ -1,5 +1,6 @@
 package japhet.sales.model.impl;
 
+import static japhet.sales.data.QueryParameters.SEARCHED_WORDS;
 import static japhet.sales.util.StringUtils.urlCompletion;
 
 import java.awt.Image;
@@ -32,7 +33,9 @@ import japhet.sales.util.StreamUtil;
 @Table(name = "TB_PRODUCT")
 @NamedQueries({
 		@NamedQuery(name = QueryNames.GET_AVAILABLE_PRODUCTS,
-				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE")
+				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE"),
+		@NamedQuery(name = QueryNames.GET_SEARCHED_PRODUCTS,
+				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE AND (UPPER(p.title) LIKE :" + SEARCHED_WORDS + " OR UPPER(p.description) LIKE :" + SEARCHED_WORDS + ")")
 })
 public class Product extends StreamUtil 
 	implements IEntity {
