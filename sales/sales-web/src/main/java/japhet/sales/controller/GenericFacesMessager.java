@@ -4,7 +4,21 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 public class GenericFacesMessager {
-
+	
+	//Error messages
+	public final String GENERAL_ERROR = "userMessages.general.error";
+	public final String STARTUP_MB_ERROR = "userMessages.general.startUpError";
+	public final String TRY_AGAIN_ERROR = "userMessages.genera.tryAgain";
+	public final String IMAGE_UPLOAD_ERROR = "userMessages.error.image";
+	public final String INVALID_PASSWORD_ERROR = "userMessages.error.invalidPassword";
+	public final String SIGN_UP_ERROR = "userMessages.error.signupError";
+	public final String PICK_STATE_ERROR = "userMessages.error.stateError";
+	public final String SAVE_CONTENT_ERROR = "userMessages.error.saveContentError";
+	public final String DATE_RANGE_INVALID = "userMessages.error.dateInvalid";
+	//Info messages
+	public final String IMAGE_READY = "userMessages.images.ready";
+	public final String CONTENT_READY = "userMessages.content.ready";
+	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
 	}

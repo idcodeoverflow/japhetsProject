@@ -1,6 +1,7 @@
 package japhet.sales.controller.home;
 
-import static japhet.sales.catalogs.CompanyTypes.*;
+import static japhet.sales.catalogs.CompanyTypes.GOODS;
+import static japhet.sales.catalogs.CompanyTypes.SERVICES;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.apache.log4j.Logger;
 import japhet.sales.catalogs.CompanyTypes;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.BusinessServiceException;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Company;
 import japhet.sales.service.ICompanyService;
 
@@ -33,6 +35,9 @@ public class HomeCarouselMB extends GenericMB {
 	//EJB's
 	@EJB
 	private ICompanyService companyService;
+	
+	@EJB
+	private IInternationalizationService internationalizationService;
 	
 	//View attributes
 	private List<Company> goodsCompanies;
@@ -54,10 +59,12 @@ public class HomeCarouselMB extends GenericMB {
 			this.servicesCompanies = getAllAvailableCompaniesOfType(SERVICES);
 		} catch (BusinessServiceException e) {
 			logger.error("Error while initializing HomeCarouselMB.", e);
-			showErrorMessage("Se ha generado un error al iniciar la pagina.", "");
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
 		} catch (Exception e) {
 			logger.error("Error while initializing HomeCarouselMB.", e);
-			showErrorMessage("Se ha generado un error al iniciar la pagina.", "");
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
 		}
 	}
 	

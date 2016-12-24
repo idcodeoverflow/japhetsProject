@@ -6,12 +6,15 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
 import org.primefaces.event.FileUploadEvent;
 
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidDateRangeException;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Category;
 import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.Product;
@@ -26,12 +29,19 @@ public class UploadContentMB extends GenericMB {
 	 * Maven generated.
 	 */
 	private static final long serialVersionUID = 7982763050146800232L;
-	
+
+	@Inject
+	private Logger logger;
+
 	//EJB's
 	@EJB
 	private IProductService productService;
+	
 	@EJB
 	private IUtilService utilService;
+	
+	@EJB
+	private IInternationalizationService internationalizationService;
 	
 	//Input properties
 	private byte []imageBytes;
@@ -47,16 +57,26 @@ public class UploadContentMB extends GenericMB {
 	
 	@PostConstruct
 	public void init(){
-		clearAll();
+		try {
+			logger.info("Initializing UploadContentMB...");
+			clearAll();
+		} catch (Exception e) {
+			logger.error("An error has ocurred while initializing UploadContentMB.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+		}
 	}
 			
 	public void handleFileUpload(FileUploadEvent event) {
         try {
 			imageBytes = utilService.getBiteArrayFromStream(
 					event.getFile().getInputstream());
-			showInfoMessage("La imagen está lista para guardarse,", "");
+			showInfoMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, IMAGE_READY), "");
 		} catch (Exception e) {
-			showErrorMessage("Ocurrió un error al subir la imagen.", 
+			logger.error("There was an error uploading the image to the server.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, IMAGE_UPLOAD_ERROR), 
 					event.getFile().getFileName());
 		}
     }
@@ -73,19 +93,23 @@ public class UploadContentMB extends GenericMB {
 			product.setPaybackPercent((double)(product.getPaybackPercent() / 100.0));
 			//Persist product
 			if(productService.insertProduct(product)){
-				showInfoMessage("Contenido guardado", "");
 				logger.info("Content succesfully saved.");
+				showInfoMessage(internationalizationService
+						.getI18NMessage(CURRENT_LOCALE, CONTENT_READY), "");
 				clearAll();
 			} else {
-				showErrorMessage("El producto falló al guardarse,\nintentalo mas tarde", "");
 				logger.error("An error has ocurred (product insert).");
+				showErrorMessage(internationalizationService
+						.getI18NMessage(CURRENT_LOCALE, SAVE_CONTENT_ERROR), "");
 			}
 		} catch (InvalidDateRangeException e) {
-			showErrorMessage("El rango de fechas es invalido", "");
 			logger.error("Invalid range for the dates.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, DATE_RANGE_INVALID), "");
 		} catch (BusinessServiceException e) {
-			showErrorMessage("Ocurrio un error al guardar el contenido.", "");
 			logger.error("An error has occurred while saving the content.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, SAVE_CONTENT_ERROR), "");
 		}
 	}
 	
@@ -121,5 +145,4 @@ public class UploadContentMB extends GenericMB {
 	public Date getCurrentDate() {
 		return new Date();
 	}
-
 }

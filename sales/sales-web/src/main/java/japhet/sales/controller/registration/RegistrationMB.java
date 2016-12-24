@@ -18,6 +18,7 @@ import japhet.sales.catalogs.Roles;
 import japhet.sales.controller.AuthConstants;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.InvalidPasswordException;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.SocialNetwork;
 import japhet.sales.model.impl.State;
@@ -46,16 +47,21 @@ public class RegistrationMB extends GenericMB
 	
 	@Inject
 	private Logger logger;
-	
+
 	//EJB's
 	@EJB
 	private IUserService userService;
+	
 	@EJB
 	private IUtilService utilService;
+	
 	@EJB
 	private ICompanyService companyService;
 	
-	//View propertiess
+	@EJB
+	private IInternationalizationService internationalizationService;
+	
+	//View properties
 	private String password;
 	private String confirmPassword;
 	private byte[] imageBytes;
@@ -67,7 +73,14 @@ public class RegistrationMB extends GenericMB
 	
 	@PostConstruct
 	private void init(){
-		clear();
+		try {
+			logger.info("Initializing RegistrationMB...");
+			clear();
+		} catch (Exception e) {
+			logger.error("An error has ocurred while initializing RegistrationMB.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+		}
 	}
 
 	public void handleFileUpload(FileUploadEvent event) {
@@ -76,10 +89,12 @@ public class RegistrationMB extends GenericMB
 			imageBytes = utilService.getBiteArrayFromStream(
 					event.getFile().getInputstream());
 			logger.info("Company Image Uploaded succesfuly!");
-			showInfoMessage("La imagen está lista para guardarse,", "");
+			showInfoMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, IMAGE_READY), "");
 		} catch (Exception e) {
 			logger.error("Error while uploading Company Image.", e);
-			showErrorMessage("Ocurrió un error al subir la imagen.", 
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, IMAGE_UPLOAD_ERROR), 
 					event.getFile().getFileName());
 		}
     }
@@ -106,10 +121,12 @@ public class RegistrationMB extends GenericMB
 			redirect(SIGN_IN_URL);
 		} catch (InvalidPasswordException e) {
 			logger.fatal("The password is invalid.", e);
-			showErrorMessage("The password doesn't match or is invalid", "");
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, INVALID_PASSWORD_ERROR), "");
 		} catch (Exception e) {
 			logger.fatal("Error trying to persist user into the DB.", e);
-			showErrorMessage("An error has ocurred registering the account.", "");
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, SIGN_UP_ERROR), "");
 		}
 	}
 	
@@ -125,7 +142,8 @@ public class RegistrationMB extends GenericMB
 			createUser(user);
 		} catch (Exception e) {
 			logger.fatal("Error trying to persist FB user into the DB.", e);
-			showErrorMessage("An error has ocurred while signing up.", "");
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, SIGN_UP_ERROR), "");
 		}
 	}
 	
@@ -199,7 +217,7 @@ public class RegistrationMB extends GenericMB
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	
+
 	public short getMIN_PASSWORD_LENGTH() {
 		return MIN_PASSWORD_LENGTH;
 	}

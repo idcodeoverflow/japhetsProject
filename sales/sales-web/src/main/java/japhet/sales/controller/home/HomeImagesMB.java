@@ -17,6 +17,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import japhet.sales.controller.GenericMB;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.Product;
 import japhet.sales.service.ICompanyService;
@@ -40,11 +41,15 @@ public class HomeImagesMB extends GenericMB {
 	@Inject
 	private Logger logger;
 	
+	//EJB's
 	@EJB
 	private IProductService productService;
 	
 	@EJB
 	private ICompanyService companyService;
+	
+	@EJB
+	private IInternationalizationService internationalizationService;
 	
 	@PostConstruct
 	public void init() {
@@ -64,6 +69,8 @@ public class HomeImagesMB extends GenericMB {
 			}
 		} catch (Exception e) {
 			logger.fatal("Error initializing the HomeImagesMB.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
 		}
 	}
 
@@ -86,6 +93,8 @@ public class HomeImagesMB extends GenericMB {
 			}
 		} catch (Exception e) {
 			logger.error("Error while generating the company image from bytes array.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, GENERAL_ERROR), "");
 		}
 		return streamedContent;
 	}

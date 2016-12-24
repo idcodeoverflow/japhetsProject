@@ -11,12 +11,13 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import japhet.sales.controller.GenericMB;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.City;
 import japhet.sales.model.impl.State;
 import japhet.sales.service.IStateService;
-
-import org.apache.log4j.Logger;
 
 @ManagedBean
 @ApplicationScoped
@@ -27,11 +28,15 @@ public class StatesMB extends GenericMB {
 	 */
 	private static final long serialVersionUID = 5394399062362399715L;
 
+	@Inject
+	private Logger logger;
+	
+	//EJB's
 	@EJB
 	private IStateService iStateService;
 	
-	@Inject
-	private Logger logger;
+	@EJB
+	private IInternationalizationService internationalizationService;
 	
 	//GUI attributes
 	private Map<Short, State> statesMap;
@@ -49,7 +54,9 @@ public class StatesMB extends GenericMB {
 				}
 			}
 		} catch (Exception e) {
-			logger.error("Error while initializing StatesMB.", e);
+			logger.fatal("Error while initializing StatesMB.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
 		}
 	}
 
@@ -59,6 +66,8 @@ public class StatesMB extends GenericMB {
 			state = iStateService.getState(stateId);
 		} catch (Exception e) {
 			logger.fatal("Error while trying to obtain the state: " + stateId);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, PICK_STATE_ERROR), "");
 		}
 		return state;
 	}
@@ -78,5 +87,4 @@ public class StatesMB extends GenericMB {
 	public State findStateById(Short stateId){
 		return getState(stateId);
 	}
-	
 }

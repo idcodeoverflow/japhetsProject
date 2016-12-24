@@ -3,6 +3,7 @@ package japhet.sales.controller.login;
 import java.io.IOException;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 
 import japhet.sales.controller.AuthConstants;
 import japhet.sales.controller.GenericMB;
+import japhet.sales.internationalization.IInternationalizationService;
 
 @ManagedBean
 @ViewScoped
@@ -31,15 +33,25 @@ public class LoginMB extends GenericMB
 	 * Maven generated.
 	 */
 	private static final long serialVersionUID = 2539935060263981778L;
-	
-	@PostConstruct
-	private void init() {
-		//Update messages for the user
-		updateMessages();
-	}
 
 	@Inject
 	private Logger logger;
+	
+	@EJB
+	private IInternationalizationService internationalizationService;
+	
+	@PostConstruct
+	private void init() {
+		try {
+			logger.error("Initializing LoginMB...");
+			//Update messages for the user
+			updateMessages();
+		} catch (Exception e) {
+			logger.error("An error has ocurred while initializing LoginMB.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+		}
+	}
 	
 	public String doLogin() throws IOException, ServletException {
 		logger.info("Authenticating user...");
@@ -74,7 +86,8 @@ public class LoginMB extends GenericMB
 	    //If something went wrong
 	    if(ex != null) {
 	        logger.error("Authentication Failed!", ex);
-			showErrorMessage("Intente de nuevo", ex.getMessage());
+	        showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, TRY_AGAIN_ERROR), "");
 	    }
 	}
 	

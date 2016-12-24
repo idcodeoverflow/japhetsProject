@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import org.apache.log4j.Logger;
 
 import japhet.sales.controller.GenericMB;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Category;
 import japhet.sales.service.ICategoryService;
 
@@ -25,8 +26,12 @@ public class CategoryMB extends GenericMB {
 	@Inject
 	private Logger logger;
 	
+	//EJB's
 	@EJB
 	private ICategoryService categoryService;
+	
+	@EJB
+	private IInternationalizationService internationalizationService;
 	
 	public List<Category> getAvailableCategories(){
 		List<Category> categories = null;
@@ -34,9 +39,9 @@ public class CategoryMB extends GenericMB {
 			categories = categoryService.getAllAvailableCategories();
 		} catch (Exception e) {
 			logger.fatal("Error while obtaining all available categories.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, GENERAL_ERROR), "");
 		}
 		return categories;
 	}
-	
-	
 }
