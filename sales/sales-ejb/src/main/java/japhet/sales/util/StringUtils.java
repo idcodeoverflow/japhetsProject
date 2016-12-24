@@ -18,4 +18,20 @@ public class StringUtils {
 		return url;
 	}
 	
+	/**
+	 * Adds wildcards to a simple String.
+	 * @param param
+	 * @return
+	 */
+	public static final String wildcardParameter(String param) {
+		//Clean String
+		param.toUpperCase();
+		param.trim();
+		//Generate string with wildcard
+		StringBuilder strBldr = new StringBuilder("%");
+		strBldr.append(param);
+		strBldr.append("%");
+		return strBldr.toString();
+	}
+	
 }
