@@ -42,11 +42,13 @@
 								<h:panelGroup styleClass="glyphicon glyphicon-home"/>
 							</a>
 						</li>
-						<li>
-							<h:outputLink value="#{urlMapperMB.uploadContentURL}">
-								#{msg['main.template.uploadContent']}
-							</h:outputLink>
-						</li>
+						<h:panelGroup rendered="#{loginMB.signedIn}">
+							<li>
+								<h:outputLink value="#{urlMapperMB.uploadContentURL}">
+									#{msg['main.template.uploadContent']}
+								</h:outputLink>
+							</li>
+						</h:panelGroup>
 						<li>
 							<h:commandLink value="#{msg['main.template.top10']}" />
 						</li>

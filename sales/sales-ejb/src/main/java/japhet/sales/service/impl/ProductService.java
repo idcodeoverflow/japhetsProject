@@ -1,6 +1,7 @@
 package japhet.sales.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -39,6 +40,20 @@ public class ProductService implements IProductService {
 			products = productDAO.getAvailableProducts();
 		} catch (Exception e) {
 			final String errorMsg = "Error while getting all available products.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return products;
+	}
+	
+	public List<Product> getSearchedProducts(Map<String, Object> parameters) 
+			throws BusinessServiceException {
+		List<Product> products = null;
+		logger.info("Obtaining searched products...");
+		try {
+			products = productDAO.getSearchedProducts(parameters);
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting the searched products.";
 			logger.fatal(errorMsg, e);
 			throw new BusinessServiceException(errorMsg, e);
 		}
