@@ -2,6 +2,7 @@ package japhet.sales.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
@@ -13,6 +14,9 @@ import japhet.sales.model.impl.Product;
 public interface IProductService extends Serializable {
 
 	public List<Product> getAllAvailableProducts() 
+			throws BusinessServiceException;
+	
+	public List<Product> getSearchedProducts(Map<String, Object> parameters) 
 			throws BusinessServiceException;
 	
 	public Product getProduct(Long productId) 

@@ -11,7 +11,7 @@ import japhet.sales.model.IEntity;
 
 @SuppressWarnings(value = "all")
 public abstract class GenericDAO<T extends IEntity, K> 
-	implements QueryNames {
+	implements QueryNames, QueryParameters {
 
 	@Inject
 	protected EntityManager em;
