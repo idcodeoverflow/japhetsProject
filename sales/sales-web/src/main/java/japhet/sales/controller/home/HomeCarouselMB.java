@@ -60,11 +60,11 @@ public class HomeCarouselMB extends GenericMB {
 		} catch (BusinessServiceException e) {
 			logger.error("Error while initializing HomeCarouselMB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		} catch (Exception e) {
 			logger.error("Error while initializing HomeCarouselMB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 	

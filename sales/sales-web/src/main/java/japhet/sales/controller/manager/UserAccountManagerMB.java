@@ -49,7 +49,7 @@ public class UserAccountManagerMB extends GenericMB {
 		} catch (Exception e) {
 			logger.error("Error while initializing user account manager.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 	

@@ -40,7 +40,7 @@ public class CategoryMB extends GenericMB {
 		} catch (Exception e) {
 			logger.fatal("Error while obtaining all available categories.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, GENERAL_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
 		}
 		return categories;
 	}

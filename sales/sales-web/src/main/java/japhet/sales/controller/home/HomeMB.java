@@ -57,7 +57,7 @@ public class HomeMB extends GenericMB {
 		} catch (Exception e) {
 			logger.error("Error at initializing the HomeMB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 	
@@ -73,11 +73,11 @@ public class HomeMB extends GenericMB {
 		} catch (BusinessServiceException e) {
 			logger.error(ERROR_MSG, e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, GENERAL_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
 		} catch (Exception e) {
 			logger.error(ERROR_MSG, e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, GENERAL_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
 		}
 	}
 	

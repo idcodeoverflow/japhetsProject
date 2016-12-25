@@ -45,7 +45,7 @@ public class CompanyTypeMB
 		} catch (Exception e) {
 			logger.error("Error while initializing CompanyTypesMB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 

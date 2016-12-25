@@ -49,7 +49,7 @@ public class LoginMB extends GenericMB
 		} catch (Exception e) {
 			logger.error("An error has ocurred while initializing LoginMB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 	
@@ -87,7 +87,7 @@ public class LoginMB extends GenericMB
 	    if(ex != null) {
 	        logger.error("Authentication Failed!", ex);
 	        showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, TRY_AGAIN_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getINVALID_PASSWORD_ERROR()), "");
 	    }
 	}
 	

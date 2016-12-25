@@ -44,7 +44,7 @@ public class RoleMB extends GenericMB {
 		} catch (Exception e) {
 			logger.fatal("Error while initializing RolesMB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 

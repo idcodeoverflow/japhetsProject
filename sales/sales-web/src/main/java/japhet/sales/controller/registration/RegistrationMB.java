@@ -79,7 +79,7 @@ public class RegistrationMB extends GenericMB
 		} catch (Exception e) {
 			logger.error("An error has ocurred while initializing RegistrationMB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 
@@ -90,11 +90,11 @@ public class RegistrationMB extends GenericMB
 					event.getFile().getInputstream());
 			logger.info("Company Image Uploaded succesfuly!");
 			showInfoMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, IMAGE_READY), "");
+					.getI18NMessage(CURRENT_LOCALE, getIMAGE_READY()), "");
 		} catch (Exception e) {
 			logger.error("Error while uploading Company Image.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, IMAGE_UPLOAD_ERROR), 
+					.getI18NMessage(CURRENT_LOCALE, getIMAGE_UPLOAD_ERROR()), 
 					event.getFile().getFileName());
 		}
     }
@@ -122,11 +122,11 @@ public class RegistrationMB extends GenericMB
 		} catch (InvalidPasswordException e) {
 			logger.fatal("The password is invalid.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, INVALID_PASSWORD_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getINVALID_PASSWORD_ERROR()), "");
 		} catch (Exception e) {
 			logger.fatal("Error trying to persist user into the DB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, SIGN_UP_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSIGN_UP_ERROR()), "");
 		}
 	}
 	
@@ -143,7 +143,7 @@ public class RegistrationMB extends GenericMB
 		} catch (Exception e) {
 			logger.fatal("Error trying to persist FB user into the DB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, SIGN_UP_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSIGN_UP_ERROR()), "");
 		}
 	}
 	

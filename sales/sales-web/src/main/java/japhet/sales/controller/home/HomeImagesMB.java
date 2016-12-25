@@ -70,7 +70,7 @@ public class HomeImagesMB extends GenericMB {
 		} catch (Exception e) {
 			logger.fatal("Error initializing the HomeImagesMB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 
@@ -94,7 +94,7 @@ public class HomeImagesMB extends GenericMB {
 		} catch (Exception e) {
 			logger.error("Error while generating the company image from bytes array.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, GENERAL_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
 		}
 		return streamedContent;
 	}

@@ -63,7 +63,7 @@ public class UploadContentMB extends GenericMB {
 		} catch (Exception e) {
 			logger.error("An error has ocurred while initializing UploadContentMB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 			
@@ -72,11 +72,11 @@ public class UploadContentMB extends GenericMB {
 			imageBytes = utilService.getBiteArrayFromStream(
 					event.getFile().getInputstream());
 			showInfoMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, IMAGE_READY), "");
+					.getI18NMessage(CURRENT_LOCALE, getIMAGE_READY()), "");
 		} catch (Exception e) {
 			logger.error("There was an error uploading the image to the server.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, IMAGE_UPLOAD_ERROR), 
+					.getI18NMessage(CURRENT_LOCALE, getIMAGE_UPLOAD_ERROR()), 
 					event.getFile().getFileName());
 		}
     }
@@ -95,21 +95,21 @@ public class UploadContentMB extends GenericMB {
 			if(productService.insertProduct(product)){
 				logger.info("Content succesfully saved.");
 				showInfoMessage(internationalizationService
-						.getI18NMessage(CURRENT_LOCALE, CONTENT_READY), "");
+						.getI18NMessage(CURRENT_LOCALE, getCONTENT_READY()), "");
 				clearAll();
 			} else {
 				logger.error("An error has ocurred (product insert).");
 				showErrorMessage(internationalizationService
-						.getI18NMessage(CURRENT_LOCALE, SAVE_CONTENT_ERROR), "");
+						.getI18NMessage(CURRENT_LOCALE, getSAVE_CONTENT_ERROR()), "");
 			}
 		} catch (InvalidDateRangeException e) {
 			logger.error("Invalid range for the dates.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, DATE_RANGE_INVALID), "");
+					.getI18NMessage(CURRENT_LOCALE, getDATE_RANGE_INVALID()), "");
 		} catch (BusinessServiceException e) {
 			logger.error("An error has occurred while saving the content.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, SAVE_CONTENT_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSAVE_CONTENT_ERROR()), "");
 		}
 	}
 	

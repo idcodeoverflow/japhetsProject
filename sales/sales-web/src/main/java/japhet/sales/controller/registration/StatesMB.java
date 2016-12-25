@@ -56,7 +56,7 @@ public class StatesMB extends GenericMB {
 		} catch (Exception e) {
 			logger.fatal("Error while initializing StatesMB.", e);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, STARTUP_MB_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 
@@ -67,7 +67,7 @@ public class StatesMB extends GenericMB {
 		} catch (Exception e) {
 			logger.fatal("Error while trying to obtain the state: " + stateId);
 			showErrorMessage(internationalizationService
-					.getI18NMessage(CURRENT_LOCALE, PICK_STATE_ERROR), "");
+					.getI18NMessage(CURRENT_LOCALE, getPICK_STATE_ERROR()), "");
 		}
 		return state;
 	}
