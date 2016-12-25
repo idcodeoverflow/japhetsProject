@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import org.apache.log4j.Logger;
 
 import japhet.sales.controller.GenericMB;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Category;
 import japhet.sales.service.ICategoryService;
 
@@ -31,6 +32,9 @@ public class UserAccountManagerMB extends GenericMB {
 	@EJB
 	private ICategoryService categoryService;
 	
+	@EJB
+	private IInternationalizationService internationalizationService;
+	
 	//View properties
 	private List<Category> categories;
 	
@@ -39,12 +43,13 @@ public class UserAccountManagerMB extends GenericMB {
 	
 	@PostConstruct
 	private void init() {
-		logger.info("Initializing user account manager...");
 		try {
+			logger.info("Initializing user account manager...");
 			categories = categoryService.getAllAvailableCategories();
 		} catch (Exception e) {
 			logger.error("Error while initializing user account manager.", e);
-			showErrorMessage("Ocurrio un error al cargar esta página.", "");
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 	

@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.BusinessServiceException;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Product;
 import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IProductService;
@@ -33,11 +34,15 @@ public class HomeMB extends GenericMB {
 	@Inject
 	private Logger logger;
 	
+	//EJB's
 	@EJB
 	private IProductService productService;
 	
 	@EJB
 	private ICompanyService companyService;
+	
+	@EJB
+	private IInternationalizationService internationalizationService;
 	
 	//View properties
 	private List<Product> availableProducts;
@@ -51,6 +56,8 @@ public class HomeMB extends GenericMB {
 			setAvailableProducts(productService.getAllAvailableProducts());
 		} catch (Exception e) {
 			logger.error("Error at initializing the HomeMB.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 	
@@ -65,10 +72,12 @@ public class HomeMB extends GenericMB {
 			setAvailableProducts(productService.getSearchedProducts(parameters));
 		} catch (BusinessServiceException e) {
 			logger.error(ERROR_MSG, e);
-			showErrorMessage("Ha ocurrido un error.", "");
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
 		} catch (Exception e) {
 			logger.error(ERROR_MSG, e);
-			showErrorMessage("Ha ocurrido un error.", "");
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
 		}
 	}
 	

@@ -1,4 +1,4 @@
-# japhetsProject
+# Prosperad
 
 #Installation steps:
 
@@ -24,4 +24,3 @@
 -Run the domain loads under: "domain-loads" directory
 <br/>
 -Import the Eclipse project into the IDE using the option import as "Existing Maven Project"
-

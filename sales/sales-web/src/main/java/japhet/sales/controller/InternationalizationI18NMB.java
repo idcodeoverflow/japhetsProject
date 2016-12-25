@@ -1,17 +1,14 @@
 package japhet.sales.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
-import japhet.sales.catalogs.Languages;
-import japhet.sales.util.PropertiesReader;
+import japhet.sales.internationalization.IInternationalizationService;
 
 @ManagedBean
 @SessionScoped
@@ -23,58 +20,35 @@ public class InternationalizationI18NMB
 	 */
 	private static final long serialVersionUID = 2659666980772461144L;
 	
-	//Shared element which contains all the languages
-	private static Map<String, Languages> locales;
-	
-	//Initialize languages
-	static {
-		locales = new HashMap<>();
-		for(Languages language : Languages.values()){
-			locales.put(language.getSuffix(), language);
-		}
-	}
-	
-	//Session elements
 	@Inject
 	private Logger logger;
 	
-	private String suffix;
-	private Languages locale;
-	private PropertiesReader pReader;
-	
+	//EJB's
+	@EJB
+	private IInternationalizationService internationalizationService;
+		
 	@PostConstruct
 	private void init() {
 		try {
 			logger.info("Initializing InternationalizationI18NMB...");
 			//Get current locale
-			suffix = "";
-			locale = locales.get(suffix);
-			logger.info(String.format("Locale selected: %s", locale.getI18NMessagesFile()));
-			pReader = new PropertiesReader(locale.getI18NMessagesFile());
+			logger.info(String.format("Locale selected: %s", CURRENT_LOCALE));
 		} catch(Exception e) {
 			logger.error("Error initializing InternationalizationI18NMB.", e);
 			showErrorMessage("Error al iniciar internacionalizacion.", "");
 		}
 	}
 
-	public String getSuffix() {
-		return suffix;
+	public String getLocale() {
+		return CURRENT_LOCALE;
 	}
 
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
-	}
-
-	public Languages getLocale() {
-		return locale;
-	}
-
-	public void setLocale(Languages locale) {
-		this.locale = locale;
+	public void setLocale(String CURRENT_LOCALE) {
+		this.CURRENT_LOCALE = CURRENT_LOCALE;
 	}
 
 	public String getI18NMessage(String key) {
-		String value = pReader.getValueFromKey(key);
+		String value = internationalizationService.getI18NMessage(CURRENT_LOCALE, key);
 		if("".equals(value)) {
 			value = key;
 		}

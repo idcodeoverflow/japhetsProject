@@ -8,11 +8,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 
+import org.apache.log4j.Logger;
+
 import japhet.sales.controller.GenericMB;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Role;
 import japhet.sales.service.IRoleService;
-
-import org.apache.log4j.Logger;
 
 @ManagedBean
 @ApplicationScoped
@@ -26,8 +27,12 @@ public class RoleMB extends GenericMB {
 	@Inject
 	private Logger logger;
 
+	//EJB's
 	@EJB
 	private IRoleService roleService;
+	
+	@EJB
+	private IInternationalizationService internationalizationService;
 	
 	private List<Role> roles;
 	
@@ -38,6 +43,8 @@ public class RoleMB extends GenericMB {
 			roles = roleService.getAvailableRoles();
 		} catch (Exception e) {
 			logger.fatal("Error while initializing RolesMB.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 
@@ -48,5 +55,4 @@ public class RoleMB extends GenericMB {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
-	
 }
