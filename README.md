@@ -1,4 +1,4 @@
-# japhetsProject
+# Prosperad
 
 #Installation steps:
 

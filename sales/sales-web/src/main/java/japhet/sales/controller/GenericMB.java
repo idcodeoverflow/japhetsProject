@@ -21,6 +21,8 @@ public abstract class GenericMB extends GenericFacesMessager
 	 */
 	private static final long serialVersionUID = -5589709030464138421L;
 	
+	protected String CURRENT_LOCALE = "";
+	
 	@Inject
 	protected Logger logger;
 	

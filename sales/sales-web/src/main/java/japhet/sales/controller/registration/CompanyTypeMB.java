@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import org.apache.log4j.Logger;
 
 import japhet.sales.controller.GenericMB;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.CompanyType;
 import japhet.sales.service.ICompanyTypeService;
 
@@ -27,8 +28,12 @@ public class CompanyTypeMB
 	@Inject
 	private Logger logger;
 	
+	//EJB's
 	@EJB
 	private ICompanyTypeService companyTypeService;
+	
+	@EJB
+	private IInternationalizationService internationalizationService;
 	
 	private List<CompanyType> companyTypes;
 	
@@ -39,7 +44,8 @@ public class CompanyTypeMB
 			this.companyTypes = companyTypeService.getCachedCompanyTypes();
 		} catch (Exception e) {
 			logger.error("Error while initializing CompanyTypesMB.", e);
-			showErrorMessage("Ha ocurrido un error.", "");
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 		}
 	}
 
