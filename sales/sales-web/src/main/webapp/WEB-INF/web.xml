@@ -11,6 +11,11 @@
         from their transactions.
     </description>
     
+    <servlet-mapping>
+	    <servlet-name>Faces Servlet</servlet-name>
+	    <url-pattern>*.xhtml</url-pattern>
+	</servlet-mapping>
+    
     <welcome-file-list>
     	<welcome-file>home/home.xhtml</welcome-file>
     </welcome-file-list>
