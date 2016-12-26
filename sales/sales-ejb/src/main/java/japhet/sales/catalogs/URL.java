@@ -10,6 +10,7 @@ public enum URL {
 	BANKS_N_DEPOSITS("banksNDeposits"),
 	CAROUSELS("carousels"),
 	OFFERS("offers"),
+	MODAL("providerPrivacyPolicy"),
 	RECOVER_PASSWORD("recoverPassword"),
 	SIGN_UP("signUp"),
 	ACCOUNT_MANAGER("accountManager"),

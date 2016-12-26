@@ -24,7 +24,7 @@
 		<h:panelGroup layout="block" styleClass="row">
 			<h:panelGroup layout="block" styleClass="col-md-9">
 				<!-- Carousels -->
-				<ui:include src="/home/carousels.xhtml" />
+				<ui:include src="#{urlMapperMB.carouselsURL}" />
 			</h:panelGroup>
 			<h:panelGroup layout="block" styleClass="col-md-3">
 				<!-- Banks and deposits -->
@@ -32,6 +32,8 @@
 			</h:panelGroup>
 		</h:panelGroup>
 		<!-- Offers -->
-		<ui:include src="/home/offers.xhtml" />
+		<ui:include src="#{urlMapperMB.offersURL}" />
+		<!-- Modal -->
+		<ui:include src="#{urlMapperMB.modalURL}" />
 	</ui:define>
 </ui:composition>
