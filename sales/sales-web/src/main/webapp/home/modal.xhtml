@@ -18,16 +18,18 @@
 			pt:role="document">
 	    	<h:panelGroup layout="block"
 	    		styleClass="modal-content">
-	      		<h:panelGroup layout="block"
+	      		<h:panelGroup id="privacyPolicyTitle"
+	      			layout="block"
 	      			styleClass="modal-header">
 	        		<h4 class="modal-title" 
 	        			id="modalTitle">
-	        			<h:outputText value="#{msg['home.modal.title']}" />
+	        			<h:outputText value="#{providerPrivacyPolicyMB.companyName} - #{msg['home.modal.title']}" />
 	        		</h4>
 	      		</h:panelGroup>
-	      		<h:panelGroup layout="block"
+	      		<h:panelGroup id="privacyPolicyContent"
+	      			layout="block"
 	      			styleClass="modal-body">
-	        		...
+	      			<h:outputText value="#{providerPrivacyPolicyMB.company.privacyPolicy}" />
 	      		</h:panelGroup>
 	      		<h:panelGroup layout="block"
 	      			styleClass="modal-footer">

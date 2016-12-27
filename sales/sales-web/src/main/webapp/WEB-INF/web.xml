@@ -11,6 +11,14 @@
         from their transactions.
     </description>
     
+    <!-- http://java.sun.com/developer/technicalArticles/Intl/HTTPCharset/ -->  
+ 	<!-- Force all forms to take only UTF-8 -->  
+ 	<context-param>  
+ 		<param-name>PARAMETER_ENCODING</param-name>  
+ 		<param-value>UTF-8</param-value>  
+ 	</context-param>
+    
+    <!-- Remove 'faces' from the URL's -->
     <servlet-mapping>
 	    <servlet-name>Faces Servlet</servlet-name>
 	    <url-pattern>*.xhtml</url-pattern>

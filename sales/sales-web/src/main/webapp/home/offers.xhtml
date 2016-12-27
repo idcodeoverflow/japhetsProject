@@ -45,22 +45,27 @@
 								<p class="thumbnail-description">
 									#{msg['home.product.price']}
 									<h:outputText value="#{product.price}" >
-										<f:convertNumber type="currency"/>
+										<f:convertNumber type="currency" />
 									</h:outputText>
 								</p>
 								<!-- Product payback percent -->
 								<p class="thumbnail-price">
 									#{msg['home.product.payback']}
 									<h:outputText value="#{product.paybackPercent}" >
-										<f:convertNumber type="percent"/>
+										<f:convertNumber type="percent" />
 									</h:outputText>
 								</p>
 								<!-- Privacy policy -->
 								<p:commandLink pt:data-toggle="modal" 
 									ajax="true"
+									update="privacyPolicyContent privacyPolicyTitle"
+									immediate="true"
+									actionListener="#{providerPrivacyPolicyMB.setCompany(product.company)}"
 									pt:data-target="#privacyPolicy">
 									<h:panelGroup styleClass="glyphicon glyphicon-eye-open" />
 									<h:outputText value=" #{msg['home.product.privacyPolicy']}" />
+									<f:param name="#{_csrf.parameterName}" 
+										value="#{_csrf.token}" />
 								</p:commandLink>
 							</h:panelGroup>
 						</h:panelGroup>

@@ -3,6 +3,7 @@ package japhet.sales.model.impl;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -35,7 +36,7 @@ public class City implements IEntity, Comparable<City> {
 	@Column(name = "NAME")
 	private String name;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "STATE_ID")
 	private State state;
 
