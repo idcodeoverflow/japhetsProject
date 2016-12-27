@@ -11,8 +11,9 @@ public interface Navigator {
 	/***** APPLICATION PAGES *****/
 	String HOME_URL = pReader.getValueFromKey(URL.HOME.getName());
 	String BANKS_N_DEPOSITS = pReader.getValueFromKey(URL.BANKS_N_DEPOSITS.getName());
-	String CAROUSELS = pReader.getValueFromKey(URL.CAROUSELS.getName());;
-	String OFFERS = pReader.getValueFromKey(URL.OFFERS.getName());;
+	String CAROUSELS = pReader.getValueFromKey(URL.CAROUSELS.getName());
+	String OFFERS = pReader.getValueFromKey(URL.OFFERS.getName());
+	String MODAL = pReader.getValueFromKey(URL.MODAL.getName());
 	String REGISTRATION_URL = pReader.getValueFromKey(URL.SIGN_UP.getName());
 	String UPLOAD_CONTENT_URL = pReader.getValueFromKey(URL.UPLOAD.getName());
 	String RECOVER_PASSWOR_URL = pReader.getValueFromKey(URL.RECOVER_PASSWORD.getName());
