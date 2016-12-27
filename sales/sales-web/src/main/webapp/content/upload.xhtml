@@ -116,8 +116,7 @@
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.url']}"
 						    		value="#{uploadContentMB.product.url}"
-									onkeyup="deleteNonAlphaContent(this, '- .#=?\'/:1234567890áéíóú');"
-									onblur="deleteExtraBlankSpaces(this);"/>
+									onkeyup="deleteNonAlphaContent(this, '_- .#=?\'/:1234567890áéíóú');" />
 						    	<p:messages for="contentUrlInput" />
 						    </h:panelGroup>
 						    

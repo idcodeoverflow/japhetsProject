@@ -48,6 +48,10 @@ public class URLMapperMB extends GenericMB {
 		return OFFERS;
 	}
 	
+	public String getModalURL(){
+		return MODAL;
+	}
+	
 	public String getInbursaURL(){
 		return INBURSA;
 	}

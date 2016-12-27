@@ -78,7 +78,7 @@ public class Product extends StreamUtil
 	@Column(name = "END_DATE")
 	private Date endDate;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "COMPANY_ID")
 	private Company company;
 	

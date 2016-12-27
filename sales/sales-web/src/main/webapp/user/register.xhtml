@@ -313,7 +313,7 @@
 									required="true"
 									requiredMessage="#{msg['registration.messages.requiredURL']}"
 									pt:placeholder="#{msg['registration.form.url']}"
-									onkeyup="deleteNonAlphaContent(this, '- .#=?\'/:1234567890áéíóú');"
+									onkeyup="deleteNonAlphaContent(this, '-_ .#=?\'/:1234567890áéíóú');"
 									onblur="deleteExtraBlankSpaces(this);">
 								</h:inputText>
 								<p:messages for="urlInput" />

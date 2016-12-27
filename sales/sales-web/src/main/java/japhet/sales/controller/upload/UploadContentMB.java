@@ -83,7 +83,7 @@ public class UploadContentMB extends GenericMB {
 	
 	public void saveProduct() {
 		//TODO: complete the login to obtain the CompanyId
-		company.setCompanyId(1L);
+		company.setCompanyId(1L);logger.info("------> " + product.getTitle());
 		//Set remaining values
 		product.setCategory(category);
 		product.setCompany(company);
