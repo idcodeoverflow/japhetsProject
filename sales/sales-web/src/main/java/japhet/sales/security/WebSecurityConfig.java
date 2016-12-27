@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				/*Icons and media stuff*/
 				.antMatchers("/resources/media/**").permitAll()
 				/* Fonts and libraries stuff*/
-				.antMatchers("/faces/javax.faces.resource/**").permitAll()
+				.antMatchers("/javax.faces.resource/**").permitAll()
 				/* Home Page */
 				.antMatchers(URLMapperMB.removeHostNameFromURL(HOME_URL)).permitAll()
 				/* Sign Up page */
