@@ -15,12 +15,13 @@
 		      			value="#{homeMB.searchedWords}"
 		      			pt:placeholder="#{msg['main.template.searchFor']}" />
 		      		<h:panelGroup styleClass="input-group-btn">
-		        		<h:commandLink styleClass="btn btn-default searchBoxButton"
-		        			action="#{homeMB.searchProducts()}">
+		        		<h:commandLink styleClass="btn btn-default searchBoxButton">
 		        			<i class="glyphicon glyphicon-search"></i>
 		        			<f:param name="#{_csrf.parameterName}" 
 											value="#{_csrf.token}" />
-							<!-- <f:ajax render="productsDataScroller"/> -->
+							<f:ajax render="productsDataScroller" 
+								execute="inputSearchBox"
+								listener="#{homeMB.searchProducts()}"/>
 		        		</h:commandLink>
 		      		</h:panelGroup>
 		    	</h:panelGroup>
