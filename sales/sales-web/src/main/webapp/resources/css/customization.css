@@ -326,8 +326,25 @@ footer {
 	overflow: hidden !important;
 }
 
+.home-right-pane-container-head {
+	height: 38px !important;
+	overflow: hidden !important;
+	width: 100% !important;
+	background-color: #97E063 !important;
+	color: white !important;
+	border-top-left-radius: 3px !important;
+    border-top-right-radius: 3px !important;
+    padding: 10px 15px !important;
+}
+
+.banks-title {
+	font-family: inherit;
+    font-size: 16px !important;
+    margin: 0px;
+}
+
 .overflowless {
-	max-height: 226px !important;
+	max-height: 192px !important;
 	overflow: hidden !important;
 }
 
