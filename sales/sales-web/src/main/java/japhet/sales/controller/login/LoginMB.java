@@ -43,7 +43,7 @@ public class LoginMB extends GenericMB
 	@PostConstruct
 	private void init() {
 		try {
-			logger.error("Initializing LoginMB...");
+			logger.info("Initializing LoginMB...");
 			//Update messages for the user
 			updateMessages();
 		} catch (Exception e) {

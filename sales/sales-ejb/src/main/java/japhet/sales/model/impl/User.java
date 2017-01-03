@@ -1,5 +1,7 @@
 package japhet.sales.model.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 import java.util.List;
@@ -15,10 +17,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import japhet.sales.catalogs.Roles;
 import japhet.sales.catalogs.Statuses;
@@ -29,9 +35,13 @@ import japhet.sales.util.Encription;
 @Cacheable(value = true)
 @Entity
 @Table(name = "TB_USER")
-@NamedQuery(name = QueryNames.EXISTS_USER, 
-	query = "SELECT u FROM User u WHERE u.username = :username AND u.passw = :passw")
-public class User implements IEntity {
+@NamedQueries(value = {
+	@NamedQuery(name = QueryNames.EXISTS_USER, 
+			query = "SELECT u FROM User u WHERE u.username = :username AND u.passw = :passw"),
+	@NamedQuery(name = QueryNames.GET_USER_BY_EMAIL,
+			query = "SELECT u FROM User u WHERE u.username = :username")
+})
+public class User implements IEntity, UserDetails {
 
 	/**
 	 * Maven generated.
@@ -276,4 +286,34 @@ public class User implements IEntity {
 		this.validatedAccount = validatedAccount;
 	}
 
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		return authorities;
+	}
+
+	@Override
+	public String getPassword() {
+		return this.passw;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return this.status.getStatusId() == Statuses.ACTIVE.getId();
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return this.status.getStatusId() != Statuses.BLOCKED.getId();
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return this.status.getStatusId() != Statuses.DISABLED.getId();
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return this.status.getStatusId() == Statuses.ACTIVE.getId();
+	}
 }

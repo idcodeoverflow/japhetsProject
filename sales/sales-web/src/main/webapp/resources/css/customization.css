@@ -250,7 +250,9 @@ footer {
 }
 
 /* Correct font size */
-.ui-widget {
+.ui-widget, .ui-column-title, 
+.ui-widget-content .ui-datatable-odd,
+.ui-widget-content .ui-datatable-even {
 	font-size: 14px !important;
 }
 
@@ -305,7 +307,7 @@ footer {
 }
 
 #productsDataScroller .ui-corner-all, 
-#userControlPanelForm\:categoriesDataScroller .ui-corner-all {
+#userControlPanelForm\:categoriesForm\:categoriesDataScroller .ui-corner-all {
 	border: 0px solid transparent !important;
 }
 

@@ -1,6 +1,8 @@
 package japhet.sales.security;
 
 import static japhet.sales.util.Navigator.HOME_URL;
+import static japhet.sales.util.Navigator.PATHS_LIBRARIES;
+import static japhet.sales.util.Navigator.PATHS_MEDIA_RESOURCES;
 import static japhet.sales.util.Navigator.REGISTRATION_URL;
 import static japhet.sales.util.Navigator.SIGN_IN_URL;
 
@@ -18,7 +20,7 @@ import japhet.sales.controller.URLMapperMB;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
+	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticator());
@@ -30,9 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests()
 				/*Icons and media stuff*/
-				.antMatchers("/resources/media/**").permitAll()
+				.antMatchers(PATHS_MEDIA_RESOURCES).permitAll()
 				/* Fonts and libraries stuff*/
-				.antMatchers("/javax.faces.resource/**").permitAll()
+				.antMatchers(PATHS_LIBRARIES).permitAll()
 				/* Home Page */
 				.antMatchers(URLMapperMB.removeHostNameFromURL(HOME_URL)).permitAll()
 				/* Sign Up page */

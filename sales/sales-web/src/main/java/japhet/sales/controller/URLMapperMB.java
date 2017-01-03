@@ -16,6 +16,14 @@ public class URLMapperMB extends GenericMB {
 		return HOME_URL;
 	}
 	
+	public String getPathsMediaResources(){
+		return PATHS_MEDIA_RESOURCES;
+	}
+	
+	public String getPathsLibraries(){
+		return PATHS_LIBRARIES;
+	}
+	
 	public String getRegistrationURL(){
 		return REGISTRATION_URL;
 	}
@@ -30,6 +38,10 @@ public class URLMapperMB extends GenericMB {
 	
 	public String getSignInURL(){
 		return SIGN_IN_URL;
+	}
+	
+	public String getCategories(){
+		return CATEGORIES;
 	}
 	
 	public String getHomeVideoURL(){

@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.security.core.GrantedAuthority;
+
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
 
@@ -27,7 +29,7 @@ import japhet.sales.model.IEntity;
 	@NamedQuery(name = QueryNames.GET_ALL_ROLES,
 			query = "SELECT r FROM Role r")
 })
-public class Role implements IEntity {
+public class Role implements IEntity, GrantedAuthority {
 
 	/**
 	 * Maven generated.
@@ -97,5 +99,9 @@ public class Role implements IEntity {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
+
+	@Override
+	public String getAuthority() {
+		return this.getName();
+	}
 }
