@@ -7,7 +7,6 @@ import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import japhet.sales.controller.GenericMB;
 import japhet.sales.internationalization.IInternationalizationService;
@@ -17,7 +16,6 @@ import japhet.sales.model.impl.User;
 @SessionScoped
 public class UserDetailsMB extends GenericMB {
 
-	
 	/**
 	 * Maven generated.
 	 */
@@ -38,10 +36,7 @@ public class UserDetailsMB extends GenericMB {
 	private void init() {
 		try {
 			logger.info("Initializing UserDetailsMB...");
-			user = new User();
-			Object principal = SecurityContextHolder.
-					getContext().getAuthentication().getPrincipal();
-			user = (User) principal;
+			user = getLoggedUser();
 		} catch (Exception e) {
 			logger.error("An error has ocurred initializing UserDetailsMB", e);
 			showErrorMessage(internationalizationService

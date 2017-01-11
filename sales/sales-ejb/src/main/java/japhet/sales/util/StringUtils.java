@@ -1,5 +1,7 @@
 package japhet.sales.util;
 
+import java.util.List;
+
 public class StringUtils {
 
 	/**
@@ -34,4 +36,23 @@ public class StringUtils {
 		return strBldr.toString();
 	}
 	
+	/**
+	 * Generates a comma separated list in String format
+	 * from a List<Short> object.
+	 * @param list
+	 * @return
+	 */
+	public static String listToCSVString(List<Short> list) {
+		StringBuilder csv = new StringBuilder("");
+		if(list != null) {
+			short index = 0;
+			for(Short element : list) {
+				csv.append(element);
+				if(list.size() > ++index) {
+					csv.append(",");
+				}
+			}
+		}
+		return csv.toString();
+	}
 }

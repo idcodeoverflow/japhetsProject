@@ -1,6 +1,7 @@
 package japhet.sales.service;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.ejb.Local;
 
@@ -31,4 +32,6 @@ public interface IUserService extends Serializable {
 	public void validatePasswords(String pass1, String pass2) 
 			throws InvalidPasswordException;
 	
+	public void modifyUserCategories(Map<String, Object> params) 
+			throws BusinessServiceException;
 }

@@ -18,7 +18,7 @@
 		        		<h:commandLink styleClass="btn btn-default searchBoxButton">
 		        			<i class="glyphicon glyphicon-search"></i>
 		        			<f:param name="#{_csrf.parameterName}" 
-											value="#{_csrf.token}" />
+								value="#{_csrf.token}" />
 							<f:ajax render="productsDataScroller" 
 								execute="inputSearchBox"
 								listener="#{homeMB.searchProducts()}"/>

@@ -6,6 +6,8 @@ import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
@@ -34,6 +36,7 @@ public class State implements IEntity, Comparable<State> {
 	private static final long serialVersionUID = 6660719988914434349L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "STATE_ID")
 	private Short stateId;
 	

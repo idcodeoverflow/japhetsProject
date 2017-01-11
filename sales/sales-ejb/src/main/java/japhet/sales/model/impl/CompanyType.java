@@ -5,6 +5,8 @@ import static japhet.sales.data.QueryNames.*;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -27,6 +29,7 @@ public class CompanyType implements IEntity {
 	private static final long serialVersionUID = -4209008092708191073L;
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "COMPANY_TYPE_ID")
 	private Short companyTypeId;
 	

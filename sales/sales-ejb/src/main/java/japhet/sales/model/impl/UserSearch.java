@@ -43,7 +43,7 @@ public class UserSearch implements IEntity {
 	@Column(name = "SEARCH_STRING")
 	private String searchString;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "SEARCH_DATE")
 	private Date searchDate;
 	

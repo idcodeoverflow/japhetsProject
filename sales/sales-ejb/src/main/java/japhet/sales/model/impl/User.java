@@ -19,6 +19,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,6 +33,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import japhet.sales.catalogs.Roles;
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.data.QueryNames;
+import japhet.sales.data.StoredProcedureNames;
+import japhet.sales.data.StoredProcedureParameters;
 import japhet.sales.model.IEntity;
 import japhet.sales.util.Encription;
 
@@ -36,10 +42,23 @@ import japhet.sales.util.Encription;
 @Entity
 @Table(name = "TB_USER")
 @NamedQueries(value = {
-	@NamedQuery(name = QueryNames.EXISTS_USER, 
-			query = "SELECT u FROM User u WHERE u.username = :username AND u.passw = :passw"),
-	@NamedQuery(name = QueryNames.GET_USER_BY_EMAIL,
-			query = "SELECT u FROM User u WHERE u.username = :username")
+		@NamedQuery(name = QueryNames.EXISTS_USER, 
+				query = "SELECT u FROM User u WHERE u.username = :username AND u.passw = :passw"),
+		@NamedQuery(name = QueryNames.GET_USER_BY_EMAIL,
+				query = "SELECT u FROM User u WHERE u.username = :username")
+})
+@NamedStoredProcedureQueries(value = {
+		@NamedStoredProcedureQuery(name = StoredProcedureNames.CHANGE_USER_CATEGORIES_NAME,
+				procedureName = StoredProcedureNames.CHANGE_USER_CATEGORIES,
+				parameters = {
+						@StoredProcedureParameter(name = StoredProcedureParameters.P_USER_ID,
+								type = Short.class, 
+								mode = ParameterMode.IN),
+						@StoredProcedureParameter(name = StoredProcedureParameters.P_CATEGORIES_LIST,
+								type = String.class, 
+								mode = ParameterMode.IN)
+				}
+		)
 })
 public class User implements IEntity, UserDetails {
 
@@ -82,11 +101,11 @@ public class User implements IEntity, UserDetails {
 	@JoinColumn(name = "STATUS_ID")
 	private Status status;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "SIGN_UP_DATE")
 	private Date signUpDate;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "LAST_MODIFIED_DATE")
 	private Date lastModified;
 	

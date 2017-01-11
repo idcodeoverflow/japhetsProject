@@ -14,6 +14,7 @@ import japhet.sales.data.GenericDAO;
 import japhet.sales.data.QueryNames;
 import japhet.sales.except.DataLayerException;
 import japhet.sales.model.impl.User;
+import japhet.sales.util.StringUtils;
 
 @Stateless
 public class UserDAO extends GenericDAO<User, Long> {
@@ -62,5 +63,25 @@ public class UserDAO extends GenericDAO<User, Long> {
 			throw new DataLayerException(errorMsg, e);
 		}
 		return user;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void modifyUserCategories(Map<String, Object> params) 
+			throws DataLayerException {
+		Long userId = null;
+		String csvUserCategories = null;
+		List<Short> userCategories = null;
+		try {
+			logger.info("Modifying user categories...");
+			userId = (Long)params.get(P_USER_ID);
+			userCategories = (List<Short>)params.get(P_CATEGORIES_LIST);
+			csvUserCategories = StringUtils.listToCSVString(userCategories);
+			executeStoredProcedure(CHANGE_USER_CATEGORIES_NAME, params);
+		} catch (Exception e) {
+			String ERROR_MSG = String.format("An error has ocurred modifying the user %ld categories: %s", 
+					userId, csvUserCategories);
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
+		}
 	}
 }

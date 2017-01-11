@@ -6,12 +6,14 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 
 import japhet.sales.model.IEntity;
 
 @SuppressWarnings(value = "all")
 public abstract class GenericDAO<T extends IEntity, K> 
-	implements QueryNames, QueryParameters {
+	implements QueryNames, QueryParameters, 
+	StoredProcedureNames, StoredProcedureParameters {
 
 	@Inject
 	protected EntityManager em;
@@ -88,14 +90,21 @@ public abstract class GenericDAO<T extends IEntity, K>
 		return entities;
 	}
 	
-	public void populateNamedQueryParams(Query query, 
+	protected void populateNamedQueryParams(Query query, 
+			Map<String, Object> params) throws Exception {
+		for(String key : params.keySet()){
+			query.setParameter(key, params.get(key));
+		}
+	}
+
+	protected void populateNamedSPQueryParams(StoredProcedureQuery query, 
 			Map<String, Object> params) throws Exception {
 		for(String key : params.keySet()){
 			query.setParameter(key, params.get(key));
 		}
 	}
 	
-	public List<T> executeQuery(String queryName, 
+	protected List<T> executeQuery(String queryName, 
 			Map<String, Object> params) throws Exception {
 		Query namedQuery = em.createNamedQuery(queryName, getMyType());
 		if(params != null) {
@@ -104,7 +113,7 @@ public abstract class GenericDAO<T extends IEntity, K>
 		return namedQuery.getResultList();
 	}
 	
-	public <Y> List<Y> executeTypoQuery(String queryName, 
+	protected <Y> List<Y> executeTypoQuery(String queryName, 
 			Map<String, Object> params, Class<Y> typo) throws Exception {
 		Query namedQuery = em.createNamedQuery(queryName, typo);
 		if(params != null) {
@@ -113,12 +122,32 @@ public abstract class GenericDAO<T extends IEntity, K>
 		return namedQuery.getResultList();
 	}
 	
-	public long executeUpdate(String queryName,
+	protected long executeUpdate(String queryName,
 			Map<String, Object> params) throws Exception {
 		Query namedQuery = em.createNamedQuery(queryName);
 		if(params != null) {
 			populateNamedQueryParams(namedQuery, params);
 		}
 		return namedQuery.executeUpdate();
+	}
+	
+	protected void executeStoredProcedure(String storedProcedureName, 
+			Map<String, Object> params) throws Exception {
+		StoredProcedureQuery spQuery = em.
+				createNamedStoredProcedureQuery(storedProcedureName);
+		if(params != null) {
+			populateNamedSPQueryParams(spQuery, params);
+		}
+		spQuery.execute();
+	}
+	
+	protected void executeUpdateStoredProcedure(String storedProcedureName, 
+			Map<String, Object> params) throws Exception {
+		StoredProcedureQuery spQuery = em.
+				createNamedStoredProcedureQuery(storedProcedureName);
+		if(params != null) {
+			populateNamedSPQueryParams(spQuery, params);
+		}
+		spQuery.executeUpdate();
 	}
 }
