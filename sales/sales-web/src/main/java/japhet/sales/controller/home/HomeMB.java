@@ -1,6 +1,5 @@
 package japhet.sales.controller.home;
 
-import static japhet.sales.data.QueryParameters.SEARCHED_WORDS;
 import static japhet.sales.util.StringUtils.wildcardParameter;
 
 import java.util.Date;

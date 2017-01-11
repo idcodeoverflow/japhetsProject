@@ -14,11 +14,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import japhet.sales.data.QueryParameters;
 import japhet.sales.model.impl.User;
 import japhet.sales.util.Navigator;
 
 public abstract class GenericMB extends GenericFacesMessager
-	implements Serializable, Navigator {
+	implements Serializable, Navigator, QueryParameters {
 
 	/**
 	 * Maven generated.

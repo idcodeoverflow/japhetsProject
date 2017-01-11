@@ -77,4 +77,22 @@ public class CompanyDAO extends GenericDAO<Company, Long> {
 		return companies;
 	}
 	
+	public Company getCompanyByUserId(Map<String, Object> parameters) 
+			throws DataLayerException {
+		logger.info("Getting Company by userId from the DB...");
+		List<Company> companies = null;
+		Company company = null;
+		try {
+			companies = executeQuery(GET_COMPANY_BY_USER_ID, parameters);
+			if(companies != null && !companies.isEmpty()) {
+				company = companies.get(0);
+			}
+		} catch (Exception e) {
+			final String ERROR_MSG = String.format("An error has ocurred while getting a Company by userId %s", 
+					parameters.get(USER_ID));
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
+		}
+		return company;
+	}
 }
