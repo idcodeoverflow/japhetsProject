@@ -239,50 +239,7 @@
 		</h:panelGroup>
 			
 		<!-- Categories -->
-		<h:panelGroup layout="block" 
-			styleClass="row">
-		    <h:panelGroup layout="block" 
-		    	styleClass="col-md-12">
-				<h:panelGroup layout="block" 
-					styleClass="panel panel-default">
-					<h:panelGroup layout="block" 
-						styleClass="panel-heading">
-				    	<h2 class="panel-title">
-				    		#{msg['userAccount.categories.title']}
-				    		<h:panelGroup styleClass="glyphicon glyphicon-heart"/>		
-				    	</h2>
-				  	</h:panelGroup>
-				  	<h:panelGroup layout="block" 
-				  		styleClass="panel-body">
-						<h:panelGroup layout="block" 
-							styleClass="row">
-						    <p:dataScroller id="categoriesDataScroller"
-						    	value="#{userAccountManagerMB.categories}" 
-						    	var="category" 
-					  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
-					  			<h:panelGroup styleClass="col-md-3"
-					  				layout="block">
-						  			<h:selectBooleanCheckbox>
-						  				<h:outputLabel value="#{category.name}" />
-						  			</h:selectBooleanCheckbox>
-					  			</h:panelGroup>
-					  		</p:dataScroller>
-					  	</h:panelGroup>
-					  	<h:panelGroup layout="block" 
-							styleClass="row">
-							<h:panelGroup layout="block"
-								styleClass="col-md-9"/>
-							<h:panelGroup layout="block"
-								styleClass="col-md-3">
-								<h:commandButton 
-									action="#{userAccountManagerMB.saveFavoriteCategories()}" 
-									value="#{msg['userAccount.categories.save']}"
-									styleClass="btn btn-default btn-block btn-lg" />
-							</h:panelGroup>
-						</h:panelGroup>
-				  	</h:panelGroup>
-				</h:panelGroup>
-			</h:panelGroup>
-		</h:panelGroup>
+		<ui:include src="#{urlMapperMB.categories}" />
+		
 	</h:form>
 </ui:composition>

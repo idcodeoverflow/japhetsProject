@@ -6,7 +6,13 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<h:panelGroup id="home-right-pane" layout="block" >
-		<hr class="container-separator"/>
+		<h:panelGroup layout="block"
+			styleClass="home-right-pane-container-head">
+			<h2 class="banks-title">
+				<h:outputText value="#{msg['home.adds.afore']}" />
+				<h:panelGroup styleClass="glyphicon glyphicon-usd"/>
+			</h2>
+		</h:panelGroup>
 		<!-- Banks list container -->
 		<h:panelGroup layout="block" 
 			styleClass="home-right-pane-container">

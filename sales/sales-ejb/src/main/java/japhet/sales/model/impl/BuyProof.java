@@ -62,7 +62,7 @@ public class BuyProof implements IEntity {
 	@Column(name = "PAYBACK_APPLIED")
 	private Boolean paybackApplied;
 	
-	@Temporal(value = TemporalType.DATE)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	@Column(name = "REGISTERED_ON")
 	private Date registeredOn;
 	
@@ -70,11 +70,11 @@ public class BuyProof implements IEntity {
 	@JoinColumn(name = "VALIDATED_BY")
 	private User validatedBy;
 	
-	@Temporal(value = TemporalType.DATE)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	@Column(name = "PAYED_ON")
 	private Date payedOn;
 	
-	@Temporal(value = TemporalType.DATE)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	@Column(name = "LAST_UPDATE")
 	private Date lastUpdate;
 	

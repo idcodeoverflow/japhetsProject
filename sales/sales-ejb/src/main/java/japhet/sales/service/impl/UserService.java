@@ -1,5 +1,7 @@
 package japhet.sales.service.impl;
 
+import java.util.Map;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -118,6 +120,19 @@ public class UserService implements IUserService {
 		} catch (Exception e) {
 			logger.fatal("Error validating the password.", e);
 			throw new InvalidPasswordException("Invalid passwords.");
+		}
+	}
+	
+	@Override
+	public void modifyUserCategories(Map<String, Object> params) 
+			throws BusinessServiceException {
+		logger.info("Updating user categories...");
+		try {
+			userDAO.modifyUserCategories(params);
+		} catch (Exception e) {
+			final String ERROR_MSG = "An error has ocurred while updating the user categories.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	

@@ -41,11 +41,11 @@ public class Status implements IEntity {
 	@Column(name = "NAME")
 	private String name;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "AVAILABLE_DATE")
 	private Date availableDate;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "END_DATE")
 	private Date endDate;
 	
