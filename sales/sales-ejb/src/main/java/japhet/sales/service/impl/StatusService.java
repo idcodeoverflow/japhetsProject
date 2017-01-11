@@ -59,6 +59,7 @@ public class StatusService implements IStatusService {
 		return status;
 	}
 	
+	@Override
 	public Status getStatus(Short statusId)   
 			throws BusinessServiceException {
 		logger.info("Obtaining status " + statusId + " from the DB...");
@@ -74,6 +75,7 @@ public class StatusService implements IStatusService {
 		return status;
 	}
 	
+	@Override
 	public boolean updateStatus(Status status)   
 			throws BusinessServiceException {
 		logger.info("Updating status into the DB...");
@@ -88,6 +90,7 @@ public class StatusService implements IStatusService {
 		}
 	}
 	
+	@Override
 	public boolean deleteStatus(Status status)   
 			throws BusinessServiceException {
 		logger.info("Deleting status into the DB...");
@@ -102,6 +105,7 @@ public class StatusService implements IStatusService {
 		}
 	}
 	
+	@Override
 	public boolean insertStatus(Status status)   
 			throws BusinessServiceException {
 		logger.info("Inserting status into the DB...");

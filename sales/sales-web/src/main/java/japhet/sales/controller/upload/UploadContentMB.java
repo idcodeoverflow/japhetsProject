@@ -83,12 +83,15 @@ public class UploadContentMB extends GenericMB {
 	
 	public void saveProduct() {
 		//TODO: complete the login to obtain the CompanyId
-		company.setCompanyId(1L);logger.info("------> " + product.getTitle());
+		final String GENERIC_ERROR_MSG = "An error has occurred while saving the content.";
+		company.setCompanyId(1L);
 		//Set remaining values
 		product.setCategory(category);
 		product.setCompany(company);
 		product.setImage(imageBytes);
 		try {
+			//Generate product key
+			product.generateProductKey();
 			//Divide the entry to generate the percentage
 			product.setPaybackPercent((double)(product.getPaybackPercent() / 100.0));
 			//Persist product
@@ -107,7 +110,11 @@ public class UploadContentMB extends GenericMB {
 			showErrorMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getDATE_RANGE_INVALID()), "");
 		} catch (BusinessServiceException e) {
-			logger.error("An error has occurred while saving the content.", e);
+			logger.error(GENERIC_ERROR_MSG, e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getSAVE_CONTENT_ERROR()), "");
+		} catch (Exception e) {
+			logger.error(GENERIC_ERROR_MSG, e);
 			showErrorMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getSAVE_CONTENT_ERROR()), "");
 		}

@@ -36,7 +36,7 @@ import japhet.sales.data.QueryNames;
 import japhet.sales.data.StoredProcedureNames;
 import japhet.sales.data.StoredProcedureParameters;
 import japhet.sales.model.IEntity;
-import japhet.sales.util.Encription;
+import japhet.sales.util.Encryption;
 
 @Cacheable(value = true)
 @Entity
@@ -230,7 +230,7 @@ public class User implements IEntity, UserDetails {
 	}
 
 	public void setPassw(String passw) throws Exception {
-		this.passw = Encription.SHA256(passw);
+		this.passw = Encryption.SHA256(passw);
 	}
 
 	public Role getRole() {

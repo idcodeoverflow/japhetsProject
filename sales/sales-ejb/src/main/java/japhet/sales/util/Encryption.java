@@ -2,7 +2,7 @@ package japhet.sales.util;
 
 import java.security.MessageDigest;
 
-public class Encription {
+public class Encryption {
 	
 	private static String SHA256 = "SHA-256";
 

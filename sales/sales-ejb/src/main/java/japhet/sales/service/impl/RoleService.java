@@ -72,6 +72,7 @@ public class RoleService implements IRoleService {
 		return roles;
 	}
 	
+	@Override
 	public Role getRole(Short roleId)   
 			throws BusinessServiceException {
 		logger.info("Obtaining role " + roleId + " from the DB...");
@@ -84,6 +85,7 @@ public class RoleService implements IRoleService {
 		}
 	}
 	
+	@Override
 	public boolean updateRole(Role role)   
 			throws BusinessServiceException {
 		logger.info("Updating role into the DB...");
@@ -98,6 +100,7 @@ public class RoleService implements IRoleService {
 		}
 	}
 	
+	@Override
 	public boolean deleteRole(Role role)   
 			throws BusinessServiceException {
 		logger.info("Deleting role into the DB...");
@@ -112,6 +115,7 @@ public class RoleService implements IRoleService {
 		}
 	}
 	
+	@Override
 	public boolean insertRole(Role role)   
 			throws BusinessServiceException {
 		logger.info("Inserting role into the DB...");
@@ -126,6 +130,7 @@ public class RoleService implements IRoleService {
 		}
 	}
 
+	@Override
 	public List<Role> getAvailableRoles()   
 			throws BusinessServiceException {
 		logger.info("Getting all available Roles...");
@@ -140,6 +145,7 @@ public class RoleService implements IRoleService {
 		return roles;
 	}
 
+	@Override
 	public void setAvailableRoles(List<Role> availableRoles)   
 			throws BusinessServiceException {
 		this.availableRoles = availableRoles;

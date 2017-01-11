@@ -67,6 +67,9 @@ public class HomeMB extends GenericMB {
 		}
 	}
 	
+	/**
+	 * Searches for the products that matches the user criteria.
+	 */
 	public void searchProducts(){
 		final String ERROR_MSG = 
 				String.format("Error while searching products which matches: %s...", searchedWords);
@@ -91,6 +94,10 @@ public class HomeMB extends GenericMB {
 			showErrorMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
 		}
+	}
+	
+	public void redirectToSalesSite(String url, String productKey){
+		
 	}
 	
 	public List<Product> getAvailableProducts() {
