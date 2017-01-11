@@ -3,6 +3,9 @@ package japhet.sales.catalogs;
 public enum URL {
 	//Server Pages
 	HOST_NAME("server.hostName"),
+	//Libraries' paths
+	PATHS_MEDIA_RESOURCES("paths.media.resources"),
+	PATHS_LIBRARIES("paths.libraries"),
 	//Application Pages
 	HOME("home"),
 	LOGIN("login"),
@@ -15,6 +18,7 @@ public enum URL {
 	SIGN_UP("signUp"),
 	ACCOUNT_MANAGER("accountManager"),
 	USER_ACCOUNT_MANAGER("userAccountManager"),
+	CATEGORIES("categories"),
 	HOME_VIDEO_URL("homeVideoUrl"),
 	//Banks
 	INBURSA("banks.inbursa"),

@@ -10,7 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import japhet.sales.model.impl.User;
 import japhet.sales.util.Navigator;
 
 public abstract class GenericMB extends GenericFacesMessager
@@ -26,6 +30,7 @@ public abstract class GenericMB extends GenericFacesMessager
 	@Inject
 	protected Logger logger;
 	
+	@Override
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
 	}
@@ -58,5 +63,20 @@ public abstract class GenericMB extends GenericFacesMessager
 		HttpServletRequest request = (HttpServletRequest) 
 				FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		return request;
+	}
+	
+	protected User getLoggedUser(){
+		User user = null;
+		SecurityContext securityContext = SecurityContextHolder.getContext();
+		if(securityContext != null) {
+			Authentication authentication = securityContext.getAuthentication();
+			if(authentication != null){
+				Object object = authentication.getPrincipal();
+				if(object instanceof User){
+					user = (User) object;
+				}
+			}
+		}
+		return user;
 	}
 }
