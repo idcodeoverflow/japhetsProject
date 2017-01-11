@@ -3,6 +3,7 @@ package japhet.sales.controller.home;
 import static japhet.sales.data.QueryParameters.SEARCHED_WORDS;
 import static japhet.sales.util.StringUtils.wildcardParameter;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +20,10 @@ import japhet.sales.controller.GenericMB;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Product;
+import japhet.sales.model.impl.UserSearch;
 import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IProductService;
+import japhet.sales.service.IUserSearchService;
 
 @ManagedBean
 @ViewScoped
@@ -40,6 +43,9 @@ public class HomeMB extends GenericMB {
 	
 	@EJB
 	private ICompanyService companyService;
+	
+	@EJB
+	private IUserSearchService userSearchService;
 	
 	@EJB
 	private IInternationalizationService internationalizationService;
@@ -66,10 +72,16 @@ public class HomeMB extends GenericMB {
 				String.format("Error while searching products which matches: %s...", searchedWords);
 		try {
 			logger.info(String.format("Searching products which matches: %s...", searchedWords));
+			UserSearch userSearch = new UserSearch();
 			String wildcardedSearch = wildcardParameter(searchedWords);
 			Map<String, Object> parameters = new HashMap<>();
 			parameters.put(SEARCHED_WORDS, wildcardedSearch);
 			setAvailableProducts(productService.getSearchedProducts(parameters));
+			//Persist search historical
+			userSearch.setSearchString(searchedWords);
+			userSearch.setUser(getLoggedUser());
+			userSearch.setSearchDate(new Date());
+			userSearchService.insertUserSearch(userSearch);
 		} catch (BusinessServiceException e) {
 			logger.error(ERROR_MSG, e);
 			showErrorMessage(internationalizationService

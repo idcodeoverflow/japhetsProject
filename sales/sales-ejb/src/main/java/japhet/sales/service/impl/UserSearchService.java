@@ -11,13 +11,13 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.UserSearchDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.UserSearch;
-import japhet.sales.service.IUserSearch;
+import japhet.sales.service.IUserSearchService;
 
 import org.apache.log4j.Logger;
 
 @LocalBean
 @Stateless
-public class UserSearchService implements IUserSearch {
+public class UserSearchService implements IUserSearchService {
 	
 	/**
 	 * Maven generated.

@@ -49,11 +49,11 @@ public class PaymentRequest implements IEntity {
 	@Column(name = "AMOUNT")
 	private Double amount;
 	
-	@Temporal(value = TemporalType.DATE)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	@Column(name = "REQUEST_DATE")
 	private Date requestDate;
 	
-	@Temporal(value = TemporalType.DATE)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	@Column(name = "LAST_UPDATE")
 	private Date lastUpdate;
 	
@@ -61,7 +61,7 @@ public class PaymentRequest implements IEntity {
 	@JoinColumn(name = "VALIDATED_BY")
 	private User validatedBy;
 	
-	@Temporal(value = TemporalType.DATE)
+	@Temporal(value = TemporalType.TIMESTAMP)
 	@Column(name = "RESOLUTION_DATE")
 	private Date resolutionDate;
 	

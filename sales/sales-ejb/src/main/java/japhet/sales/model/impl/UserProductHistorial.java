@@ -50,7 +50,7 @@ public class UserProductHistorial implements IEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CLICK_DATE")
 	private Date clickDate;
 	

@@ -10,7 +10,7 @@ import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.UserSearch;
 
 @Local
-public interface IUserSearch extends Serializable {
+public interface IUserSearchService extends Serializable {
 
 	public void insertUserSearch(UserSearch userSearch) 
 			throws BusinessServiceException;
