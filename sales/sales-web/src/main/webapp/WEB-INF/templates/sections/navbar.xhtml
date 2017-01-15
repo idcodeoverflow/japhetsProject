@@ -42,7 +42,7 @@
 								<h:panelGroup styleClass="glyphicon glyphicon-home"/>
 							</a>
 						</li>
-						<h:panelGroup rendered="#{loginMB.signedIn}">
+						<h:panelGroup rendered="#{authorityMB.uploadProductsAllowed}">
 							<li>
 								<h:outputLink value="#{urlMapperMB.uploadContentURL}">
 									#{msg['main.template.uploadContent']}

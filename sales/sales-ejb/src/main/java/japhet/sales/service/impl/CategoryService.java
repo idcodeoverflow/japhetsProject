@@ -59,6 +59,7 @@ public class CategoryService implements ICategoryService {
 		return categories;
 	}
 	
+	@Override
 	public boolean insertCategory(Category category)   
 			throws BusinessServiceException {
 		logger.info("Inserting category...");
@@ -72,6 +73,7 @@ public class CategoryService implements ICategoryService {
 		}
 	}
 	
+	@Override
 	public Category findCategory(Short categoryId)   
 			throws BusinessServiceException {
 		try {
@@ -83,6 +85,7 @@ public class CategoryService implements ICategoryService {
 		}
 	}
 	
+	@Override
 	public boolean updateCategory(Category category)   
 			throws BusinessServiceException {
 		try {
@@ -96,6 +99,7 @@ public class CategoryService implements ICategoryService {
 		}
 	}
 	
+	@Override
 	public boolean deleteCategory(Category category)   
 			throws BusinessServiceException {
 		try {

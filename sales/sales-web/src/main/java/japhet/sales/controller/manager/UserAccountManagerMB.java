@@ -13,8 +13,7 @@ import org.apache.log4j.Logger;
 
 import japhet.sales.controller.GenericMB;
 import japhet.sales.internationalization.IInternationalizationService;
-import japhet.sales.model.impl.Category;
-import japhet.sales.service.ICategoryService;
+import japhet.sales.service.IUserService;
 
 @ManagedBean
 @ViewScoped
@@ -30,13 +29,10 @@ public class UserAccountManagerMB extends GenericMB {
 	
 	//EJB's
 	@EJB
-	private ICategoryService categoryService;
+	private IUserService userService;
 	
 	@EJB
 	private IInternationalizationService internationalizationService;
-	
-	//View properties
-	private List<Category> categories;
 	
 	//Validation properties
 	private final int MAX_MEDIA_SIZE = 30000;
@@ -45,7 +41,6 @@ public class UserAccountManagerMB extends GenericMB {
 	private void init() {
 		try {
 			logger.info("Initializing user account manager...");
-			categories = categoryService.getAllAvailableCategories();
 		} catch (Exception e) {
 			logger.error("Error while initializing user account manager.", e);
 			showErrorMessage(internationalizationService
@@ -53,10 +48,6 @@ public class UserAccountManagerMB extends GenericMB {
 		}
 	}
 	
-	public void saveFavoriteCategories() {
-		
-	}
-
 	public List<String> getDeposits() {
 		List<String> deposits = new ArrayList<>();
 		deposits.add("182646");
@@ -64,14 +55,6 @@ public class UserAccountManagerMB extends GenericMB {
 		deposits.add("182656");
 		deposits.add("182686");
 		return deposits;
-	}
-
-	public List<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
 	}
 
 	public int getMAX_MEDIA_SIZE() {

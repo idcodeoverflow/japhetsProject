@@ -22,4 +22,16 @@ public interface IRoleService extends Serializable {
 
 	public void setAvailableRoles(List<Role> availableRoles) 
 			throws BusinessServiceException;
+	
+	public Role getRole(Short roleId)   
+			throws BusinessServiceException;
+	
+	public boolean updateRole(Role role)   
+			throws BusinessServiceException;
+	
+	public boolean deleteRole(Role role)   
+			throws BusinessServiceException;
+	
+	public boolean insertRole(Role role)   
+			throws BusinessServiceException;
 }

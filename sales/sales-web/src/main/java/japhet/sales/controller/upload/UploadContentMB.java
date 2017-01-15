@@ -1,6 +1,8 @@
 package japhet.sales.controller.upload;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -18,6 +20,8 @@ import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Category;
 import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.Product;
+import japhet.sales.model.impl.User;
+import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IProductService;
 import japhet.sales.service.IUtilService;
 
@@ -36,6 +40,9 @@ public class UploadContentMB extends GenericMB {
 	//EJB's
 	@EJB
 	private IProductService productService;
+	
+	@EJB
+	private ICompanyService companyService;
 	
 	@EJB
 	private IUtilService utilService;
@@ -82,15 +89,25 @@ public class UploadContentMB extends GenericMB {
     }
 	
 	public void saveProduct() {
-		//TODO: complete the login to obtain the CompanyId
-		company.setCompanyId(1L);logger.info("------> " + product.getTitle());
+		final String GENERIC_ERROR_MSG = "An error has occurred while saving the content.";
+		company.setCompanyId(1L);
 		//Set remaining values
 		product.setCategory(category);
-		product.setCompany(company);
 		product.setImage(imageBytes);
 		try {
+			//Obtain currently logged company
+			Map<String, Object> parameters = new HashMap<>();
+			User user = getLoggedUser();
+			parameters.put(USER_ID, user.getUserId());
+			company = companyService.getCompanyByUserId(parameters);
+			product.setCompany(company);
+			
+			//Generate product key
+			product.generateProductKey();
+			
 			//Divide the entry to generate the percentage
 			product.setPaybackPercent((double)(product.getPaybackPercent() / 100.0));
+			
 			//Persist product
 			if(productService.insertProduct(product)){
 				logger.info("Content succesfully saved.");
@@ -107,7 +124,11 @@ public class UploadContentMB extends GenericMB {
 			showErrorMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getDATE_RANGE_INVALID()), "");
 		} catch (BusinessServiceException e) {
-			logger.error("An error has occurred while saving the content.", e);
+			logger.error(GENERIC_ERROR_MSG, e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getSAVE_CONTENT_ERROR()), "");
+		} catch (Exception e) {
+			logger.error(GENERIC_ERROR_MSG, e);
 			showErrorMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getSAVE_CONTENT_ERROR()), "");
 		}

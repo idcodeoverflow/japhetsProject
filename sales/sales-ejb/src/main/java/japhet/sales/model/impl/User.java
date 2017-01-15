@@ -36,7 +36,7 @@ import japhet.sales.data.QueryNames;
 import japhet.sales.data.StoredProcedureNames;
 import japhet.sales.data.StoredProcedureParameters;
 import japhet.sales.model.IEntity;
-import japhet.sales.util.Encription;
+import japhet.sales.util.Encryption;
 
 @Cacheable(value = true)
 @Entity
@@ -52,7 +52,7 @@ import japhet.sales.util.Encription;
 				procedureName = StoredProcedureNames.CHANGE_USER_CATEGORIES,
 				parameters = {
 						@StoredProcedureParameter(name = StoredProcedureParameters.P_USER_ID,
-								type = Short.class, 
+								type = Long.class, 
 								mode = ParameterMode.IN),
 						@StoredProcedureParameter(name = StoredProcedureParameters.P_CATEGORIES_LIST,
 								type = String.class, 
@@ -124,7 +124,7 @@ public class User implements IEntity, UserDetails {
 							insertable = true))
 	private List<SocialNetwork> socialNetwork;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "TB_USER_CATEGORIES",
 			joinColumns = @JoinColumn(name = "USER_ID", 
@@ -230,7 +230,7 @@ public class User implements IEntity, UserDetails {
 	}
 
 	public void setPassw(String passw) throws Exception {
-		this.passw = Encription.SHA256(passw);
+		this.passw = Encryption.SHA256(passw);
 	}
 
 	public Role getRole() {
