@@ -2,6 +2,7 @@ package japhet.sales.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
@@ -19,6 +20,9 @@ public interface ICompanyService extends Serializable {
 			throws BusinessServiceException;
 	
 	public List<Company> getAllCompanies() 
+			throws BusinessServiceException;
+	
+	public Company getCompanyByUserId(Map<String, Object> parameters) 
 			throws BusinessServiceException;
 	
 	public Company selectCompany(Long companyId) 

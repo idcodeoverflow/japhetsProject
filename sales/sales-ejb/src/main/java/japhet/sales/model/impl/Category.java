@@ -24,8 +24,8 @@ import japhet.sales.model.IEntity;
 	
 	@NamedQuery(name = QueryNames.GET_ALL_AVAILABLE_CATEGORIES, 
 		query = "SELECT c FROM Category c WHERE c.availableDate <= CURRENT_DATE AND c.endDate >= CURRENT_DATE"),
-	
-	@NamedQuery(name = QueryNames.GET_ALL_CATEGORIES, query = "SELECT c FROM Category c")
+	@NamedQuery(name = QueryNames.GET_ALL_CATEGORIES, 
+		query = "SELECT c FROM Category c")
 })
 public class Category implements IEntity {
 
@@ -54,16 +54,19 @@ public class Category implements IEntity {
 	@Column(name = "END_DATE")
 	private Date endDate;
 	
+	private transient Boolean checked;
+	
 	public Category() {}
 
 	public Category(Short categoryId, String name, Date creationTime, 
-			Date availableDate, Date endDate) {
+			Date availableDate, Date endDate, Boolean checked) {
 		super();
 		this.categoryId = categoryId;
 		this.name = name;
 		this.creationTime = creationTime;
 		this.availableDate = availableDate;
 		this.endDate = endDate;
+		this.checked = checked;
 	}
 
 	public Short getCategoryId() {
@@ -106,4 +109,11 @@ public class Category implements IEntity {
 		this.endDate = endDate;
 	}
 	
+	public Boolean getChecked() {
+		return checked;
+	}
+	
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
+	}
 }

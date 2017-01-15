@@ -1,6 +1,7 @@
 package japhet.sales.model.impl;
 
 import static japhet.sales.data.QueryParameters.SEARCHED_WORDS;
+import static japhet.sales.data.QueryParameters.PRODUCT_KEY;
 import static japhet.sales.util.StringUtils.urlCompletion;
 
 import java.awt.Image;
@@ -26,6 +27,7 @@ import javax.persistence.TemporalType;
 
 import japhet.sales.data.QueryNames;
 import japhet.sales.model.IEntity;
+import japhet.sales.util.Encryption;
 import japhet.sales.util.StreamUtil;
 
 @Cacheable(value = true)
@@ -35,7 +37,9 @@ import japhet.sales.util.StreamUtil;
 		@NamedQuery(name = QueryNames.GET_AVAILABLE_PRODUCTS,
 				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE"),
 		@NamedQuery(name = QueryNames.GET_SEARCHED_PRODUCTS,
-				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE AND (UPPER(p.title) LIKE :" + SEARCHED_WORDS + " OR UPPER(p.description) LIKE :" + SEARCHED_WORDS + ")")
+				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE AND (UPPER(p.title) LIKE :" + SEARCHED_WORDS + " OR UPPER(p.description) LIKE :" + SEARCHED_WORDS + ")"),
+		@NamedQuery(name = QueryNames.GET_PRODUCT_BY_KEY,
+				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE AND p.productKey = :" + PRODUCT_KEY)
 })
 public class Product extends StreamUtil 
 	implements IEntity {
@@ -92,6 +96,10 @@ public class Product extends StreamUtil
 	@Column(name = "URL")
 	private String url;
 	
+	@Column(name = "PRODUCT_KEY",
+			unique = true)
+	private String productKey;
+	
 	public Product() {
 		this.redirectNumber = 0;
 		this.uploadDate = new Date();
@@ -101,7 +109,7 @@ public class Product extends StreamUtil
 			Double price, Double paybackPercent, byte[] image, 
 			Date uploadDate, Date startDate, Date endDate, 
 			Company company, Category category, Integer redirectNumber,
-			String url) {
+			String url, String productKey) {
 		super();
 		this.productId = productId;
 		this.title = title;
@@ -116,6 +124,7 @@ public class Product extends StreamUtil
 		this.category = category;
 		this.redirectNumber = redirectNumber;
 		this.url = url;
+		this.productKey = productKey;
 	}
 
 	public Long getProductId() {
@@ -228,5 +237,33 @@ public class Product extends StreamUtil
 
 	public void setUrl(String url) {
 		this.url = urlCompletion(url);
+	}
+
+	public String getProductKey() {
+		return productKey;
+	}
+
+	public void setProductKey(String productKey) {
+		this.productKey = productKey;
+	}
+	
+	/**
+	 * Generates a safe access encrypted key to 
+	 * refer the product outside the system.
+	 * @throws Exception  
+	 */
+	public void generateProductKey() throws Exception {
+		final int RAND_FACTOR = 1000000;
+		//Generate a random seed
+		int randomSeed = (int)(Math.random() * RAND_FACTOR);
+		//Add basic values to the seed
+		StringBuilder seed = new StringBuilder();
+		seed.append(this.productId);
+		seed.append(this.title);
+		seed.append(this.description);
+		seed.append(this.url);
+		seed.append(randomSeed);
+		//Generated code encrypted and assign it
+		this.productKey = Encryption.SHA256(seed.toString());
 	}
 }

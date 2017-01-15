@@ -72,10 +72,10 @@
 									maxlength="200" required="true"
 									requiredMessage="#{msg['registration.messages.requiredCompanyName']}"
 									pt:placeholder="#{msg['registration.form.companyName']}"
-									onkeyup="deleteNonAlphaContent(this, '.- ');"
+									onkeyup="deleteNonAlphaContent(this, '.- ñÑ');"
 									onblur="deleteExtraBlankSpaces(this);">
 								</h:inputText>
-								<p:keyFilter regEx="/[a-zA-Z\-\s.]/i" 
+								<p:keyFilter regEx="/[a-zA-Z\-\s.ñÑ]/i" 
 									for="companyNameInput"
 									preventPaste="false" />
 								<p:messages for="companyNameInput" />
@@ -94,10 +94,10 @@
 									maxlength="50" required="true"
 									requiredMessage="#{msg['registration.messages.requiredFirstName']}"
 									pt:placeholder="#{msg['registration.form.firstName']}"
-									onkeyup="deleteNonAlphaContent(this, '- ');"
+									onkeyup="deleteNonAlphaContent(this, '- ñÑ');"
 									onblur="deleteExtraBlankSpaces(this);">
 								</h:inputText>
-								<p:keyFilter regEx="/[a-zA-Z\-\s]/i" 
+								<p:keyFilter regEx="/[a-zA-Z\-\sñÑ]/i" 
 									for="firstNameInput"
 									preventPaste="false" />
 								<p:messages for="firstNameInput" />
@@ -117,11 +117,11 @@
 									required="#{!registrationMB.companyRole}"
 									requiredMessage="#{msg['registration.messages.requiredLastName']}"
 									pt:placeholder="#{msg['registration.form.lastName']}"
-									onkeyup="deleteNonAlphaContent(this, '- ');"
+									onkeyup="deleteNonAlphaContent(this, '- ñÑ');"
 									onblur="deleteExtraBlankSpaces(this);">
 								</h:inputText>
 								<p:messages for="lastNameInput" />
-								<p:keyFilter regEx="/[a-zA-Z\-\s]/i" 
+								<p:keyFilter regEx="/[a-zA-Z\-\sñÑ]/i" 
 									for="lastNameInput"
 									preventPaste="false" />
 							</h:panelGroup>
@@ -141,10 +141,10 @@
 									minlength="#{registrationMB.MIN_CURP_LENGTH}"
 									requiredMessage="#{msg['registration.messages.requiredCurp']}"
 									pt:placeholder="#{msg['registration.form.curp']}"
-									onkeyup="deleteNonAlphaContent(this, '0123456789');">
+									onkeyup="deleteNonAlphaContent(this, '0123456789ñÑ');">
 								</h:inputText>
 								<p:messages for="curpInput" />
-								<p:keyFilter regEx="/[a-zA-Z0-9]/i" 
+								<p:keyFilter regEx="/[a-zA-Z0-9ñÑ]/i" 
 									for="curpInput"
 									preventPaste="false" />
 							</h:panelGroup>
@@ -164,10 +164,10 @@
 									minlength="#{registrationMB.MIN_RFC_LENGTH}"
 									requiredMessage="#{msg['registration.messages.requiredRFC']}"
 									pt:placeholder="#{msg['registration.form.rfc']}"
-									onkeyup="deleteNonAlphaContent(this, '0123456789');">
+									onkeyup="deleteNonAlphaContent(this, '0123456789ñÑ');">
 								</h:inputText>
 								<p:messages for="rfcInput" />
-								<p:keyFilter regEx="/[a-zA-Z0-9]/i" 
+								<p:keyFilter regEx="/[a-zA-Z0-9ñÑ]/i" 
 									for="rfcInput"
 									preventPaste="false" />
 							</h:panelGroup>
@@ -208,7 +208,7 @@
 									required="true"
 									requiredMessage="#{msg['registration.messages.requiredEmail']}"
 									pt:placeholder="#{msg['registration.form.email']}"
-									onkeyup="deleteNonAlphaContent(this, '-@._0123456789');">
+									onkeyup="deleteNonAlphaContent(this, '-@._0123456789ñÑ');">
 								</h:inputText>
 								<p:keyFilter mask="email" 
 									for="emailInput"
@@ -333,7 +333,7 @@
 									required="true"
 									requiredMessage="#{msg['registration.messages.requiredPolicy']}"
 									pt:placeholder="#{msg['registration.form.policy']}"
-									onkeyup="deleteNonAlphaContent(this, '- .#=?\'/:1234567890áéíóú');"
+									onkeyup="deleteNonAlphaContent(this, '- .#=?\'/:1234567890áéíóúñÑ');"
 									onblur="deleteExtraBlankSpaces(this);">
 								</h:inputTextarea>
 								<p:messages for="policyInput" />

@@ -1,5 +1,7 @@
 package japhet.sales.service.impl;
 
+import static japhet.sales.data.QueryParameters.PRODUCT_KEY;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import japhet.sales.data.impl.ProductDAO;
 import japhet.sales.except.BusinessServiceException;
+import japhet.sales.except.DataLayerException;
 import japhet.sales.except.InvalidDateRangeException;
 import japhet.sales.model.impl.Product;
 import japhet.sales.service.IProductService;
@@ -46,6 +49,7 @@ public class ProductService implements IProductService {
 		return products;
 	}
 	
+	@Override
 	public List<Product> getSearchedProducts(Map<String, Object> parameters) 
 			throws BusinessServiceException {
 		List<Product> products = null;
@@ -59,7 +63,25 @@ public class ProductService implements IProductService {
 		}
 		return products;
 	}
+	
+	@Override
+	public Product getProductByKey(Map<String, Object> parameters)
+			throws BusinessServiceException {
+		final String INFO_MSG = String.format("Obtaining product by Key %s...", parameters.get(PRODUCT_KEY));
+		logger.info(INFO_MSG);
+		Product product = null;
+		try {
+			product = productDAO.getProductByKey(parameters);
+		} catch (DataLayerException e) {
+			final String ERROR_MSG = String.format("Error obtaining product by Key %s", 
+					parameters.get(PRODUCT_KEY));
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return product;
+	}
 
+	@Override
 	public Product getProduct(Long productId)   
 			throws BusinessServiceException {
 		logger.info("Obtaining product " + productId + " from the DB...");
@@ -75,6 +97,7 @@ public class ProductService implements IProductService {
 		return product;
 	}
 	
+	@Override
 	public boolean updateProduct(Product product)   
 			throws BusinessServiceException {
 		logger.info("Updating product into the DB...");
@@ -89,6 +112,7 @@ public class ProductService implements IProductService {
 		}
 	}
 	
+	@Override
 	public boolean deleteProduct(Product product)   
 			throws BusinessServiceException {
 		logger.info("Deleting product into the DB...");
@@ -103,6 +127,7 @@ public class ProductService implements IProductService {
 		}
 	}
 	
+	@Override
 	public boolean insertProduct(Product product) 
 			throws InvalidDateRangeException, BusinessServiceException {
 		logger.info("Inserting product into the DB...");

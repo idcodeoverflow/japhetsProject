@@ -10,18 +10,23 @@
 	<h:panelGroup id="searchBox" layout="block" styleClass="row">
 		<h:panelGroup layout="block" styleClass="col-md-12">
 			<h:form id="searchBoxForm">
-		    	<h:panelGroup layout="block" styleClass="input-group">
+				<!-- Default command to be executed on submit -->
+				<p:defaultCommand target="searchProductsCommand" />
+				<!-- CommandLink and InputText -->
+    	    	<h:panelGroup layout="block" styleClass="input-group">
 		      		<h:inputText id="inputSearchBox" styleClass="form-control" 
 		      			value="#{homeMB.searchedWords}"
-		      			pt:placeholder="#{msg['main.template.searchFor']}" />
+		      			pt:placeholder="#{msg['main.template.searchFor']}" >
+		      		</h:inputText>
 		      		<h:panelGroup styleClass="input-group-btn">
-		        		<h:commandLink styleClass="btn btn-default searchBoxButton">
+		        		<h:commandLink id="searchProductsCommand"
+		        			styleClass="btn btn-default searchBoxButton">
 		        			<i class="glyphicon glyphicon-search"></i>
 		        			<f:param name="#{_csrf.parameterName}" 
 								value="#{_csrf.token}" />
 							<f:ajax render="productsDataScroller" 
 								execute="inputSearchBox"
-								listener="#{homeMB.searchProducts()}"/>
+								listener="#{homeMB.searchProducts()}" />
 		        		</h:commandLink>
 		      		</h:panelGroup>
 		    	</h:panelGroup>

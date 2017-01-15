@@ -2,6 +2,7 @@ package japhet.sales.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -94,6 +95,21 @@ public class CompanyService implements ICompanyService {
 		return companies;
 	}
 
+	@Override
+	public Company getCompanyByUserId(Map<String, Object> parameters) 
+			throws BusinessServiceException {
+		logger.info("Getting company by userId...");
+		Company company = null;
+		try {
+			company = companyDAO.getCompanyByUserId(parameters);
+		} catch(Exception e) {
+			final String ERROR_MSG = "Error while getting company by userId...";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return company;
+	}
+	
 	@Override
 	public Company selectCompany(Long companyId) 
 			throws BusinessServiceException {

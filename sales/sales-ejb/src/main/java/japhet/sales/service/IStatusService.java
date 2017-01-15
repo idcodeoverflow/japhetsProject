@@ -17,4 +17,15 @@ public interface IStatusService extends Serializable {
 	public List<Status> getAllStatus() 
 			throws BusinessServiceException;
 	
+	public Status getStatus(Short statusId)   
+			throws BusinessServiceException;
+	
+	public boolean updateStatus(Status status)   
+			throws BusinessServiceException;
+	
+	public boolean deleteStatus(Status status)   
+			throws BusinessServiceException;
+	
+	public boolean insertStatus(Status status)   
+			throws BusinessServiceException;
 }

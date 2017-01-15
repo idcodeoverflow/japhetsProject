@@ -16,4 +16,16 @@ public interface ICategoryService extends Serializable {
 
 	public List<Category> getAllCategories() 
 			throws BusinessServiceException;
+	
+	public boolean insertCategory(Category category)   
+			throws BusinessServiceException;
+	
+	public Category findCategory(Short categoryId)   
+			throws BusinessServiceException;
+	
+	public boolean updateCategory(Category category)   
+			throws BusinessServiceException;
+	
+	public boolean deleteCategory(Category category)   
+			throws BusinessServiceException;
 }
