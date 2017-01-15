@@ -7,58 +7,60 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
 
-	<h:form id="categoriesForm">
-		<!-- User panel -->							
-		<h:panelGroup id="categoriesPanel" 
-			layout="block" 
-			styleClass="row">
-			<!-- Categories -->
+	<!-- User panel -->							
+	<h:panelGroup id="categoriesPanel" 
+		layout="block" 
+		styleClass="row">
+		<!-- Categories -->
+		<h:panelGroup layout="block" 
+	    	styleClass="col-md-12">
 			<h:panelGroup layout="block" 
-		    	styleClass="col-md-12">
+				styleClass="panel panel-default">
 				<h:panelGroup layout="block" 
-					styleClass="panel panel-default">
+					styleClass="panel-heading">
+			    	<h2 class="panel-title">
+			    		#{msg['userAccount.categories.title']}
+			    		<h:panelGroup styleClass="glyphicon glyphicon-heart"/>		
+			    	</h2>
+			  	</h:panelGroup>
+			  	<h:panelGroup layout="block" 
+			  		styleClass="panel-body">
 					<h:panelGroup layout="block" 
-						styleClass="panel-heading">
-				    	<h2 class="panel-title">
-				    		#{msg['userAccount.categories.title']}
-				    		<h:panelGroup styleClass="glyphicon glyphicon-heart"/>		
-				    	</h2>
+						styleClass="row">
+					    <p:dataScroller id="categoriesDataScroller"
+					    	value="#{categoryManagementMB.categories}" 
+					    	var="category" 
+				  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
+				  			<h:panelGroup styleClass="col-md-3"
+				  				layout="block">
+				  				<h:panelGroup layout="block"
+				  					styleClass="checkbox">
+					  				<h:outputLabel>
+						  				<h:selectBooleanCheckbox id="category-#{category.categoryId}"
+						  					value="#{category.checked}" />
+						  				<h:outputText value="#{category.name}" />
+						  			</h:outputLabel>
+					  			</h:panelGroup>
+				  			</h:panelGroup>
+				  		</p:dataScroller>
 				  	</h:panelGroup>
 				  	<h:panelGroup layout="block" 
-				  		styleClass="panel-body">
-						<h:panelGroup layout="block" 
-							styleClass="row">
-						    <p:dataScroller id="categoriesDataScroller"
-						    	value="#{userAccountManagerMB.categories}" 
-						    	var="category" 
-					  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
-					  			<h:panelGroup styleClass="col-md-3"
-					  				layout="block">
-					  				<h:panelGroup layout="block"
-					  					styleClass="checkbox">
-						  				<h:outputLabel>
-							  				<h:selectBooleanCheckbox id="category-#{category.categoryId}" />
-							  				<h:outputText value="#{category.name}" />
-							  			</h:outputLabel>
-						  			</h:panelGroup>
-					  			</h:panelGroup>
-					  		</p:dataScroller>
-					  	</h:panelGroup>
-					  	<h:panelGroup layout="block" 
-							styleClass="row">
-							<h:panelGroup layout="block"
-								styleClass="col-md-9"/>
-							<h:panelGroup layout="block"
-								styleClass="col-md-3">
-								<h:commandButton 
-									action="#{userAccountManagerMB.saveFavoriteCategories()}" 
-									value="#{msg['userAccount.categories.save']}"
-									styleClass="btn btn-default btn-block btn-lg" />
-							</h:panelGroup>
+						styleClass="row">
+						<h:panelGroup layout="block"
+							styleClass="col-md-9"/>
+						<h:panelGroup layout="block"
+							styleClass="col-md-3">
+							<h:commandButton 
+								action="#{categoryManagementMB.saveFavoriteCategories()}" 
+								value="#{msg['userAccount.categories.save']}"
+								styleClass="btn btn-default btn-block btn-lg">
+								<f:param name="#{_csrf.parameterName}" 
+										value="#{_csrf.token}" />
+							</h:commandButton>
 						</h:panelGroup>
-				  	</h:panelGroup>
-				</h:panelGroup>
+					</h:panelGroup>
+			  	</h:panelGroup>
 			</h:panelGroup>
 		</h:panelGroup>
-	</h:form>
+	</h:panelGroup>
 </ui:composition>

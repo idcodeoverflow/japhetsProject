@@ -1,4 +1,4 @@
-package japhet.sales.authorities;
+package japhet.sales.controller.authorities;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.NoneScoped;

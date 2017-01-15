@@ -52,7 +52,7 @@ import japhet.sales.util.Encryption;
 				procedureName = StoredProcedureNames.CHANGE_USER_CATEGORIES,
 				parameters = {
 						@StoredProcedureParameter(name = StoredProcedureParameters.P_USER_ID,
-								type = Short.class, 
+								type = Long.class, 
 								mode = ParameterMode.IN),
 						@StoredProcedureParameter(name = StoredProcedureParameters.P_CATEGORIES_LIST,
 								type = String.class, 
@@ -124,7 +124,7 @@ public class User implements IEntity, UserDetails {
 							insertable = true))
 	private List<SocialNetwork> socialNetwork;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "TB_USER_CATEGORIES",
 			joinColumns = @JoinColumn(name = "USER_ID", 
