@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import japhet.sales.model.IEntity;
+import japhet.sales.util.Encryption;
 
 @Cacheable(value = true)
 @Entity
@@ -46,7 +47,8 @@ public class UserProductHistorial implements IEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Product product;
 	
-	@JoinColumn(name = "USER_ID")
+	@JoinColumn(name = "USER_ID", 
+			nullable = true)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 	
@@ -58,19 +60,30 @@ public class UserProductHistorial implements IEntity {
 			nullable = true)
 	private Boolean completed;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "COMPLETED_DATE",
+			nullable = true)
+	private Date completedDate;
+	
+	@Column(name = "USER_PRODUCT_HISTORIAL_KEY", 
+			nullable = true)
+	private String userProductHistorialKey;
+	
 	public UserProductHistorial() {}
 
 	public UserProductHistorial(Long historialId, Product product, 
-			User user, Date clickDate, Boolean completed) {
+			User user, Date clickDate, Boolean completed,
+			Date completedDate, String userProductHistorialKey) {
 		super();
 		this.historialId = historialId;
 		this.product = product;
 		this.user = user;
 		this.clickDate = clickDate;
 		this.completed = completed;
+		this.completedDate = completedDate;
+		this.userProductHistorialKey = userProductHistorialKey;
 	}
 	
-
 	public Long getHistorialId() {
 		return historialId;
 	}
@@ -109,5 +122,27 @@ public class UserProductHistorial implements IEntity {
 
 	public void setCompleted(Boolean completed) {
 		this.completed = completed;
+	}
+	
+	public Date getCompletedDate() {
+		return completedDate;
+	}
+	
+	public void setCompletedDate(Date completedDate) {
+		this.completedDate = completedDate;
+	}
+	
+	public String getUserProductHistorialKey() {
+		return userProductHistorialKey;
+	}
+	
+	public void setUserProductHistorialKey(String userProductHistorialKey) {
+		this.userProductHistorialKey = userProductHistorialKey;
+	}
+	
+	public void generateUserProductHistorialKey() throws Exception {
+		final String str = String.format("UserId:%dProductId:%dTimestamp:%s", 
+				this.user.getUserId(), this.product.getProductId(), this.clickDate.toString());
+		this.userProductHistorialKey = Encryption.SHA256(str);
 	}
 }

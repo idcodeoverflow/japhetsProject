@@ -307,7 +307,7 @@ footer {
 }
 
 #productsDataScroller .ui-corner-all, 
-#userControlPanelForm\:categoriesForm\:categoriesDataScroller .ui-corner-all {
+#userControlPanelForm\:categoriesDataScroller .ui-corner-all {
 	border: 0px solid transparent !important;
 }
 

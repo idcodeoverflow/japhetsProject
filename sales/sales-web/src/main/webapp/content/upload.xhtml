@@ -64,9 +64,9 @@
 									requiredMessage="#{msg['upload.messages.required.title']}"
 									placeholder="#{msg['upload.content.contentTitle']}"
 									value="#{uploadContentMB.product.title}"
-									onkeyup="deleteNonAlphaContent(this, '- 1234567890áéíóú');"
+									onkeyup="deleteNonAlphaContent(this, '- 1234567890áéíóúñÑ');"
 									onblur="deleteExtraBlankSpaces(this);"/>
-								<p:keyFilter regEx="/[0-9a-zA-Z\-\sáéíóú]/i" 
+								<p:keyFilter regEx="/[0-9a-zA-Z\-\sáéíóúñÑ]/i" 
 									for="contentTitleInput"
 									preventPaste="false" />
 						    	<p:messages for="contentTitleInput" />
@@ -82,10 +82,10 @@
 									requiredMessage="#{msg['upload.messages.required.description']}"
 						    		placeholder="#{msg['upload.content.contentDescription']}"
 						    		value="#{uploadContentMB.product.description}"
-									onkeyup="deleteNonAlphaContent(this, '- 1234567890áéíóú');"
+									onkeyup="deleteNonAlphaContent(this, '- 1234567890áéíóúñÑ');"
 									onblur="deleteExtraBlankSpaces(this);"/>
 						    	<p:messages for="contentDescriptionInput" />
-						    	<p:keyFilter regEx="/[$%0-9a-zA-Z\-\sáéíóú]/i" 
+						    	<p:keyFilter regEx="/[$%0-9a-zA-Z\-\sáéíóúñÑ]/i" 
 									for="contentDescriptionInput"
 									preventPaste="false" />
 						    </h:panelGroup>

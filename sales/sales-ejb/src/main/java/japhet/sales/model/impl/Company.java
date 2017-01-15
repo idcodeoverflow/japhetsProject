@@ -1,6 +1,7 @@
 package japhet.sales.model.impl;
 
 import static japhet.sales.data.QueryNames.*;
+import static japhet.sales.data.QueryParameters.*;
 import static japhet.sales.util.StringUtils.urlCompletion;
 
 import java.util.List;
@@ -30,11 +31,13 @@ import japhet.sales.util.StreamUtil;
 @Table(name = "TB_COMPANY")
 @NamedQueries(value = {
 		@NamedQuery(name = GET_ALL_AVAILABLE_COMPANIES, 
-			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :validStatuses"),
+			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :" + VALID_STATUSES),
 		@NamedQuery(name = GET_ALL_AVAILABLE_COMPANIES_OF_TYPE, 
-			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :validStatuses AND c.companyType.companyTypeId = :companyTypeId"),
+			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :" + VALID_STATUSES +" AND c.companyType.companyTypeId = :" + COMPANY_TYPE_ID),
 		@NamedQuery(name = GET_ALL_COMPANIES, 
-			query = "SELECT c FROM Company c")
+			query = "SELECT c FROM Company c"),
+		@NamedQuery(name = GET_COMPANY_BY_USER_ID,
+			query = "SELECT c FROM Company c WHERE c.user.userId = :" + USER_ID)
 })
 public class Company extends StreamUtil 
 	implements IEntity {

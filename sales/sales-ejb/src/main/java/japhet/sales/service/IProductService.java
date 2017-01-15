@@ -19,6 +19,9 @@ public interface IProductService extends Serializable {
 	public List<Product> getSearchedProducts(Map<String, Object> parameters) 
 			throws BusinessServiceException;
 	
+	public Product getProductByKey(Map<String, Object> parameters)
+			throws BusinessServiceException;
+	
 	public Product getProduct(Long productId) 
 			throws BusinessServiceException;
 	

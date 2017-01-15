@@ -1,5 +1,8 @@
 package japhet.sales.service.impl;
 
+import static japhet.sales.data.StoredProcedureParameters.*;
+
+import java.util.List;
 import java.util.Map;
 
 import javax.ejb.EJB;
@@ -10,6 +13,7 @@ import javax.inject.Inject;
 import japhet.sales.data.impl.UserDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidPasswordException;
+import japhet.sales.model.impl.Category;
 import japhet.sales.model.impl.User;
 import japhet.sales.service.IUserService;
 
@@ -123,11 +127,17 @@ public class UserService implements IUserService {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void modifyUserCategories(Map<String, Object> params) 
 			throws BusinessServiceException {
 		logger.info("Updating user categories...");
 		try {
+			//Generate the categories list in CSV format
+			List<Category> categories = (List<Category>) params.get(P_CATEGORIES_LIST);
+			String csvList = generateActiveCategoriesCSVList(categories);
+			params.put(P_CATEGORIES_LIST, csvList);
+			//Persist data
 			userDAO.modifyUserCategories(params);
 		} catch (Exception e) {
 			final String ERROR_MSG = "An error has ocurred while updating the user categories.";
@@ -139,5 +149,21 @@ public class UserService implements IUserService {
 	private Long stringifyUser(User user) {
 		return ((user != null && user.getUserId() != null) ? 
 				user.getUserId() : null);
+	}
+	
+	private String generateActiveCategoriesCSVList(List<Category> categories) {
+		StringBuilder csv = new StringBuilder("");
+		if(categories != null) {
+			short index = 0;
+			for(Category category : categories) {
+				if(category.getChecked()) {
+					csv.append(category.getCategoryId());
+					if(categories.size() > ++index) {
+						csv.append(",");
+					}
+				}
+			}
+		}
+		return csv.toString();
 	}
 }

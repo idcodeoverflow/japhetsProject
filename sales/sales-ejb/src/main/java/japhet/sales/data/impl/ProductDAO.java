@@ -54,4 +54,28 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 		}
 		return products;
 	}
+	
+	public Product getProductByKey(Map<String, Object> parameters) 
+			throws DataLayerException {
+		Product product = null;
+		List<Product> products = null;
+		logger.info("Obtaining product by Key...");
+		try {
+			//Query the DB.
+			products = executeQuery(QueryNames.GET_PRODUCT_BY_KEY, parameters);
+			//Get the first element from the list
+			if(products != null && !products.isEmpty()) {
+				if(products.size() > 1) {
+					throw new Exception("There are multiple results for the productKey: " 
+							+ parameters.get(PRODUCT_KEY));
+				}
+				product = products.get(0);
+			}
+		} catch (Exception e) {
+			final String errorMsg = "Error while obtaining the product by Key from the DB.";
+			logger.fatal(errorMsg, e);
+			throw new DataLayerException(errorMsg, e);
+		}
+		return product;
+	}
 }
