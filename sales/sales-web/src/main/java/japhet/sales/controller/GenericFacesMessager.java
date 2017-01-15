@@ -15,9 +15,11 @@ public class GenericFacesMessager {
 	private final String PICK_STATE_ERROR = "userMessages.error.stateError";
 	private final String SAVE_CONTENT_ERROR = "userMessages.error.saveContentError";
 	private final String DATE_RANGE_INVALID = "userMessages.error.dateInvalid";
+	private final String REDIRECT_ERROR = "userMessages.error.redirect";
 	//Info messages
 	private final String IMAGE_READY = "userMessages.images.ready";
 	private final String CONTENT_READY = "userMessages.content.ready";
+	private final String UNREGISTERED_REDIRECT = "userMessages.unregistered.redirect";
 	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
@@ -98,6 +100,10 @@ public class GenericFacesMessager {
 	public String getDATE_RANGE_INVALID() {
 		return DATE_RANGE_INVALID;
 	}
+	
+	public String getREDIRECT_ERROR() {
+		return REDIRECT_ERROR;
+	}
 
 	public String getIMAGE_READY() {
 		return IMAGE_READY;
@@ -105,5 +111,9 @@ public class GenericFacesMessager {
 
 	public String getCONTENT_READY() {
 		return CONTENT_READY;
+	}
+	
+	public String getUNREGISTERED_REDIRECT() {
+		return UNREGISTERED_REDIRECT;
 	}
 }

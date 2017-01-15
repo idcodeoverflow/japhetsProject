@@ -78,7 +78,7 @@ public class UserDAO extends GenericDAO<User, Long> {
 			csvUserCategories = StringUtils.listToCSVString(userCategories);
 			executeStoredProcedure(CHANGE_USER_CATEGORIES_NAME, params);
 		} catch (Exception e) {
-			String ERROR_MSG = String.format("An error has ocurred modifying the user %ld categories: %s", 
+			String ERROR_MSG = String.format("An error has ocurred modifying the user %d categories: %s", 
 					userId, csvUserCategories);
 			logger.fatal(ERROR_MSG, e);
 			throw new DataLayerException(ERROR_MSG, e);

@@ -24,14 +24,18 @@
 		    		<!-- Product info block -->
 					<h:panelGroup styleClass="col-md-3 col-xs-6" layout="block">
 						<h:panelGroup layout="block" styleClass="thumbnail">
-							<!-- Product image -->
-							<h:outputLink value="#{product.url}">
+							<!-- Product image and redirect to the vendors site -->
+							<p:commandLink 
+									action="#{homeMB.redirectToSalesSite(product)}" >
 								<p:graphicImage value="#{homeImagesMB.streamedImage}" 
 									styleClass="offer-img">
+									<!-- Product Id to load correctly its image -->
 									<f:param name="#{homeImagesMB.PRODUCT_IMAGE_REQ_PARAM}" 
 										value="#{product.productId}" />
 								</p:graphicImage>
-							</h:outputLink>
+								<f:param name="#{_csrf.parameterName}" 
+									value="#{_csrf.token}" />
+							</p:commandLink>
 							<h:panelGroup layout="block" styleClass="caption">
 								<!-- Product title -->
 								<h:panelGroup styleClass="thumbnail-title h4">
