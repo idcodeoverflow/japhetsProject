@@ -254,6 +254,7 @@
 							
 							<!-- Role block -->
 							<h:panelGroup layout="block" 
+								rendered="#{authorityMB.isMultiUserRoleRegistrationAllowed()}"
 								styleClass="form-group">
 								<h:outputLabel for="rolesList">
 									#{msg['registration.form.role']}
@@ -271,7 +272,7 @@
 										itemValue="#{role.roleId}" />
 									<f:param name="#{_csrf.parameterName}" 
 										value="#{_csrf.token}" />
-									<p:ajax update="@form"
+									<p:ajax update="signUpForm"
 										event="change"
 										listener="#{registrationMB.updateRole(registrationMB.user.role.roleId)}"/>
 								</h:selectOneMenu>

@@ -33,6 +33,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import japhet.sales.catalogs.Roles;
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.data.QueryNames;
+import japhet.sales.data.QueryParameters;
 import japhet.sales.data.StoredProcedureNames;
 import japhet.sales.data.StoredProcedureParameters;
 import japhet.sales.model.IEntity;
@@ -43,9 +44,9 @@ import japhet.sales.util.Encryption;
 @Table(name = "TB_USER")
 @NamedQueries(value = {
 		@NamedQuery(name = QueryNames.EXISTS_USER, 
-				query = "SELECT u FROM User u WHERE u.username = :username AND u.passw = :passw"),
+				query = "SELECT u FROM User u WHERE u.username = :" + QueryParameters.USERNAME + " AND u.passw = :" + QueryParameters.PASSW + " AND u.status.statusId = :" + QueryParameters.STATUS + ""),
 		@NamedQuery(name = QueryNames.GET_USER_BY_EMAIL,
-				query = "SELECT u FROM User u WHERE u.username = :username")
+				query = "SELECT u FROM User u WHERE u.username = :" + QueryParameters.USERNAME)
 })
 @NamedStoredProcedureQueries(value = {
 		@NamedStoredProcedureQuery(name = StoredProcedureNames.CHANGE_USER_CATEGORIES_NAME,
