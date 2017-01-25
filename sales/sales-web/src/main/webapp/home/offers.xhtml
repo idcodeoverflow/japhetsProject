@@ -16,17 +16,22 @@
 	  	</h:panelGroup>
 	  	<!-- Products scroller -->
 	  	<h:panelGroup layout="block" styleClass="panel-body" id="home-scroller">
-	  		<h:panelGroup layout="block" styleClass="row">
-			    <p:dataScroller id="productsDataScroller"
+	  		<!-- Offers messages -->
+		  	<p:messages id="offersMessages" globalOnly="true" />
+		  	<!-- Products -->
+			<h:panelGroup layout="block" 
+	  			styleClass="row">
+	  			<p:dataScroller id="productsDataScroller"
 			    	value="#{homeMB.availableProducts}" 
 			    	var="product" 
 		  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
-		    		<!-- Product info block -->
+		  			<!-- Product info block -->
 					<h:panelGroup styleClass="col-md-3 col-xs-6" layout="block">
 						<h:panelGroup layout="block" styleClass="thumbnail">
 							<!-- Product image and redirect to the vendors site -->
 							<p:commandLink 
-									action="#{homeMB.redirectToSalesSite(product)}" >
+									action="#{homeMB.redirectToSalesSite(product)}"
+									update="offersMessages">
 								<p:graphicImage value="#{homeImagesMB.streamedImage}" 
 									styleClass="offer-img">
 									<!-- Product Id to load correctly its image -->
@@ -55,7 +60,7 @@
 								<!-- Product payback percent -->
 								<p class="thumbnail-price">
 									#{msg['home.product.payback']}
-									<h:outputText value="#{product.paybackPercent}" >
+									<h:outputText value="#{product.endUserPaybackPercent}" >
 										<f:convertNumber type="percent" />
 									</h:outputText>
 								</p>

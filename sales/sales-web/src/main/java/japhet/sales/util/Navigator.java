@@ -25,6 +25,7 @@ public interface Navigator {
 	String USER_ACCOUNT_MANAGER = pReader.getValueFromKey(URL.USER_ACCOUNT_MANAGER.getName());
 	String CATEGORIES = pReader.getValueFromKey(URL.CATEGORIES.getName());
 	String HOME_VIDEO_URL = pReader.getValueFromKey(URL.HOME_VIDEO_URL.getName());
+	String CATEGORIES_REGISTRATION_URL = pReader.getValueFromKey(URL.CATEGORIES_REGISTRATION_URL.getName());
 	/***** BANKS *****/
 	String INBURSA = pReader.getValueFromKey(URL.INBURSA.getName());
 	String PROFUTURO = pReader.getValueFromKey(URL.PROFUTURO.getName());

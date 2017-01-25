@@ -100,6 +100,8 @@ public class Product extends StreamUtil
 			unique = true)
 	private String productKey;
 	
+	final transient Double COMISION_PERCENT = 0.5;
+	
 	public Product() {
 		this.redirectNumber = 0;
 		this.uploadDate = new Date();
@@ -165,6 +167,10 @@ public class Product extends StreamUtil
 
 	public void setPaybackPercent(Double paybackPercent) {
 		this.paybackPercent = paybackPercent;
+	}
+	
+	public Double getEndUserPaybackPercent() {
+		return paybackPercent - (paybackPercent * COMISION_PERCENT);
 	}
 
 	public byte[] getImage() {

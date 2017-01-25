@@ -35,11 +35,11 @@ public abstract class GenericMB extends GenericFacesMessager
 	protected Logger logger;
 	
 	@Override
-	protected FacesContext getCurrentFacesInstance(){
+	protected FacesContext getCurrentFacesInstance() {
 		return FacesContext.getCurrentInstance();
 	}
 	
-	protected ExternalContext getExternalContext(){
+	protected ExternalContext getExternalContext() {
 		return getCurrentFacesInstance().getExternalContext();
 	}
 	
@@ -48,7 +48,7 @@ public abstract class GenericMB extends GenericFacesMessager
 				getRequestParameterMap().get(name);
 	}
 	
-	protected void redirect(String url){
+	protected void redirect(String url) {
 		try {
 			getCurrentFacesInstance().getExternalContext().redirect(url);
 		} catch (IOException e) {
@@ -57,19 +57,19 @@ public abstract class GenericMB extends GenericFacesMessager
 		}
 	}
 	
-	protected HttpServletResponse getResponse(){
+	protected HttpServletResponse getResponse() {
 		HttpServletResponse response = (HttpServletResponse) 
 				FacesContext.getCurrentInstance().getExternalContext().getResponse();
 		return response;
 	}
 	
-	protected HttpServletRequest getRequest(){
+	protected HttpServletRequest getRequest() {
 		HttpServletRequest request = (HttpServletRequest) 
 				FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		return request;
 	}
 	
-	protected User getLoggedUser(){
+	protected User getLoggedUser() {
 		User user = null;
 		SecurityContext securityContext = SecurityContextHolder.getContext();
 		if(securityContext != null) {
