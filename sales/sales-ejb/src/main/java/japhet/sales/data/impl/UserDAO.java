@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
+import japhet.sales.catalogs.Statuses;
 import japhet.sales.data.GenericDAO;
 import japhet.sales.data.QueryNames;
 import japhet.sales.except.DataLayerException;
@@ -32,8 +33,9 @@ public class UserDAO extends GenericDAO<User, Long> {
 			logger.info("Validating credentials...");
 			List<User> users = new ArrayList<>();
 			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("username", user.getUsername());
-			params.put("passw", user.getPassw());
+			params.put(USERNAME, user.getUsername());
+			params.put(PASSW, user.getPassw());
+			params.put(STATUS, Statuses.ACTIVE.getId());
 			users = executeQuery(QueryNames.EXISTS_USER, params);
 			userExists = users != null && users.size() > 0;
 		} catch (Exception e) {

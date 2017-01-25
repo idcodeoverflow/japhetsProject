@@ -156,7 +156,12 @@ public class RegistrationMB extends GenericMB
 	
 	private void clear() {
 		this.user = new User();
-		this.user.getRole().setRoleId(null);
+		//If the user is not an administrator set the default role as USER
+		if(getLoggedUser() != null) {
+			this.user.getRole().setRoleId(null);
+		} else {
+			this.user.getRole().setRoleId(Roles.USER.getId());
+		}
 		this.company = new Company();
 		this.imageBytes = null;
 		this.confirmPassword = null;

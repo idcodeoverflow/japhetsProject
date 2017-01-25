@@ -70,6 +70,7 @@ public class LoginMB extends GenericMB
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	        logger.info("User: " + auth.getName() + " signed out.");
 			new SecurityContextLogoutHandler().logout(getRequest(), getResponse(), auth);
+			redirect(HOME_URL);
 	    }
 	    return null;
     }
