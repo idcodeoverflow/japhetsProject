@@ -17,6 +17,10 @@ public class AuthorityMB extends GenericMB {
 	 */
 	private static final long serialVersionUID = -9012980893144837111L;
 
+	/**
+	 * Defines if the current user can upload products.
+	 * @return
+	 */
 	public boolean isUploadProductsAllowed() {
 		User user = getLoggedUser();
 		if(user != null) {
@@ -28,4 +32,18 @@ public class AuthorityMB extends GenericMB {
 		return false; 
 	}
 	
+	/**
+	 * Allows or denies a user to register an administrator or a company.
+	 * @return
+	 */
+	public boolean isMultiUserRoleRegistrationAllowed() {
+		User user = getLoggedUser();
+		if(user != null) {
+			Role role = user.getRole();
+			if(role != null) {
+				return role.getRoleId() == Roles.ADMINISTRATOR.getId();
+			}
+		}
+		return false;
+	}
 }

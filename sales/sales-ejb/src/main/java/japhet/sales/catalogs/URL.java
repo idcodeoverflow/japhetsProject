@@ -19,6 +19,7 @@ public enum URL {
 	ACCOUNT_MANAGER("accountManager"),
 	USER_ACCOUNT_MANAGER("userAccountManager"),
 	CATEGORIES("categories"),
+	CATEGORIES_REGISTRATION_URL("categoriesRegistration"),
 	HOME_VIDEO_URL("homeVideoUrl"),
 	//Banks
 	INBURSA("banks.inbursa"),

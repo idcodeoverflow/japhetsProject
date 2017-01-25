@@ -44,6 +44,10 @@ public class URLMapperMB extends GenericMB {
 		return CATEGORIES;
 	}
 	
+	public String getCategoriesRegistration(){
+		return CATEGORIES_REGISTRATION_URL;
+	}
+	
 	public String getHomeVideoURL(){
 		return HOME_VIDEO_URL;
 	}

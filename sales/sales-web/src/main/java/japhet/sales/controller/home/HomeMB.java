@@ -29,6 +29,7 @@ import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IProductService;
 import japhet.sales.service.IUserProductHistorialService;
 import japhet.sales.service.IUserSearchService;
+import japhet.sales.service.IUserService;
 
 @ManagedBean
 @ViewScoped
@@ -53,6 +54,9 @@ public class HomeMB extends GenericMB {
 	private IUserSearchService userSearchService;
 	
 	@EJB
+	private IUserService userService;
+	
+	@EJB
 	private IInternationalizationService internationalizationService;
 	
 	@EJB
@@ -68,6 +72,17 @@ public class HomeMB extends GenericMB {
 			logger.info("Initializing HomeMB...");
 			//Initialize products
 			setAvailableProducts(productService.getAllAvailableProducts());
+			if(getLoggedUser() != null) {
+				Long userId = getLoggedUser().getUserId();
+				User user = userService.getUser(userId);
+				//If the user is an admin don't redirect to the categories page
+				if(getLoggedUser().getRole().getRoleId() != Roles.ADMINISTRATOR.getId()) {
+					if(user.getCategories() == null ||
+							user.getCategories().size() == 0) {
+						redirect(CATEGORIES_REGISTRATION_URL);
+					}
+				}
+			}
 		} catch (Exception e) {
 			logger.error("Error at initializing the HomeMB.", e);
 			showErrorMessage(internationalizationService
