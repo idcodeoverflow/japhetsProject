@@ -1,12 +1,17 @@
 /* General styles */
 body {
-	background-color: #ECEFE9 !important;
+	background-color: #EEF1EB !important;
 }
 
 /* Modify the style for the main menu */
 .navbar {
 	font-size: 16px !important;
 	z-index: 1001 !important;
+}
+
+/* Navbar title */
+#navbarTitle {
+	margin-left: 1px !important;	
 }
 
 /* Footer rows */
@@ -21,14 +26,25 @@ footer a {
 
 /* Trademark icon style */
 #trademark-icon {
-	weight: 100% !important;
-	height: 40px !important;
+	height: 60px !important;
+	margin-top: 0px !important;
+    padding-top: 0px !important;
+}
+
+/* Trademark icon container */
+#trademark-icon-container {
+	margin-right: 0px !important;
+    padding-top: 5px !important;
+    padding-right: 2px !important;
 }
 
 /* Main menu style */
 .navbar, .navbar-right {
 	min-height: 65px !important;
-	background-color: #97E063 !important;
+	background: -webkit-linear-gradient(#FD746C, #FF9068) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#FD746C, #FF9068) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FD746C, #FF9068) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FD746C, #FF9068) !important; /* Standard syntax */
 }
 
 /* Pills in the navigation bar styles */
@@ -98,12 +114,12 @@ footer a {
 
 /* Styles for input groups */
 .btn-default {
-	background-color: #05B105 !important;
+	background-color: #FF9068 !important;
 	color: white !important;
 }
 
 .btn-default:hover {
-	background-color: #1B851B !important;
+	background-color: #FD746C !important;
 }
 
 .btn {
@@ -112,7 +128,7 @@ footer a {
 
 .searchBoxButton {
 	height: 50px !important;
-	background-color: #97E063 !important;
+	background-color: #FF9068 !important;
 	color: white !important;
 	padding-top: 15px !important;
 }
@@ -154,12 +170,15 @@ footer a {
 
 /* Styles for the subtitles */
 .label-default {
-    background-color: #97E063 !important;
+    background-color: #FF9068 !important;
 }
 
 /* Footer style */
 footer {
-    background-color: #97E063 !important;
+    background: -webkit-linear-gradient(#FD746C, #FF9068) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#FD746C, #FF9068) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FD746C, #FF9068) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FD746C, #FF9068) !important; /* Standard syntax */
     text-align: center !important;
 	padding-top: 15px !important;
 	padding-bottom: 15px !important;
@@ -175,7 +194,10 @@ footer {
 
 /* Styles for heading panels */
 .panel-default>.panel-heading {
-	background-color: #97E063 !important;
+	background: -webkit-linear-gradient(#FD746C, #FF9068) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#FD746C, #FF9068) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FD746C, #FF9068) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FD746C, #FF9068) !important; /* Standard syntax */
 	color: white !important;
 }
 
@@ -198,7 +220,7 @@ footer {
 }
 
 .thumbnail-price {
-	color: #97E063 !important;
+	color: #FF9068 !important;
 	font-style: italic !important;
 	font-weight: bold !important;
 	text-decoration: underline !important;
@@ -245,7 +267,7 @@ footer {
 
 /* Input addon styles */
 .input-group-addon {
-	background-color: #97E063 !important;
+	background-color: #FF9068 !important;
 	color: white !important;
 }
 
@@ -331,7 +353,10 @@ footer {
 	height: 38px !important;
 	overflow: hidden !important;
 	width: 100% !important;
-	background-color: #97E063 !important;
+	background: -webkit-linear-gradient(#FD746C, #FF9068) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#FD746C, #FF9068) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#FD746C, #FF9068) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#FD746C, #FF9068) !important; /* Standard syntax */
 	color: white !important;
 	border-top-left-radius: 3px !important;
     border-top-right-radius: 3px !important;
@@ -351,7 +376,7 @@ footer {
 
 .container-separator {
 	margin: 0px !important;
-	border: 4px solid #97E063 !important;
+	border: 4px solid #FF9068 !important;
 }
 
 /* Logout button container in the navbar */

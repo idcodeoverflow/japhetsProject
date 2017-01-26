@@ -254,7 +254,7 @@
 							
 							<!-- Role block -->
 							<h:panelGroup layout="block" 
-								rendered="#{authorityMB.isMultiUserRoleRegistrationAllowed()}"
+								rendered="#{authorityMB.multiUserRoleRegistrationAllowed}"
 								styleClass="form-group">
 								<h:outputLabel for="rolesList">
 									#{msg['registration.form.role']}
@@ -272,7 +272,7 @@
 										itemValue="#{role.roleId}" />
 									<f:param name="#{_csrf.parameterName}" 
 										value="#{_csrf.token}" />
-									<p:ajax update="signUpForm"
+									<p:ajax update="@form"
 										event="change"
 										listener="#{registrationMB.updateRole(registrationMB.user.role.roleId)}"/>
 								</h:selectOneMenu>
@@ -339,6 +339,17 @@
 								</h:inputTextarea>
 								<p:messages for="policyInput" />
 							</h:panelGroup>
+							
+							<!-- Show in carousel -->
+							<h:panelGroup layout="block"
+								rendered="#{registrationMB.companyRole}"
+								styleClass="checkbox">
+				  				<h:outputLabel>
+					  				<h:selectBooleanCheckbox id="showInCarousel"
+					  					value="#{registrationMB.company.showInCarousel}" />
+					  				<h:outputText value="#{msg['registration.form.showInCarousel']}" />
+					  			</h:outputLabel>
+				  			</h:panelGroup>
 							
 							<!-- State block -->
 							<h:panelGroup layout="block" styleClass="form-group">

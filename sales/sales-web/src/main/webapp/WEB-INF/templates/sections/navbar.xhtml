@@ -27,10 +27,14 @@
 				</button>
 				<!-- Trademark icon -->
 				<h:panelGroup styleClass="navbar-header main-nav-header" layout="block">
-					<a class="navbar-brand" href="#"> 
+					<a id="trademark-icon-container" class="navbar-brand" href="#"> 
 						<h:graphicImage id="trademark-icon" value="/resources/media/trademark-icon.png" />
 					</a>
-					<h3>#{msg['navbar.title']}<small>#{msg['navbar.slogan']}</small></h3>
+					<h3 id="navbarTitle">
+						<h:outputText value="#{msg['navbar.title']}" />
+						<br/>
+						<small>#{msg['navbar.slogan']}</small>
+					</h3>
 				</h:panelGroup>
 			</h:panelGroup>
 			<!-- Collect the nav links, forms, and other content for toggling -->
