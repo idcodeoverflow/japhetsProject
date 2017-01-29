@@ -340,17 +340,6 @@
 								<p:messages for="policyInput" />
 							</h:panelGroup>
 							
-							<!-- Show in carousel -->
-							<h:panelGroup layout="block"
-								rendered="#{registrationMB.companyRole}"
-								styleClass="checkbox">
-				  				<h:outputLabel>
-					  				<h:selectBooleanCheckbox id="showInCarousel"
-					  					value="#{registrationMB.company.showInCarousel}" />
-					  				<h:outputText value="#{msg['registration.form.showInCarousel']}" />
-					  			</h:outputLabel>
-				  			</h:panelGroup>
-							
 							<!-- State block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="stateList">
@@ -394,6 +383,17 @@
 										itemValue="#{city.cityId}"/>
 								</h:selectOneMenu>
 								<p:messages for="stateCity" />
+							</h:panelGroup>
+							
+							<!-- Show in carousel -->
+							<h:panelGroup layout="block"
+								rendered="#{registrationMB.companyRole}"
+								styleClass="checkbox">
+				  				<h:outputLabel styleClass="bold">
+					  				<h:selectBooleanCheckbox id="showInCarousel"
+					  					value="#{registrationMB.company.showInCarousel}" />
+					  				<h:outputText value="#{msg['registration.form.showInCarousel']}" />
+					  			</h:outputLabel>
 								<!-- Terms agreement -->
 								<p>
 									<br/>
@@ -402,7 +402,7 @@
 										#{msg['registration.form.termsOfService']}
 									</h:outputLink>
 								</p>
-							</h:panelGroup>
+				  			</h:panelGroup>
 							
 							<!-- Sign up button block -->
 							<h:panelGroup layout="block" styleClass="row">

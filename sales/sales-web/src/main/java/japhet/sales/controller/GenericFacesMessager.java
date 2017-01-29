@@ -23,6 +23,7 @@ public class GenericFacesMessager {
 	private final String CONTENT_READY = "userMessages.content.ready";
 	private final String UNREGISTERED_REDIRECT = "userMessages.unregistered.redirect";
 	private final String SAVED_CONTENT = "userMessages.preferencesSaved";
+	private final String USER_REGISTERED = "userMessages.userRegistered";
 	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
@@ -126,5 +127,9 @@ public class GenericFacesMessager {
 	
 	public String getSAVED_CONTENT() {
 		return SAVED_CONTENT;
+	}
+	
+	public String getUSER_REGISTERED() {
+		return USER_REGISTERED;
 	}
 }

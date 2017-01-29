@@ -5,7 +5,7 @@ body {
 
 /* Modify the style for the main menu */
 .navbar {
-	font-size: 16px !important;
+	font-size: 17px !important;
 	z-index: 1001 !important;
 }
 
@@ -57,7 +57,7 @@ footer a {
     padding-bottom: 24px !important;
     color: white !important;
     font-family: "Century Gothic", "Arial", "Helvetica" !important;
-    font-weight: normal !important;
+    font-weight: bold !important;
 }
 
 .navbar-default .navbar-nav>.active>a {
@@ -402,4 +402,15 @@ footer {
 /* Table with elements centered on X & Y axis */
 #bonificationStatusTable td {
 	vertical-align: middle !important;
+}
+
+/* Adds the bold style to a text */
+.bold {
+	font-weight: bold !important;
+}
+
+/* Navbar back to allow the components not to be behind this */
+.navbar-back {
+	height: 88px;
+	width: 100%;
 }
