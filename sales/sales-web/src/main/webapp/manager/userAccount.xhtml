@@ -236,8 +236,28 @@
 					</h:panelGroup>
 				</h:panelGroup>
 			</h:panelGroup>
+
+		<h:panelGroup styleClass="col-md-6 col-md-offset-3">
+			<h:panelGroup layout="block"
+						  styleClass="panel panel-default">
+				<h:panelGroup layout="block"
+							  styleClass="panel-heading">
+					<h2 class="panel-title">
+						#{msg['account.user.barChart']}
+						<h:panelGroup styleClass="glyphicon glyphicon-signal"/>
+					</h2>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+							  styleClass="panel-body">
+
+					<p:chart type="bar" model="#{userAccountManagerMB.model}" />
+
+				</h:panelGroup>
+			</h:panelGroup>
 		</h:panelGroup>
-			
+
+	</h:panelGroup>
+
 		<!-- Categories -->
 		<ui:include src="#{urlMapperMB.categories}" />
 		

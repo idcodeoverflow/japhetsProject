@@ -14,6 +14,10 @@ import org.apache.log4j.Logger;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.service.IUserService;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
+import org.primefaces.model.chart.ChartSeries;
 
 @ManagedBean
 @ViewScoped
@@ -59,5 +63,44 @@ public class UserAccountManagerMB extends GenericMB {
 
 	public int getMAX_MEDIA_SIZE() {
 		return MAX_MEDIA_SIZE;
+	}
+
+	public BarChartModel getModel() {
+
+		BarChartModel model = new BarChartModel();
+
+		ChartSeries chartSeries = new ChartSeries();
+
+		chartSeries.setLabel("payback");
+		chartSeries.set("Ene", 850);
+		chartSeries.set("Feb", 1500);
+		chartSeries.set("Mar", 1024);
+		chartSeries.set("Abr", 1850);
+		chartSeries.set("May", 1224);
+		chartSeries.set("Jun", 1411);
+		chartSeries.set("Jul", 976);
+		chartSeries.set("Ago", 1621);
+		chartSeries.set("Sep", 1995);
+		chartSeries.set("Oct", 1358);
+		chartSeries.set("Nov", 1987);
+		chartSeries.set("Dic", 1521);
+
+		model.addSeries(chartSeries);
+
+		//model.setSeriesColors("000000");
+
+		Axis xAxis = model.getAxis(AxisType.X);
+
+		xAxis.setLabel("Meses");
+
+		Axis yAxis = model.getAxis(AxisType.Y);
+
+		yAxis.setLabel("Payback");
+
+		yAxis.setMin(0);
+		yAxis.setMax(2000);
+
+		return model;
+
 	}
 }
