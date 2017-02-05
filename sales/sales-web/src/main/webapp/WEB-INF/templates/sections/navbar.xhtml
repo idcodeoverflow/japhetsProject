@@ -9,7 +9,7 @@
 		<h:panelGroup id="top-link-block">
 		    <a href="#top" class="well well-sm">
 		        <h:panelGroup styleClass="glyphicon glyphicon-chevron-up"></h:panelGroup>
-		        <h:outputText value="#{msg['main.templa.backtop.button']}" />
+		        <h:outputText value="#{msg['main.template.backtop.button']}" />
 		    </a>
 		</h:panelGroup>
 	</h:panelGroup>
@@ -34,7 +34,9 @@
 						<h:graphicImage id="trademark-icon" value="/resources/media/trademark-icon.png" />
 					</a>
 					<h3 id="navbarTitle">
-						<h:outputText value="#{msg['navbar.title']}" />
+						<h:panelGroup id="titlePanel">
+							<h:outputText value="#{msg['navbar.title']}" />
+						</h:panelGroup>
 						<br/>
 						<small>
 							<h:outputText value="#{msg['navbar.slogan']}" />
@@ -98,7 +100,7 @@
 									data-toggle="dropdown" role="button" 
 									aria-haspopup="true" aria-expanded="false"> 
 										<h:panelGroup styleClass="glyphicon glyphicon-user" />
-										<h:outputText value="#{msg['main.template.welcome']}" /> 
+										<h:outputText value=" #{msg['main.template.welcome']} " /> 
 										<h:outputText value="#{userDetailsMB.fullName}" />
 									<h:panelGroup styleClass="caret" />
 								</a>

@@ -14,6 +14,13 @@ body {
 	margin-left: 1px !important;	
 }
 
+/* Title format for the navbar */
+#titlePanel {
+	color: gainsboro;
+    text-shadow: -1px 0 aquamarine, 0 1px aquamarine, 1px 0 aquamarine, 0 -1px aquamarine;
+    font-size: 27;
+}
+
 /* Footer rows */
 footer .row {
 	width: 100% !important;
@@ -411,6 +418,6 @@ footer {
 
 /* Navbar back to allow the components not to be behind this */
 .navbar-back {
-	height: 88px;
+	height: 100px;
 	width: 100%;
 }
