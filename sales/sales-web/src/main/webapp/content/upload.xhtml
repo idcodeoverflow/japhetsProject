@@ -22,7 +22,7 @@
 				<h:panelGroup layout="block" styleClass="panel panel-default">
 					<h:panelGroup layout="block" styleClass="panel-heading">
 						<h2 class="panel-title">
-							#{msg['upload.content.title']}
+							<h:outputText value="#{msg['upload.content.title']}" />
 							<h:panelGroup styleClass="glyphicon glyphicon-upload" />
 						</h2>
 					</h:panelGroup>
@@ -57,7 +57,7 @@
 						    <!-- Title block -->
 						    <h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentTitleInput">
-						    		#{msg['upload.content.contentTitle']}
+						    		<h:outputText value="#{msg['upload.content.contentTitle']}" />
 						    	</h:outputLabel>
 						    	<h:inputText id="contentTitleInput" styleClass="form-control" 
 						    		required="true"
@@ -75,7 +75,7 @@
 						    <!-- Description input -->
 						    <h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentDescriptionInput">
-						    		#{msg['upload.content.contentDescription']}
+						    		<h:outputText value="#{msg['upload.content.contentDescription']}" />
 						    	</h:outputLabel>
 						    	<h:inputTextarea id="contentDescriptionInput" styleClass="form-control" 
 						    		required="true"
@@ -93,7 +93,7 @@
 						    <!-- Category block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="categoriesList">
-									#{msg['upload.content.category']}
+									<h:outputText value="#{msg['upload.content.category']}" />
 								</h:outputLabel>
 								<h:selectOneMenu id="categoriesList" value="#{uploadContentMB.category.categoryId}"
 									styleClass="form-control" 
@@ -109,7 +109,7 @@
 						    <!-- URL block -->
 						    <h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentUrlInput">
-						    		#{msg['upload.content.url']}
+						    		<h:outputText value="#{msg['upload.content.url']}" />
 						    	</h:outputLabel>
 						    	<h:inputText id="contentUrlInput" styleClass="form-control" 
 						    		placeholder="#{msg['upload.content.url']}"
@@ -123,11 +123,11 @@
 						    <!-- Price block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentPriceInput">
-						    		#{msg['upload.content.contentPrice']}
+						    		<h:outputText value="#{msg['upload.content.contentPrice']}" />
 						    	</h:outputLabel>
 						    	<h:panelGroup styleClass="input-group" layout="block">
 						    	  	<h:panelGroup styleClass="input-group-addon">
-								  		$
+								  		<h:outputText value="$" />
 								  	</h:panelGroup>
 								  	<h:inputText id="contentPriceInput" styleClass="form-control" 
 								  		required="true"
@@ -147,7 +147,7 @@
 						    <!-- Payback block -->
 						    <h:panelGroup layout="block" styleClass="form-group">
 						    	<h:outputLabel for="contentPaybackInput">
-						    		#{msg['upload.content.contentPayback']}
+						    		<h:outputText value="#{msg['upload.content.contentPayback']}" />
 						    	</h:outputLabel>
 						    	<h:panelGroup styleClass="input-group" layout="block">
 						    	  	<h:inputText id="contentPaybackInput" styleClass="form-control"
@@ -159,7 +159,7 @@
 										<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
 									</h:inputText>
 						    		<h:panelGroup styleClass="input-group-addon">
-								  		%
+								  		<h:outputText value="%" />
 								  	</h:panelGroup>
 								</h:panelGroup>
 								<p:keyFilter regEx="/[0-9\.]/i" 
@@ -175,7 +175,7 @@
 								<h:panelGroup layout="block" styleClass="col-md-6">
 									<h:panelGroup layout="block" styleClass="form-group">
 										<h:outputLabel for="availableDate">
-								    		#{msg['upload.content.availableDate']}
+								    		<h:outputText value="#{msg['upload.content.availableDate']}" />
 								    	</h:outputLabel>
 										<p:calendar id="availableDate" pattern="MM/dd/yyyy HH:mm:ss"
 											styleClass="form-control" 
@@ -191,7 +191,7 @@
 								<h:panelGroup layout="block" styleClass="col-md-6">
 									<h:panelGroup layout="block" styleClass="form-group">
 										<h:outputLabel for="endDate">
-							    			#{msg['upload.content.endDate']}
+							    			<h:outputText value="#{msg['upload.content.endDate']}" />
 							    		</h:outputLabel>
 										<p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss"
 											styleClass="form-control"  

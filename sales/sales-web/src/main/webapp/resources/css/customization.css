@@ -122,6 +122,7 @@ footer a {
 /* Styles for input groups */
 .btn-default {
 	background-color: #FF9068 !important;
+	background: #FF9068 !important;
 	color: white !important;
 }
 

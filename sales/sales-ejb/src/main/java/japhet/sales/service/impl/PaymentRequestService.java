@@ -3,6 +3,8 @@ package japhet.sales.service.impl;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
@@ -12,6 +14,8 @@ import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.PaymentRequest;
 import japhet.sales.service.IPaymentRequestService;
 
+@LocalBean
+@Stateless
 public class PaymentRequestService 
 	implements IPaymentRequestService {
 	

@@ -44,11 +44,11 @@ public class BuyProof implements IEntity {
 	@Column(name = "BUY_PROOF_ID")
 	private Long buyProofId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "USER_ID")
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PRODUCT_ID")
 	private Product product;
 	
@@ -78,8 +78,8 @@ public class BuyProof implements IEntity {
 	@Column(name = "LAST_UPDATE")
 	private Date lastUpdate;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "STATUS")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "STATUS_ID")
 	private Status status;
 	
 	@Column(name = "PAYMENT_REQUEST_ID")
