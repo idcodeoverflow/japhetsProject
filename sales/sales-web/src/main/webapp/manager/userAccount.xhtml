@@ -233,13 +233,18 @@
 								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss"/>
 								        </h:outputText>
 								    </p:column>
+								    <!-- Download button -->
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.pendingBonifications.file']}">
 								        <p:commandLink 
 								        	id="btnDownloadBuyProof"
+								        	ajax="false"
+								        	onstart="csrfValidation()"
 								        	styleClass="btn btn-default btn-block">
 								        	<i class="glyphicon glyphicon-save"></i>
-								        	<!-- <p:fileDownload value="#{fileDownloadView.file}" /> -->
+								        	<p:fileDownload value="#{userAccountManagerMB.downloadBuyProofObject(buyProof)}" />
+								        	<f:param name="#{_csrf.parameterName}" 
+												value="#{_csrf.token}" />
 								        </p:commandLink>
 								        <p:tooltip id="toolTipSave" 
 								        	for="btnDownloadBuyProof" 

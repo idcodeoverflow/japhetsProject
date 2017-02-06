@@ -85,6 +85,12 @@ public class BuyProof implements IEntity {
 	@Column(name = "PAYMENT_REQUEST_ID")
 	private Long paymentRequestId;
 	
+	@Column(name = "FILE_NAME")
+	private String fileName;
+	
+	@Column(name = "CONTENT_TYPE")
+	private String contentType;
+	
 	public BuyProof() {
 		this.registeredOn = new Date();
 		this.lastUpdate = new Date();
@@ -98,7 +104,7 @@ public class BuyProof implements IEntity {
 			String fingerPrint, byte[] ticketImage,
 			Boolean paybackApplied, Date registeredOn, Date payedOn, 
 			Date lastUpdate, Status status, Long paymentRequestId,
-			User validatedBy) {
+			User validatedBy, String fileName, String contentType) {
 		super();
 		this.buyProofId = buyProofId;
 		this.user = user;
@@ -112,6 +118,8 @@ public class BuyProof implements IEntity {
 		this.lastUpdate = lastUpdate;
 		this.status = status;
 		this.paymentRequestId = paymentRequestId;
+		this.fileName = fileName;
+		this.contentType = contentType;
 	}
 
 	public Long getBuyProofId() {
@@ -208,5 +216,21 @@ public class BuyProof implements IEntity {
 
 	public void setPaymentRequestId(Long paymentRequestId) {
 		this.paymentRequestId = paymentRequestId;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 }

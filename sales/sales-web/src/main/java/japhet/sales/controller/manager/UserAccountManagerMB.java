@@ -1,5 +1,7 @@
 package japhet.sales.controller.manager;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,7 +16,8 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
@@ -60,7 +63,6 @@ public class UserAccountManagerMB extends GenericMB {
 	private final int MAX_MEDIA_SIZE = 1000000;
 	
 	//View properties
-	private UploadedFile file;
 	private byte[] buyProofBytes;
 	private PaymentRequest paymentRequest;
 	private BuyProof buyProof;
@@ -104,6 +106,8 @@ public class UserAccountManagerMB extends GenericMB {
 			logger.info("Uploading buy proof file...");
 			initializeBuyProof();
 			//Persist into the DB
+			buyProof.setFileName(event.getFile().getFileName());
+			buyProof.setContentType(event.getFile().getContentType());
 			buyProofService.insertBuyProof(buyProof);
 			updateBuyProofsListHistory();
 		} catch (Exception e) {
@@ -128,6 +132,9 @@ public class UserAccountManagerMB extends GenericMB {
 		}
 	}
 	
+	/**
+	 * Instantiates a new Buy Proof object.
+	 */
 	public void initializeBuyProof() {
 		buyProof = new BuyProof();
 		Status status = new Status();
@@ -139,7 +146,22 @@ public class UserAccountManagerMB extends GenericMB {
 		buyProof.setLastUpdate(new Date());
 		buyProof.setPaybackApplied(false);
 		buyProof.setStatus(status);
-		
+	}
+	
+	public StreamedContent downloadBuyProofObject(BuyProof buyProof) {
+		logger.info("Downloading buy proof file...");
+		StreamedContent streamedContent = null;
+		try {
+			InputStream inpStream = new ByteArrayInputStream(buyProof.getTicketImage());
+			streamedContent = new DefaultStreamedContent(inpStream, buyProof.getContentType(), 
+				buyProof.getFileName());
+		} catch (Exception e) {
+			logger.error("An error has ocurred while downloading the buy proof :" 
+					+ buyProof.getBuyProofId(), e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
+		}
+		return streamedContent;
 	}
 	
 	public List<String> getDeposits() {
