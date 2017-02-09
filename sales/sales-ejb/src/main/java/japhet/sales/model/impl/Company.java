@@ -84,6 +84,9 @@ public class Company extends StreamUtil
 	@Column(name = "SHOW_IN_CAROUSEL")
 	private Boolean showInCarousel;
 	
+	@Column(name = "PAYBACK_PERCENT")
+	private Double paybackPercent;
+	
 	public Company() {
 		super();
 		this.companyType = new CompanyType();
@@ -92,7 +95,7 @@ public class Company extends StreamUtil
 	public Company(Long companyId, User user, String url, 
 			byte[] image, String privacyPolicy, 
 			CompanyType companyType, List<Category> categories,
-			Boolean showInCarousel) {
+			Boolean showInCarousel, Double paybackPercent) {
 		super();
 		this.companyId = companyId;
 		this.user = user;
@@ -102,6 +105,7 @@ public class Company extends StreamUtil
 		this.companyType = companyType;
 		this.categories = categories;
 		this.showInCarousel = showInCarousel;
+		this.paybackPercent = paybackPercent;
 	}
 
 	public Long getCompanyId() {
@@ -166,5 +170,13 @@ public class Company extends StreamUtil
 
 	public void setShowInCarousel(Boolean showInCarousel) {
 		this.showInCarousel = showInCarousel;
+	}
+
+	public Double getPaybackPercent() {
+		return paybackPercent;
+	}
+
+	public void setPaybackPercent(Double paybackPercent) {
+		this.paybackPercent = paybackPercent;
 	}
 }
