@@ -100,7 +100,7 @@ public class RegistrationMB extends GenericMB
     }
 	
 	public void signUp() {
-		//TODO: complete role and status logic
+		//TODO: complete status logic
 		logger.info("Signing Up user...");
 		try {
 			createUser(user);
@@ -108,6 +108,8 @@ public class RegistrationMB extends GenericMB
 			if(isUserRole()) {
 				//Persist user entity
 				userService.insertUser(user);
+				clear();
+				redirect(SIGN_IN_URL);
 			} else if(isCompanyRole()) {
 				//Set age as 0
 				user.setAge((short) 0);
@@ -116,9 +118,11 @@ public class RegistrationMB extends GenericMB
 				company.setUser(user);
 				//Persist company entity
 				companyService.insertCompany(company, user);
+				//If everything is good at this points notice the user: "Success!"
+				showInfoMessage(internationalizationService
+						.getI18NMessage(CURRENT_LOCALE, getUSER_REGISTERED()), "");
+				clear();
 			}
-			clear();
-			redirect(SIGN_IN_URL);
 		} catch (InvalidPasswordException e) {
 			logger.fatal("The password is invalid.", e);
 			showErrorMessage(internationalizationService
