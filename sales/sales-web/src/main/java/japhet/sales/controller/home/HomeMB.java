@@ -65,6 +65,7 @@ public class HomeMB extends GenericMB {
 	//View properties
 	private List<Product> availableProducts;
 	private String searchedWords;
+	private Boolean showQuestionVideo;
 	
 	@PostConstruct
 	private void init(){
@@ -72,6 +73,7 @@ public class HomeMB extends GenericMB {
 			logger.info("Initializing HomeMB...");
 			//Initialize products
 			setAvailableProducts(productService.getAllAvailableProducts());
+			setShowQuestionVideo(false);
 			if(getLoggedUser() != null) {
 				Long userId = getLoggedUser().getUserId();
 				User user = userService.getUser(userId);
@@ -182,6 +184,13 @@ public class HomeMB extends GenericMB {
 		}
 	}
 	
+	/**
+	 * Shows or hides the Afore video.
+	 */
+	public void showHideAforeVideo() {
+		showQuestionVideo = !showQuestionVideo;
+	}
+	
 	public List<Product> getAvailableProducts() {
 		return availableProducts;
 	}
@@ -196,5 +205,13 @@ public class HomeMB extends GenericMB {
 
 	public void setSearchedWords(String searchedWords) {
 		this.searchedWords = searchedWords;
+	}
+
+	public Boolean getShowQuestionVideo() {
+		return showQuestionVideo;
+	}
+
+	public void setShowQuestionVideo(Boolean showQuestionVideo) {
+		this.showQuestionVideo = showQuestionVideo;
 	}
 }

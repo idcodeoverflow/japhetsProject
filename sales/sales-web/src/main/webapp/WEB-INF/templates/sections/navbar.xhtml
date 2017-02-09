@@ -8,29 +8,40 @@
 	<h:panelGroup layout="block" styleClass="row affix" id="top-link-container">
 		<h:panelGroup id="top-link-block">
 		    <a href="#top" class="well well-sm">
-		        <h:panelGroup styleClass="glyphicon glyphicon-chevron-up"></h:panelGroup>#{msg['main.templa.backtop.button']}
+		        <h:panelGroup styleClass="glyphicon glyphicon-chevron-up"></h:panelGroup>
+		        <h:outputText value="#{msg['main.template.backtop.button']}" />
 		    </a>
 		</h:panelGroup>
 	</h:panelGroup>
 	<!-- Static main menu navigation bar -->
-	<nav class="navbar navbar-default"> 
+	<nav class="navbar navbar-default navbar-fixed-top"> 
 		<h:panelGroup layout="block" styleClass="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<h:panelGroup layout="block" styleClass="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
 					data-toggle="collapse" data-target="#navbarForm\:main-navbar"
 					aria-expanded="false">
-					<h:panelGroup class="sr-only">#{msg['main.template.toggle']}</h:panelGroup> 
+					<h:panelGroup class="sr-only">
+						<h:outputText value="#{msg['main.template.toggle']}" />
+					</h:panelGroup> 
 					<h:panelGroup class="icon-bar"></h:panelGroup> 
 					<h:panelGroup class="icon-bar"></h:panelGroup> 
 					<h:panelGroup class="icon-bar"></h:panelGroup>
 				</button>
 				<!-- Trademark icon -->
 				<h:panelGroup styleClass="navbar-header main-nav-header" layout="block">
-					<a class="navbar-brand" href="#"> 
+					<a id="trademark-icon-container" class="navbar-brand" href="#"> 
 						<h:graphicImage id="trademark-icon" value="/resources/media/trademark-icon.png" />
 					</a>
-					<h3>#{msg['navbar.title']}<small>#{msg['navbar.slogan']}</small></h3>
+					<h3 id="navbarTitle">
+						<h:panelGroup id="titlePanel">
+							<h:outputText value="#{msg['navbar.title']}" />
+						</h:panelGroup>
+						<br/>
+						<small>
+							<h:outputText value="#{msg['navbar.slogan']}" />
+						</small>
+					</h3>
 				</h:panelGroup>
 			</h:panelGroup>
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -39,13 +50,13 @@
 					<ul class="nav navbar-nav navbar-right">
 						<li>
 							<a href="#{urlMapperMB.homeURL}">
-								<h:panelGroup styleClass="glyphicon glyphicon-home"/>
+								<h:panelGroup styleClass="glyphicon glyphicon-home" />
 							</a>
 						</li>
 						<h:panelGroup rendered="#{authorityMB.uploadProductsAllowed}">
 							<li>
 								<h:outputLink value="#{urlMapperMB.uploadContentURL}">
-									#{msg['main.template.uploadContent']}
+									<h:outputText value="#{msg['main.template.uploadContent']}" />
 								</h:outputLink>
 							</li>
 						</h:panelGroup>
@@ -55,22 +66,30 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" 
 								aria-haspopup="true" aria-expanded="false"> 
-								#{msg['main.template.categories']}
+								<h:outputText value="#{msg['main.template.categories']}" />
 								<h:panelGroup styleClass="caret" />
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="#">#{msg['main.template.clothes']}</a></li>
-								<li><a href="#">#{msg['main.template.watches']}</a></li>
-								<li><a href="#">#{msg['main.template.technology']}</a></li>
+								<li><a href="#">
+									<h:outputText value="#{msg['main.template.clothes']}" />
+								</a></li>
+								<li><a href="#">
+									<h:outputText value="#{msg['main.template.watches']}" />
+								</a></li>
+								<li><a href="#">
+									<h:outputText value="#{msg['main.template.technology']}" />
+								</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="#">#{msg['main.template.outlet']}</a></li>
+								<li><a href="#">
+									<h:outputText value="#{msg['main.template.outlet']}" />
+								</a></li>
 							</ul>
 						</li>
 						<!-- Login button -->
 						<h:panelGroup rendered="#{!loginMB.signedIn}">
 							<li>
 								<a href="#{urlMapperMB.signInURL}">
-									#{msg['main.template.login']}
+									<h:outputText value="#{msg['main.template.login']}" />
 								</a>
 							</li>
 						</h:panelGroup>
@@ -81,13 +100,13 @@
 									data-toggle="dropdown" role="button" 
 									aria-haspopup="true" aria-expanded="false"> 
 										<h:panelGroup styleClass="glyphicon glyphicon-user" />
-										#{msg['main.template.welcome']} 
-										#{userDetailsMB.fullName}
+										<h:outputText value=" #{msg['main.template.welcome']} " /> 
+										<h:outputText value="#{userDetailsMB.fullName}" />
 									<h:panelGroup styleClass="caret" />
 								</a>
 								<ul class="dropdown-menu">
 									<li><a href="#{urlMapperMB.accountManager}">
-										#{msg['main.template.settings']}
+										<h:outputText value="#{msg['main.template.settings']}" />
 									</a></li>
 									<li role="separator" class="divider"></li>
 									<li id="logoutBtnContainer">
@@ -107,4 +126,7 @@
 			</h:form>
 		</h:panelGroup>
 	</nav>
+	
+	<!-- Navbar back to allow the other components to not be hidden by this bar -->
+	<h:panelGroup layout="block" styleClass="navbar-back" />
 </ui:composition>

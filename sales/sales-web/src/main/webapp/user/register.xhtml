@@ -22,7 +22,7 @@
 				<h:panelGroup layout="block" styleClass="panel panel-default">
 					<h:panelGroup layout="block" styleClass="panel-heading">
 						<h2 class="panel-title">
-							#{msg['registration.form.panel.title']}
+							<h:outputText value="#{msg['registration.form.panel.title']}" />
 							<h:panelGroup styleClass="glyphicon glyphicon-pencil" />
 						</h2>
 					</h:panelGroup>
@@ -64,7 +64,7 @@
 								rendered="#{registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="companyNameInput">
-									#{msg['registration.form.companyName']}
+									<h:outputText value="#{msg['registration.form.companyName']}" />
 								</h:outputLabel>
 								<h:inputText id="companyNameInput" 
 									styleClass="form-control" 
@@ -86,7 +86,7 @@
 								rendered="#{!registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="firstNameInput">
-									#{msg['registration.form.firstName']}
+									<h:outputText value="#{msg['registration.form.firstName']}" />
 								</h:outputLabel>
 								<h:inputText id="firstNameInput" 
 									styleClass="form-control" 
@@ -108,7 +108,7 @@
 								rendered="#{!registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="lastNameInput">
-									#{msg['registration.form.lastName']}
+									<h:outputText value="#{msg['registration.form.lastName']}" />
 								</h:outputLabel>
 								<h:inputText id="lastNameInput" 
 									styleClass="form-control"  
@@ -131,7 +131,7 @@
 								rendered="#{!registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="curpInput">
-									#{msg['registration.form.curp']}
+									<h:outputText value="#{msg['registration.form.curp']}" />
 								</h:outputLabel>
 								<h:inputText id="curpInput" 
 									styleClass="form-control"  
@@ -154,7 +154,7 @@
 								rendered="#{registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="rfcInput">
-									#{msg['registration.form.rfc']}
+									<h:outputText value="#{msg['registration.form.rfc']}" />
 								</h:outputLabel>
 								<h:inputText id="rfcInput" 
 									styleClass="form-control"  
@@ -178,7 +178,7 @@
 								rendered="#{!registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="ageInput">
-									#{msg['registration.form.age']}
+									<h:outputText value="#{msg['registration.form.age']}" />
 								</h:outputLabel>
 								<h:inputText id="ageInput" 
 									styleClass="form-control"  
@@ -199,7 +199,7 @@
 							<!-- Email block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="emailInput">
-									#{msg['registration.form.email']}
+									<h:outputText value="#{msg['registration.form.email']}" />
 								</h:outputLabel>
 								<h:inputText id="emailInput" 
 									styleClass="form-control"  
@@ -219,7 +219,7 @@
 							<!-- Password block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="passwordInput">
-									#{msg['registration.form.password']}
+									<h:outputText value="#{msg['registration.form.password']}" />
 								</h:outputLabel>
 								<h:inputSecret id="passwordInput" 
 									styleClass="form-control" 
@@ -237,7 +237,7 @@
 							<!-- Confirm password block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="confirmPasswordInput">
-									#{msg['registration.form.confirmPassword']}
+									<h:outputText value="#{msg['registration.form.confirmPassword']}" />
 								</h:outputLabel>
 								<h:inputSecret id="confirmPasswordInput" 
 									styleClass="form-control" 
@@ -254,10 +254,10 @@
 							
 							<!-- Role block -->
 							<h:panelGroup layout="block" 
-								rendered="#{authorityMB.isMultiUserRoleRegistrationAllowed()}"
+								rendered="#{authorityMB.multiUserRoleRegistrationAllowed}"
 								styleClass="form-group">
 								<h:outputLabel for="rolesList">
-									#{msg['registration.form.role']}
+									<h:outputText value="#{msg['registration.form.role']}" />
 								</h:outputLabel>
 								<h:selectOneMenu id="rolesList" 
 									value="#{registrationMB.user.role.roleId}"
@@ -272,7 +272,7 @@
 										itemValue="#{role.roleId}" />
 									<f:param name="#{_csrf.parameterName}" 
 										value="#{_csrf.token}" />
-									<p:ajax update="signUpForm"
+									<p:ajax update="@form"
 										event="change"
 										listener="#{registrationMB.updateRole(registrationMB.user.role.roleId)}"/>
 								</h:selectOneMenu>
@@ -284,7 +284,7 @@
 								rendered="#{registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="companyTypeList">
-									#{msg['registration.form.companyType']}
+									<h:outputText value="#{msg['registration.form.companyType']}" />
 								</h:outputLabel>
 								<h:selectOneMenu id="companyTypeList" 
 									value="#{registrationMB.company.companyType.companyTypeId}"
@@ -306,7 +306,7 @@
 								rendered="#{registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="urlInput">
-									#{msg['registration.form.url']}
+									<h:outputText value="#{msg['registration.form.url']}" />
 								</h:outputLabel>
 								<h:inputText id="urlInput" 
 									styleClass="form-control"  
@@ -320,13 +320,42 @@
 								<p:messages for="urlInput" />
 							</h:panelGroup>
 							
+							<!-- Payback block -->
+						    <h:panelGroup layout="block"
+						    	rendered="#{registrationMB.companyRole}" 
+						    	styleClass="form-group">
+						    	<h:outputLabel for="paybackInput">
+						    		<h:outputText value="#{msg['registration.form.payback']}" />
+						    	</h:outputLabel>
+						    	<h:panelGroup styleClass="input-group" 
+						    		layout="block">
+						    	  	<h:inputText id="paybackInput" 
+						    	  		styleClass="form-control"
+						    	  		required="true"
+										requiredMessage="#{msg['registration.messages.requiredPayback']}"
+						    	  		value="#{registrationMB.company.paybackPercent}" 
+						    			pt:placeholder="#{msg['registration.form.payback']}"
+										onkeyup="deleteNonIntegerContent(this, '.');">
+										<f:convertNumber minFractionDigits="2" 
+											maxFractionDigits="2"/>
+									</h:inputText>
+						    		<h:panelGroup styleClass="input-group-addon">
+								  		<h:outputText value="%" />
+								  	</h:panelGroup>
+								</h:panelGroup>
+								<p:keyFilter regEx="/[0-9\.]/i" 
+									for="paybackInput"
+									preventPaste="false" />
+							  	<p:messages for="paybackInput" />
+						    </h:panelGroup>
+							
 							<!-- Policy block -->
 							<h:panelGroup id="policyBlock"
 								layout="block" 
 								rendered="#{registrationMB.companyRole}"
 								styleClass="form-group">
 								<h:outputLabel for="policyInput">
-									#{msg['registration.form.policy']}
+									<h:outputText value="#{msg['registration.form.policy']}" />
 								</h:outputLabel>
 								<h:inputTextarea id="policyInput" 
 									styleClass="form-control"  
@@ -343,7 +372,7 @@
 							<!-- State block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="stateList">
-									#{msg['registration.form.state']}
+									<h:outputText value="#{msg['registration.form.state']}" />
 								</h:outputLabel>
 								<h:selectOneMenu id="stateList" 
 									value="#{registrationMB.selectedState.stateId}"
@@ -368,7 +397,7 @@
 							<!-- City block -->
 							<h:panelGroup layout="block" styleClass="form-group">
 								<h:outputLabel for="stateCity">
-									#{msg['registration.form.city']}
+									<h:outputText value="#{msg['registration.form.city']}" />
 								</h:outputLabel>
 								<h:selectOneMenu id="stateCity" 
 									value="#{registrationMB.user.city.cityId}"
@@ -383,15 +412,26 @@
 										itemValue="#{city.cityId}"/>
 								</h:selectOneMenu>
 								<p:messages for="stateCity" />
+							</h:panelGroup>
+							
+							<!-- Show in carousel -->
+							<h:panelGroup layout="block"
+								rendered="#{registrationMB.companyRole}"
+								styleClass="checkbox">
+				  				<h:outputLabel styleClass="bold">
+					  				<h:selectBooleanCheckbox id="showInCarousel"
+					  					value="#{registrationMB.company.showInCarousel}" />
+					  				<h:outputText value="#{msg['registration.form.showInCarousel']}" />
+					  			</h:outputLabel>
 								<!-- Terms agreement -->
 								<p>
 									<br/>
-									<i>#{msg['registration.form.acceptTerms']}</i>
+									<i><h:outputText value="#{msg['registration.form.acceptTerms']}" /></i>
 									<h:outputLink value="#">
-										#{msg['registration.form.termsOfService']}
+										<h:outputText value="#{msg['registration.form.termsOfService']}" />
 									</h:outputLink>
 								</p>
-							</h:panelGroup>
+				  			</h:panelGroup>
 							
 							<!-- Sign up button block -->
 							<h:panelGroup layout="block" styleClass="row">

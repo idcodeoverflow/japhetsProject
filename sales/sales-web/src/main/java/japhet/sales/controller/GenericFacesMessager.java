@@ -10,6 +10,7 @@ public class GenericFacesMessager {
 	private final String STARTUP_MB_ERROR = "userMessages.error.startUpError";
 	private final String TRY_AGAIN_ERROR = "userMessages.error.tryAgain";
 	private final String IMAGE_UPLOAD_ERROR = "userMessages.error.image";
+	private final String FILE_UPLOAD_ERROR = "userMessages.error.file";
 	private final String INVALID_PASSWORD_ERROR = "userMessages.error.invalidPassword";
 	private final String SIGN_UP_ERROR = "userMessages.error.signupError";
 	private final String PICK_STATE_ERROR = "userMessages.error.stateError";
@@ -20,9 +21,11 @@ public class GenericFacesMessager {
 	private final String PENDING_CHOOSE_CATEGORIES = "userMessages.warning.noCategoriesStored";
 	//Info messages
 	private final String IMAGE_READY = "userMessages.images.ready";
+	private final String FILE_READY = "userMessages.file.ready";
 	private final String CONTENT_READY = "userMessages.content.ready";
 	private final String UNREGISTERED_REDIRECT = "userMessages.unregistered.redirect";
 	private final String SAVED_CONTENT = "userMessages.preferencesSaved";
+	private final String USER_REGISTERED = "userMessages.userRegistered";
 	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
@@ -83,6 +86,10 @@ public class GenericFacesMessager {
 	public String getIMAGE_UPLOAD_ERROR() {
 		return IMAGE_UPLOAD_ERROR;
 	}
+	
+	public String getFILE_UPLOAD_ERROR() {
+		return FILE_UPLOAD_ERROR;
+	}
 
 	public String getINVALID_PASSWORD_ERROR() {
 		return INVALID_PASSWORD_ERROR;
@@ -115,6 +122,10 @@ public class GenericFacesMessager {
 	public String getIMAGE_READY() {
 		return IMAGE_READY;
 	}
+	
+	public String getFILE_READY() {
+		return FILE_READY;
+	}
 
 	public String getCONTENT_READY() {
 		return CONTENT_READY;
@@ -126,5 +137,9 @@ public class GenericFacesMessager {
 	
 	public String getSAVED_CONTENT() {
 		return SAVED_CONTENT;
+	}
+	
+	public String getUSER_REGISTERED() {
+		return USER_REGISTERED;
 	}
 }
