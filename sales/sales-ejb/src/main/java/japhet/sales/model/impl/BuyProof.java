@@ -44,11 +44,11 @@ public class BuyProof implements IEntity {
 	@Column(name = "BUY_PROOF_ID")
 	private Long buyProofId;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "USER_ID")
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PRODUCT_ID")
 	private Product product;
 	
@@ -78,12 +78,18 @@ public class BuyProof implements IEntity {
 	@Column(name = "LAST_UPDATE")
 	private Date lastUpdate;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "STATUS")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "STATUS_ID")
 	private Status status;
 	
 	@Column(name = "PAYMENT_REQUEST_ID")
 	private Long paymentRequestId;
+	
+	@Column(name = "FILE_NAME")
+	private String fileName;
+	
+	@Column(name = "CONTENT_TYPE")
+	private String contentType;
 	
 	public BuyProof() {
 		this.registeredOn = new Date();
@@ -98,7 +104,7 @@ public class BuyProof implements IEntity {
 			String fingerPrint, byte[] ticketImage,
 			Boolean paybackApplied, Date registeredOn, Date payedOn, 
 			Date lastUpdate, Status status, Long paymentRequestId,
-			User validatedBy) {
+			User validatedBy, String fileName, String contentType) {
 		super();
 		this.buyProofId = buyProofId;
 		this.user = user;
@@ -112,6 +118,8 @@ public class BuyProof implements IEntity {
 		this.lastUpdate = lastUpdate;
 		this.status = status;
 		this.paymentRequestId = paymentRequestId;
+		this.fileName = fileName;
+		this.contentType = contentType;
 	}
 
 	public Long getBuyProofId() {
@@ -208,5 +216,21 @@ public class BuyProof implements IEntity {
 
 	public void setPaymentRequestId(Long paymentRequestId) {
 		this.paymentRequestId = paymentRequestId;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String getContentType() {
+		return contentType;
+	}
+
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 }

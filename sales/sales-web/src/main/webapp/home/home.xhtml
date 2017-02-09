@@ -10,16 +10,39 @@
 	
 	<!-- Embedded Video -->
 	<ui:define name="welcome-video">
-		<h:panelGroup layout="block" styleClass="row video-container">
-			<h:panelGroup layout="block" 
-				styleClass="embed-responsive embed-responsive-16by9">
-				<iframe id="home-video"
-					class="embed-responsive-item" 
-					src="#{urlMapperMB.homeVideoURL}" />
+		<h:form id="welcomeVideoForm">
+			<!-- Command Link to show the Embedded Video -->
+			<h:panelGroup layout="block"
+				styleClass="row">
+				<h:panelGroup layout="block" styleClass="col-md-5" />
+				<h:panelGroup layout="block" 
+					styleClass="col-md-2">
+					<h:commandLink styleClass="bold"
+						action="#{homeMB.showHideAforeVideo()}" 
+						value="#{msg['main.template.whatIsAfore']}">
+						<f:ajax render="@form"/>
+						<f:param name="#{_csrf.parameterName}" 
+							value="#{_csrf.token}" />
+					</h:commandLink>
+				</h:panelGroup>
+				<h:panelGroup layout="block" styleClass="col-md-5" />
 			</h:panelGroup>
-		</h:panelGroup>
+			<!-- Video -->
+			<h:panelGroup id="welcomeVideoContainer"
+				layout="block" 
+				rendered="#{homeMB.showQuestionVideo}"
+				styleClass="row video-container">
+				<h:panelGroup layout="block" 
+					styleClass="embed-responsive embed-responsive-16by9">
+					<iframe id="home-video"
+						class="embed-responsive-item" 
+						src="#{urlMapperMB.homeVideoURL}" />
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:form>	
 	</ui:define>
 	
+	<!-- Page content -->
 	<ui:define name="content">
 		<h:panelGroup layout="block" styleClass="row">
 			<h:panelGroup layout="block" styleClass="col-md-9">

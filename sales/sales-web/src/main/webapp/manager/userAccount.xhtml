@@ -6,12 +6,16 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
-
+	
+	<!-- CSRF protection -->
+	<meta name="#{_csrf.parameterName}" content="#{_csrf.token}"/>
+	<meta name="_csrf_header" content="#{_csrf.headerName}"/>
+	
 	<h:form id="userControlPanelForm">
-	<!-- User panel -->							
-	<h:panelGroup id="userPanel" 
-		layout="block" 
-		styleClass="row">
+		<!-- User panel -->							
+		<h:panelGroup id="userPanel" 
+			layout="block" 
+			styleClass="row">
 		
 			<!-- Wallet -->
 			<h:panelGroup styleClass="col-md-6">
@@ -20,8 +24,8 @@
 					<h:panelGroup layout="block" 
 						styleClass="panel-heading">
 				    	<h2 class="panel-title">
-				    		#{msg['account.user.wallet']}
-				    		<h:panelGroup styleClass="glyphicon glyphicon-usd"/>		
+				    		<h:outputText value="#{msg['account.user.wallet']}" />
+				    		<h:panelGroup styleClass="glyphicon glyphicon-usd" />		
 				    	</h2>
 				  	</h:panelGroup>
 				  	<h:panelGroup layout="block" 
@@ -35,12 +39,12 @@
 								<h:panelGroup layout="block" 
 									styleClass="form-group">
 							    	<h:outputLabel for="totalBudgetInput">
-							    		#{msg['account.user.wallet.totalBudget']}
+							    		<h:outputText value="#{msg['account.user.wallet.totalBudget']}" />
 							    	</h:outputLabel>
 							    	<h:panelGroup styleClass="input-group" 
 							    		layout="block">
 							    	  	<h:panelGroup styleClass="input-group-addon">
-									  		$
+									  		<h:outputText value="$" />
 									  	</h:panelGroup>
 							    	  	<h:inputText id="totalBudgetInput" 
 							    	  		styleClass="form-control red-text"
@@ -59,12 +63,12 @@
 								<h:panelGroup layout="block" 
 									styleClass="form-group">
 							    	<h:outputLabel for="availableBudgetInput">
-							    		#{msg['account.user.wallet.availableBudget']}
+							    		<h:outputText value="#{msg['account.user.wallet.availableBudget']}" />
 							    	</h:outputLabel>
 							    	<h:panelGroup styleClass="input-group" 
 							    		layout="block">
 							    	  	<h:panelGroup styleClass="input-group-addon">
-									  		$
+									  		<h:outputText value="$" />
 									  	</h:panelGroup>
 							    	  	<h:inputText id="availableBudgetInput" 
 							    	  		styleClass="form-control"
@@ -97,7 +101,7 @@
 					    	styleClass="row">
 						    <h:panelGroup layout="block" 
 						    	styleClass="col-md-12">
-						    	#{msg['account.user.wallet.minimumAmmountMessage']}
+						    	<h:outputText value="#{msg['account.user.wallet.minimumAmmountMessage']}" />
 						    </h:panelGroup>
 						</h:panelGroup>
 						
@@ -143,7 +147,7 @@
 					    	styleClass="row">
 						    <h:panelGroup layout="block" 
 						    	styleClass="col-md-12">
-						    	#{msg['account.user.wallet.depositsClarificationMessage']}
+						    	<h:outputText value="#{msg['account.user.wallet.depositsClarificationMessage']}" />
 						    </h:panelGroup>
 						</h:panelGroup>
 					    
@@ -151,14 +155,14 @@
 				</h:panelGroup>
 			</h:panelGroup>
 			
-			<!-- Bonifications -->
+			<!-- Buy proofs -->
 			<h:panelGroup styleClass="col-md-6">
 				<h:panelGroup layout="block" 
 					styleClass="panel panel-default account-mngr-container">
 					<h:panelGroup layout="block" 
 						styleClass="panel-heading">
 				    	<h2 class="panel-title">
-				    		#{msg['account.user.pendingBonifications']}
+				    		<h:outputText value="#{msg['account.user.pendingBonifications']}" />
 				    		<h:panelGroup styleClass="glyphicon glyphicon-list-alt"/>		
 				    	</h2>
 				  	</h:panelGroup>
@@ -175,12 +179,13 @@
 									<p:fileUpload id="uploadBuyProof" 
 										mode="advanced" 
 										dragDropSupport="true"
-										fileUploadListener="#{uploadContentMB.handleFileUpload}"
-										update="messages" 
+										fileUploadListener="#{userAccountManagerMB.handleFileUpload}"
+										update=":messages bonificationStatusTable" 
 										sizeLimit="#{userAccountManagerMB.MAX_MEDIA_SIZE}"
 										required="true"
 										multiple="false"
 										auto="false"
+										onstart="csrfValidation()"
 										requiredMessage="#{msg['userAccount.messages.image.required']}"
 										invalidSizeMessage="#{msg['userAccount.messages.image.sizeExceeded']} #{userAccountManagerMB.MAX_MEDIA_SIZE}"
 										invalidFileMessage="#{msg['userAccount.messages.image.invalidFile']}"
@@ -196,38 +201,55 @@
 				  		<h:panelGroup layout="block" styleClass="row">
 						    <h:panelGroup layout="block" styleClass="col-md-12">
 						    	<p:dataTable id="bonificationStatusTable" 
-						    		value="#{userAccountManagerMB.deposits}"
-						    		var="deposit"
+						    		value="#{userAccountManagerMB.buyProofsHistory}"
+						    		var="buyProof"
+						    		emptyMessage="#{msg['userAccout.buyProofs.table.noData']}"
 						    		paginator="true"
+						    		rows="5"
 						    		paginatorPosition="bottom"
 						    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
-                         			rowsPerPageTemplate="5"
-						    		styleClass="table table-striped text-center">
+                         			styleClass="table table-striped text-center">
 								    <f:facet name="header">
 								        <h:outputText 
 								        	value="#{msg['account.user.wallet.depositsTable.title']}" />
 								    </f:facet>
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.pendingBonifications.nBonification']}">
-								        <h:outputText value="#{deposit}" />
+								        <h:outputText value="#{buyProof.buyProofId}" />
 								    </p:column>
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.pendingBonifications.uploadDate']}">
-								        <h:outputText value="01/11/2016" />
+								        <h:outputText value="#{buyProof.registeredOn}">
+								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss"/>
+								        </h:outputText>
 								    </p:column>
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.pendingBonifications.status']}">
-								        <h:outputText value="Depositado" />
+								        <h:outputText value="#{internationalizationI18NMB.getI18NMessage(buyProof.status.name)}" />
 								    </p:column>
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.pendingBonifications.resolutionDate']}">
-								        <h:outputText value="09/11/2016" />
+								        <h:outputText value="#{buyProof.lastUpdate}">
+								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss"/>
+								        </h:outputText>
 								    </p:column>
+								    <!-- Download button -->
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.pendingBonifications.file']}">
-								        <h:commandButton 
-								        	styleClass="btn btn-default btn-block"
-								        	value="#{msg['account.user.pendingBonifications.downloadFile']}"/>
+								        <p:commandLink 
+								        	id="btnDownloadBuyProof"
+								        	ajax="false"
+								        	onstart="csrfValidation()"
+								        	styleClass="btn btn-default btn-block">
+								        	<i class="glyphicon glyphicon-save"></i>
+								        	<p:fileDownload value="#{userAccountManagerMB.downloadBuyProofObject(buyProof)}" />
+								        	<f:param name="#{_csrf.parameterName}" 
+												value="#{_csrf.token}" />
+								        </p:commandLink>
+								        <p:tooltip id="toolTipSave" 
+								        	for="btnDownloadBuyProof" 
+								        	value="#{msg['account.user.pendingBonifications.downloadFile']}" 
+								        	position="top"/>
 								    </p:column>
 								</p:dataTable>	
 						    </h:panelGroup>

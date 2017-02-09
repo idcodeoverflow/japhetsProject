@@ -29,8 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.authorizeRequests()
+		http.
+			authorizeRequests()
 				/*Icons and media stuff*/
 				.antMatchers(PATHS_MEDIA_RESOURCES).permitAll()
 				/* Fonts and libraries stuff*/

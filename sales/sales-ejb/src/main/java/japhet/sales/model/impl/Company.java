@@ -33,7 +33,7 @@ import japhet.sales.util.StreamUtil;
 		@NamedQuery(name = GET_ALL_AVAILABLE_COMPANIES, 
 			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :" + VALID_STATUSES),
 		@NamedQuery(name = GET_ALL_AVAILABLE_COMPANIES_OF_TYPE, 
-			query = "SELECT c FROM Company c WHERE c.user.status.statusId IN :" + VALID_STATUSES +" AND c.companyType.companyTypeId = :" + COMPANY_TYPE_ID),
+			query = "SELECT c FROM Company c WHERE c.showInCarousel = TRUE AND c.user.status.statusId IN :" + VALID_STATUSES +" AND c.companyType.companyTypeId = :" + COMPANY_TYPE_ID),
 		@NamedQuery(name = GET_ALL_COMPANIES, 
 			query = "SELECT c FROM Company c"),
 		@NamedQuery(name = GET_COMPANY_BY_USER_ID,
@@ -81,6 +81,12 @@ public class Company extends StreamUtil
 	)
 	private List<Category> categories;
 	
+	@Column(name = "SHOW_IN_CAROUSEL")
+	private Boolean showInCarousel;
+	
+	@Column(name = "PAYBACK_PERCENT")
+	private Double paybackPercent;
+	
 	public Company() {
 		super();
 		this.companyType = new CompanyType();
@@ -88,7 +94,8 @@ public class Company extends StreamUtil
 
 	public Company(Long companyId, User user, String url, 
 			byte[] image, String privacyPolicy, 
-			CompanyType companyType, List<Category> categories) {
+			CompanyType companyType, List<Category> categories,
+			Boolean showInCarousel, Double paybackPercent) {
 		super();
 		this.companyId = companyId;
 		this.user = user;
@@ -97,6 +104,8 @@ public class Company extends StreamUtil
 		this.privacyPolicy = privacyPolicy;
 		this.companyType = companyType;
 		this.categories = categories;
+		this.showInCarousel = showInCarousel;
+		this.paybackPercent = paybackPercent;
 	}
 
 	public Long getCompanyId() {
@@ -153,5 +162,21 @@ public class Company extends StreamUtil
 
 	public void setCategories(List<Category> categories) {
 		this.categories = categories;
+	}
+
+	public Boolean getShowInCarousel() {
+		return showInCarousel;
+	}
+
+	public void setShowInCarousel(Boolean showInCarousel) {
+		this.showInCarousel = showInCarousel;
+	}
+
+	public Double getPaybackPercent() {
+		return paybackPercent;
+	}
+
+	public void setPaybackPercent(Double paybackPercent) {
+		this.paybackPercent = paybackPercent;
 	}
 }
