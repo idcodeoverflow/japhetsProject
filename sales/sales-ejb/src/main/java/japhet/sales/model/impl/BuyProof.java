@@ -1,6 +1,7 @@
 package japhet.sales.model.impl;
 
 import static japhet.sales.data.QueryNames.*;
+import static japhet.sales.data.QueryParameters.*;
 
 import java.util.Date;
 
@@ -28,7 +29,9 @@ import japhet.sales.model.IEntity;
 @Table(name = "TB_BUY_PROOF")
 @NamedQueries(value = {
 		@NamedQuery(name = GET_BUY_PROOFS_BY_USER, 
-				query = "SELECT b FROM BuyProof b WHERE b.user.userId = :userId")
+				query = "SELECT b FROM BuyProof b WHERE b.user.userId = :" + USER_ID),
+		@NamedQuery(name = GET_BUY_PROOFS_BY_USER_N_STATUS, 
+			query = "SELECT b FROM BuyProof b WHERE b.user.userId = :" + USER_ID + " AND b.status.statusId = :" + STATUS_ID)
 })
 public class BuyProof implements IEntity {
 

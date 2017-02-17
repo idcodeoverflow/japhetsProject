@@ -1,6 +1,7 @@
 package japhet.sales.service.impl;
 
-import static japhet.sales.data.QueryParameters.FINGERPRINT;
+import static japhet.sales.data.QueryParameters.*;
+import static japhet.sales.catalogs.Statuses.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import japhet.sales.data.impl.UserProductHistorialDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidBuyProofException;
 import japhet.sales.model.impl.BuyProof;
+import japhet.sales.model.impl.User;
 import japhet.sales.model.impl.UserProductHistorial;
 import japhet.sales.service.IUserProductHistorialService;
 
@@ -65,6 +67,20 @@ public class UserProductHistorialService implements IUserProductHistorialService
 		return userProductHistorials;
 	}
 	
+	@Override
+	public List<UserProductHistorial> getCompletedHistorialByUserAndStatus(Map<String, Object> params) 
+			throws BusinessServiceException{
+		logger.info("Getting completed historial by user id and status...");
+		List<UserProductHistorial> userProductHistorials = null;
+		try {
+			userProductHistorials = userProductHistorialDAO.getCompletedHistorialByUserAndStatus(params);
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting the completed historial for the userId and status.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return userProductHistorials;
+	}
 
 	@Override
 	public UserProductHistorial getCompletedHistorialByFingerprint(Map<String, Object> params) 
@@ -155,6 +171,7 @@ public class UserProductHistorialService implements IUserProductHistorialService
 		return userProductHistorial;
 	}
 	
+	@Override
 	public void verifyTotalAmounts(BuyProof buyProof) 
 			throws InvalidBuyProofException {
 		Map<String, Object> params = new HashMap<>();
@@ -167,6 +184,7 @@ public class UserProductHistorialService implements IUserProductHistorialService
 			logger.fatal(FATAL_MSG, e);
 			throw new InvalidBuyProofException(FATAL_MSG, e);
 		}
+		//Validate if the total amount is the same
 		if(buyProof == null || userPrdctHist == null 
 				|| Math.abs(buyProof.getTotal() - userPrdctHist.getTotal()) > 0.000001) {
 			StringBuilder strBldrErr = new StringBuilder("Invalid user prdct Historial ");
@@ -176,5 +194,19 @@ public class UserProductHistorialService implements IUserProductHistorialService
 			logger.error(strBldrErr);
 			throw new InvalidBuyProofException(strBldrErr.toString());
 		}
+	}
+	
+	@Override
+	public Double obtainReadyPaybackAmount(User user) 
+			throws BusinessServiceException {
+		Map<String, Object> params = new HashMap<>();
+		double paybackReadyAmount = 0.0;
+		params.put(USER_ID, user.getUserId());
+		params.put(STATUS_ID, VALIDATED.getId());
+		List<UserProductHistorial> userProductHistorials = getCompletedHistorialByUserAndStatus(params);
+		for(UserProductHistorial userProductHistorial : userProductHistorials) {
+			paybackReadyAmount += userProductHistorial.getPaybackAmount();
+		}
+		return paybackReadyAmount;
 	}
 }

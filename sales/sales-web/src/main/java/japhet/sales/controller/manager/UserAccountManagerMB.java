@@ -21,6 +21,7 @@ import org.primefaces.model.StreamedContent;
 
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidBuyProofException;
 import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.BuyProof;
@@ -75,7 +76,6 @@ public class UserAccountManagerMB extends GenericMB {
 	private List<PaymentRequest> paymentRequestHistory;
 	private List<BuyProof> buyProofsHistory;
 	private List<UserProductHistorial> userProductHistorials;
-	private double userPrdctHistAmount;
 	private double onwaitAmount;
 	private double readyAmount;
 	
@@ -95,10 +95,12 @@ public class UserAccountManagerMB extends GenericMB {
 			//Obtain user values
 			paymentRequestHistory = paymentRequestService.
 					getPaymentRequestsByUser(user.getUserId());
-			setUserPrdctHistAmount(0.0);
 			initializeBuyProof();
+			//Update elements
 			updateBuyProofsListHistory();
 			updateUserProductHistorial();
+			updateReadyAmount();
+			updateOnwaitAmount();
 		} catch (Exception e) {
 			logger.error("Error while initializing user account manager.", e);
 			showErrorMessage(internationalizationService
@@ -123,7 +125,10 @@ public class UserAccountManagerMB extends GenericMB {
 			//Validate and insert
 			userProductHistorialService.verifyTotalAmounts(buyProof);
 			buyProofService.insertBuyProof(buyProof);
+			//Update elements
 			updateBuyProofsListHistory();
+			updateReadyAmount();
+			updateOnwaitAmount();
 			initializeBuyProof();
 		} catch (InvalidBuyProofException e) {
 			logger.error("The buy proof 'Total Amount' doesn't match the finger print 'Total'.", e);
@@ -206,6 +211,18 @@ public class UserAccountManagerMB extends GenericMB {
 		deposits.add("182686");
 		return deposits;
 	}
+	
+	public void updateReadyAmount() {
+		try {
+			this.readyAmount = userProductHistorialService.obtainReadyPaybackAmount(user);
+		} catch (BusinessServiceException e) {
+			showGeneralExceptionMessage();
+		}
+	}
+	
+	public void updateOnwaitAmount() {
+		
+	}
 
 	public int getMAX_MEDIA_SIZE() {
 		return MAX_MEDIA_SIZE;
@@ -248,14 +265,6 @@ public class UserAccountManagerMB extends GenericMB {
 		return userProductHistorials;
 	}
 	
-	public double getUserPrdctHistAmount() {
-		return userPrdctHistAmount;
-	}
-
-	public void setUserPrdctHistAmount(double userPrdctHistAmount) {
-		this.userPrdctHistAmount = userPrdctHistAmount;
-	}
-
 	public double getOnwaitAmount() {
 		return onwaitAmount;
 	}

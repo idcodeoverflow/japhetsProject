@@ -34,5 +34,19 @@ public class BuyProofDAO extends GenericDAO<BuyProof, Long> {
 			throw new DataLayerException(errorMsg, e);
 		}
 		return buyProofs;
-	}	
+	}
+			
+	public List<BuyProof> getBuyProofsByUserAndStatus(Map<String, Object> params) 
+			throws DataLayerException {
+		List<BuyProof> buyProofs = null;
+		logger.info("Obtaining buy proofs by user and status...");
+		try {
+			buyProofs = executeQuery(GET_BUY_PROOFS_BY_USER_N_STATUS, params);
+		} catch (Exception e) {
+			final String errorMsg = "Error while obtaining buy proofs by user and status.";
+			logger.fatal(errorMsg, e);
+			throw new DataLayerException(errorMsg, e);
+		}
+		return buyProofs;
+	}
 }

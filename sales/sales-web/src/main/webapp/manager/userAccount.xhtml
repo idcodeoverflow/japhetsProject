@@ -48,7 +48,7 @@
 									  	</h:panelGroup>
 							    	  	<h:inputText id="totalBudgetInput" 
 							    	  		styleClass="form-control red-text"
-							    	  		value="259.00" 
+							    	  		value="#{userAccountManagerMB.onwaitAmount}" 
 							    	  		readonly="true">
 											<f:convertNumber minFractionDigits="2" 
 												maxFractionDigits="2"/>
@@ -72,7 +72,7 @@
 									  	</h:panelGroup>
 							    	  	<h:inputText id="availableBudgetInput" 
 							    	  		styleClass="form-control"
-							    	  		value="259.00" 
+							    	  		value="#{userAccountManagerMB.readyAmount}" 
 							    	  		readonly="true">
 											<f:convertNumber minFractionDigits="2" 
 												maxFractionDigits="2"/>
@@ -278,12 +278,19 @@
 						    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                          			styleClass="table table-striped text-center">
 								    <f:facet name="header">
-								        <h:outputText 
-								        	value="#{msg['account.user.pendingBonifications']}" />
+								        <h:outputText value="#{msg['account.user.pendingBonifications']}" />
 								    </f:facet>
-								    <p:column headerClass="text-center"
+								    <p:column headerClass="text-center" 
+								    	width="11%"
 								    	headerText="#{msg['account.user.pendingBonifications.nBonification']}">
 								        <h:outputText value="#{buyProof.buyProofId}" />
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	width="13%"
+								    	headerText="#{msg['account.user.pendingBonifications.aforePayback']}">
+								        <h:outputText value="#{buyProof.total}">
+								        	<f:convertNumber type="currency" />
+								        </h:outputText>
 								    </p:column>
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.pendingBonifications.uploadDate']}">
@@ -292,6 +299,7 @@
 								        </h:outputText>
 								    </p:column>
 								    <p:column headerClass="text-center"
+								    	width="15%"
 								    	headerText="#{msg['account.user.pendingBonifications.status']}">
 								        <h:outputText value="#{internationalizationI18NMB.getI18NMessage(buyProof.status.name)}" />
 								    </p:column>

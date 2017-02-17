@@ -12,4 +12,5 @@ public interface QueryParameters {
 	public static final String VALID_STATUSES = "validStatuses";
 	public static final String COMPANY_TYPE_ID = "companyTypeId";
 	public static final String STATUS = "status";
+	public static final String STATUS_ID = "statusId";
 }
