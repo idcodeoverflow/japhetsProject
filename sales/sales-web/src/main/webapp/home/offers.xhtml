@@ -7,17 +7,24 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<!-- Offers -->
-	<h:panelGroup layout="block" styleClass="panel panel-default">
-		<h:panelGroup layout="block" styleClass="panel-heading">
+	<h:panelGroup layout="block" 
+		styleClass="panel panel-default">
+		<h:panelGroup layout="block" 
+			styleClass="panel-heading">
 	    	<h2 class="panel-title">
-	    		#{msg['home.offers.title']}
+	    		<h:outputText value="#{msg['home.offers.title']}" />
 				<span class="glyphicon glyphicon-tags"></span>
 	    	</h2>
 	  	</h:panelGroup>
+	  	
 	  	<!-- Products scroller -->
-	  	<h:panelGroup layout="block" styleClass="panel-body" id="home-scroller">
+	  	<h:panelGroup layout="block" 
+	  		styleClass="panel-body" 
+	  		id="home-scroller">
+	  		
 	  		<!-- Offers messages -->
 		  	<p:messages id="offersMessages" globalOnly="true" />
+		  	
 		  	<!-- Products -->
 			<h:panelGroup layout="block" 
 	  			styleClass="row">
@@ -25,13 +32,17 @@
 			    	value="#{homeMB.availableProducts}" 
 			    	var="product" 
 		  			chunkSize="#{homeOffersMB.scrollerChunkSize}">
+		  			
 		  			<!-- Product info block -->
-					<h:panelGroup styleClass="col-md-3 col-xs-6" layout="block">
-						<h:panelGroup layout="block" styleClass="thumbnail">
+					<h:panelGroup styleClass="col-md-3 col-xs-6" 
+						layout="block">
+						<h:panelGroup layout="block" 
+							styleClass="thumbnail">
+							
 							<!-- Product image and redirect to the vendors site -->
-							<p:commandLink 
-									action="#{homeMB.redirectToSalesSite(product)}"
-									update="offersMessages">
+							<p:commandLink action="#{homeMB.redirectToSalesSite(product)}"
+								update="offersMessages">
+								<!-- Image -->
 								<p:graphicImage value="#{homeImagesMB.streamedImage}" 
 									styleClass="offer-img">
 									<!-- Product Id to load correctly its image -->
@@ -41,29 +52,39 @@
 								<f:param name="#{_csrf.parameterName}" 
 									value="#{_csrf.token}" />
 							</p:commandLink>
-							<h:panelGroup layout="block" styleClass="caption">
+							
+							<!-- Description -->
+							<h:panelGroup layout="block" 
+								styleClass="caption">
+								
 								<!-- Product title -->
 								<h:panelGroup styleClass="thumbnail-title h4">
 									<i>
 										<h:outputText value="#{product.title}" />
 									</i>
 								</h:panelGroup>
+								
 								<!-- Product description -->
-								<p><h:outputText value="#{product.description}" /></p>
+								<p>
+									<h:outputText value="#{product.description}" />
+								</p>
+								
 								<!-- Product price -->
 								<p class="thumbnail-description">
-									#{msg['home.product.price']}
+									<h:outputText value="#{msg['home.product.price']}" />
 									<h:outputText value="#{product.price}" >
 										<f:convertNumber type="currency" />
 									</h:outputText>
 								</p>
+								
 								<!-- Product payback percent -->
 								<p class="thumbnail-price">
-									#{msg['home.product.payback']}
+									<h:outputText value="#{msg['home.product.payback']}" />
 									<h:outputText value="#{product.endUserPaybackPercent}" >
 										<f:convertNumber type="percent" />
 									</h:outputText>
 								</p>
+								
 								<!-- Privacy policy -->
 								<p:commandLink pt:data-toggle="modal" 
 									ajax="true"
@@ -76,11 +97,15 @@
 									<f:param name="#{_csrf.parameterName}" 
 										value="#{_csrf.token}" />
 								</p:commandLink>
+								
 							</h:panelGroup>
 						</h:panelGroup>
 					</h:panelGroup>
+					
 				</p:dataScroller>
+				
 			</h:panelGroup>
 	  	</h:panelGroup>
 	</h:panelGroup>
+	
 </ui:composition>

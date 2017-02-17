@@ -15,18 +15,21 @@
 	<h:panelGroup id="categoriesPanel" 
 		layout="block" 
 		styleClass="row">
+		
 		<!-- Categories -->
 		<h:panelGroup layout="block" 
 	    	styleClass="col-md-12">
 			<h:panelGroup layout="block" 
 				styleClass="panel panel-default">
+				
 				<h:panelGroup layout="block" 
 					styleClass="panel-heading">
 			    	<h2 class="panel-title">
-			    		<h:outputText value="#{msg['userAccount.categories.title']}" />
+			    		<h:outputText value="#{msg['userAccount.categories.title']} " />
 			    		<h:panelGroup styleClass="glyphicon glyphicon-heart"/>		
 			    	</h2>
 			  	</h:panelGroup>
+			  	
 			  	<h:panelGroup layout="block" 
 			  		styleClass="panel-body">
 			  		<p:messages id="messages" 
@@ -70,5 +73,7 @@
 			  	</h:panelGroup>
 			</h:panelGroup>
 		</h:panelGroup>
+		
 	</h:panelGroup>
+	
 </ui:composition>

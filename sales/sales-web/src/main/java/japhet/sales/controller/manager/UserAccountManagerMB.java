@@ -21,13 +21,16 @@ import org.primefaces.model.StreamedContent;
 
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
+import japhet.sales.except.InvalidBuyProofException;
 import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.BuyProof;
 import japhet.sales.model.impl.PaymentRequest;
 import japhet.sales.model.impl.Status;
 import japhet.sales.model.impl.User;
+import japhet.sales.model.impl.UserProductHistorial;
 import japhet.sales.service.IBuyProofService;
 import japhet.sales.service.IPaymentRequestService;
+import japhet.sales.service.IUserProductHistorialService;
 import japhet.sales.service.IUserService;
 import japhet.sales.service.IUtilService;
 
@@ -57,6 +60,9 @@ public class UserAccountManagerMB extends GenericMB {
 	private IBuyProofService buyProofService;
 	
 	@EJB
+	private IUserProductHistorialService userProductHistorialService;
+	
+	@EJB
 	private IUtilService utilService;
 	
 	//Validation properties
@@ -68,6 +74,10 @@ public class UserAccountManagerMB extends GenericMB {
 	private BuyProof buyProof;
 	private List<PaymentRequest> paymentRequestHistory;
 	private List<BuyProof> buyProofsHistory;
+	private List<UserProductHistorial> userProductHistorials;
+	private double userPrdctHistAmount;
+	private double onwaitAmount;
+	private double readyAmount;
 	
 	//Query parameters
 	private Map<String, Object> params;
@@ -82,11 +92,13 @@ public class UserAccountManagerMB extends GenericMB {
 			paymentRequest = new PaymentRequest();
 			user = getLoggedUser();
 			params.put(USER_ID, user.getUserId());
-			initializeBuyProof();
 			//Obtain user values
 			paymentRequestHistory = paymentRequestService.
 					getPaymentRequestsByUser(user.getUserId());
+			setUserPrdctHistAmount(0.0);
+			initializeBuyProof();
 			updateBuyProofsListHistory();
+			updateUserProductHistorial();
 		} catch (Exception e) {
 			logger.error("Error while initializing user account manager.", e);
 			showErrorMessage(internationalizationService
@@ -104,12 +116,20 @@ public class UserAccountManagerMB extends GenericMB {
 			showInfoMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getFILE_READY()), "");
 			logger.info("Uploading buy proof file...");
-			initializeBuyProof();
 			//Persist into the DB
+			buyProof.setTicketImage(buyProofBytes);
 			buyProof.setFileName(event.getFile().getFileName());
 			buyProof.setContentType(event.getFile().getContentType());
+			//Validate and insert
+			userProductHistorialService.verifyTotalAmounts(buyProof);
 			buyProofService.insertBuyProof(buyProof);
 			updateBuyProofsListHistory();
+			initializeBuyProof();
+		} catch (InvalidBuyProofException e) {
+			logger.error("The buy proof 'Total Amount' doesn't match the finger print 'Total'.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getBUY_PROOF_INVALID()), 
+						event.getFile().getFileName());
 		} catch (Exception e) {
 			logger.error("There was an error uploading the buy proof file to the server.", e);
 			showErrorMessage(internationalizationService
@@ -133,6 +153,21 @@ public class UserAccountManagerMB extends GenericMB {
 	}
 	
 	/**
+	 * Updates the list of fingerprints from the completed buys.
+	 */
+	public void updateUserProductHistorial() {
+		try {
+			logger.info("Updating the user product historial list...");
+			userProductHistorials = userProductHistorialService
+					.getCompletedHistorialByUser(params);
+		} catch (Exception e) {
+			logger.error("Error while updating the user product historial list.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
+		}
+	}
+	
+	/**
 	 * Instantiates a new Buy Proof object.
 	 */
 	public void initializeBuyProof() {
@@ -142,7 +177,6 @@ public class UserAccountManagerMB extends GenericMB {
 		//Set object values
 		buyProof.setUser(user);
 		buyProof.setRegisteredOn(new Date());
-		buyProof.setTicketImage(buyProofBytes);
 		buyProof.setLastUpdate(new Date());
 		buyProof.setPaybackApplied(false);
 		buyProof.setStatus(status);
@@ -200,12 +234,33 @@ public class UserAccountManagerMB extends GenericMB {
 	public void setBuyProof(BuyProof buyProof) {
 		this.buyProof = buyProof;
 	}
-
+	
 	public List<BuyProof> getBuyProofsHistory() {
 		return buyProofsHistory;
 	}
 
-	public void setBuyProofsHistory(List<BuyProof> buyProofsHistory) {
-		this.buyProofsHistory = buyProofsHistory;
+	public List<UserProductHistorial> getUserProductHistorials() {
+		return userProductHistorials;
+	}
+	
+	public List<UserProductHistorial> getUpdatedUserProductHistorials() {
+		updateUserProductHistorial();
+		return userProductHistorials;
+	}
+	
+	public double getUserPrdctHistAmount() {
+		return userPrdctHistAmount;
+	}
+
+	public void setUserPrdctHistAmount(double userPrdctHistAmount) {
+		this.userPrdctHistAmount = userPrdctHistAmount;
+	}
+
+	public double getOnwaitAmount() {
+		return onwaitAmount;
+	}
+
+	public double getReadyAmount() {
+		return readyAmount;
 	}
 }

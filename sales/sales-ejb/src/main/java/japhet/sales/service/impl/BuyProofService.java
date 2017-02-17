@@ -61,21 +61,6 @@ public class BuyProofService implements IBuyProofService {
 	}
 
 	@Override
-	public List<BuyProof> getBuyProofsByProduct(Map<String, Object> params)   
-			throws BusinessServiceException {
-		logger.info("Getting buy proofs by product...");
-		List<BuyProof> buyProofs = null;
-		try {
-			buyProofs = buyProofDAO.getBuyProofsByProduct(params);
-		} catch (Exception e) {
-			final String errorMsg = "Error while trying to get the buy proofs by product.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
-		}
-		return buyProofs;
-	}
-
-	@Override
 	public void updateBuyProof(BuyProof buyProof)   
 			throws BusinessServiceException {
 		logger.info("Updating buy proof...");

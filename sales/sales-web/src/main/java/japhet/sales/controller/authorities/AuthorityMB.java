@@ -46,4 +46,19 @@ public class AuthorityMB extends GenericMB {
 		}
 		return false;
 	}
+	
+	/**
+	 * Verifies if the current logged user is an administrator.
+	 * @return
+	 */
+	public boolean isAdministratorLogged() {
+		User user = getLoggedUser();
+		if(user != null) {
+			Role role = user.getRole();
+			if(role != null) {
+				return role.getRoleId() == Roles.ADMINISTRATOR.getId();
+			}
+		}
+		return false;
+	}
 }

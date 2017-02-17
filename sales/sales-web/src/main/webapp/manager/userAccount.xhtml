@@ -115,6 +115,7 @@
 						    		var="deposit"
 						    		paginator="true"
 						    		paginatorPosition="bottom"
+						    		currentPageReportTemplate="({currentPage} / {totalPages})"
 						    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                          			rowsPerPageTemplate="5"
 						    		styleClass="table table-striped text-center">
@@ -162,7 +163,7 @@
 					<h:panelGroup layout="block" 
 						styleClass="panel-heading">
 				    	<h2 class="panel-title">
-				    		<h:outputText value="#{msg['account.user.pendingBonifications']}" />
+				    		<h:outputText value="#{msg['account.user.pendingBonifications']} " />
 				    		<h:panelGroup styleClass="glyphicon glyphicon-list-alt"/>		
 				    	</h2>
 				  	</h:panelGroup>
@@ -180,7 +181,7 @@
 										mode="advanced" 
 										dragDropSupport="true"
 										fileUploadListener="#{userAccountManagerMB.handleFileUpload}"
-										update=":messages bonificationStatusTable" 
+										update=":messages bonificationStatusTable buyProofFingerPrint buyProofPriceInput" 
 										sizeLimit="#{userAccountManagerMB.MAX_MEDIA_SIZE}"
 										required="true"
 										multiple="false"
@@ -192,26 +193,93 @@
 										label="#{msg['userAccount.tags.image.choose']}"
 										uploadLabel="#{msg['userAccount.tags.image.upload']}"
 										cancelLabel="#{msg['userAccount.tags.image.cancel']}"
-										allowTypes="/(\.|\/)(jpe?g|png)$/" />
+										allowTypes="/(\.|\/)(jpe?g|png|pdf)$/" />
 									</h:panelGroup>
 								</h:panelGroup>
 				  		</h:panelGroup>
+				  		
+				  		<!-- Fingerprints -->
+				  		<h:panelGroup layout="block" 
+				  			styleClass="row">
+				  			<h:panelGroup layout="block" 
+				  				styleClass="col-md-12">
+								<h:panelGroup layout="block" 
+									styleClass="form-group">
+									<h:outputLabel for="buyProofFingerPrint">
+										<h:outputText value="#{msg['account.user.pendingBonifications.fingerprint']} " />
+										<h:panelGroup styleClass="glyphicon glyphicon-question-sign" />
+									</h:outputLabel>
+									<h:selectOneMenu id="buyProofFingerPrint" 
+										value="#{userAccountManagerMB.buyProof.userProductHistorialKey}"
+										styleClass="form-control" 
+										required="false"
+										requiredMessage="#{msg['account.user.pendingBonifications.requiredFingerprint']}">
+										<f:selectItem itemValue="" 
+											itemLabel="#{msg['account.user.pendingBonifications.chooseFingerprint']}" />
+										<f:selectItems value="#{userAccountManagerMB.updatedUserProductHistorials}" 
+											var="prodctHistorial" 
+											itemLabel="#{prodctHistorial.userProductHistorialKey}" 
+											itemValue="#{prodctHistorial.userProductHistorialKey}" />
+										<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+										<p:ajax event="change" 
+											update=":messages messages" />
+									</h:selectOneMenu>
+									<p:messages for="buyProofFingerPrint" />
+								</h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+						
+						<!-- Total block -->
+						<h:panelGroup layout="block" 
+							styleClass="form-group">
+					    	<h:outputLabel for="buyProofPriceInput">
+					    		<h:outputText value="#{msg['account.user.pendingBonifications.total']}" />
+					    	</h:outputLabel>
+					    	<h:panelGroup styleClass="input-group" 
+					    		layout="block">
+					    	  	<h:panelGroup styleClass="input-group-addon">
+							  		<h:outputText value="$" />
+							  	</h:panelGroup>
+							  	<h:inputText id="buyProofPriceInput" 
+							  		styleClass="form-control" 
+							  		required="false"
+									requiredMessage="#{msg['account.user.pendingBonifications.requiredTotal']}"
+					    			pt:placeholder="#{msg['account.user.pendingBonifications.total']}"
+					    			value="#{userAccountManagerMB.buyProof.total}"
+									onkeyup="deleteNonIntegerContent(this, '.');">
+									<f:convertNumber minFractionDigits="2" 
+										maxFractionDigits="2"/>
+									<f:param name="#{_csrf.parameterName}" 
+										value="#{_csrf.token}" />
+									<p:ajax event="blur" 
+										update=":messages messages" />
+								</h:inputText>
+							</h:panelGroup>
+							<p:keyFilter regEx="/[0-9\.]/i" 
+								for="buyProofPriceInput"
+								preventPaste="false" />
+							<p:messages for="buyProofPriceInput" />
+						</h:panelGroup>
 				  	
-				  		<!-- Deposits status table -->
-				  		<h:panelGroup layout="block" styleClass="row">
-						    <h:panelGroup layout="block" styleClass="col-md-12">
+				  		<!-- Buy proofs status table -->
+				  		<h:panelGroup layout="block" 
+				  			styleClass="row">
+						    <h:panelGroup layout="block" 
+						    	styleClass="col-md-12">
 						    	<p:dataTable id="bonificationStatusTable" 
 						    		value="#{userAccountManagerMB.buyProofsHistory}"
 						    		var="buyProof"
 						    		emptyMessage="#{msg['userAccout.buyProofs.table.noData']}"
-						    		paginator="true"
+						    		paginator="true" 
+						    		currentPageReportTemplate="({currentPage} / {totalPages})"
 						    		rows="5"
 						    		paginatorPosition="bottom"
 						    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
                          			styleClass="table table-striped text-center">
 								    <f:facet name="header">
 								        <h:outputText 
-								        	value="#{msg['account.user.wallet.depositsTable.title']}" />
+								        	value="#{msg['account.user.pendingBonifications']}" />
 								    </f:facet>
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.pendingBonifications.nBonification']}">
@@ -243,15 +311,13 @@
 								        	styleClass="btn btn-default btn-block">
 								        	<i class="glyphicon glyphicon-save"></i>
 								        	<p:fileDownload value="#{userAccountManagerMB.downloadBuyProofObject(buyProof)}" />
-								        	<f:param name="#{_csrf.parameterName}" 
-												value="#{_csrf.token}" />
 								        </p:commandLink>
 								        <p:tooltip id="toolTipSave" 
 								        	for="btnDownloadBuyProof" 
 								        	value="#{msg['account.user.pendingBonifications.downloadFile']}" 
 								        	position="top"/>
 								    </p:column>
-								</p:dataTable>	
+								</p:dataTable>
 						    </h:panelGroup>
 					    </h:panelGroup>
 				  	
@@ -259,9 +325,11 @@
 				</h:panelGroup>
 			</h:panelGroup>
 		</h:panelGroup>
+		
+	    <input type="hidden" name="#{_csrf.parameterName}" 
+			value="#{_csrf.token}" />
 			
 		<!-- Categories -->
 		<ui:include src="#{urlMapperMB.categories}" />
-		
 	</h:form>
 </ui:composition>
