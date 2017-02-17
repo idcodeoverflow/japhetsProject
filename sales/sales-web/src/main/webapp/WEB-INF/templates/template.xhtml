@@ -3,9 +3,17 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+	
+	<!-- Head -->
 	<h:head>
-		<title>#{msg['main.template.header']}</title>
+		<!-- Title -->
+		<title>
+			<h:outputText value="#{msg['main.template.header']}" />
+		</title>
+		
+		<!-- Meta -->
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		
 		<!-- Styles -->
 		<h:outputStylesheet name="css/bootstrap.min.css" />
 		<h:outputStylesheet name="css/customization.css" />
@@ -14,20 +22,30 @@
 		<h:outputScript library="js" name="bootstrap.min.js" />
 		<h:outputScript library="js" name="utilities/inputUtils.js" />
 		<h:outputScript library="js" name="utilities/validationUtils.js" />
+	
 	</h:head>
+	
+	<!-- Body -->
 	<h:body>
 		<!-- Nav Bar -->
 		<ui:include src="/WEB-INF/templates/sections/navbar.xhtml"></ui:include>
+		
 		<!-- Home video -->
 		<ui:insert name="welcome-video"></ui:insert>
+		
 		<!-- Content -->
-		<h:panelGroup styleClass="container bs-docs-container" layout="block">
+		<h:panelGroup styleClass="container bs-docs-container" 
+			layout="block">
 			<!-- Search box -->
 			<ui:include src="/WEB-INF/templates/sections/searchbox.xhtml"></ui:include>
+			
 			<!-- Page content -->
 			<ui:insert name="content"></ui:insert>
 		</h:panelGroup>
+		
 		<!-- Footer -->
 		<ui:include src="/WEB-INF/templates/sections/footer.xhtml"></ui:include>
+	
 	</h:body>
+
 </html>

@@ -9,47 +9,83 @@
 	template="/WEB-INF/templates/publicTemplate.xhtml">
 
 	<ui:define name="content">
-		<h:panelGroup layout="block" styleClass="row">
+		<h:panelGroup layout="block" 
+			styleClass="row">
 		
 			<h:panelGroup layout="block" styleClass="col-md-3" />
 		
 			<h:panelGroup styleClass="col-md-6" >
-				<h:panelGroup layout="block" styleClass="panel panel-default">
-					<h:panelGroup layout="block" styleClass="panel-heading">
+				<h:panelGroup layout="block" 
+					styleClass="panel panel-default">
+					
+					<h:panelGroup layout="block" 
+						styleClass="panel-heading">
 						<h2 class="panel-title">
-							#{msg['recover.password.title']}
+							<h:outputText value="#{msg['recover.password.title']} " />
 							<h:panelGroup styleClass="glyphicon glyphicon-repeat" />
 						</h2>
 					</h:panelGroup>
-					<h:panelGroup layout="block" styleClass="panel-body">
+					
+					<h:panelGroup layout="block" 
+						styleClass="panel-body">
+						<!-- Form -->
 						<h:form id="recoverPasswordForm">
-							<!-- Email block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+						
+							<!-- Content -->
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
+								
+								<!-- Email -->
 								<h:outputLabel for="emailInput">
-									#{msg['recover.password.form.email']}
+									<h:outputText value="#{msg['recover.password.form.email']}" />
 								</h:outputLabel>
-								<h:inputText id="emailInput" styleClass="form-control" 
+								<h:inputText id="emailInput" 
+									styleClass="form-control" 
 									pt:placeholder="#{msg['recover.password.form.email']}" />
-								<!-- Notifications block -->
+								
+								<!-- Divider -->
 								<br/>
-								<h:panelGroup rendered="true" id="failPasswordRecovered" styleClass="errorMessage">
-									<p>#{msg['recover.password.notFound']}</p>
+								
+								<!-- Notifications block -->
+								<h:panelGroup rendered="true" 
+									id="failPasswordRecovered" 
+									styleClass="errorMessage">
+									<p>
+										<h:outputText value="#{msg['recover.password.notFound']}" />
+									</p>
 								</h:panelGroup>
 								
-								<h:panelGroup rendered="true" id="errorPasswordRecovered" layout="block" styleClass="errorMessage">
-									<p>#{msg['recover.password.error']}</p>
+								<!-- User messages -->
+								<h:panelGroup rendered="true" id="errorPasswordRecovered" 
+									layout="block" 
+									styleClass="errorMessage">
+									<p>
+										<h:outputText value="#{msg['recover.password.error']}" />
+									</p>
 								</h:panelGroup>
-								<h:panelGroup rendered="true" id="successPasswordRecovered" layout="block" styleClass="successMessage">
-									<p>#{msg['recover.password.success']}</p>
+								<h:panelGroup rendered="true" 
+									id="successPasswordRecovered" 
+									layout="block" 
+									styleClass="successMessage">
+									<p>
+										<h:outputText value="#{msg['recover.password.success']}" />
+									</p>
 								</h:panelGroup>
+								
 							</h:panelGroup>
+							
 							<!-- Recover password button block -->
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-md-12" >
-									<h:button styleClass="btn btn-default btn-block btn-lg" value="#{msg['recover.password.button.recover']}" />
+							<h:panelGroup layout="block" 
+								styleClass="row">
+								<h:panelGroup layout="block" 
+									styleClass="col-md-12">
+									<h:button styleClass="btn btn-default btn-block btn-lg" 
+										value="#{msg['recover.password.button.recover']}" />
 								</h:panelGroup>
 							</h:panelGroup>
+							
 						</h:form>
+						
 					</h:panelGroup>
 				</h:panelGroup>
 			</h:panelGroup>

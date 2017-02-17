@@ -7,33 +7,43 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 	
 	<!-- Goods carousel -->
-	<h:panelGroup layout="block" styleClass="row">
+	<h:panelGroup layout="block" 
+		styleClass="row">
 		<h:panelGroup 
 			id="goodsCarouselContainer" 
 			styleClass="col-md-6"
 			layout="block">
 			<h:panelGroup layout="block" styleClass="panel panel-default">
-			<h:panelGroup layout="block" styleClass="panel-heading">
+			<h:panelGroup layout="block" 
+				styleClass="panel-heading">
 		    	<h2 class="panel-title">
-		    		#{msg['home.carousel.goods']}
+		    		<h:outputText value="#{msg['home.carousel.goods']} " />
 		    		<h:panelGroup styleClass="glyphicon glyphicon-gift"/>
 		    	</h2>
 		  	</h:panelGroup>
-		  	<h:panelGroup layout="block" styleClass="panel-body">
-				<h:panelGroup id="homeCarousel" styleClass="carousel slide" 
-					layout="block" pt:data-ride="carousel">
+		  	<h:panelGroup layout="block" 
+		  		styleClass="panel-body">
+				<h:panelGroup id="homeCarousel" 
+					styleClass="carousel slide" 
+					layout="block" 
+					pt:data-ride="carousel">
 					<!-- Indicators -->
 					<ol class="carousel-indicators">
-						<ui:repeat var="company" value="#{homeCarouselMB.goodsCompanies}">
+						<ui:repeat var="company" 
+							value="#{homeCarouselMB.goodsCompanies}">
 							<li data-target="#homeCarousel" 
 								data-slide-to="#{homeCarouselMB.goodsCompaniesIndex}" 
-								class="#{homeCarouselMB.getGoodsCompanyElementStyleClass(company)}"></li>
+								class="#{homeCarouselMB.getGoodsCompanyElementStyleClass(company)}">
+							</li>
 						</ui:repeat>
 					</ol>
 					
 					<!-- Wrapper for slides -->
-					<h:panelGroup layout="block" styleClass="carousel-inner" pt:role="listbox">
-						<ui:repeat var="company" value="#{homeCarouselMB.goodsCompanies}">
+					<h:panelGroup layout="block" 
+						styleClass="carousel-inner" 
+						pt:role="listbox">
+						<ui:repeat var="company" 
+							value="#{homeCarouselMB.goodsCompanies}">
 							<h:panelGroup layout="block" 
 								styleClass="item #{homeCarouselMB.getGoodsCompanyElementStyleClass(company)}">
 								<h:outputLink value="#{company.url}">
@@ -48,13 +58,23 @@
 					</h:panelGroup>
 		
 					<!-- Left and right controls -->
-					<a class="left carousel-control" href="#homeCarousel" role="button" data-slide="prev">
+					<a class="left carousel-control" 
+						href="#homeCarousel" 
+						role="button" 
+						data-slide="prev">
 		        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-left" pt:aria-hidden="true"></h:panelGroup>
-		        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.previous']}</h:panelGroup>
+		        		<h:panelGroup styleClass="sr-only">
+		        			<h:outputText value="#{msg['home.carousel.previous']}" />
+		        		</h:panelGroup>
 		      		</a>
-		      		<a class="right carousel-control" href="#homeCarousel" role="button" data-slide="next">
+		      		<a class="right carousel-control" 
+		      			href="#homeCarousel" 
+		      			role="button" 
+		      			data-slide="next">
 		        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-right" pt:aria-hidden="true"></h:panelGroup>
-		        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.next']}</h:panelGroup>
+		        		<h:panelGroup styleClass="sr-only">
+		        			<h:outputText value="#{msg['home.carousel.next']}" />
+		        		</h:panelGroup>
 		      		</a>
 				</h:panelGroup>
 			</h:panelGroup>
@@ -65,15 +85,19 @@
 			styleClass="col-md-6"
 			layout="block">
 			<h:panelGroup layout="block" styleClass="panel panel-default">
-			<h:panelGroup layout="block" styleClass="panel-heading">
+			<h:panelGroup layout="block" 
+				styleClass="panel-heading">
 		    	<h2 class="panel-title">
-		    		#{msg['home.carousel.services']}
+		    		<h:outputText value="#{msg['home.carousel.services']} " />
 		    		<h:panelGroup styleClass="glyphicon glyphicon-briefcase" /> 
 		    	</h2>
 		  	</h:panelGroup>
-		  	<h:panelGroup layout="block" styleClass="panel-body">
-				<h:panelGroup id="homeServiceCarousel" styleClass="carousel slide" 
-					layout="block" pt:data-ride="carousel">
+		  	<h:panelGroup layout="block" 
+		  		styleClass="panel-body">
+				<h:panelGroup id="homeServiceCarousel" 
+					styleClass="carousel slide" 
+					layout="block" 
+					pt:data-ride="carousel">
 					<!-- Indicators -->
 					<ol class="carousel-indicators">
 						<ui:repeat var="company" value="#{homeCarouselMB.servicesCompanies}">
@@ -84,8 +108,11 @@
 					</ol>
 					
 					<!-- Wrapper for slides -->
-					<h:panelGroup layout="block" styleClass="carousel-inner" pt:role="listbox">
-						<ui:repeat var="company" value="#{homeCarouselMB.servicesCompanies}">
+					<h:panelGroup layout="block" 
+						styleClass="carousel-inner" 
+						pt:role="listbox">
+						<ui:repeat var="company" 
+							value="#{homeCarouselMB.servicesCompanies}">
 							<h:panelGroup layout="block" 
 								styleClass="item #{homeCarouselMB.getServicesCompanyElementStyleClass(company)}">
 								<h:outputLink value="#{company.url}">
@@ -100,13 +127,23 @@
 					</h:panelGroup>
 		
 					<!-- Left and right controls -->
-					<a class="left carousel-control" href="#homeCarousel" role="button" data-slide="prev">
+					<a class="left carousel-control" 
+						href="#homeCarousel" 
+						role="button" 
+						data-slide="prev">
 		        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-left" pt:aria-hidden="true"></h:panelGroup>
-		        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.previous']}</h:panelGroup>
+		        		<h:panelGroup styleClass="sr-only">
+		        			<h:outputText value="#{msg['home.carousel.previous']}" />
+		        		</h:panelGroup>
 		      		</a>
-		      		<a class="right carousel-control" href="#homeCarousel" role="button" data-slide="next">
+		      		<a class="right carousel-control" 
+		      			href="#homeCarousel" 
+		      			role="button" 
+		      			data-slide="next">
 		        		<h:panelGroup styleClass="glyphicon glyphicon-chevron-right" pt:aria-hidden="true"></h:panelGroup>
-		        		<h:panelGroup styleClass="sr-only">#{msg['home.carousel.next']}</h:panelGroup>
+		        		<h:panelGroup styleClass="sr-only">
+		        			<h:outputText value="#{msg['home.carousel.next']}" />
+		        		</h:panelGroup>
 		      		</a>
 				</h:panelGroup>
 			</h:panelGroup>
