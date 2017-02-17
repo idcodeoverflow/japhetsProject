@@ -19,10 +19,20 @@ public class UserProductHistorialDAO extends GenericDAO
 	@Inject
 	private Logger logger;
 	
+	/**
+	 * Default construtor.
+	 */
 	public UserProductHistorialDAO() {
 		super(UserProductHistorial.class, Long.class);
 	}
 	
+	/**
+	 * Obtains the whole user product historial.
+	 * 
+	 * @param params
+	 * @return
+	 * @throws DataLayerException
+	 */
 	public List<UserProductHistorial> getHistorialByUser(Map<String, Object> params) 
 			throws DataLayerException {
 		logger.info("Obtaining product historial by user id...");
@@ -36,7 +46,56 @@ public class UserProductHistorialDAO extends GenericDAO
 		}
 		return historial;
 	}
+	
+	/**
+	 * Obtains the products user historial by user.
+	 * 
+	 * @param params
+	 * @return
+	 * @throws DataLayerException
+	 */
+	public List<UserProductHistorial> getCompletedHistorialByUser(Map<String, Object> params) 
+			throws DataLayerException {
+		logger.info("Obtaining completed product historial by user id...");
+		List<UserProductHistorial> historial = null;
+		try {
+			historial = executeQuery(GET_COMPLETED_PRDCT_HIST_BY_USER, params);
+		} catch (Exception e) {
+			final String errorMsg = "Error trying to obtain the completed product historial by user id.";
+			logger.fatal(errorMsg, e);
+			throw new DataLayerException(errorMsg, e);
+		}
+		return historial;
+	}
+	
+	/**
+	 * Obtains the product user history by fingerprint.
+	 * 
+	 * @param params
+	 * @return
+	 * @throws DataLayerException
+	 */
+	public List<UserProductHistorial> getCompletedHistorialByFingerprint(Map<String, Object> params) 
+			throws DataLayerException {
+		logger.info("Obtaining completed product historial by fingerprint...");
+		List<UserProductHistorial> historial = null;
+		try {
+			historial = executeQuery(GET_ALL_PRODUCT_HISTORIAL_BY_FPRINT, params);
+		} catch (Exception e) {
+			final String errorMsg = "Error trying to obtain the completed product historial by fingerprint.";
+			logger.fatal(errorMsg, e);
+			throw new DataLayerException(errorMsg, e);
+		}
+		return historial;
+	}
 
+	/**
+	 * Obtains the whole product historial from one product.
+	 * 
+	 * @param params
+	 * @return
+	 * @throws DataLayerException
+	 */
 	public List<UserProductHistorial> getHistorialByProduct(Map<String, Object> params) 
 			throws DataLayerException {
 		logger.info("Obtaining product historial by product id...");
@@ -51,6 +110,12 @@ public class UserProductHistorialDAO extends GenericDAO
 		return historial;
 	}
 	
+	/**
+	 * Inserts a new product historial into the DB.
+	 * 
+	 * @param userProductHistorial
+	 * @throws DataLayerException
+	 */
 	public void insertProductHistorial(UserProductHistorial userProductHistorial) 
 			throws DataLayerException {
 		logger.info("Saving product historial for the user: " 
@@ -64,6 +129,12 @@ public class UserProductHistorialDAO extends GenericDAO
 		}
 	}
 	
+	/**
+	 * Updates an existent product historial.
+	 * 
+	 * @param userProductHistorial
+	 * @throws DataLayerException
+	 */
 	public void updateProductHistorial(UserProductHistorial userProductHistorial) 
 			throws DataLayerException {
 		logger.info("Saving product historial for the user: " 
@@ -77,6 +148,12 @@ public class UserProductHistorialDAO extends GenericDAO
 		}
 	}
 	
+	/**
+	 * Deletes an existent product historial.
+	 * 
+	 * @param userProductHistorial
+	 * @throws DataLayerException
+	 */
 	public void deleteProductHistorial(UserProductHistorial userProductHistorial) 
 			throws DataLayerException {
 		logger.info("Deleting product historial for the user: " 
@@ -90,6 +167,12 @@ public class UserProductHistorialDAO extends GenericDAO
 		}
 	}
 	
+	/**
+	 * Obtains an existent product historial.
+	 * 
+	 * @param historialId
+	 * @throws DataLayerException
+	 */
 	public void getProductHistorialById(Long historialId) 
 			throws DataLayerException {
 		logger.info("Obtaining product historial with id: " 

@@ -1,5 +1,8 @@
 package japhet.sales.service.impl;
 
+import static japhet.sales.data.QueryParameters.FINGERPRINT;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +13,8 @@ import javax.inject.Inject;
 
 import japhet.sales.data.impl.UserProductHistorialDAO;
 import japhet.sales.except.BusinessServiceException;
+import japhet.sales.except.InvalidBuyProofException;
+import japhet.sales.model.impl.BuyProof;
 import japhet.sales.model.impl.UserProductHistorial;
 import japhet.sales.service.IUserProductHistorialService;
 
@@ -38,11 +43,47 @@ public class UserProductHistorialService implements IUserProductHistorialService
 		try {
 			userProductHistorials = userProductHistorialDAO.getHistorialByUser(params);
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting the historial by the userId.";
+			final String errorMsg = "Error while getting the historial for the userId.";
 			logger.fatal(errorMsg, e);
 			throw new BusinessServiceException(errorMsg, e);
 		}
 		return userProductHistorials;
+	}
+	
+	@Override
+	public List<UserProductHistorial> getCompletedHistorialByUser(Map<String, Object> params)   
+			throws BusinessServiceException {
+		logger.info("Getting completed historial by user id...");
+		List<UserProductHistorial> userProductHistorials = null;
+		try {
+			userProductHistorials = userProductHistorialDAO.getCompletedHistorialByUser(params);
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting the completed historial for the userId.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return userProductHistorials;
+	}
+	
+
+	@Override
+	public UserProductHistorial getCompletedHistorialByFingerprint(Map<String, Object> params) 
+			throws BusinessServiceException {
+		logger.info("Getting completed historial by fingerprint...");
+		UserProductHistorial userProductHistorial = null;
+		List<UserProductHistorial> userProductHistorials = null;
+		try {
+			userProductHistorials = userProductHistorialDAO.getCompletedHistorialByFingerprint(params);
+			//Obtain first user product historial
+			if(userProductHistorials != null && !userProductHistorials.isEmpty()) {
+				userProductHistorial = userProductHistorials.get(0);
+			}
+		} catch (Exception e) {
+			final String errorMsg = "Error while getting the completed historial by fingerprint.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return userProductHistorial;
 	}
 
 	@Override
@@ -114,5 +155,26 @@ public class UserProductHistorialService implements IUserProductHistorialService
 		return userProductHistorial;
 	}
 	
-	
+	public void verifyTotalAmounts(BuyProof buyProof) 
+			throws InvalidBuyProofException {
+		Map<String, Object> params = new HashMap<>();
+		params.put(FINGERPRINT, buyProof.getUserProductHistorialKey());
+		UserProductHistorial userPrdctHist;
+		try {
+			userPrdctHist = getCompletedHistorialByFingerprint(params);
+		} catch (BusinessServiceException e) {
+			final String FATAL_MSG = "Error at query execution.";
+			logger.fatal(FATAL_MSG, e);
+			throw new InvalidBuyProofException(FATAL_MSG, e);
+		}
+		if(buyProof == null || userPrdctHist == null 
+				|| Math.abs(buyProof.getTotal() - userPrdctHist.getTotal()) > 0.000001) {
+			StringBuilder strBldrErr = new StringBuilder("Invalid user prdct Historial ");
+			strBldrErr.append(buyProof.getTotal());
+			strBldrErr.append(" mismatches ");
+			strBldrErr.append(userPrdctHist.getTotal());
+			logger.error(strBldrErr);
+			throw new InvalidBuyProofException(strBldrErr.toString());
+		}
+	}
 }

@@ -19,14 +19,17 @@
 			<h:panelGroup layout="block" styleClass="col-md-3" />
 		
 			<h:panelGroup styleClass="col-md-6" >
-				<h:panelGroup layout="block" styleClass="panel panel-default">
-					<h:panelGroup layout="block" styleClass="panel-heading">
+				<h:panelGroup layout="block" 
+					styleClass="panel panel-default">
+					<h:panelGroup layout="block" 
+						styleClass="panel-heading">
 						<h2 class="panel-title">
 							<h:outputText value="#{msg['registration.form.panel.title']}" />
 							<h:panelGroup styleClass="glyphicon glyphicon-pencil" />
 						</h2>
 					</h:panelGroup>
-					<h:panelGroup layout="block" styleClass="panel-body">
+					<h:panelGroup layout="block" 
+						styleClass="panel-body">
 						<h:form id="signUpForm">
 							<!-- Application messages -->
 							<p:messages id="messages" globalOnly="true"/>
@@ -197,7 +200,8 @@
 							</h:panelGroup>
 							
 							<!-- Email block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
 								<h:outputLabel for="emailInput">
 									<h:outputText value="#{msg['registration.form.email']}" />
 								</h:outputLabel>
@@ -217,7 +221,8 @@
 							</h:panelGroup>
 							
 							<!-- Password block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
 								<h:outputLabel for="passwordInput">
 									<h:outputText value="#{msg['registration.form.password']}" />
 								</h:outputLabel>
@@ -235,7 +240,8 @@
 							</h:panelGroup>
 							
 							<!-- Confirm password block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
 								<h:outputLabel for="confirmPasswordInput">
 									<h:outputText value="#{msg['registration.form.confirmPassword']}" />
 								</h:outputLabel>
@@ -370,7 +376,8 @@
 							</h:panelGroup>
 							
 							<!-- State block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
 								<h:outputLabel for="stateList">
 									<h:outputText value="#{msg['registration.form.state']}" />
 								</h:outputLabel>
@@ -395,7 +402,8 @@
 							</h:panelGroup>
 							
 							<!-- City block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
 								<h:outputLabel for="stateCity">
 									<h:outputText value="#{msg['registration.form.city']}" />
 								</h:outputLabel>
@@ -434,8 +442,10 @@
 				  			</h:panelGroup>
 							
 							<!-- Sign up button block -->
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-md-12" >
+							<h:panelGroup layout="block" 
+								styleClass="row">
+								<h:panelGroup layout="block" 
+									styleClass="col-md-12" >
 									<h:commandButton 
 										styleClass="btn btn-default btn-block btn-lg" 
 										value="#{msg['registration.form.signUp']}" 
@@ -446,8 +456,10 @@
 								</h:panelGroup>
 							</h:panelGroup>
 							<!-- Facebook sign up button block -->
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-md-12" >
+							<h:panelGroup layout="block" 
+								styleClass="row">
+								<h:panelGroup layout="block" 
+									styleClass="col-md-12" >
 									<h:commandButton 
 										styleClass="btn btn-primary btn-block btn-lg" 
 										value="#{msg['registration.form.signUp.facebook']}" 

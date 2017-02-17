@@ -5,7 +5,9 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 	
-	<h:panelGroup id="home-right-pane" layout="block" >
+	<h:panelGroup id="home-right-pane" 
+		layout="block" >
+		
 		<h:panelGroup layout="block"
 			styleClass="home-right-pane-container-head">
 			<h2 class="banks-title">
@@ -13,6 +15,7 @@
 				<h:panelGroup styleClass="glyphicon glyphicon-usd"/>
 			</h2>
 		</h:panelGroup>
+		
 		<!-- Banks list container -->
 		<h:panelGroup layout="block" 
 			styleClass="home-right-pane-container">
@@ -26,7 +29,7 @@
 				<li class="list-group-item">
 					<h:outputLink value="#{urlMapperMB.profuturoURL}">
 						<h:graphicImage value="/resources/media/banks/profuturoAfore.jpg" 
-						styleClass="img-responsive" />
+							styleClass="img-responsive" />
 					</h:outputLink>
 				</li>
 				<li class="list-group-item">
@@ -85,8 +88,10 @@
 				</li>
 			</ul>
 		</h:panelGroup>
+		
 		<!-- Section separation -->
 		<hr class="container-separator"/>
+		
 		<!-- Last paybacks container -->
 		<h:panelGroup layout="block" 
 			styleClass="overflowless">
@@ -98,7 +103,10 @@
 				<li class="list-group-item">Alguien acaba de recibir <b>$712.10</b> en payback.</li>
 			</ul>
 		</h:panelGroup>
+		
 	</h:panelGroup>
+	
 	<!-- Animations utils -->
 	<h:outputScript library="js" name="utilities/homeAnimations.js" />
+	
 </ui:composition>
