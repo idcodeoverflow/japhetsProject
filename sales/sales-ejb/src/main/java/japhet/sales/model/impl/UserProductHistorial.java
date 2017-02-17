@@ -1,8 +1,10 @@
 package japhet.sales.model.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import static japhet.sales.data.QueryNames.*;
+import static japhet.sales.data.QueryParameters.*;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,9 +30,13 @@ import japhet.sales.util.Encryption;
 @Table(name = "TB_USR_PRDCT_HISTORIAL")
 @NamedQueries(value = {
 		@NamedQuery(name = GET_ALL_PRODUCT_HISTORIAL_BY_USER, 
-				query = "SELECT u FROM UserProductHistorial u WHERE u.user.userId = :userId"),
+				query = "SELECT u FROM UserProductHistorial u WHERE u.user.userId = :" + USER_ID),
+		@NamedQuery(name = GET_COMPLETED_PRDCT_HIST_BY_USER, 
+				query = "SELECT u FROM UserProductHistorial u WHERE u.user.userId = :" + USER_ID + " AND u.completed = TRUE AND u.buyProofs IS EMPTY"),
 		@NamedQuery(name = GET_ALL_PRODUCT_HISTORIAL_BY_PRODUCT, 
-				query = "SELECT u FROM UserProductHistorial u WHERE u.product.productId = :productId")
+				query = "SELECT u FROM UserProductHistorial u WHERE u.product.productId = :" + PRODUCT_ID),
+		@NamedQuery(name = GET_ALL_PRODUCT_HISTORIAL_BY_FPRINT, 
+				query = "SELECT u FROM UserProductHistorial u WHERE u.userProductHistorialKey = :" + FINGERPRINT)
 })
 public class UserProductHistorial implements IEntity {
 
@@ -69,11 +76,31 @@ public class UserProductHistorial implements IEntity {
 			nullable = true)
 	private String userProductHistorialKey;
 	
+	@Column(name = "TOTAL",
+			nullable = true)
+	private Double total;
+	
+	@Column(name = "PRODUCTS_COUNT",
+			nullable = true)
+	private Integer productsCount;
+	
+	@Column(name = "RECEIPT", 
+			nullable = true)
+	private String receipt;
+	
+	@JoinColumn(name = "USER_PRODUCT_HISTORIAL_KEY",
+			referencedColumnName = "USER_PRODUCT_HISTORIAL_KEY",
+			nullable = true)
+	@OneToMany(fetch = FetchType.EAGER)
+	private List<BuyProof> buyProofs;
+	
 	public UserProductHistorial() {}
 
 	public UserProductHistorial(Long historialId, Product product, 
 			User user, Date clickDate, Boolean completed,
-			Date completedDate, String userProductHistorialKey) {
+			Date completedDate, String userProductHistorialKey,
+			Double total, Integer productsCount, String receipt,
+			List<BuyProof> buyProofs) {
 		super();
 		this.historialId = historialId;
 		this.product = product;
@@ -82,6 +109,10 @@ public class UserProductHistorial implements IEntity {
 		this.completed = completed;
 		this.completedDate = completedDate;
 		this.userProductHistorialKey = userProductHistorialKey;
+		this.total = total;
+		this.productsCount = productsCount;
+		this.receipt = receipt;
+		this.buyProofs = buyProofs;
 	}
 	
 	public Long getHistorialId() {
@@ -144,5 +175,37 @@ public class UserProductHistorial implements IEntity {
 		final String str = String.format("UserId:%dProductId:%dTimestamp:%s", 
 				this.user.getUserId(), this.product.getProductId(), this.clickDate.toString());
 		this.userProductHistorialKey = Encryption.SHA256(str);
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
+	}
+
+	public Integer getProductsCount() {
+		return productsCount;
+	}
+
+	public void setProductsCount(Integer productsCount) {
+		this.productsCount = productsCount;
+	}
+
+	public String getReceipt() {
+		return receipt;
+	}
+
+	public void setReceipt(String receipt) {
+		this.receipt = receipt;
+	}
+
+	public List<BuyProof> getBuyProofs() {
+		return buyProofs;
+	}
+
+	public void setBuyProofs(List<BuyProof> buyProofs) {
+		this.buyProofs = buyProofs;
 	}
 }

@@ -17,6 +17,7 @@ public class GenericFacesMessager {
 	private final String SAVE_CONTENT_ERROR = "userMessages.error.saveContentError";
 	private final String DATE_RANGE_INVALID = "userMessages.error.dateInvalid";
 	private final String REDIRECT_ERROR = "userMessages.error.redirect";
+	private final String BUY_PROOF_INVALID = "userAccount.messages.buyProof";
 	//Warning messages
 	private final String PENDING_CHOOSE_CATEGORIES = "userMessages.warning.noCategoriesStored";
 	//Info messages
@@ -113,6 +114,10 @@ public class GenericFacesMessager {
 	
 	public String getREDIRECT_ERROR() {
 		return REDIRECT_ERROR;
+	}
+	
+	public String getBUY_PROOF_INVALID(){
+		return BUY_PROOF_INVALID;
 	}
 	
 	public String getPENDING_CHOOSE_CATEGORIES() {

@@ -28,9 +28,7 @@ import japhet.sales.model.IEntity;
 @Table(name = "TB_BUY_PROOF")
 @NamedQueries(value = {
 		@NamedQuery(name = GET_BUY_PROOFS_BY_USER, 
-				query = "SELECT b FROM BuyProof b WHERE b.user.userId = :userId"),
-		@NamedQuery(name = GET_BUY_PROOFS_BY_PRODUCT, 
-				query = "SELECT b FROM BuyProof b WHERE b.product.productId = :productId")
+				query = "SELECT b FROM BuyProof b WHERE b.user.userId = :userId")
 })
 public class BuyProof implements IEntity {
 
@@ -48,22 +46,21 @@ public class BuyProof implements IEntity {
 	@JoinColumn(name = "USER_ID")
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "PRODUCT_ID")
-	private Product product;
-	
-	@Column(name = "FINGER_PRINT")
-	private String fingerPrint;
+	@Column(name = "USER_PRODUCT_HISTORIAL_KEY",
+			nullable = false)
+	private String userProductHistorialKey;
 	
 	@Lob
-	@Column(name = "TICKET_IMAGE")
+	@Column(name = "TICKET_IMAGE",
+			nullable = false)
 	private byte[] ticketImage;
 	
 	@Column(name = "PAYBACK_APPLIED")
 	private Boolean paybackApplied;
 	
 	@Temporal(value = TemporalType.TIMESTAMP)
-	@Column(name = "REGISTERED_ON")
+	@Column(name = "REGISTERED_ON",
+			nullable = false)
 	private Date registeredOn;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -75,21 +72,29 @@ public class BuyProof implements IEntity {
 	private Date payedOn;
 	
 	@Temporal(value = TemporalType.TIMESTAMP)
-	@Column(name = "LAST_UPDATE")
+	@Column(name = "LAST_UPDATE",
+			nullable = false)
 	private Date lastUpdate;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "STATUS_ID")
+	@JoinColumn(name = "STATUS_ID",
+			nullable = false)
 	private Status status;
 	
 	@Column(name = "PAYMENT_REQUEST_ID")
 	private Long paymentRequestId;
 	
-	@Column(name = "FILE_NAME")
+	@Column(name = "FILE_NAME",
+			nullable = false)
 	private String fileName;
 	
-	@Column(name = "CONTENT_TYPE")
+	@Column(name = "CONTENT_TYPE",
+			nullable = false)
 	private String contentType;
+	
+	@Column(name = "TOTAL",
+			nullable = false)
+	private Double total;
 	
 	public BuyProof() {
 		this.registeredOn = new Date();
@@ -100,16 +105,16 @@ public class BuyProof implements IEntity {
 		this.status.setStatusId(Statuses.VALIDATION_PENDING.getId());
 	}
 
-	public BuyProof(Long buyProofId, User user, Product product, 
-			String fingerPrint, byte[] ticketImage,
+	public BuyProof(Long buyProofId, User user,
+			String userProductHistorialKey, byte[] ticketImage,
 			Boolean paybackApplied, Date registeredOn, Date payedOn, 
 			Date lastUpdate, Status status, Long paymentRequestId,
-			User validatedBy, String fileName, String contentType) {
+			User validatedBy, String fileName, String contentType,
+			Double total) {
 		super();
 		this.buyProofId = buyProofId;
 		this.user = user;
-		this.product = product;
-		this.fingerPrint = fingerPrint;
+		this.userProductHistorialKey = userProductHistorialKey;
 		this.ticketImage = ticketImage;
 		this.paybackApplied = paybackApplied;
 		this.registeredOn = registeredOn;
@@ -120,6 +125,7 @@ public class BuyProof implements IEntity {
 		this.paymentRequestId = paymentRequestId;
 		this.fileName = fileName;
 		this.contentType = contentType;
+		this.total = total;
 	}
 
 	public Long getBuyProofId() {
@@ -138,20 +144,12 @@ public class BuyProof implements IEntity {
 		this.user = user;
 	}
 
-	public Product getProduct() {
-		return product;
+	public String getUserProductHistorialKey() {
+		return userProductHistorialKey;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
-	}
-
-	public String getFingerPrint() {
-		return fingerPrint;
-	}
-
-	public void setFingerPrint(String fingerPrint) {
-		this.fingerPrint = fingerPrint;
+	public void setUserProductHistorialKey(String userProductHistorialKey) {
+		this.userProductHistorialKey = userProductHistorialKey;
 	}
 
 	public byte[] getTicketImage() {
@@ -232,5 +230,13 @@ public class BuyProof implements IEntity {
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 }

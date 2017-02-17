@@ -19,15 +19,18 @@
 			
 			<h:panelGroup styleClass="col-md-8">
 				<!-- Panel group for content uploading -->
-				<h:panelGroup layout="block" styleClass="panel panel-default">
-					<h:panelGroup layout="block" styleClass="panel-heading">
+				<h:panelGroup layout="block" 
+					styleClass="panel panel-default">
+					<h:panelGroup layout="block" 
+						styleClass="panel-heading">
 						<h2 class="panel-title">
 							<h:outputText value="#{msg['upload.content.title']}" />
 							<h:panelGroup styleClass="glyphicon glyphicon-upload" />
 						</h2>
 					</h:panelGroup>
 					<!-- Form block -->
-					<h:panelGroup layout="block" styleClass="panel-body">
+					<h:panelGroup layout="block" 
+						styleClass="panel-body">
 						<h:form id="uploadContentForm">
 							
 							<!-- Page messages -->
@@ -55,11 +58,13 @@
 						    <hr/>
 						    
 						    <!-- Title block -->
-						    <h:panelGroup layout="block" styleClass="form-group">
+						    <h:panelGroup layout="block" 
+						    	styleClass="form-group">
 						    	<h:outputLabel for="contentTitleInput">
 						    		<h:outputText value="#{msg['upload.content.contentTitle']}" />
 						    	</h:outputLabel>
-						    	<h:inputText id="contentTitleInput" styleClass="form-control" 
+						    	<h:inputText id="contentTitleInput" 
+						    		styleClass="form-control" 
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.title']}"
 									placeholder="#{msg['upload.content.contentTitle']}"
@@ -73,11 +78,13 @@
 						    </h:panelGroup>
 						    
 						    <!-- Description input -->
-						    <h:panelGroup layout="block" styleClass="form-group">
+						    <h:panelGroup layout="block" 
+						    	styleClass="form-group">
 						    	<h:outputLabel for="contentDescriptionInput">
 						    		<h:outputText value="#{msg['upload.content.contentDescription']}" />
 						    	</h:outputLabel>
-						    	<h:inputTextarea id="contentDescriptionInput" styleClass="form-control" 
+						    	<h:inputTextarea id="contentDescriptionInput" 
+						    		styleClass="form-control" 
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.description']}"
 						    		placeholder="#{msg['upload.content.contentDescription']}"
@@ -91,27 +98,34 @@
 						    </h:panelGroup>
 						    
 						    <!-- Category block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
 								<h:outputLabel for="categoriesList">
 									<h:outputText value="#{msg['upload.content.category']}" />
 								</h:outputLabel>
-								<h:selectOneMenu id="categoriesList" value="#{uploadContentMB.category.categoryId}"
+								<h:selectOneMenu id="categoriesList" 
+									value="#{uploadContentMB.category.categoryId}"
 									styleClass="form-control" 
 									required="true" 
 									requiredMessage="#{msg['upload.messages.required.category']}">
-									<f:selectItem itemValue="" itemLabel="#{msg['upload.content.selectCategory']}" />
-									<f:selectItems value="#{categoryMB.availableCategories}" var="category"  
-										itemLabel="#{category.name}" itemValue="#{category.categoryId}" />
+									<f:selectItem itemValue="" 
+										itemLabel="#{msg['upload.content.selectCategory']}" />
+									<f:selectItems value="#{categoryMB.availableCategories}" 
+										var="category"  
+										itemLabel="#{category.name}" 
+										itemValue="#{category.categoryId}" />
 								</h:selectOneMenu>
 								<p:messages for="categoriesList" />
 							</h:panelGroup>
 						    
 						    <!-- URL block -->
-						    <h:panelGroup layout="block" styleClass="form-group">
+						    <h:panelGroup layout="block" 
+						    	styleClass="form-group">
 						    	<h:outputLabel for="contentUrlInput">
 						    		<h:outputText value="#{msg['upload.content.url']}" />
 						    	</h:outputLabel>
-						    	<h:inputText id="contentUrlInput" styleClass="form-control" 
+						    	<h:inputText id="contentUrlInput" 
+						    		styleClass="form-control" 
 						    		placeholder="#{msg['upload.content.url']}"
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.url']}"
@@ -121,21 +135,25 @@
 						    </h:panelGroup>
 						    
 						    <!-- Price block -->
-							<h:panelGroup layout="block" styleClass="form-group">
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
 						    	<h:outputLabel for="contentPriceInput">
 						    		<h:outputText value="#{msg['upload.content.contentPrice']}" />
 						    	</h:outputLabel>
-						    	<h:panelGroup styleClass="input-group" layout="block">
+						    	<h:panelGroup styleClass="input-group" 
+						    		layout="block">
 						    	  	<h:panelGroup styleClass="input-group-addon">
 								  		<h:outputText value="$" />
 								  	</h:panelGroup>
-								  	<h:inputText id="contentPriceInput" styleClass="form-control" 
+								  	<h:inputText id="contentPriceInput" 
+								  		styleClass="form-control" 
 								  		required="true"
 										requiredMessage="#{msg['upload.messages.required.price']}"
 						    			placeholder="#{msg['upload.content.contentPrice']}"
 						    			value="#{uploadContentMB.product.price}"
 										onkeyup="deleteNonIntegerContent(this, '.');">
-										<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+										<f:convertNumber minFractionDigits="2" 
+											maxFractionDigits="2"/>
 									</h:inputText>
 								</h:panelGroup>
 								<p:keyFilter regEx="/[0-9\.]/i" 
@@ -145,18 +163,22 @@
 							</h:panelGroup>
 						    
 						    <!-- Payback block -->
-						    <h:panelGroup layout="block" styleClass="form-group">
+						    <h:panelGroup layout="block" 
+						    	styleClass="form-group">
 						    	<h:outputLabel for="contentPaybackInput">
 						    		<h:outputText value="#{msg['upload.content.contentPayback']}" />
 						    	</h:outputLabel>
-						    	<h:panelGroup styleClass="input-group" layout="block">
-						    	  	<h:inputText id="contentPaybackInput" styleClass="form-control"
+						    	<h:panelGroup styleClass="input-group" 
+						    		layout="block">
+						    	  	<h:inputText id="contentPaybackInput" 
+						    	  		styleClass="form-control"
 						    	  		required="true"
 										requiredMessage="#{msg['upload.messages.required.payback']}"
 						    	  		value="#{uploadContentMB.product.paybackPercent}" 
 						    			placeholder="#{msg['upload.content.contentPayback']}"
 										onkeyup="deleteNonIntegerContent(this, '.');">
-										<f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+										<f:convertNumber minFractionDigits="2" 
+											maxFractionDigits="2"/>
 									</h:inputText>
 						    		<h:panelGroup styleClass="input-group-addon">
 								  		<h:outputText value="%" />
@@ -172,12 +194,15 @@
 							<h:panelGroup layout="block" styleClass="row">
 							
 								<!-- Start date -->
-								<h:panelGroup layout="block" styleClass="col-md-6">
-									<h:panelGroup layout="block" styleClass="form-group">
+								<h:panelGroup layout="block" 
+									styleClass="col-md-6">
+									<h:panelGroup layout="block" 
+										styleClass="form-group">
 										<h:outputLabel for="availableDate">
 								    		<h:outputText value="#{msg['upload.content.availableDate']}" />
 								    	</h:outputLabel>
-										<p:calendar id="availableDate" pattern="MM/dd/yyyy HH:mm:ss"
+										<p:calendar id="availableDate" 
+											pattern="MM/dd/yyyy HH:mm:ss"
 											styleClass="form-control" 
 											required="true"
 											mindate="#{uploadContentMB.currentDate}"
@@ -188,12 +213,15 @@
 									<p:messages for="availableDate" />
 								</h:panelGroup>
 								<!-- End date -->
-								<h:panelGroup layout="block" styleClass="col-md-6">
-									<h:panelGroup layout="block" styleClass="form-group">
+								<h:panelGroup layout="block" 
+									styleClass="col-md-6">
+									<h:panelGroup layout="block" 
+										styleClass="form-group">
 										<h:outputLabel for="endDate">
 							    			<h:outputText value="#{msg['upload.content.endDate']}" />
 							    		</h:outputLabel>
-										<p:calendar id="endDate" pattern="MM/dd/yyyy HH:mm:ss"
+										<p:calendar id="endDate" 
+											pattern="MM/dd/yyyy HH:mm:ss"
 											styleClass="form-control"  
 											required="true"
 											mindate="#{uploadContentMB.currentDate}"
@@ -210,7 +238,8 @@
 						    	<!-- Spacer -->
 						    	<h:panelGroup layout="block" styleClass="col-md-9" />
 						    	<!-- Save button -->
-								<h:panelGroup layout="block" styleClass="col-md-3" >
+								<h:panelGroup layout="block" 
+									styleClass="col-md-3" >
 									<h:commandButton id="saveBt" 
 										action="#{uploadContentMB.saveProduct()}"
 										styleClass="btn btn-default btn-block btn-lg" 

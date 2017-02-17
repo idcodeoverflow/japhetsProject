@@ -10,21 +10,35 @@
 	
 	<ui:define name="content">
 		<h:panelGroup layout="block" styleClass="row">
+		
 			<h:panelGroup styleClass="col-md-3"/>
+			
 			<h:panelGroup styleClass="col-md-6">
-				<h:panelGroup layout="block" styleClass="panel panel-default">
-					<h:panelGroup layout="block" styleClass="panel-heading">
+				<h:panelGroup layout="block" 
+					styleClass="panel panel-default">
+					
+					<h:panelGroup layout="block" 
+						styleClass="panel-heading">
 				    	<h2 class="panel-title">
-				    		#{msg['login.form.panel.title']}
-				    		<h:panelGroup styleClass="glyphicon glyphicon-ok"/>		
+				    		<h:outputText value="#{msg['login.form.panel.title']}" />
+				    		<h:panelGroup styleClass="glyphicon glyphicon-ok" />		
 				    	</h2>
 				  	</h:panelGroup>
-				  	<h:panelGroup layout="block" styleClass="panel-body">
+				  	
+				  	<h:panelGroup layout="block" 
+				  		styleClass="panel-body">
+				  		
 						<h:form prependId="false">
-							<p:messages id="loginMessages" 
-								globalOnly="true"/>
-							<h:panelGroup layout="block" styleClass="form-group">
-								<h:outputLabel for="username">#{msg['login.form.email']}</h:outputLabel> 
+						
+							<!-- Messages -->
+							<p:messages id="loginMessages" globalOnly="true"/>
+							
+							<!-- Email -->
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
+								<h:outputLabel for="username">
+									<h:outputText value="#{msg['login.form.email']}" />
+								</h:outputLabel> 
 								<h:inputText type="email" 
 									styleClass="form-control" 
 									id="username"
@@ -36,8 +50,13 @@
 									for="username"
 									preventPaste="false" />
 							</h:panelGroup>
-							<h:panelGroup layout="block" styleClass="form-group">
-								<h:outputLabel for="password">#{msg['login.form.password']}</h:outputLabel> 
+							
+							<!-- Password -->
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
+								<h:outputLabel for="password">
+									<h:outputText value="#{msg['login.form.password']}" />
+								</h:outputLabel> 
 								<h:inputSecret styleClass="form-control" 
 									id="password" 
 									maxlength="#{loginMB.MAX_PASSWORD_LENGTH}"
@@ -46,19 +65,29 @@
 									<f:validateLength minimum="#{registrationMB.MIN_PASSWORD_LENGTH}" />
 								</h:inputSecret>
 							</h:panelGroup>
-							<h:panelGroup layout="block" styleCass="checkbox">
+							
+							<!-- Remember me -->
+							<h:panelGroup layout="block" 
+								styleCass="checkbox">
 								<h:outputLabel> 
 									<h:selectBooleanCheckbox id="loginRememberMe" /> 
-									#{msg['login.form.remember']}
+									<h:outputText value="#{msg['login.form.remember']}" />
 								</h:outputLabel>
-								<p><i>
-									<h:outputLink id="forgottenPassword" value="#{urlMapperMB.recoverPasswordURL}">
-										#{msg['login.form.forgotten.password']}
-									</h:outputLink>
-								</i></p>
+								<p>
+									<i>
+										<h:outputLink id="forgottenPassword" 
+											value="#{urlMapperMB.recoverPasswordURL}">
+											<h:outputText value="#{msg['login.form.forgotten.password']}" />
+										</h:outputLink>
+									</i>
+								</p>
 							</h:panelGroup>
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-md-12" >
+							
+							<!-- Login button -->
+							<h:panelGroup layout="block" 
+								styleClass="row">
+								<h:panelGroup layout="block" 
+									styleClass="col-md-12" >
 									<h:commandButton id="loginButton" 
 										immediate="true"
 										action="#{loginMB.doLogin()}" 
@@ -69,8 +98,12 @@
 									</h:commandButton>
 								</h:panelGroup>
 							</h:panelGroup>
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-md-12" >
+							
+							<!-- Facebook login -->
+							<h:panelGroup layout="block" 
+								styleClass="row">
+								<h:panelGroup layout="block" 
+									styleClass="col-md-12" >
 									<h:commandButton 
 										styleClass="btn btn-primary btn-block btn-lg" 
 										value="#{msg['login.form.login.facebook']}">
@@ -81,21 +114,31 @@
 									</h:commandButton>
 								</h:panelGroup>
 							</h:panelGroup>
-							<h:panelGroup layout="block" styleClass="row">
-								<h:panelGroup layout="block" styleClass="col-md-12" >
+							
+							<!-- Register -->
+							<h:panelGroup layout="block" 
+								styleClass="row">
+								<h:panelGroup layout="block" 
+									styleClass="col-md-12" >
 									<p class="h4" id="registerMeParagraph">
 										<h:outputLink id="registerMeLogin" 
 											value="#{urlMapperMB.registrationURL}">
-											#{msg['login.form.register']}
+											<h:outputText value="#{msg['login.form.register']}" />
 										</h:outputLink>
 									</p>
 								</h:panelGroup>
 							</h:panelGroup>
+							
 						</h:form>
+						
 					</h:panelGroup>
+					
 				</h:panelGroup>
 			</h:panelGroup>
+			
 			<h:panelGroup styleClass="col-md-3"/>
+			
 		</h:panelGroup>
+		
 	</ui:define>
 </ui:composition>

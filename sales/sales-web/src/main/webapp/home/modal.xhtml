@@ -18,6 +18,8 @@
 			pt:role="document">
 	    	<h:panelGroup layout="block"
 	    		styleClass="modal-content">
+	    		
+	    		<!-- Privacy Title -->
 	      		<h:panelGroup id="privacyPolicyTitle"
 	      			layout="block"
 	      			styleClass="modal-header">
@@ -26,11 +28,15 @@
 	        			<h:outputText value="#{providerPrivacyPolicyMB.companyName} - #{msg['home.modal.title']}" />
 	        		</h4>
 	      		</h:panelGroup>
+	      		
+	      		<!-- Policy content -->
 	      		<h:panelGroup id="privacyPolicyContent"
 	      			layout="block"
 	      			styleClass="modal-body">
 	      			<h:outputText value="#{providerPrivacyPolicyMB.company.privacyPolicy}" />
 	      		</h:panelGroup>
+	      		
+	      		<!-- Policy Footer -->
 	      		<h:panelGroup layout="block"
 	      			styleClass="modal-footer">
 	        		<h:commandButton 
@@ -41,7 +47,9 @@
 							value="#{_csrf.token}" />
 					</h:commandButton>
 	      		</h:panelGroup>
+	      		
 	    	</h:panelGroup>
 	  	</h:panelGroup>
 	</h:panelGroup>
+	
 </ui:composition>
