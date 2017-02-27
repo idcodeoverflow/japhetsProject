@@ -84,6 +84,9 @@ public class UserAccountManagerMB extends GenericMB {
 	private Map<String, Object> params;
 	private User user;
 	
+	/**
+	 * Initializes the User Account Manager.
+	 */
 	@PostConstruct
 	private void init() {
 		try {
@@ -141,6 +144,9 @@ public class UserAccountManagerMB extends GenericMB {
 		}
 	}
 	
+	/**
+	 * Generates a new payment request.
+	 */
 	public void requestPaymentRequest() {
 		try {
 			logger.info("Generating a payment request...");
@@ -277,6 +283,11 @@ public class UserAccountManagerMB extends GenericMB {
 		}
 	}
 	
+	/**
+	 * Validates if a payment request has a resolution date.
+	 * @param paymentRequest
+	 * @return
+	 */
 	public boolean pymntReqResolutionDateExist(PaymentRequest paymentRequest) {
 		return paymentRequest != null && paymentRequest.getResolutionDate() != null; 
 	}
