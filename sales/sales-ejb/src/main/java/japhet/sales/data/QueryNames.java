@@ -2,6 +2,7 @@ package japhet.sales.data;
 
 public interface QueryNames {
 	
+	//Select queries
 	String EXISTS_USER 									= "EXISTS_USER";
 	String GET_ALL_CATEGORIES 							= "GET_ALL_CATEGORIES";
 	String GET_ALL_AVAILABLE_CATEGORIES 				= "GET_ALL_AVAILABLE_CATEGORIES";
@@ -32,4 +33,7 @@ public interface QueryNames {
 	String GET_ALL_AVAILABLE_COMPANIES_OF_TYPE			= "GET_ALL_AVAILABLE_COMPANIES_OF_TYPE";
 	String GET_ALL_COMPANY_TYPES						= "GET_ALL_COMPANY_TYPES";
 	String GET_COMPANY_BY_USER_ID						= "GET_COMPANY_BY_USER_ID";
+	
+	//Update queries
+	String UPDATE_BUY_PROOFS_BATCH						= "UPDATE_BUY_PROOFS_BATCH";
 }

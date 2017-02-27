@@ -31,7 +31,9 @@ import japhet.sales.model.IEntity;
 		@NamedQuery(name = GET_BUY_PROOFS_BY_USER, 
 				query = "SELECT b FROM BuyProof b WHERE b.user.userId = :" + USER_ID),
 		@NamedQuery(name = GET_BUY_PROOFS_BY_USER_N_STATUS, 
-			query = "SELECT b FROM BuyProof b WHERE b.user.userId = :" + USER_ID + " AND b.status.statusId = :" + STATUS_ID)
+				query = "SELECT b FROM BuyProof b WHERE b.user.userId = :" + USER_ID + " AND b.status.statusId = :" + STATUS_ID),
+		@NamedQuery(name = UPDATE_BUY_PROOFS_BATCH, 
+				query = "UPDATE BuyProof b SET b.paymentRequestId = :" + PAYMENT_REQUEST_ID + ", b.lastUpdate = :" + LAST_UPDATE + ", b.status.statusId = :" + STATUS_ID + " WHERE b IN :" + BUY_PROOFS_TO_UPDATE)
 })
 public class BuyProof implements IEntity {
 
@@ -99,6 +101,14 @@ public class BuyProof implements IEntity {
 			nullable = false)
 	private Double total;
 	
+	@ManyToOne(fetch = FetchType.EAGER, 
+			targetEntity = UserProductHistorial.class)
+	@JoinColumn(name = "USER_PRODUCT_HISTORIAL_KEY", 
+			referencedColumnName = "USER_PRODUCT_HISTORIAL_KEY",
+			insertable = false, 
+			updatable = false)
+	private UserProductHistorial userProductHistorial;
+	
 	public BuyProof() {
 		this.registeredOn = new Date();
 		this.lastUpdate = new Date();
@@ -113,7 +123,7 @@ public class BuyProof implements IEntity {
 			Boolean paybackApplied, Date registeredOn, Date payedOn, 
 			Date lastUpdate, Status status, Long paymentRequestId,
 			User validatedBy, String fileName, String contentType,
-			Double total) {
+			Double total, UserProductHistorial userProductHistorial) {
 		super();
 		this.buyProofId = buyProofId;
 		this.user = user;
@@ -129,6 +139,7 @@ public class BuyProof implements IEntity {
 		this.fileName = fileName;
 		this.contentType = contentType;
 		this.total = total;
+		this.userProductHistorial = userProductHistorial;
 	}
 
 	public Long getBuyProofId() {
@@ -241,5 +252,13 @@ public class BuyProof implements IEntity {
 
 	public void setTotal(Double total) {
 		this.total = total;
+	}
+
+	public UserProductHistorial getUserProductHistorial() {
+		return userProductHistorial;
+	}
+
+	public void setUserProductHistorial(UserProductHistorial userProductHistorial) {
+		this.userProductHistorial = userProductHistorial;
 	}
 }

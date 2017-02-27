@@ -44,6 +44,8 @@ public class RegistrationMB extends GenericMB
 	private static final short MIN_CURP_LENGTH = 18;
 	private static final short MAX_AGE_LENGTH = 3;
 	private static final short MIN_AGE_LENGTH = 1;
+	private static final short MIN_NDAYS_TO_ALLOW_PAYBACK = 1;
+	private static final short MAX_NDAYS_TO_ALLOW_PAYBACK = 3;
 	
 	@Inject
 	private Logger logger;
@@ -265,5 +267,13 @@ public class RegistrationMB extends GenericMB
 
 	public short getMIN_AGE_LENGTH() {
 		return MIN_AGE_LENGTH;
+	}
+
+	public short getMIN_NDAYS_TO_ALLOW_PAYBACK() {
+		return MIN_NDAYS_TO_ALLOW_PAYBACK;
+	}
+
+	public short getMAX_NDAYS_TO_ALLOW_PAYBACK() {
+		return MAX_NDAYS_TO_ALLOW_PAYBACK;
 	}
 }

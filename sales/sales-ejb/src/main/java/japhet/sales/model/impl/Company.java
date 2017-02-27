@@ -87,6 +87,10 @@ public class Company extends StreamUtil
 	@Column(name = "PAYBACK_PERCENT")
 	private Double paybackPercent;
 	
+	@Column(name = "DAYS_NUMBER_TO_APPROVE", 
+			nullable = false)
+	private Short daysNumberToApprove;
+	
 	public Company() {
 		super();
 		this.companyType = new CompanyType();
@@ -95,7 +99,8 @@ public class Company extends StreamUtil
 	public Company(Long companyId, User user, String url, 
 			byte[] image, String privacyPolicy, 
 			CompanyType companyType, List<Category> categories,
-			Boolean showInCarousel, Double paybackPercent) {
+			Boolean showInCarousel, Double paybackPercent,
+			Short daysNumberToApprove) {
 		super();
 		this.companyId = companyId;
 		this.user = user;
@@ -106,6 +111,7 @@ public class Company extends StreamUtil
 		this.categories = categories;
 		this.showInCarousel = showInCarousel;
 		this.paybackPercent = paybackPercent;
+		this.daysNumberToApprove = daysNumberToApprove;
 	}
 
 	public Long getCompanyId() {
@@ -178,5 +184,13 @@ public class Company extends StreamUtil
 
 	public void setPaybackPercent(Double paybackPercent) {
 		this.paybackPercent = paybackPercent;
+	}
+
+	public Short getDaysNumberToApprove() {
+		return daysNumberToApprove;
+	}
+
+	public void setDaysNumberToApprove(Short daysNumberToApprove) {
+		this.daysNumberToApprove = daysNumberToApprove;
 	}
 }

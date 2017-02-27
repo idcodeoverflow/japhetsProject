@@ -82,7 +82,7 @@
 						    </h:panelGroup>
 						</h:panelGroup>
 						
-					    <!-- Claim budget -->
+					    <!-- Claim Budget button -->
 					    <h:panelGroup layout="block" 
 					    	styleClass="row">
 						    <h:panelGroup layout="block" 
@@ -90,7 +90,9 @@
 							<h:panelGroup layout="block" 
 								styleClass="col-md-6">
 						    	<h:commandButton id="claimBudgetButton"
+						    		disabled="#{!userAccountManagerMB.bugetForDepositsAvailable}"
 							    	value="#{msg['account.user.wallet.depositRequest']}" 
+							    	action="#{userAccountManagerMB.requestPaymentRequest()}"
 							    	styleClass="btn btn-default btn-block btn-lg"/>
 						    </h:panelGroup>
 						    <h:panelGroup styleClass="col-md-3" />
@@ -111,8 +113,9 @@
 						    <h:panelGroup layout="block" 
 						    	styleClass="col-md-12">
 						    	<p:dataTable id="depositsStatusTable" 
-						    		value="#{userAccountManagerMB.deposits}"
-						    		var="deposit"
+						    		value="#{userAccountManagerMB.paymentRequestHistory}"
+						    		var="paymentRequest"
+						    		emptyMessage="#{msg['account.user.wallet.noPaymentRequestsFound']}"
 						    		paginator="true"
 						    		paginatorPosition="bottom"
 						    		currentPageReportTemplate="({currentPage} / {totalPages})"
@@ -124,20 +127,35 @@
 								        	value="#{msg['account.user.wallet.depositsTable.title']}" />
 								    </f:facet>
 								    <p:column headerClass="text-center" 
+								    	width="17%"
 								    	headerText="#{msg['account.user.wallet.depositsTable.nRequest']}">
-								        <h:outputText value="#{deposit}" />
+								        <h:outputText value="#{paymentRequest.paymentRequestId}" />
+								    </p:column>
+								    <p:column headerClass="text-center" 
+								    	width="15%"
+								    	headerText="#{msg['account.user.wallet.depositsTable.requestAmount']}">
+								        <h:outputText value="#{paymentRequest.amount}">
+								        	<f:convertNumber type="currency" />
+								        </h:outputText>
 								    </p:column>
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.wallet.depositsTable.requestDate']}">
-								        <h:outputText value="01/11/2016" />
+								        <h:outputText value="#{paymentRequest.requestDate}">
+								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss"/>
+								        </h:outputText>
 								    </p:column>
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.wallet.depositsTable.status']}">
-								        <h:outputText value="Depositado" />
+								        <h:outputText value="#{internationalizationI18NMB.getI18NMessage(paymentRequest.status.name)}" />
 								    </p:column>
 								    <p:column headerClass="text-center"
 								    	headerText="#{msg['account.user.wallet.depositsTable.resolutionDate']}">
-								        <h:outputText value="09/11/2016" />
+								        <h:outputText value="#{paymentRequest.resolutionDate}"
+								        	rendered="#{userAccountManagerMB.pymntReqResolutionDateExist(paymentRequest)}">
+								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss"/>
+								        </h:outputText>
+								        <h:outputText value="#{msg['account.user.wallet.depositsTable.resolutionOnHold']}" 
+								        	rendered="#{!userAccountManagerMB.pymntReqResolutionDateExist(paymentRequest)}"/>
 								    </p:column>
 								</p:dataTable>	
 						    </h:panelGroup>
@@ -288,7 +306,7 @@
 								    <p:column headerClass="text-center"
 								    	width="13%"
 								    	headerText="#{msg['account.user.pendingBonifications.aforePayback']}">
-								        <h:outputText value="#{buyProof.total}">
+								        <h:outputText value="#{buyProof.userProductHistorial.paybackAmount}">
 								        	<f:convertNumber type="currency" />
 								        </h:outputText>
 								    </p:column>
@@ -299,7 +317,7 @@
 								        </h:outputText>
 								    </p:column>
 								    <p:column headerClass="text-center"
-								    	width="15%"
+								    	width="17%"
 								    	headerText="#{msg['account.user.pendingBonifications.status']}">
 								        <h:outputText value="#{internationalizationI18NMB.getI18NMessage(buyProof.status.name)}" />
 								    </p:column>
@@ -311,6 +329,7 @@
 								    </p:column>
 								    <!-- Download button -->
 								    <p:column headerClass="text-center"
+								    	width="21%"
 								    	headerText="#{msg['account.user.pendingBonifications.file']}">
 								        <p:commandLink 
 								        	id="btnDownloadBuyProof"

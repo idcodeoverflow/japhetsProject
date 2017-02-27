@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import japhet.sales.dto.UserBudget;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidBuyProofException;
 import japhet.sales.model.impl.BuyProof;
@@ -44,5 +45,7 @@ public interface IUserProductHistorialService extends Serializable {
 	
 	public void verifyTotalAmounts(BuyProof buyProof) throws InvalidBuyProofException;
 	
-	public Double obtainReadyPaybackAmount(User user) throws BusinessServiceException;
+	public UserBudget obtainReadyOnWaitPaybackAmounts(User user) throws BusinessServiceException;
+	
+	public List<BuyProof> obtainBuyProofsReadyToPay(User user) throws BusinessServiceException;
 }

@@ -7,5 +7,5 @@ INSERT INTO TB_STATUS VALUES(5, "catalog.status.payed", CURRENT_DATE(), "2100-01
 INSERT INTO TB_STATUS VALUES(6, "catalog.status.denied", CURRENT_DATE(), "2100-01-01 00:00:00");
 INSERT INTO TB_STATUS VALUES(7, "catalog.status.blocked", CURRENT_DATE(), "2100-01-01 00:00:00");
 INSERT INTO TB_STATUS VALUES(8, "catalog.status.waitingWarrantyExpiration", CURRENT_DATE(), "2100-01-01 00:00:00");
-INSERT INTO TB_STATUS VALUES(9, "catalog.status.readyForPayRequest", CURRENT_DATE(), "2100-01-01 00:00:00");
+INSERT INTO TB_STATUS VALUES(9, "catalog.status.onPaymentRequest", CURRENT_DATE(), "2100-01-01 00:00:00");
 

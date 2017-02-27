@@ -53,7 +53,7 @@ public class UserProductHistorial implements IEntity {
 	private Long historialId;
 	
 	@JoinColumn(name = "PRODUCT_ID")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Product product;
 	
 	@JoinColumn(name = "USER_ID", 

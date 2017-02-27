@@ -199,6 +199,30 @@
 								<p:messages for="ageInput" />
 							</h:panelGroup>
 							
+							<!-- Days Number to Approve Payback block -->
+							<h:panelGroup layout="block" 
+								id="daysNumberBlock"
+								rendered="#{registrationMB.companyRole}"
+								styleClass="form-group">
+								<h:outputLabel for="daysNumberInput">
+									<h:outputText value="#{msg['registration.form.daysNumberToApprovePayback']}" />
+								</h:outputLabel>
+								<h:inputText id="daysNumberInput" 
+									styleClass="form-control"  
+									value="#{registrationMB.user.age}"
+									maxlength="#{registrationMB.MAX_NDAYS_TO_ALLOW_PAYBACK}" 
+									minlength="#{registrationMB.MIN_NDAYS_TO_ALLOW_PAYBACK}"
+									required="true"
+									requiredMessage="#{msg['registration.messages.requiredDaysNumberToApprovePayback']}"
+									pt:placeholder="#{msg['registration.form.daysNumberToApprovePayback']}"
+									onkeyup="deleteNonIntegerContent(this, '');">
+								</h:inputText>
+								<p:keyFilter mask="pint" 
+									for="daysNumberInput"
+									preventPaste="false" />
+								<p:messages for="daysNumberInput" />
+							</h:panelGroup>
+							
 							<!-- Email block -->
 							<h:panelGroup layout="block" 
 								styleClass="form-group">

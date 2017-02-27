@@ -114,4 +114,18 @@ public class BuyProofService implements IBuyProofService {
 		}
 	}
 
+	@Override
+	public short updateBuyProofsBatch(Map<String, Object> params) 
+			throws BusinessServiceException {
+		logger.info("Updating a batch of buy proofs...");
+		short rowsUpdated = 0;
+		try {
+			rowsUpdated = buyProofDAO.updateBuyProofsBatch(params);
+		} catch (Exception e) {
+			final String ERROR_MSG = "Error while updating a batch of buy proofs....";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return rowsUpdated;
+	}
 }

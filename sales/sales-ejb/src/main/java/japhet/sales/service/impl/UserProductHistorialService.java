@@ -3,6 +3,9 @@ package japhet.sales.service.impl;
 import static japhet.sales.data.QueryParameters.*;
 import static japhet.sales.catalogs.Statuses.*;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +15,13 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import japhet.sales.catalogs.Statuses;
 import japhet.sales.data.impl.UserProductHistorialDAO;
+import japhet.sales.dto.UserBudget;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidBuyProofException;
 import japhet.sales.model.impl.BuyProof;
+import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.User;
 import japhet.sales.model.impl.UserProductHistorial;
 import japhet.sales.service.IUserProductHistorialService;
@@ -197,16 +203,87 @@ public class UserProductHistorialService implements IUserProductHistorialService
 	}
 	
 	@Override
-	public Double obtainReadyPaybackAmount(User user) 
+	public UserBudget obtainReadyOnWaitPaybackAmounts(User user) 
 			throws BusinessServiceException {
 		Map<String, Object> params = new HashMap<>();
+		Company company = null;
+		UserBudget paybackAmounts = null;
 		double paybackReadyAmount = 0.0;
+		double paybackOnWaitAmount = 0.0;
 		params.put(USER_ID, user.getUserId());
 		params.put(STATUS_ID, VALIDATED.getId());
+		//Obtain user product historials
 		List<UserProductHistorial> userProductHistorials = getCompletedHistorialByUserAndStatus(params);
-		for(UserProductHistorial userProductHistorial : userProductHistorials) {
-			paybackReadyAmount += userProductHistorial.getPaybackAmount();
+		//Obtain the number of days required to free the user budget
+		short companyProtectionDays = 0;
+		Date today = new Date();
+		Date transactionDate = new Date();
+		Date approvementDate = new Date();
+		Calendar calendar = Calendar.getInstance();
+		if(userProductHistorials != null) {
+			//Calculate the total user budget
+			for(UserProductHistorial userProductHistorial : userProductHistorials) {
+				//Set the company protection days from the product
+				company = userProductHistorial.getProduct().getCompany();
+				companyProtectionDays = company.getDaysNumberToApprove();
+				
+				if(userProductHistorial.getCompletedDate() != null) {
+					transactionDate = userProductHistorial.getCompletedDate();
+				}
+				calendar.setTime(transactionDate);
+				//Increase the number of days that are required to allow a deposit
+				calendar.add(Calendar.DATE, companyProtectionDays);
+				approvementDate = calendar.getTime();
+				if(today.after(approvementDate)) {
+					paybackReadyAmount += userProductHistorial.getPaybackAmount();
+				} else {
+					paybackOnWaitAmount += userProductHistorial.getPaybackAmount();
+				}
+			}
 		}
-		return paybackReadyAmount;
+		paybackAmounts = new UserBudget(paybackReadyAmount, paybackOnWaitAmount);
+		return paybackAmounts;
+	}
+
+	@Override
+	public List<BuyProof> obtainBuyProofsReadyToPay(User user) 
+			throws BusinessServiceException {
+		Map<String, Object> params = new HashMap<>();
+		Company company = null;
+		List<BuyProof> buyProofs = new ArrayList<>();
+		params.put(USER_ID, user.getUserId());
+		params.put(STATUS_ID, VALIDATED.getId());
+		//Obtain user product historials
+		List<UserProductHistorial> userProductHistorials = getCompletedHistorialByUserAndStatus(params);
+		//Obtain the number of days required to free the user budget
+		short companyProtectionDays = 0;
+		Date today = new Date();
+		Date transactionDate = new Date();
+		Date approvementDate = new Date();
+		Calendar calendar = Calendar.getInstance();
+		if(userProductHistorials != null) {
+			//Calculate the total user budget
+			for(UserProductHistorial userProductHistorial : userProductHistorials) {
+				//Set the company protection days from the product
+				company = userProductHistorial.getProduct().getCompany();
+				companyProtectionDays = company.getDaysNumberToApprove();
+				
+				if(userProductHistorial.getCompletedDate() != null) {
+					transactionDate = userProductHistorial.getCompletedDate();
+				}
+				calendar.setTime(transactionDate);
+				//Increase the number of days that are required to allow a deposit
+				calendar.add(Calendar.DATE, companyProtectionDays);
+				approvementDate = calendar.getTime();
+				if(today.after(approvementDate)) {
+					for(BuyProof buyProof : userProductHistorial.getBuyProofs()) {
+						if(buyProof.getStatus().getStatusId() == Statuses.VALIDATED.getId()) {
+							buyProofs.add(buyProof);
+						}
+					}
+				} 
+			}
+		}
+		return buyProofs;
 	}
 }

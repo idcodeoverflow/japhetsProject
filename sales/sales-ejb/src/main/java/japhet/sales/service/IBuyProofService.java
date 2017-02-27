@@ -30,4 +30,7 @@ public interface IBuyProofService extends Serializable {
 	public void insertBuyProof(BuyProof buyProof) 
 			throws BusinessServiceException;
 	
+	public short updateBuyProofsBatch(Map<String, Object> params) 
+			throws BusinessServiceException;
+	
 }
