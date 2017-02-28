@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
+import japhet.sales.catalogs.Roles;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.internationalization.IInternationalizationService;
@@ -84,8 +85,12 @@ public class CategoryManagementMB extends GenericMB {
 		final String CATEGORIES_WARNING_MSG = internationalizationService.
 				getI18NMessage(CURRENT_LOCALE, getPENDING_CHOOSE_CATEGORIES());
 		try {
+			boolean validUser = getLoggedUser() != null 
+					&& getLoggedUser().getRole() != null 
+					&& (getLoggedUser().getRole().getRoleId() == Roles.USER.getId()
+					|| getLoggedUser().getRole().getRoleId() == Roles.COMPANY.getId());
 			userCategories = (userService.getUser(userId)).getCategories();
-			if(userCategories == null || userCategories.isEmpty()) {
+			if(validUser && (userCategories == null || userCategories.isEmpty())) {
 				//If the user doesn't have categories checked show a warning message
 				showInfoMessage(CATEGORIES_WARNING_MSG, "");
 			}

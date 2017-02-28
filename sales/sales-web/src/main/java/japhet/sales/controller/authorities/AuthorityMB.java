@@ -33,6 +33,21 @@ public class AuthorityMB extends GenericMB {
 	}
 	
 	/**
+	 * Defines if the current user has the user role.
+	 * @return
+	 */
+	public boolean isUserRole() {
+		User user = getLoggedUser();
+		if(user != null) {
+			Role role = user.getRole();
+			if(role != null) {
+				return role.getRoleId() == Roles.USER.getId();
+			}
+		}
+		return false; 
+	}
+	
+	/**
 	 * Allows or denies a user to register an administrator or a company.
 	 * @return
 	 */

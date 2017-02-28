@@ -13,7 +13,9 @@
 		<p:messages id="messages" showDetail="true" globalOnly="true" />
 							   
 		<!-- User --> 
-		<ui:include src="#{urlMapperMB.userAccountManager}" />
+		<h:panelGroup rendered="#{authorityMB.userRole}">
+			<ui:include src="#{urlMapperMB.userAccountManager}" />
+		</h:panelGroup>
 		
 		<!-- Company -->
 		<h:panelGroup id="companyPanel" 
