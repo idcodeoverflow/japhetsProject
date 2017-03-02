@@ -48,6 +48,36 @@ public class AuthorityMB extends GenericMB {
 	}
 	
 	/**
+	 * Defines if the current user has the company role.
+	 * @return
+	 */
+	public boolean isCompanyRole() {
+		User user = getLoggedUser();
+		if(user != null) {
+			Role role = user.getRole();
+			if(role != null) {
+				return role.getRoleId() == Roles.COMPANY.getId();
+			}
+		}
+		return false; 
+	}
+	
+	/**
+	 * Defines if the current user has the administrator role.
+	 * @return
+	 */
+	public boolean isAdministratorRole() {
+		User user = getLoggedUser();
+		if(user != null) {
+			Role role = user.getRole();
+			if(role != null) {
+				return role.getRoleId() == Roles.ADMINISTRATOR.getId();
+			}
+		}
+		return false; 
+	}
+	
+	/**
 	 * Allows or denies a user to register an administrator or a company.
 	 * @return
 	 */
