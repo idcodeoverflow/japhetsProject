@@ -101,6 +101,7 @@
 				  		<!-- Payment request summary -->
 				  		<h:panelGroup layout="block" 
 							styleClass="row">
+							
 							<!-- Total sum -->
 							<h:panelGroup styleClass="col-md-3"
 								layout="block">
@@ -125,7 +126,7 @@
 								 </h:panelGroup>
 							</h:panelGroup>
 							
-							<!-- Afore sum -->
+							<!-- # of payment requests -->
 							<h:panelGroup styleClass="col-md-3"
 								layout="block">
 								<h:panelGroup layout="block" 
@@ -149,11 +150,27 @@
 								 </h:panelGroup>
 							</h:panelGroup>
 							
-							<!-- # of payment requests -->
-							<h:panelGroup styleClass="col-md-3">
+							<!-- Resquests count -->
+							<h:panelGroup styleClass="col-md-3"
+								layout="block">
+								<h:panelGroup layout="block" 
+									styleClass="form-group">
+							    	<h:outputLabel for="countPaymentRequestInput">
+							    		<h:outputText value="#{msg['account.company.paybacksTable.summary.requestsCount']}" />
+							    	</h:outputLabel>
+							    	<h:inputText id="countPaymentRequestInput" 
+						    	  		styleClass="form-control"
+						    	  		value="#{userAccountManagerMB.onwaitAmount}" 
+						    	  		readonly="true">
+										<f:convertNumber minFractionDigits="0" 
+											maxFractionDigits="0"/>
+									</h:inputText>
+								 </h:panelGroup>
 							</h:panelGroup>
+							
 							<!-- Spacer -->
-							<h:panelGroup styleClass="col-md-3">
+							<h:panelGroup styleClass="col-md-3"
+								layout="block">
 							</h:panelGroup>
 						</h:panelGroup>
 				  		<!-- Payment request table -->
