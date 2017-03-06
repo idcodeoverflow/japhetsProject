@@ -2,7 +2,6 @@ package japhet.sales.controller.manager;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +20,8 @@ import org.primefaces.model.StreamedContent;
 
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
+import japhet.sales.dto.UserBudget;
+import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidBuyProofException;
 import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.BuyProof;
@@ -67,6 +68,7 @@ public class UserAccountManagerMB extends GenericMB {
 	
 	//Validation properties
 	private final int MAX_MEDIA_SIZE = 1000000;
+	private final double MIN_PAYMENT_REQUEST = 200.0;
 	
 	//View properties
 	private byte[] buyProofBytes;
@@ -75,7 +77,6 @@ public class UserAccountManagerMB extends GenericMB {
 	private List<PaymentRequest> paymentRequestHistory;
 	private List<BuyProof> buyProofsHistory;
 	private List<UserProductHistorial> userProductHistorials;
-	private double userPrdctHistAmount;
 	private double onwaitAmount;
 	private double readyAmount;
 	
@@ -83,22 +84,25 @@ public class UserAccountManagerMB extends GenericMB {
 	private Map<String, Object> params;
 	private User user;
 	
+	/**
+	 * Initializes the User Account Manager.
+	 */
 	@PostConstruct
 	private void init() {
 		try {
 			logger.info("Initializing user account manager...");
 			//Initialize session properties
 			params = new HashMap<>();
-			paymentRequest = new PaymentRequest();
 			user = getLoggedUser();
 			params.put(USER_ID, user.getUserId());
-			//Obtain user values
-			paymentRequestHistory = paymentRequestService.
-					getPaymentRequestsByUser(user.getUserId());
-			setUserPrdctHistAmount(0.0);
+			//Initialize elements
 			initializeBuyProof();
+			initializePaymentRequest();
+			//Update elements
 			updateBuyProofsListHistory();
 			updateUserProductHistorial();
+			updatePaymentRequests();
+			updateUserBudget();
 		} catch (Exception e) {
 			logger.error("Error while initializing user account manager.", e);
 			showErrorMessage(internationalizationService
@@ -123,7 +127,9 @@ public class UserAccountManagerMB extends GenericMB {
 			//Validate and insert
 			userProductHistorialService.verifyTotalAmounts(buyProof);
 			buyProofService.insertBuyProof(buyProof);
+			//Update elements
 			updateBuyProofsListHistory();
+			updateUserBudget();
 			initializeBuyProof();
 		} catch (InvalidBuyProofException e) {
 			logger.error("The buy proof 'Total Amount' doesn't match the finger print 'Total'.", e);
@@ -135,6 +141,39 @@ public class UserAccountManagerMB extends GenericMB {
 			showErrorMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getFILE_UPLOAD_ERROR()), 
 					event.getFile().getFileName());
+		}
+	}
+	
+	/**
+	 * Generates a new payment request.
+	 */
+	public void requestPaymentRequest() {
+		try {
+			logger.info("Generating a payment request...");
+			Map<String, Object> params = new HashMap<>();
+			List<BuyProof> buyProofsToUpdate = userProductHistorialService.obtainBuyProofsReadyToPay(user);
+			this.updateUserBudget();
+			long paymentRequestId = paymentRequest.getNewSequenceValue();
+			double paymentRequestAmount = this.readyAmount;
+			paymentRequest.setPaymentRequestId(paymentRequestId);
+			paymentRequest.setAmount(paymentRequestAmount);
+			//Populate parameters
+			params.put(PAYMENT_REQUEST, paymentRequest);
+			params.put(BUY_PROOFS_TO_UPDATE, buyProofsToUpdate);
+			params.put(PAYMENT_REQUEST_ID, paymentRequestId);
+			paymentRequestService.generatePaymentRequest(params);
+			//Update payment request data table and user budget
+			updatePaymentRequests();
+			updateBuyProofsListHistory();
+			updateUserBudget();
+		} catch (BusinessServiceException e) {
+			final String ERROR_MSG = "A service error has ocurred while generating a payment request.";
+			logger.error(ERROR_MSG, e);
+			showGeneralExceptionMessage();
+		} catch (Exception e) {
+			final String ERROR_MSG = "An error has ocurred while generating a payment request.";
+			logger.error(ERROR_MSG, e);
+			showGeneralExceptionMessage();
 		}
 	}
 	
@@ -168,20 +207,53 @@ public class UserAccountManagerMB extends GenericMB {
 	}
 	
 	/**
+	 * Updates the list of payment requests made by the user.
+	 */
+	public void updatePaymentRequests() {
+		try {
+			logger.info("Updating the user product historial list...");
+			paymentRequestHistory = paymentRequestService.
+					getPaymentRequestsByUser(user.getUserId());
+		} catch (Exception e) {
+			logger.error("Error while updating the user product historial list.", e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
+		}
+	}
+	
+	/**
 	 * Instantiates a new Buy Proof object.
 	 */
 	public void initializeBuyProof() {
-		buyProof = new BuyProof();
+		this.buyProof = new BuyProof();
 		Status status = new Status();
 		status.setStatusId(Statuses.VALIDATION_PENDING.getId());
 		//Set object values
-		buyProof.setUser(user);
-		buyProof.setRegisteredOn(new Date());
-		buyProof.setLastUpdate(new Date());
-		buyProof.setPaybackApplied(false);
-		buyProof.setStatus(status);
+		this.buyProof.setUser(user);
+		this.buyProof.setRegisteredOn(new Date());
+		this.buyProof.setLastUpdate(new Date());
+		this.buyProof.setPaybackApplied(false);
+		this.buyProof.setStatus(status);
 	}
 	
+	/**
+	 * Instantiates a new Payment Request object.
+	 */
+	public void initializePaymentRequest() {
+		this.paymentRequest = new PaymentRequest();
+		Status status = new Status();
+		status.setStatusId(Statuses.VALIDATION_PENDING.getId());
+		this.paymentRequest.setUser(user);
+		this.paymentRequest.setLastUpdate(new Date());
+		this.paymentRequest.setRequestDate(new Date());
+		this.paymentRequest.setStatus(status);
+	}
+	
+	/**
+	 * Downloads the buy proof files from the specified object.
+	 * @param buyProof
+	 * @return
+	 */
 	public StreamedContent downloadBuyProofObject(BuyProof buyProof) {
 		logger.info("Downloading buy proof file...");
 		StreamedContent streamedContent = null;
@@ -198,13 +270,34 @@ public class UserAccountManagerMB extends GenericMB {
 		return streamedContent;
 	}
 	
-	public List<String> getDeposits() {
-		List<String> deposits = new ArrayList<>();
-		deposits.add("182646");
-		deposits.add("182878");
-		deposits.add("182656");
-		deposits.add("182686");
-		return deposits;
+	/**
+	 * Updates the amount of money in each section of the user's budget.
+	 */
+	public void updateUserBudget() {
+		try {
+			UserBudget userBudget = userProductHistorialService.obtainReadyOnWaitPaybackAmounts(user);
+			this.readyAmount = userBudget.getAmountReadyToPay();
+			this.onwaitAmount = userBudget.getAmountOnHold();
+		} catch (BusinessServiceException e) {
+			showGeneralExceptionMessage();
+		}
+	}
+	
+	/**
+	 * Validates if a payment request has a resolution date.
+	 * @param paymentRequest
+	 * @return
+	 */
+	public boolean pymntReqResolutionDateExist(PaymentRequest paymentRequest) {
+		return paymentRequest != null && paymentRequest.getResolutionDate() != null; 
+	}
+	
+	/**
+	 * Validates if there are money available for a payment request.
+	 * @return
+	 */
+	public boolean isBugetForDepositsAvailable() {
+		return readyAmount > 0.0 && readyAmount >= MIN_PAYMENT_REQUEST;
 	}
 
 	public int getMAX_MEDIA_SIZE() {
@@ -248,14 +341,6 @@ public class UserAccountManagerMB extends GenericMB {
 		return userProductHistorials;
 	}
 	
-	public double getUserPrdctHistAmount() {
-		return userPrdctHistAmount;
-	}
-
-	public void setUserPrdctHistAmount(double userPrdctHistAmount) {
-		this.userPrdctHistAmount = userPrdctHistAmount;
-	}
-
 	public double getOnwaitAmount() {
 		return onwaitAmount;
 	}

@@ -10,8 +10,6 @@ import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -24,6 +22,7 @@ import javax.persistence.TemporalType;
 
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.model.IEntity;
+import japhet.sales.model.ISequenceTable;
 
 @Cacheable(value = true)
 @Entity
@@ -34,15 +33,16 @@ import japhet.sales.model.IEntity;
 		@NamedQuery(name = GET_PAYMENT_REQUEST_BY_STATUS, 
 			query = "SELECT p FROM PaymentRequest p WHERE p.status.statusId = :statusId")
 })
-public class PaymentRequest implements IEntity {
+public class PaymentRequest implements IEntity, ISequenceTable {
 	
 	/**
 	 * Maven generated.
 	 */
 	private static final long serialVersionUID = 1680326723326533532L;
+	
+	private static long paymentRequestSequence = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "PAYMENT_REQUEST_ID")
 	private Long paymentRequestId;
 	
@@ -58,11 +58,13 @@ public class PaymentRequest implements IEntity {
 	private Date lastUpdate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "VALIDATED_BY")
+	@JoinColumn(name = "VALIDATED_BY", 
+			nullable = true)
 	private User validatedBy;
 	
 	@Temporal(value = TemporalType.TIMESTAMP)
-	@Column(name = "RESOLUTION_DATE")
+	@Column(name = "RESOLUTION_DATE", 
+			nullable = true)
 	private Date resolutionDate;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -74,7 +76,9 @@ public class PaymentRequest implements IEntity {
 	private User user;				
 	
 	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "PAYMENT_REQUEST_ID")
+	@JoinColumn(name = "PAYMENT_REQUEST_ID", 
+			updatable = false, 
+			insertable = false)
 	private List<BuyProof> buyProofs;
 	
 	public PaymentRequest() {
@@ -172,5 +176,39 @@ public class PaymentRequest implements IEntity {
 
 	public void setBuyProofs(List<BuyProof> buyProofs) {
 		this.buyProofs = buyProofs;
+	}
+	
+	//Sequence methods
+	
+	/**
+	 * Obtains the current value to use as PK in this entity
+	 * @return
+	 */
+	public synchronized long getCurrentSequenceValue() {
+		return paymentRequestSequence;
+	}
+	
+	/**
+	 * Obtains the current value to use as PK in this entity
+	 * and then increases its value by 1.
+	 * @return
+	 */
+	public synchronized long getNewSequenceValue() {
+		return paymentRequestSequence++;
+	}
+	
+	/**
+	 * Increases by 1 the current PK sequence value.
+	 */
+	public synchronized void increaseSequenceValue() {
+		++paymentRequestSequence;
+	}
+	
+	/**
+	 * Defines the value that is going to be used in 
+	 * the sequence generator.
+	 */
+	public synchronized void setSequenceValue(long sequenceValue) {
+		paymentRequestSequence = sequenceValue;
 	}
 }

@@ -20,9 +20,6 @@ public class PaymentRequestDAO
 	@Inject
 	private Logger logger;
 	
-	private final String USER_ID = "userId";
-	private final String STATUS_ID = "statusId";
-	
 	public PaymentRequestDAO(){
 		super(PaymentRequest.class, Long.class);
 	}
