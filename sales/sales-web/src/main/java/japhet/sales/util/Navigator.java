@@ -23,6 +23,7 @@ public interface Navigator {
 	String SIGN_IN_URL = pReader.getValueFromKey(URL.LOGIN.getName());
 	String ACCOUNT_MANAGER = pReader.getValueFromKey(URL.ACCOUNT_MANAGER.getName());
 	String USER_ACCOUNT_MANAGER = pReader.getValueFromKey(URL.USER_ACCOUNT_MANAGER.getName());
+	String COMPANY_ACCOUNT_MANAGER = pReader.getValueFromKey(URL.COMPANY_MANAGER.getName());
 	String CATEGORIES = pReader.getValueFromKey(URL.CATEGORIES.getName());
 	String HOME_VIDEO_URL = pReader.getValueFromKey(URL.HOME_VIDEO_URL.getName());
 	String CATEGORIES_REGISTRATION_URL = pReader.getValueFromKey(URL.CATEGORIES_REGISTRATION_URL.getName());

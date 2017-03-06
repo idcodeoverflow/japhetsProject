@@ -67,6 +67,27 @@ public class UserProductHistorialDAO extends GenericDAO
 		}
 		return historial;
 	}
+			
+	/**
+	 * Obtains the products user historial by user and status.
+	 * 
+	 * @param params
+	 * @return
+	 * @throws DataLayerException
+	 */
+	public List<UserProductHistorial> getCompletedHistorialByUserAndStatus(Map<String, Object> params) 
+			throws DataLayerException {
+		logger.info("Obtaining completed product historial by user id and status...");
+		List<UserProductHistorial> historial = null;
+		try {
+			historial = executeQuery(GET_ALL_PRODUCT_HISTORIAL_BY_USER_N_STATUS, params);
+		} catch (Exception e) {
+			final String errorMsg = "Error trying to obtain the completed product historial by user id and status.";
+			logger.fatal(errorMsg, e);
+			throw new DataLayerException(errorMsg, e);
+		}
+		return historial;
+	}
 	
 	/**
 	 * Obtains the product user history by fingerprint.

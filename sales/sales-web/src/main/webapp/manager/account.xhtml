@@ -13,36 +13,17 @@
 		<p:messages id="messages" showDetail="true" globalOnly="true" />
 							   
 		<!-- User --> 
-		<ui:include src="#{urlMapperMB.userAccountManager}" />
+		<h:panelGroup rendered="#{authorityMB.userRole}">
+			<ui:include src="#{urlMapperMB.userAccountManager}" />
+		</h:panelGroup>
 		
 		<!-- Company -->
-		<h:panelGroup id="companyPanel" 
-			layout="block" 
-			styleClass="row">
-			
-			<h:panelGroup styleClass="col-md-2" />
-			
-			<h:panelGroup styleClass="col-md-8">
-				
-			</h:panelGroup>
-			
-			<h:panelGroup layout="block" styleClass="col-md-2" />
-		
+		<h:panelGroup rendered="#{authorityMB.companyRole}">
+			<ui:include src="#{urlMapperMB.companyAccountManager}" />
 		</h:panelGroup>
 		
 		<!-- Administrator -->
-		<h:panelGroup id="administratorPanel" 
-			layout="block" 
-				styleClass="row">
-			
-			<h:panelGroup styleClass="col-md-2" />
-			
-			<h:panelGroup styleClass="col-md-8">
-				
-			</h:panelGroup>
-			
-			<h:panelGroup layout="block" styleClass="col-md-2" />
-		
+		<h:panelGroup rendered="#{authorityMB.administratorRole}">
 		</h:panelGroup>
 	</ui:define>
 	

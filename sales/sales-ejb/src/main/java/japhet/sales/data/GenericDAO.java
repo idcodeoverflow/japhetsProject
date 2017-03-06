@@ -78,6 +78,12 @@ public abstract class GenericDAO<T extends IEntity, K>
 		return entity;
 	}
 	
+	public T insertAndFlush(T entity) throws Exception {
+		em.persist(entity);
+		em.flush();
+		return entity;
+	}
+	
 	public void insert(String queryName, 
 			Map<String, Object> params) throws Exception {
 		executeUpdate(queryName, params);

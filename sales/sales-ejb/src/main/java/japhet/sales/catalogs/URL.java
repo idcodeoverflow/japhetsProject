@@ -17,6 +17,7 @@ public enum URL {
 	RECOVER_PASSWORD("recoverPassword"),
 	SIGN_UP("signUp"),
 	ACCOUNT_MANAGER("accountManager"),
+	COMPANY_MANAGER("companyAccountManager"),
 	USER_ACCOUNT_MANAGER("userAccountManager"),
 	CATEGORIES("categories"),
 	CATEGORIES_REGISTRATION_URL("categoriesRegistration"),
