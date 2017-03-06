@@ -2,6 +2,7 @@ package japhet.sales.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.Local;
 
@@ -27,5 +28,8 @@ public interface IPaymentRequestService extends Serializable {
 			throws BusinessServiceException;
 	
 	public boolean insertPaymentRequest(PaymentRequest paymentRequest) 
+			throws BusinessServiceException;
+	
+	public short generatePaymentRequest(Map<String, Object> params) 
 			throws BusinessServiceException;
 }

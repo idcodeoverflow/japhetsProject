@@ -31,6 +31,8 @@ import japhet.sales.util.Encryption;
 @NamedQueries(value = {
 		@NamedQuery(name = GET_ALL_PRODUCT_HISTORIAL_BY_USER, 
 				query = "SELECT u FROM UserProductHistorial u WHERE u.user.userId = :" + USER_ID),
+		@NamedQuery(name = GET_ALL_PRODUCT_HISTORIAL_BY_USER_N_STATUS, 
+		query = "SELECT u FROM UserProductHistorial u JOIN u.buyProofs b WHERE u.user.userId = :" + USER_ID + " AND b.status.statusId = :" + STATUS_ID),
 		@NamedQuery(name = GET_COMPLETED_PRDCT_HIST_BY_USER, 
 				query = "SELECT u FROM UserProductHistorial u WHERE u.user.userId = :" + USER_ID + " AND u.completed = TRUE AND u.buyProofs IS EMPTY"),
 		@NamedQuery(name = GET_ALL_PRODUCT_HISTORIAL_BY_PRODUCT, 
@@ -51,7 +53,7 @@ public class UserProductHistorial implements IEntity {
 	private Long historialId;
 	
 	@JoinColumn(name = "PRODUCT_ID")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Product product;
 	
 	@JoinColumn(name = "USER_ID", 
@@ -80,6 +82,10 @@ public class UserProductHistorial implements IEntity {
 			nullable = true)
 	private Double total;
 	
+	@Column(name = "PAYBACK_AMOUNT",
+			nullable = true)
+	private Double paybackAmount;
+	
 	@Column(name = "PRODUCTS_COUNT",
 			nullable = true)
 	private Integer productsCount;
@@ -99,8 +105,8 @@ public class UserProductHistorial implements IEntity {
 	public UserProductHistorial(Long historialId, Product product, 
 			User user, Date clickDate, Boolean completed,
 			Date completedDate, String userProductHistorialKey,
-			Double total, Integer productsCount, String receipt,
-			List<BuyProof> buyProofs) {
+			Double total, Double paybackAmount, Integer productsCount, 
+			String receipt, List<BuyProof> buyProofs) {
 		super();
 		this.historialId = historialId;
 		this.product = product;
@@ -110,6 +116,7 @@ public class UserProductHistorial implements IEntity {
 		this.completedDate = completedDate;
 		this.userProductHistorialKey = userProductHistorialKey;
 		this.total = total;
+		this.paybackAmount = paybackAmount;
 		this.productsCount = productsCount;
 		this.receipt = receipt;
 		this.buyProofs = buyProofs;
@@ -183,6 +190,14 @@ public class UserProductHistorial implements IEntity {
 
 	public void setTotal(Double total) {
 		this.total = total;
+	}
+
+	public Double getPaybackAmount() {
+		return paybackAmount;
+	}
+
+	public void setPaybackAmount(Double paybackAmount) {
+		this.paybackAmount = paybackAmount;
 	}
 
 	public Integer getProductsCount() {

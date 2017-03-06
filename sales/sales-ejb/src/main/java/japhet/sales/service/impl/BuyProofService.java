@@ -59,6 +59,21 @@ public class BuyProofService implements IBuyProofService {
 		}
 		return buyProofs;
 	}
+	
+	@Override
+	public List<BuyProof> getBuyProofsByUserAndStatus(Map<String, Object> params) 
+			throws BusinessServiceException {
+		logger.info("Getting buy proofs by user and status...");
+		List<BuyProof> buyProofs = null;
+		try {
+			buyProofs = buyProofDAO.getBuyProofsByUserAndStatus(params);
+		} catch (Exception e) {
+			final String errorMsg = "Error while trying to get the buy proofs by user and status.";
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return buyProofs;
+	}
 
 	@Override
 	public void updateBuyProof(BuyProof buyProof)   
@@ -99,4 +114,18 @@ public class BuyProofService implements IBuyProofService {
 		}
 	}
 
+	@Override
+	public short updateBuyProofsBatch(Map<String, Object> params) 
+			throws BusinessServiceException {
+		logger.info("Updating a batch of buy proofs...");
+		short rowsUpdated = 0;
+		try {
+			rowsUpdated = buyProofDAO.updateBuyProofsBatch(params);
+		} catch (Exception e) {
+			final String ERROR_MSG = "Error while updating a batch of buy proofs....";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return rowsUpdated;
+	}
 }

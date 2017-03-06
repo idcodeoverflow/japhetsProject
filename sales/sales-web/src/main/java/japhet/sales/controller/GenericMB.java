@@ -3,6 +3,7 @@ package japhet.sales.controller;
 import java.io.IOException;
 import java.io.Serializable;
 
+import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -16,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import japhet.sales.data.QueryParameters;
 import japhet.sales.data.StoredProcedureParameters;
+import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.User;
 import japhet.sales.rest.RESTParameters;
 import japhet.sales.util.Navigator;
@@ -33,6 +35,9 @@ public abstract class GenericMB extends GenericFacesMessager
 	
 	@Inject
 	protected Logger logger;
+	
+	@EJB
+	protected IInternationalizationService internationalizationService;
 	
 	@Override
 	protected FacesContext getCurrentFacesInstance() {
@@ -82,5 +87,15 @@ public abstract class GenericMB extends GenericFacesMessager
 			}
 		}
 		return user;
+	}
+	
+	protected void showGeneralExceptionMessage() {
+		showErrorMessage(internationalizationService
+				.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
+	}
+	
+	protected void showStartupMbExceptionMessage() {
+		showErrorMessage(internationalizationService
+				.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
 	}
 }

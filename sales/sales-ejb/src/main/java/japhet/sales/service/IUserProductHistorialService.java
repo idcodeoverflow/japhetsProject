@@ -6,9 +6,11 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import japhet.sales.dto.UserBudget;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidBuyProofException;
 import japhet.sales.model.impl.BuyProof;
+import japhet.sales.model.impl.User;
 import japhet.sales.model.impl.UserProductHistorial;
 
 @Local
@@ -18,6 +20,9 @@ public interface IUserProductHistorialService extends Serializable {
 			throws BusinessServiceException;
 	
 	public List<UserProductHistorial> getCompletedHistorialByUser(Map<String, Object> params) 
+			throws BusinessServiceException;
+	
+	public List<UserProductHistorial> getCompletedHistorialByUserAndStatus(Map<String, Object> params) 
 			throws BusinessServiceException;
 	
 	public UserProductHistorial getCompletedHistorialByFingerprint(Map<String, Object> params) 
@@ -38,7 +43,9 @@ public interface IUserProductHistorialService extends Serializable {
 	public UserProductHistorial getProductHistorialById(Long historialId) 
 			throws BusinessServiceException;
 	
-	public void verifyTotalAmounts(BuyProof buyProof) 
-			throws InvalidBuyProofException;
+	public void verifyTotalAmounts(BuyProof buyProof) throws InvalidBuyProofException;
 	
+	public UserBudget obtainReadyOnWaitPaybackAmounts(User user) throws BusinessServiceException;
+	
+	public List<BuyProof> obtainBuyProofsReadyToPay(User user) throws BusinessServiceException;
 }
