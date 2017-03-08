@@ -25,7 +25,7 @@ import japhet.sales.model.IEntity;
 		@NamedQuery(name = GET_ALL_SOCIAL_NETWORKS, 
 				query = "SELECT s FROM SocialNetwork s"),
 		@NamedQuery(name = GET_ALL_AVAILABLE_SOCIAL_NETWORKS,
-				query = "SELECT s FROM SocialNetwork s WHERE s.startDate >= CURRENT_DATE AND s.endDate <= CURRENT_DATE")
+				query = "SELECT s FROM SocialNetwork s WHERE s.startDate >= CURRENT_TIMESTAMP AND s.endDate <= CURRENT_TIMESTAMP")
 })
 public class SocialNetwork implements IEntity {
 

@@ -2,29 +2,46 @@ package japhet.sales.controller.manager;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.model.impl.BuyProof;
+import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.PaymentRequest;
 import japhet.sales.model.impl.Product;
 import japhet.sales.model.impl.User;
+import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IPaymentRequestService;
 import japhet.sales.service.IProductService;
 
+/**
+ * 
+ * @author David Israel Garcia Alcazar
+ *
+ */
 @ManagedBean
 @ViewScoped
 public class CompanyAccountManagerMB extends GenericMB {
 
+	/**
+	 * Maven generated.
+	 */
+	private static final long serialVersionUID = -2897730684197796902L;
+	
 	//Table projects
 	private List<Product> companyProducts;
 	private List<PaymentRequest> paymentRequests;
@@ -37,6 +54,7 @@ public class CompanyAccountManagerMB extends GenericMB {
 	private double totalAcceptedOrdersSum;
 	private int totalOrdersCount;
 	
+	@Inject
 	private Logger logger;
 	
 	//EJB
@@ -46,8 +64,12 @@ public class CompanyAccountManagerMB extends GenericMB {
 	@EJB
 	private IPaymentRequestService paymentRequestService;
 	
+	@EJB
+	private ICompanyService companyService;
+	
 	//Logic attributes
 	private User user;
+	private Company company;
 	
 	/**
 	 * Initializes the content of this MB.
@@ -56,7 +78,9 @@ public class CompanyAccountManagerMB extends GenericMB {
 	public void init() {
 		try {
 			logger.info("Initializing the CompanyAccountManagerMB...");
+			//Update logic attributes
 			this.user = getLoggedUser();
+			this.company = obtainCompanyByUser(user);
 			//Initialize data tables
 			updateCompanyProducts();
 			updatePaymentRequests();
@@ -70,16 +94,43 @@ public class CompanyAccountManagerMB extends GenericMB {
 	 * Updates the content of the list that 
 	 * feeds the company products data table.
 	 */
-	public void updateCompanyProducts() {
-		this.companyProducts = null;
+	public void updateCompanyProducts() throws Exception {
+		Map<String, Object> parameters = new HashMap<>();
+		final Long COMP_ID = ((this.company != null 
+				&& this.company.getCompanyId() != null) ? this.company.getCompanyId() : -1L);
+		final String INFO_MSG = String.format("Updating Company Products for the Company %d...", COMP_ID);
+		try {
+			logger.info(INFO_MSG);
+			parameters.put(COMPANY_ID, this.company.getCompanyId());
+			this.companyProducts = productService.getAvailableProductsFromCompany(parameters);
+		} catch (Exception e) {
+			final String ERROR_MSG = String.format("An error has ocurred while updating the company %d products.", COMP_ID);
+			logger.error(ERROR_MSG, e);
+			throw new Exception(ERROR_MSG, e);
+		}
 	}
 	
 	/**
 	 * Updates the content of the list that
 	 * feeds the company payment requests data table.
 	 */
-	public void updatePaymentRequests() {
-		this.paymentRequests = null;
+	public void updatePaymentRequests() throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		final Long COMP_ID = ((this.company != null 
+				&& this.company.getCompanyId() != null) ? this.company.getCompanyId() : -1L);
+		final Short ON_REQUEST_STATUS_ID = Statuses.VALIDATION_PENDING.getId();
+		final String INFO_MSG = String.format("Updating Payment Requests for the Company: %d and Status: %d...", COMP_ID, ON_REQUEST_STATUS_ID);
+		try {
+			logger.info(INFO_MSG);
+			params.put(COMPANY_ID, this.company.getCompanyId());
+			params.put(STATUS_ID, ON_REQUEST_STATUS_ID);
+			this.paymentRequests = paymentRequestService.getPaymentRequestsByCompany(params);
+		} catch (Exception e) {
+			final String ERROR_MSG = String.
+					format("An error has ocurred while updating the Company: %d Payment Requests and Status: %d.", COMP_ID, ON_REQUEST_STATUS_ID);
+			logger.error(ERROR_MSG, e);
+			throw new Exception(ERROR_MSG, e);
+		}
 	}
 	
 	/**
@@ -91,6 +142,10 @@ public class CompanyAccountManagerMB extends GenericMB {
 		final String INFO_MSG = String.format("Ending product validity: %d...", PRODUCT_ID);
 		try {
 			logger.info(INFO_MSG);
+			//Update end date
+			product.setEndDate(new Date());
+			productService.updateProductAndFlush(product);
+			updateCompanyProducts();
 		} catch (Exception e) {
 			final String ERROR_MSG = String.format("An error has ocurred while ending product validity for id: %d", PRODUCT_ID);
 			logger.error(ERROR_MSG, e);
@@ -192,6 +247,13 @@ public class CompanyAccountManagerMB extends GenericMB {
 			logger.error(ERROR_MSG, e);
 			showGeneralExceptionMessage();
 		}
+	}
+	
+	private Company obtainCompanyByUser(User user) throws Exception {
+		Map<String, Object> parameters = new HashMap<>();
+		parameters.put(USER_ID, user.getUserId());
+		Company company = companyService.getCompanyByUserId(parameters);
+		return company;
 	}
 	
 	public List<Product> getCompanyProducts() {

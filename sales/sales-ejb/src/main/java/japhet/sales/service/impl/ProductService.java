@@ -1,6 +1,6 @@
 package japhet.sales.service.impl;
 
-import static japhet.sales.data.QueryParameters.PRODUCT_KEY;
+import static japhet.sales.data.QueryParameters.*;
 
 import java.util.List;
 import java.util.Map;
@@ -38,8 +38,8 @@ public class ProductService implements IProductService {
 	public List<Product> getAllAvailableProducts()   
 			throws BusinessServiceException {
 		List<Product> products = null;
-		logger.info("Obtaining all available products...");
 		try {
+			logger.info("Obtaining all available products...");
 			products = productDAO.getAvailableProducts();
 		} catch (Exception e) {
 			final String errorMsg = "Error while getting all available products.";
@@ -53,8 +53,8 @@ public class ProductService implements IProductService {
 	public List<Product> getSearchedProducts(Map<String, Object> parameters) 
 			throws BusinessServiceException {
 		List<Product> products = null;
-		logger.info("Obtaining searched products...");
 		try {
+			logger.info("Obtaining searched products...");
 			products = productDAO.getSearchedProducts(parameters);
 		} catch (Exception e) {
 			final String errorMsg = "Error while getting the searched products.";
@@ -68,9 +68,9 @@ public class ProductService implements IProductService {
 	public Product getProductByKey(Map<String, Object> parameters)
 			throws BusinessServiceException {
 		final String INFO_MSG = String.format("Obtaining product by Key %s...", parameters.get(PRODUCT_KEY));
-		logger.info(INFO_MSG);
 		Product product = null;
 		try {
+			logger.info(INFO_MSG);
 			product = productDAO.getProductByKey(parameters);
 		} catch (DataLayerException e) {
 			final String ERROR_MSG = String.format("Error obtaining product by Key %s", 
@@ -80,13 +80,30 @@ public class ProductService implements IProductService {
 		}
 		return product;
 	}
+	
+	@Override
+	public List<Product> getAvailableProductsFromCompany(Map<String, Object> parameters)
+			throws BusinessServiceException {
+		List<Product> products = null;
+		final Long COMP_ID = ((parameters.get(COMPANY_ID) != null) ? (Long)parameters.get(COMPANY_ID) : -1L);
+		final String INFO_MSG = String.format("Obtaining available Products by Company %d...", COMP_ID);
+		try {
+			logger.info(INFO_MSG);
+			products = productDAO.getAvailableProductsFromCompany(parameters);
+		} catch (Exception e) {
+			final String errorMsg = String.format("Error while getting the availale Products by Company %d.",  COMP_ID);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+		return products;
+	}
 
 	@Override
 	public Product getProduct(Long productId)   
 			throws BusinessServiceException {
-		logger.info("Obtaining product " + productId + " from the DB...");
 		Product product = null;
 		try {
+			logger.info("Obtaining product " + productId + " from the DB...");
 			product = productDAO.select(productId);
 		} catch (Exception e) {
 			final String errorMsg = "Error obtaining product " + productId 
@@ -103,6 +120,21 @@ public class ProductService implements IProductService {
 		logger.info("Updating product into the DB...");
 		try {
 			productDAO.update(product);
+			return true;
+		} catch (Exception e) {
+			final String errorMsg = "Error updating product into the DB: " 
+					+ stringifyProduct(product);
+			logger.fatal(errorMsg, e);
+			throw new BusinessServiceException(errorMsg, e);
+		}
+	}
+	
+	@Override
+	public boolean updateProductAndFlush(Product product)   
+			throws BusinessServiceException {
+		logger.info("Updating product into the DB...");
+		try {
+			productDAO.updateAndFlush(product);
 			return true;
 		} catch (Exception e) {
 			final String errorMsg = "Error updating product into the DB: " 

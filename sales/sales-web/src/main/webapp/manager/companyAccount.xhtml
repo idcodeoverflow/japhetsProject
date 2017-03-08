@@ -26,8 +26,8 @@
 				  	<h:panelGroup layout="block" 
 				  		styleClass="panel-body">
 				  		<p:dataTable id="productManagementTable" 
-				    		value="#{userAccountManagerMB.paymentRequestHistory}"
-				    		var="paymentRequest"
+				    		value="#{companyAccountManagerMB.companyProducts}"
+				    		var="companyProduct"
 				    		emptyMessage="#{msg['account.company.productsTable.empty']}"
 				    		paginator="true"
 				    		paginatorPosition="bottom"
@@ -41,40 +41,54 @@
 						    <p:column headerClass="text-center" 
 						    	width="12%"
 						    	headerText="#{msg['account.company.productsTable.productNumber']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{companyProduct.productId}">
+						        	<f:convertNumber minFractionDigits="0" 
+										maxFractionDigits="0"/>
+						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	headerText="#{msg['account.company.productsTable.name']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{companyProduct.title}" />
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	width="10%"
 						    	headerText="#{msg['account.company.productsTable.price']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{companyProduct.price}">
+						        	<f:convertNumber type="currency" />
+						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center"
 						    	width="9%"
 						    	headerText="#{msg['account.company.productsTable.paybackPercent']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{companyProduct.paybackPercent}">
+						        	<f:convertNumber type="percent" />
+						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center"
 						    	width="15%"
 						    	headerText="#{msg['account.company.productsTable.startDate']}">
-						        <h:outputText value="">
+						        <h:outputText value="#{companyProduct.startDate}">
 						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
 						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center"
 						    	width="15%"
 						    	headerText="#{msg['account.company.productsTable.endDate']}">
-						        <h:outputText value="">
+						        <h:outputText value="#{companyProduct.endDate}">
 						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
 						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center"
-						    	width="12%"
+						    	width="10%"
 						    	headerText="#{msg['account.company.productsTable.endVality']}">
-						        <h:outputText value="" />
+						        <p:commandLink id="endProductValidity"
+						        	update="productManagementTable"
+						        	action="#{companyAccountManagerMB.endProductValidity(companyProduct)}"
+						        	styleClass="btn btn-default btn-block">
+								    <i class="glyphicon glyphicon-trash"></i>
+								    <f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+						        </p:commandLink>
 						    </p:column>
 						</p:dataTable>	
 					</h:panelGroup>
