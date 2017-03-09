@@ -24,8 +24,8 @@ import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.PaymentRequest;
 import japhet.sales.model.impl.Product;
 import japhet.sales.model.impl.User;
+import japhet.sales.service.IBuyProofService;
 import japhet.sales.service.ICompanyService;
-import japhet.sales.service.IPaymentRequestService;
 import japhet.sales.service.IProductService;
 
 /**
@@ -44,7 +44,7 @@ public class CompanyAccountManagerMB extends GenericMB {
 	
 	//Table projects
 	private List<Product> companyProducts;
-	private List<PaymentRequest> paymentRequests;
+	private List<BuyProof> buyProofsOnPaymentRequests;
 	
 	//Tables summary
 	private double buysTotalSum;
@@ -62,7 +62,7 @@ public class CompanyAccountManagerMB extends GenericMB {
 	private IProductService productService;
 	
 	@EJB
-	private IPaymentRequestService paymentRequestService;
+	private IBuyProofService buyProofService;
 	
 	@EJB
 	private ICompanyService companyService;
@@ -83,7 +83,7 @@ public class CompanyAccountManagerMB extends GenericMB {
 			this.company = obtainCompanyByUser(user);
 			//Initialize data tables
 			updateCompanyProducts();
-			updatePaymentRequests();
+			updateBuyProofsOnPaymentRequests();
 		} catch (Exception e) {
 			logger.error("An error has ocurred while initializing the CompanyAccountManagerMB.", e);
 			showStartupMbExceptionMessage();
@@ -94,7 +94,7 @@ public class CompanyAccountManagerMB extends GenericMB {
 	 * Updates the content of the list that 
 	 * feeds the company products data table.
 	 */
-	public void updateCompanyProducts() throws Exception {
+	private void updateCompanyProducts() throws Exception {
 		Map<String, Object> parameters = new HashMap<>();
 		final Long COMP_ID = ((this.company != null 
 				&& this.company.getCompanyId() != null) ? this.company.getCompanyId() : -1L);
@@ -114,22 +114,72 @@ public class CompanyAccountManagerMB extends GenericMB {
 	 * Updates the content of the list that
 	 * feeds the company payment requests data table.
 	 */
-	public void updatePaymentRequests() throws Exception {
+	private void updateBuyProofsOnPaymentRequests() throws Exception {
 		Map<String, Object> params = new HashMap<>();
 		final Long COMP_ID = ((this.company != null 
 				&& this.company.getCompanyId() != null) ? this.company.getCompanyId() : -1L);
-		final Short ON_REQUEST_STATUS_ID = Statuses.VALIDATION_PENDING.getId();
+		final Short ON_REQUEST_STATUS_ID = Statuses.ON_PAYMENT_REQUEST.getId();
 		final String INFO_MSG = String.format("Updating Payment Requests for the Company: %d and Status: %d...", COMP_ID, ON_REQUEST_STATUS_ID);
 		try {
 			logger.info(INFO_MSG);
 			params.put(COMPANY_ID, this.company.getCompanyId());
 			params.put(STATUS_ID, ON_REQUEST_STATUS_ID);
-			this.paymentRequests = paymentRequestService.getPaymentRequestsByCompany(params);
+			this.buyProofsOnPaymentRequests = buyProofService.getBuyProofsByCompanyAndStatus(params);
+			//Update the buys statistics
+			this.updateBuysTotalSum(buyProofsOnPaymentRequests);
+			this.updateBuysAforeSum(buyProofsOnPaymentRequests);
+			this.updateBuysCount(buyProofsOnPaymentRequests);
 		} catch (Exception e) {
 			final String ERROR_MSG = String.
 					format("An error has ocurred while updating the Company: %d Payment Requests and Status: %d.", COMP_ID, ON_REQUEST_STATUS_ID);
 			logger.error(ERROR_MSG, e);
 			throw new Exception(ERROR_MSG, e);
+		}
+	}
+	
+	/**
+	 * Updates the amount that represents the total sum 
+	 * of the buy proofs that are in payment request
+	 * process.
+	 * @param buyProofs buy proofs list to from the 
+	 * one the info is going to be obtained.
+	 */
+	private void updateBuysTotalSum(List<BuyProof> buyProofs) throws Exception {
+		this.buysTotalSum = 0.0;
+		if(buyProofs != null) {
+			for(BuyProof buyProof : buyProofs) {
+				this.buysTotalSum += buyProof.getTotal();
+			}
+		}
+	}
+	
+	/**
+	 * Updates the amount that represents the total sum for the Afore
+	 * of the buy proofs that are in payment request
+	 * process.
+	 * @param buyProofs buy proofs list to from the 
+	 * one the info is going to be obtained.
+	 */
+	private void updateBuysAforeSum(List<BuyProof> buyProofs) throws Exception {
+		this.buysAforeSum = 0.0;
+		if(buyProofs != null) {
+			for(BuyProof buyProof : buyProofs) {
+				this.buysAforeSum += buyProof.getUserProductHistorial().getPaybackAmount();
+			}
+		}
+	}
+	
+	/**
+	 * Updates the amount that represents the total count 
+	 * of the buy proofs that are in payment request
+	 * process.
+	 * @param buyProofs buy proofs list to from the 
+	 * one the info is going to be obtained.
+	 */
+	private void updateBuysCount(List<BuyProof> buyProofs) throws Exception {
+		this.totalBuysCount = 0;
+		if(buyProofs != null) {
+			totalBuysCount = buyProofs.size();
 		}
 	}
 	
@@ -176,19 +226,10 @@ public class CompanyAccountManagerMB extends GenericMB {
 	 * @param buyProof
 	 * @return
 	 */
-	public StreamedContent downloadBuyProofObject(PaymentRequest paymentRequest) {
+	public StreamedContent downloadBuyProofObject(BuyProof buyProof) {
 		logger.info("Downloading buy proof file...");
 		StreamedContent streamedContent = null;
-		BuyProof buyProof = null;
 		try {
-			if(paymentRequest != null && paymentRequest.getBuyProofs() != null) {
-				int buyProofsLength = paymentRequest.getBuyProofs().size();
-				List<BuyProof> buyProofs = paymentRequest.getBuyProofs();
-				buyProof = ((buyProofsLength > 0) ? buyProofs.get(buyProofsLength - 1) : null);
-				if(buyProof == null) {
-					throw new Exception("There is not exists a Buy Proof file.");
-				}
-			}
 			InputStream inpStream = new ByteArrayInputStream(buyProof.getTicketImage());
 			streamedContent = new DefaultStreamedContent(inpStream, buyProof.getContentType(), 
 				buyProof.getFileName());
@@ -264,12 +305,12 @@ public class CompanyAccountManagerMB extends GenericMB {
 		this.companyProducts = companyProducts;
 	}
 	
-	public List<PaymentRequest> getPaymentRequests() {
-		return paymentRequests;
+	public List<BuyProof> getBuyProofsOnPaymentRequests() {
+		return buyProofsOnPaymentRequests;
 	}
 	
-	public void setPaymentRequests(List<PaymentRequest> paymentRequests) {
-		this.paymentRequests = paymentRequests;
+	public void setBuyProofsOnPaymentRequests(List<BuyProof> buyProofsOnPaymentRequests) {
+		this.buyProofsOnPaymentRequests = buyProofsOnPaymentRequests;
 	}
 
 	public double getBuysTotalSum() {

@@ -21,7 +21,7 @@ public interface IBuyProofService extends Serializable {
 	public List<BuyProof> getBuyProofsByUserAndStatus(Map<String, Object> params) 
 			throws BusinessServiceException;
 	
-	public List<BuyProof> getBuyProofsByCompany(Map<String, Object> params) 
+	public List<BuyProof> getBuyProofsByCompanyAndStatus(Map<String, Object> params) 
 			throws BusinessServiceException;
 	
 	public void updateBuyProof(BuyProof buyProof) 

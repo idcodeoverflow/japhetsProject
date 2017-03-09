@@ -34,8 +34,8 @@ import japhet.sales.model.IEntity;
 				query = "SELECT b FROM BuyProof b WHERE b.user.userId = :" + USER_ID + " AND b.status.statusId = :" + STATUS_ID),
 		@NamedQuery(name = UPDATE_BUY_PROOFS_BATCH, 
 				query = "UPDATE BuyProof b SET b.paymentRequestId = :" + PAYMENT_REQUEST_ID + ", b.lastUpdate = :" + LAST_UPDATE + ", b.status.statusId = :" + STATUS_ID + " WHERE b IN :" + BUY_PROOFS_TO_UPDATE),
-		@NamedQuery(name = GET_BUY_PROOFS_BY_COMPANY, 
-				query = "SELECT b FROM BuyProof b WHERE b.userProductHistorial.product.company.companyId = :" + COMPANY_ID)
+		@NamedQuery(name = GET_BUY_PROOFS_BY_COMPANY_N_STATUS, 
+				query = "SELECT b FROM BuyProof b WHERE b.status.statusId = :" + STATUS_ID + " AND b.userProductHistorial.product.company.companyId = :" + COMPANY_ID)
 })
 public class BuyProof implements IEntity {
 

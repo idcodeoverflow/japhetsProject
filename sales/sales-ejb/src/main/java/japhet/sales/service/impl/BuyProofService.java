@@ -52,12 +52,14 @@ public class BuyProofService implements IBuyProofService {
 	@Override
 	public List<BuyProof> getBuyProofsByUser(Map<String, Object> params)   
 			throws BusinessServiceException {
-		logger.info("Getting buy proofs by user...");
+		final long P_USER_ID = ((params != null && params.get(USER_ID) != null) ? (Long)params.get(USER_ID) : -1L);
+		final String INFO_MSG = String.format("Getting buy proofs by user: %d...", P_USER_ID);
 		List<BuyProof> buyProofs = null;
 		try {
+			logger.info(INFO_MSG);
 			buyProofs = buyProofDAO.getBuyProofsByUser(params);
 		} catch (Exception e) {
-			final String ERROR_MSG = "Error while trying to get the buy proofs by user.";
+			final String ERROR_MSG = String.format("Error while trying to get the buy proofs by user: %d.", P_USER_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -67,12 +69,16 @@ public class BuyProofService implements IBuyProofService {
 	@Override
 	public List<BuyProof> getBuyProofsByUserAndStatus(Map<String, Object> params) 
 			throws BusinessServiceException {
-		logger.info("Getting buy proofs by user and status...");
+		final long P_USER_ID = ((params != null && params.get(USER_ID) != null) ? (Long)params.get(USER_ID) : -1L);
+		final short P_STATUS_ID = ((params != null && params.get(STATUS_ID) != null) ? (Short)params.get(STATUS_ID) : -1);
+		final String INFO_MSG = String.format("Getting buy proofs by user: %d and status: %d...", P_USER_ID, P_STATUS_ID);
 		List<BuyProof> buyProofs = null;
 		try {
+			logger.info(INFO_MSG);
 			buyProofs = buyProofDAO.getBuyProofsByUserAndStatus(params);
 		} catch (Exception e) {
-			final String ERROR_MSG = "Error while trying to get the buy proofs by user and status.";
+			final String ERROR_MSG = String
+					.format("Error while trying to get the buy proofs by user: %d and status: %d.", P_USER_ID, P_STATUS_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -80,16 +86,18 @@ public class BuyProofService implements IBuyProofService {
 	}
 	
 	@Override
-	public List<BuyProof> getBuyProofsByCompany(Map<String, Object> params) 
+	public List<BuyProof> getBuyProofsByCompanyAndStatus(Map<String, Object> params) 
 			throws BusinessServiceException {
 		List<BuyProof> buyProofs = null;
-		final long P_BPROOF_ID = ((params != null && params.get(COMPANY_ID) != null) ? (Long)params.get(COMPANY_ID) : -1L);
-		final String MSG_INFO = String.format("Getting buy proofs by user and status: %d...", P_BPROOF_ID);
+		final long P_COMP_ID = ((params != null && params.get(COMPANY_ID) != null) ? (Long)params.get(COMPANY_ID) : -1L);
+		final short P_STAT_ID = ((params != null && params.get(STATUS_ID) != null) ? (Short)params.get(STATUS_ID) : -1);
+		final String MSG_INFO = String.format("Getting buy proofs by company: %d and status: %d...", P_COMP_ID, P_STAT_ID);
 		try {
 			logger.info(MSG_INFO);
-			buyProofs = buyProofDAO.getBuyProofsByCompany(params);
+			buyProofs = buyProofDAO.getBuyProofsByCompanyAndStatus(params);
 		} catch (Exception e) {
-			final String ERROR_MSG = String.format("Error while trying to get the buy proofs by user: %d and status.", P_BPROOF_ID);
+			final String ERROR_MSG = String
+					.format("Error while trying to get the buy proofs by company: %d and status: %d.", P_COMP_ID, P_STAT_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -106,7 +114,7 @@ public class BuyProofService implements IBuyProofService {
 			logger.info(INFO_MSG);
 			buyProofDAO.update(buyProof);
 		} catch (Exception e) {
-			final String ERROR_MSG = String.format("Error while trying to update buy proof.", P_BPROOF_ID);
+			final String ERROR_MSG = String.format("Error while trying to update buy proof: %d.", P_BPROOF_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -131,12 +139,14 @@ public class BuyProofService implements IBuyProofService {
 	@Override
 	public void insertBuyProof(BuyProof buyProof)   
 			throws BusinessServiceException {
-		final String INFO_MSG = "Inserting buy proof...";
+		final long P_BPROOF_ID = ((buyProof != null 
+				&& buyProof.getBuyProofId() != null) ? buyProof.getBuyProofId() : -1L);
+		final String INFO_MSG = String.format("Inserting buy proof: %d...", P_BPROOF_ID);
 		try {
 			logger.info(INFO_MSG);
 			buyProofDAO.insert(buyProof);
 		} catch (Exception e) {
-			final String ERROR_MSG = "Error while trying to insert buy proof.";
+			final String ERROR_MSG = String.format("Error while trying to insert buy proof: %d.", P_BPROOF_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}

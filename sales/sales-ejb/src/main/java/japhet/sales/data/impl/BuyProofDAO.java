@@ -27,11 +27,11 @@ public class BuyProofDAO extends GenericDAO<BuyProof, Long> {
 		List<BuyProof> buyProofs = null;
 		final long P_USER_ID = ((params != null && params.get(USER_ID) != null) ? (Long)params.get(USER_ID) : -1L);
 		final String INFO_MSG = String.format("Obtaining buy proofs by user: %d...", P_USER_ID);
-		final String ERROR_MSG = String.format("Error while obtaining buy proofs by user: %d.", P_USER_ID);
 		try {
 			logger.info(INFO_MSG);
 			buyProofs = executeQuery(GET_BUY_PROOFS_BY_USER, params);
 		} catch (Exception e) {
+			final String ERROR_MSG = String.format("Error while obtaining buy proofs by user: %d.", P_USER_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new DataLayerException(ERROR_MSG, e);
 		}
@@ -44,11 +44,11 @@ public class BuyProofDAO extends GenericDAO<BuyProof, Long> {
 		final long P_USER_ID = ((params != null && params.get(USER_ID) != null) ? (Long)params.get(USER_ID) : -1L);
 		final short P_STATUS_ID = ((params != null && params.get(STATUS_ID) != null) ? (Short)params.get(STATUS_ID) : -1);
 		final String INFO_MSG = String.format("Obtaining buy proofs by user: %d and status: %d...", P_USER_ID, P_STATUS_ID);
-		final String ERROR_MSG = String.format("Error while obtaining buy proofs by user: %d and status: %d.", P_USER_ID, P_STATUS_ID);
 		try {
 			logger.info(INFO_MSG);
 			buyProofs = executeQuery(GET_BUY_PROOFS_BY_USER_N_STATUS, params);
 		} catch (Exception e) {
+			final String ERROR_MSG = String.format("Error while obtaining buy proofs by user: %d and status: %d.", P_USER_ID, P_STATUS_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new DataLayerException(ERROR_MSG, e);
 		}
@@ -83,16 +83,18 @@ public class BuyProofDAO extends GenericDAO<BuyProof, Long> {
 		return rowsUpdated;
 	}
 	
-	public List<BuyProof> getBuyProofsByCompany(Map<String, Object> params) 
+	public List<BuyProof> getBuyProofsByCompanyAndStatus(Map<String, Object> params) 
 			throws DataLayerException {
 		List<BuyProof> buyProofs = null;
 		final long P_USER_ID = ((params != null && params.get(COMPANY_ID) != null) ? (Long)params.get(COMPANY_ID) : -1L);
-		final String INFO_MSG = String.format("Obtaining buy proofs by Company: %d...", P_USER_ID);
-		final String ERROR_MSG = String.format("Error while obtaining buy proofs by Company: %d.", P_USER_ID);
+		final short P_STAT_ID = ((params != null && params.get(STATUS_ID) != null) ? (Short)params.get(STATUS_ID) : -1);
+		final String INFO_MSG = String.format("Obtaining buy proofs by Company: %d and Status: %d...", P_USER_ID, P_STAT_ID);
 		try {
 			logger.info(INFO_MSG);
-			buyProofs = executeQuery(GET_BUY_PROOFS_BY_COMPANY, params);
+			buyProofs = executeQuery(GET_BUY_PROOFS_BY_COMPANY_N_STATUS, params);
 		} catch (Exception e) {
+			final String ERROR_MSG = String
+					.format("Error while obtaining buy proofs by Company: %d and Status: %d.", P_USER_ID, P_STAT_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new DataLayerException(ERROR_MSG, e);
 		}

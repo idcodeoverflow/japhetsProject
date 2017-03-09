@@ -131,7 +131,7 @@
 									  	</h:panelGroup>
 							    	  	<h:inputText id="totalPaymentRequestsInput" 
 							    	  		styleClass="form-control"
-							    	  		value="#{userAccountManagerMB.onwaitAmount}" 
+							    	  		value="#{companyAccountManagerMB.buysTotalSum}" 
 							    	  		readonly="true">
 											<f:convertNumber minFractionDigits="2" 
 												maxFractionDigits="2"/>
@@ -155,7 +155,7 @@
 									  	</h:panelGroup>
 							    	  	<h:inputText id="aforePaymentRequestInput" 
 							    	  		styleClass="form-control"
-							    	  		value="#{userAccountManagerMB.onwaitAmount}" 
+							    	  		value="#{companyAccountManagerMB.buysAforeSum}" 
 							    	  		readonly="true">
 											<f:convertNumber minFractionDigits="2" 
 												maxFractionDigits="2"/>
@@ -174,7 +174,7 @@
 							    	</h:outputLabel>
 							    	<h:inputText id="countPaymentRequestInput" 
 						    	  		styleClass="form-control"
-						    	  		value="#{userAccountManagerMB.onwaitAmount}" 
+						    	  		value="#{companyAccountManagerMB.totalBuysCount}" 
 						    	  		readonly="true">
 										<f:convertNumber minFractionDigits="0" 
 											maxFractionDigits="0"/>
@@ -182,10 +182,11 @@
 								 </h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>
+						
 				  		<!-- Payment request table -->
 				  		<p:dataTable id="paybackRequestsManagementTable" 
-				    		value="#{userAccountManagerMB.paymentRequestHistory}"
-				    		var="paymentRequest"
+				    		value="#{companyAccountManagerMB.buyProofsOnPaymentRequests}"
+				    		var="bproofsPaymentReq"
 				    		emptyMessage="#{msg['account.company.paybacksTable.empty']}"
 				    		paginator="true"
 				    		paginatorPosition="bottom"
@@ -198,38 +199,62 @@
 						    </f:facet>
 						    <p:column headerClass="text-center" 
 						    	headerText="#{msg['account.company.paybacksTable.fingerPrint']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{bproofsPaymentReq.userProductHistorialKey}" />
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	width="15%"
 						    	headerText="#{msg['account.company.paybacksTable.operationDate']}">
-						        <h:outputText value="">
+						        <h:outputText value="#{bproofsPaymentReq.registeredOn}">
 						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
 						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center" 
-						    	width="12%"
+						    	width="9%"
 						    	headerText="#{msg['account.company.paybacksTable.total']}">
-						        <h:outputText value="">
+						        <h:outputText value="#{bproofsPaymentReq.total}">
 						        	<f:convertNumber type="currency" />
 						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center"
-						    	width="12%"
+						    	width="9%"
 						    	headerText="#{msg['account.company.paybacksTable.paybackAmount']}">
-						        <h:outputText value="">
+						        <h:outputText value="#{bproofsPaymentReq.userProductHistorial.paybackAmount}">
 						        	<f:convertNumber type="currency" />
 						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center"
 						    	width="10%"
 						    	headerText="#{msg['account.company.paybacksTable.seeBuyProof']}">
-						        <h:outputText value="" />
+						        <p:commandLink 
+						        	id="btnDownloadBuyProof"
+						        	ajax="false"
+						        	styleClass="btn btn-default btn-block">
+						        	<i class="glyphicon glyphicon-save"></i>
+						        	<p:fileDownload value="#{companyAccountManagerMB.downloadBuyProofObject(bproofsPaymentReq)}" />
+						        	<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+						        </p:commandLink>
+						        <p:tooltip id="toolTipDownload" 
+						        	for="btnDownloadBuyProof" 
+						        	value="#{msg['account.company.paybacksTable.downloadFile']}" 
+						        	position="top"/>
 						    </p:column>
 						    <p:column headerClass="text-center"
 						    	width="10%"
 						    	headerText="#{msg['account.company.paybacksTable.protest']}">
-						        <h:outputText value="" />
+						        <p:commandLink 
+						        	id="btnProtest"
+						        	ajax="false"
+						        	styleClass="btn btn-default btn-block">
+						        	<i class="glyphicon glyphicon-ban-circle"></i>
+						        	<p:fileDownload value="#{companyAccountManagerMB.downloadBuyProofObject(bproofsPaymentReq)}" />
+						        	<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+						        </p:commandLink>
+						        <p:tooltip id="toolTipProtest" 
+						        	for="btnProtest" 
+						        	value="#{msg['account.company.paybacksTable.protestAgainstBProof']}" 
+						        	position="top"/>
 						    </p:column>
 						</p:dataTable>	
 					</h:panelGroup>
@@ -272,7 +297,7 @@
 									  	</h:panelGroup>
 							    	  	<h:inputText id="totalOrderRequestsInput" 
 							    	  		styleClass="form-control"
-							    	  		value="#{userAccountManagerMB.onwaitAmount}" 
+							    	  		value="" 
 							    	  		readonly="true">
 											<f:convertNumber minFractionDigits="2" 
 												maxFractionDigits="2"/>
@@ -296,7 +321,7 @@
 									  	</h:panelGroup>
 							    	  	<h:inputText id="aforeOrderRequestInput" 
 							    	  		styleClass="form-control"
-							    	  		value="#{userAccountManagerMB.onwaitAmount}" 
+							    	  		value="" 
 							    	  		readonly="true">
 											<f:convertNumber minFractionDigits="2" 
 												maxFractionDigits="2"/>
@@ -315,7 +340,7 @@
 							    	</h:outputLabel>
 							    	<h:inputText id="countOrdersRequestInput" 
 						    	  		styleClass="form-control"
-						    	  		value="#{userAccountManagerMB.onwaitAmount}" 
+						    	  		value="" 
 						    	  		readonly="true">
 										<f:convertNumber minFractionDigits="0" 
 											maxFractionDigits="0"/>
@@ -326,7 +351,7 @@
 						
 				  		<!-- Orders request table -->
 				  		<p:dataTable id="orderRequestsManagementTable" 
-				    		value="#{userAccountManagerMB.paymentRequestHistory}"
+				    		value="#{companyAccountManagerMB.buyProofsOnPaymentRequests}"
 				    		var="paymentRequest"
 				    		emptyMessage="#{msg['account.company.ordersTable.empty']}"
 				    		paginator="true"
@@ -385,21 +410,21 @@
 						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center"
-						    	width="8%"
+						    	width="10%"
 						    	headerText="#{msg['account.company.ordersTable.acceptOrder']}">
 						        <h:commandLink
 						        	styleClass="btn btn-default btn-block" 
 						        	value="#{msg['account.company.ordersTable.buttons.accept']}" />
 						    </p:column>
 						    <p:column headerClass="text-center"
-						    	width="8%"
+						    	width="10%"
 						    	headerText="#{msg['account.company.ordersTable.declineOrder']}">
 						        <h:commandLink
 						        	styleClass="btn btn-default btn-block" 
 						        	value="#{msg['account.company.ordersTable.buttons.decline']}" />
 						    </p:column>
 						    <p:column headerClass="text-center"
-						    	width="8%"
+						    	width="10%"
 						    	headerText="#{msg['account.company.ordersTable.completeOrder']}">
 						        <h:commandLink
 						        	styleClass="btn btn-default btn-block" 
