@@ -25,7 +25,7 @@ import japhet.sales.model.IEntity;
 @Table(name = "TB_ROLE")
 @NamedQueries({
 	@NamedQuery(name = QueryNames.GET_ALL_AVAILABLE_ROLES,
-			query = "SELECT r FROM Role r WHERE r.startDate <= CURRENT_DATE AND r.endDate >= CURRENT_DATE"),
+			query = "SELECT r FROM Role r WHERE r.startDate <= CURRENT_TIMESTAMP AND r.endDate >= CURRENT_TIMESTAMP"),
 	@NamedQuery(name = QueryNames.GET_ALL_ROLES,
 			query = "SELECT r FROM Role r")
 })
