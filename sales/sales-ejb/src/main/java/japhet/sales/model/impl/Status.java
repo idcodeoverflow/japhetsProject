@@ -22,7 +22,7 @@ import japhet.sales.model.IEntity;
 @Table(name = "TB_STATUS")
 @NamedQueries({
 	@NamedQuery(name = QueryNames.GET_ALL_AVAILABLE_STATUS,
-			query = "SELECT s FROM Status s WHERE s.availableDate <= CURRENT_DATE AND s.endDate >= CURRENT_DATE"),
+			query = "SELECT s FROM Status s WHERE s.availableDate <= CURRENT_TIMESTAMP AND s.endDate >= CURRENT_TIMESTAMP"),
 	@NamedQuery(name = QueryNames.GET_ALL_STATUS,
 			query = "SELECT s FROM Status s")
 })

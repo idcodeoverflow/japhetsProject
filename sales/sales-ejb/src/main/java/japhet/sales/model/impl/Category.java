@@ -23,7 +23,7 @@ import japhet.sales.model.IEntity;
 @NamedQueries ({
 	
 	@NamedQuery(name = QueryNames.GET_ALL_AVAILABLE_CATEGORIES, 
-		query = "SELECT c FROM Category c WHERE c.availableDate <= CURRENT_DATE AND c.endDate >= CURRENT_DATE"),
+		query = "SELECT c FROM Category c WHERE c.availableDate <= CURRENT_TIMESTAMP AND c.endDate >= CURRENT_TIMESTAMP"),
 	@NamedQuery(name = QueryNames.GET_ALL_CATEGORIES, 
 		query = "SELECT c FROM Category c")
 })

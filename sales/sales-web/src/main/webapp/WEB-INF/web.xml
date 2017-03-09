@@ -23,6 +23,12 @@
 	    <servlet-name>Faces Servlet</servlet-name>
 	    <url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
+	
+	<!-- Avoid parse the time date based on a timezone -->
+	<context-param>
+	    <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+	    <param-value>true</param-value>
+	</context-param>
     
     <welcome-file-list>
     	<welcome-file>home/home.xhtml</welcome-file>

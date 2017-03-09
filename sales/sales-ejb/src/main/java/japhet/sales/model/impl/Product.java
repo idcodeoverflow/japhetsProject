@@ -1,7 +1,6 @@
 package japhet.sales.model.impl;
 
-import static japhet.sales.data.QueryParameters.SEARCHED_WORDS;
-import static japhet.sales.data.QueryParameters.PRODUCT_KEY;
+import static japhet.sales.data.QueryParameters.*;
 import static japhet.sales.util.StringUtils.urlCompletion;
 
 import java.awt.Image;
@@ -35,11 +34,13 @@ import japhet.sales.util.StreamUtil;
 @Table(name = "TB_PRODUCT")
 @NamedQueries({
 		@NamedQuery(name = QueryNames.GET_AVAILABLE_PRODUCTS,
-				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE"),
+				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_TIMESTAMP AND p.endDate >= CURRENT_TIMESTAMP"),
 		@NamedQuery(name = QueryNames.GET_SEARCHED_PRODUCTS,
-				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE AND (UPPER(p.title) LIKE :" + SEARCHED_WORDS + " OR UPPER(p.description) LIKE :" + SEARCHED_WORDS + ")"),
+				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_TIMESTAMP AND p.endDate >= CURRENT_TIMESTAMP AND (UPPER(p.title) LIKE :" + SEARCHED_WORDS + " OR UPPER(p.description) LIKE :" + SEARCHED_WORDS + ")"),
 		@NamedQuery(name = QueryNames.GET_PRODUCT_BY_KEY,
-				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_DATE AND p.endDate >= CURRENT_DATE AND p.productKey = :" + PRODUCT_KEY)
+				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_TIMESTAMP AND p.endDate >= CURRENT_TIMESTAMP AND p.productKey = :" + PRODUCT_KEY),
+		@NamedQuery(name = QueryNames.GET_AVAILABLE_PRODUCTS_BY_COMPANY,
+				query = "SELECT p FROM Product p WHERE p.endDate >= CURRENT_TIMESTAMP AND p.company.companyId = :" + COMPANY_ID)
 })
 public class Product extends StreamUtil 
 	implements IEntity {
