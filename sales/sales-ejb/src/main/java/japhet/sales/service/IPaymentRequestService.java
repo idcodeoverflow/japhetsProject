@@ -18,6 +18,9 @@ public interface IPaymentRequestService extends Serializable {
 	public List<PaymentRequest> getPaymentRequestsByStatus(Short statusId) 
 			throws BusinessServiceException;
 	
+	public List<PaymentRequest> getPaymentRequestsByCompany(Map<String, Object> params) 
+			throws BusinessServiceException;
+	
 	public PaymentRequest getPaymentRequest(Long paymentRequestId) 
 			throws BusinessServiceException;
 	

@@ -47,6 +47,11 @@ public abstract class GenericDAO<T extends IEntity, K>
 		em.merge(entity);
 	}
 	
+	public void updateAndFlush(T entity) throws Exception {
+		em.merge(entity);
+		em.flush();
+	}
+	
 	public long update(String queryName, 
 			Map<String, Object> params) throws Exception {
 		return executeUpdate(queryName, params);

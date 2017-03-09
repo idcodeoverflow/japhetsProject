@@ -23,6 +23,12 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 		super(Product.class, Long.class);
 	}
 	
+	/**
+	 * Obtains a list with all the products 
+	 * available from all the companies.
+	 * @return
+	 * @throws DataLayerException
+	 */
 	public List<Product> getAvailableProducts() 
 			throws DataLayerException {
 		List<Product> products = null;
@@ -37,6 +43,13 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 		return products;
 	}
 	
+	/**
+	 * Obtains a list of available products 
+	 * which matches the searched words.
+	 * @param parameters
+	 * @return
+	 * @throws DataLayerException
+	 */
 	public List<Product> getSearchedProducts(Map<String, Object> parameters) 
 			throws DataLayerException {
 		List<Product> products = null;
@@ -55,6 +68,13 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 		return products;
 	}
 	
+	/**
+	 * Obtains a Product object which matches 
+	 * with the Product Key specified.
+	 * @param parameters
+	 * @return
+	 * @throws DataLayerException
+	 */
 	public Product getProductByKey(Map<String, Object> parameters) 
 			throws DataLayerException {
 		Product product = null;
@@ -77,5 +97,27 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 			throw new DataLayerException(errorMsg, e);
 		}
 		return product;
+	}
+	
+	/**
+	 * Obtains a list of available products 
+	 * from a certain company.
+	 * @param parameters
+	 * @return
+	 * @throws DataLayerException
+	 */
+	public List<Product> getAvailableProductsFromCompany(Map<String, Object> parameters) 
+			throws DataLayerException {
+		List<Product> products = null;
+		logger.info("Obtaining available products from a Company in the DB...");
+		try {
+			//Query the DB.
+			products = executeQuery(QueryNames.GET_AVAILABLE_PRODUCTS_BY_COMPANY, parameters);
+		} catch (Exception e) {
+			final String errorMsg = "Error while obtaining available products from a Company in the DB.";
+			logger.fatal(errorMsg, e);
+			throw new DataLayerException(errorMsg, e);
+		}
+		return products;
 	}
 }

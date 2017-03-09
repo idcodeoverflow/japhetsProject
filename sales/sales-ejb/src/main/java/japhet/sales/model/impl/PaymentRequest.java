@@ -1,7 +1,7 @@
 package japhet.sales.model.impl;
 
-import static japhet.sales.data.QueryNames.GET_PAYMENT_REQUEST_BY_USER;
-import static japhet.sales.data.QueryNames.GET_PAYMENT_REQUEST_BY_STATUS;
+import static japhet.sales.data.QueryNames.*;
+import static japhet.sales.data.QueryParameters.*;
 
 import java.util.Date;
 import java.util.List;
@@ -29,9 +29,11 @@ import japhet.sales.model.ISequenceTable;
 @Table(name = "TB_PAYMENT_REQUEST")
 @NamedQueries(value = {
 		@NamedQuery(name = GET_PAYMENT_REQUEST_BY_USER, 
-			query = "SELECT p FROM PaymentRequest p WHERE p.user.userId = :userId"),
+				query = "SELECT p FROM PaymentRequest p WHERE p.user.userId = :" + USER_ID),
 		@NamedQuery(name = GET_PAYMENT_REQUEST_BY_STATUS, 
-			query = "SELECT p FROM PaymentRequest p WHERE p.status.statusId = :statusId")
+				query = "SELECT p FROM PaymentRequest p WHERE p.status.statusId = :" + STATUS_ID),
+		@NamedQuery(name = GET_PAYMENT_REQUESTS_BY_COMPANY,
+				query = "SELECT p FROM PaymentRequest p INNER JOIN p.buyProofs bp WHERE p.status.statusId = :" + STATUS_ID + " AND bp.userProductHistorial.product.company.companyId = :" + COMPANY_ID)
 })
 public class PaymentRequest implements IEntity, ISequenceTable {
 	
@@ -194,7 +196,7 @@ public class PaymentRequest implements IEntity, ISequenceTable {
 	 * @return
 	 */
 	public synchronized long getNewSequenceValue() {
-		return paymentRequestSequence++;
+		return ++paymentRequestSequence;
 	}
 	
 	/**

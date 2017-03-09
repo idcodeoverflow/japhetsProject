@@ -22,10 +22,16 @@ public interface IProductService extends Serializable {
 	public Product getProductByKey(Map<String, Object> parameters)
 			throws BusinessServiceException;
 	
+	public List<Product> getAvailableProductsFromCompany(Map<String, Object> parameters)
+			throws BusinessServiceException;
+	
 	public Product getProduct(Long productId) 
 			throws BusinessServiceException;
 	
 	public boolean updateProduct(Product product) 
+			throws BusinessServiceException;
+	
+	public boolean updateProductAndFlush(Product product)   
 			throws BusinessServiceException;
 	
 	public boolean deleteProduct(Product product) 
