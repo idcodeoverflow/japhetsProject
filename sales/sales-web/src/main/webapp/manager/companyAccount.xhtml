@@ -39,7 +39,8 @@
 						        <h:outputText value="#{msg['account.company.productsTable.status']}" />
 						    </f:facet>
 						    <p:column headerClass="text-center" 
-						    	width="12%"
+						    	width="8%"
+						    	styleClass="text-center"
 						    	headerText="#{msg['account.company.productsTable.productNumber']}">
 						        <h:outputText value="#{companyProduct.productId}">
 						        	<f:convertNumber minFractionDigits="0" 
@@ -52,6 +53,7 @@
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	width="10%"
+						    	styleClass="text-right"
 						    	headerText="#{msg['account.company.productsTable.price']}">
 						        <h:outputText value="#{companyProduct.price}">
 						        	<f:convertNumber type="currency" />
@@ -59,9 +61,12 @@
 						    </p:column>
 						    <p:column headerClass="text-center"
 						    	width="9%"
+						    	styleClass="text-center"
 						    	headerText="#{msg['account.company.productsTable.paybackPercent']}">
 						        <h:outputText value="#{companyProduct.paybackPercent}">
-						        	<f:convertNumber type="percent" />
+						        	<f:convertNumber type="percent" 
+						        		minFractionDigits="2" 
+						        		maxFractionDigits="2" />
 						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center"
@@ -198,6 +203,7 @@
 						        <h:outputText value="#{msg['account.company.paybacksTable.tableTitle']}" />
 						    </f:facet>
 						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
 						    	headerText="#{msg['account.company.paybacksTable.fingerPrint']}">
 						        <h:outputText value="#{bproofsPaymentReq.userProductHistorialKey}" />
 						    </p:column>
@@ -209,6 +215,7 @@
 						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center" 
+						    	styleClass="text-right"
 						    	width="9%"
 						    	headerText="#{msg['account.company.paybacksTable.total']}">
 						        <h:outputText value="#{bproofsPaymentReq.total}">
@@ -216,6 +223,7 @@
 						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center"
+						    	styleClass="text-right"
 						    	width="9%"
 						    	headerText="#{msg['account.company.paybacksTable.paybackAmount']}">
 						        <h:outputText value="#{bproofsPaymentReq.userProductHistorial.paybackAmount}">
