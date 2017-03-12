@@ -86,11 +86,12 @@ public class PaymentRequestDAO
 		long P_COMP_ID = ((params != null && params.get(COMPANY_ID) != null) ? (Long)params.get(COMPANY_ID) : -1L);
 		short P_STAT_ID = ((params != null && params.get(STATUS_ID) != null) ? (Short)params.get(STATUS_ID) : -1);
 		final String INFO_MSG = String.format("Looking for Payment Requests from the Company: %d and with status %s...", P_COMP_ID, P_STAT_ID);
-		final String ERROR_MSG = String.format("Error while looking for Payment Requests from the Company: %d and with status %s.", P_COMP_ID, P_STAT_ID);
 		try {
 			logger.info(INFO_MSG);
 			paymentRequests = executeQuery(GET_PAYMENT_REQUESTS_BY_COMPANY, params);
 		} catch (Exception e) {
+			final String ERROR_MSG = String
+					.format("Error while looking for Payment Requests from the Company: %d and with status %s.", P_COMP_ID, P_STAT_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new DataLayerException(ERROR_MSG, e);
 		}

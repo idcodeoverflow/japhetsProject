@@ -25,13 +25,13 @@ public class UserSearchDAO extends GenericDAO<UserSearch, Long> {
 	public List<UserSearch> getUserSearchByUser(Map<String, Object> params) 
 			throws DataLayerException {
 		List<UserSearch> userSearchs = null;
-		logger.info("Obtaining user search by user...");
 		try {
+			logger.info("Obtaining user search by user...");
 			userSearchs = executeQuery(GET_USER_SEARCH_BY_USER, params);
 		} catch (Exception e) {
-			final String errorMsg = "Error obtaining user search by user.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error obtaining user search by user.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return userSearchs;
 	}

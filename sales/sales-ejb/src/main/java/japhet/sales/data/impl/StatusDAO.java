@@ -25,13 +25,13 @@ public class StatusDAO extends GenericDAO<Status, Short> {
 	public List<Status> getAllStatus() 
 			throws DataLayerException {
 		List<Status> status = null;
-		logger.info("Obtaining all the status from the DB...");
 		try {
+			logger.info("Obtaining all the status from the DB...");
 			status = executeQuery(QueryNames.GET_ALL_STATUS, null);
 		} catch (Exception e) {
-			final String errorMsg = "Error while obtaining all the status from the DB.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while obtaining all the status from the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return status;
 	}
@@ -39,15 +39,14 @@ public class StatusDAO extends GenericDAO<Status, Short> {
 	public List<Status> getAllAvailableStatus() 
 			throws DataLayerException {
 		List<Status> status = null;
-		logger.info("Obtaining all the available status from the DB...");
 		try {
+			logger.info("Obtaining all the available status from the DB...");
 			status = executeQuery(QueryNames.GET_ALL_AVAILABLE_STATUS, null);
 		} catch (Exception e) {
-			final String errorMsg = "Error while obtaining all the available status from the DB.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while obtaining all the available status from the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return status;
 	}
-
 }

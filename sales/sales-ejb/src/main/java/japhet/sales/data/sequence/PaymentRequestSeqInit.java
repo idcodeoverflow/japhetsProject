@@ -23,10 +23,11 @@ public class PaymentRequestSeqInit extends GenericDAO<PaymentRequest, Long> {
 	
 	@PostConstruct
 	private void init() {
-		logger.info("Initializing payment request sequence...");
 		final String INFO_MSG = "The payment request sequence initializing at: %d";
 		try {
-			Long initialPk = (Long)em.createQuery("SELECT MAX(pr.paymentRequestId) FROM PaymentRequest pr").getSingleResult();
+			logger.info("Initializing payment request sequence...");
+			Long initialPk = (Long)em
+					.createQuery("SELECT MAX(pr.paymentRequestId) FROM PaymentRequest pr").getSingleResult();
 			initialPk = ((initialPk != null) ? initialPk + 1 : 1);
 			logger.info(String.format(INFO_MSG, initialPk));
 		} catch (Exception e) {
