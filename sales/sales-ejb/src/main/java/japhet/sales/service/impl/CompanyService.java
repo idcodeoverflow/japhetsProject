@@ -42,10 +42,10 @@ public class CompanyService implements ICompanyService {
 	@Override
 	public List<Company> getAllAvailableCompanies() 
 			throws BusinessServiceException {
-		logger.info("Getting all available companies...");
 		List<Company> companies = null;
 		List<Short> validStatuses = new ArrayList<>();
 		try {
+			logger.info("Getting all available companies...");
 			//Define valid statuses
 			validStatuses.add(Statuses.ACTIVE.getId());
 			//Get valid companies
@@ -63,10 +63,10 @@ public class CompanyService implements ICompanyService {
 			throws BusinessServiceException {
 		final String LOGGER_MSG = String.format("Getting all available companies of type: %d...", 
 				companyTypeId);
-		logger.info(LOGGER_MSG);
 		List<Company> companies = null;
 		List<Short> validStatuses = new ArrayList<>();
 		try {
+			logger.info(LOGGER_MSG);
 			//Define valid statuses
 			validStatuses.add(Statuses.ACTIVE.getId());
 			//Get valid companies
@@ -83,9 +83,9 @@ public class CompanyService implements ICompanyService {
 	@Override
 	public List<Company> getAllCompanies() 
 			throws BusinessServiceException {
-		logger.info("Getting all companies...");
 		List<Company> companies = null;
 		try {
+			logger.info("Getting all companies...");
 			companies = companyDAO.getAllCompanies();
 		} catch(Exception e) {
 			final String ERROR_MSG = "Error while getting all companies...";
@@ -98,9 +98,9 @@ public class CompanyService implements ICompanyService {
 	@Override
 	public Company getCompanyByUserId(Map<String, Object> parameters) 
 			throws BusinessServiceException {
-		logger.info("Getting company by userId...");
 		Company company = null;
 		try {
+			logger.info("Getting company by userId...");
 			company = companyDAO.getCompanyByUserId(parameters);
 		} catch(Exception e) {
 			final String ERROR_MSG = "Error while getting company by userId...";
@@ -113,9 +113,9 @@ public class CompanyService implements ICompanyService {
 	@Override
 	public Company selectCompany(Long companyId) 
 			throws BusinessServiceException {
-		logger.info("Getting company: " + companyId + "...");
 		Company company = null;
 		try {
+			logger.info("Getting company: " + companyId + "...");
 			company = companyDAO.select(companyId);
 		} catch(Exception e) {
 			final String ERROR_MSG = "Error while getting company: " + companyId + "...";
@@ -128,8 +128,8 @@ public class CompanyService implements ICompanyService {
 	@Override
 	public boolean updateCompany(Company company) 
 			throws BusinessServiceException {
-		logger.info("Updating company: " + company.getCompanyId() + "...");
 		try {
+			logger.info("Updating company: " + company.getCompanyId() + "...");
 			companyDAO.update(company);
 			return true;
 		} catch(Exception e) {
@@ -143,8 +143,8 @@ public class CompanyService implements ICompanyService {
 	@Override
 	public boolean deleteCompany(Company company) 
 			throws BusinessServiceException {
-		logger.info("Deleting company: " + company.getCompanyId() + "...");
 		try {
+			logger.info("Deleting company: " + company.getCompanyId() + "...");
 			companyDAO.delete(company);
 			return true;
 		} catch(Exception e) {
@@ -158,8 +158,8 @@ public class CompanyService implements ICompanyService {
 	@Override
 	public boolean insertCompany(Company company) 
 			throws BusinessServiceException {
-		logger.info("Inserting company: " + company.getUser().getName() + "...");
 		try {
+			logger.info("Inserting company: " + company.getUser().getName() + "...");
 			companyDAO.insert(company);
 			return true;
 		} catch(Exception e) {
@@ -174,8 +174,8 @@ public class CompanyService implements ICompanyService {
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean insertCompany(Company company, User user)
 			throws BusinessServiceException, Exception {
-		logger.info("Inserting company: " + company.getUser().getName() + "...");
 		try {
+			logger.info("Inserting company: " + company.getUser().getName() + "...");
 			userDAO.insert(user);
 			companyDAO.insert(company);
 			return true;

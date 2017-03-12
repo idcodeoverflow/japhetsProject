@@ -18,7 +18,7 @@ body {
 #titlePanel {
 	color: gainsboro;
     text-shadow: -1px 0 aquamarine, 0 1px aquamarine, 1px 0 aquamarine, 0 -1px aquamarine;
-    font-size: 27;
+    font-size: 23px;
 }
 
 /* Footer rows */
@@ -405,7 +405,7 @@ footer {
 
 /* Account manager container for the budget and bonifications */
 .account-mngr-container {
-	min-height: 523px !important;
+	min-height: 400px !important;
 }
 
 /* Table with elements centered on X & Y axis */

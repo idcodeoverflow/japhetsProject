@@ -71,7 +71,7 @@
 								
 								<!-- Product price -->
 								<p class="thumbnail-description">
-									<h:outputText value="#{msg['home.product.price']}" />
+									<h:outputText value="#{msg['home.product.price']}: " />
 									<h:outputText value="#{product.price}" >
 										<f:convertNumber type="currency" />
 									</h:outputText>
@@ -79,9 +79,11 @@
 								
 								<!-- Product payback percent -->
 								<p class="thumbnail-price">
-									<h:outputText value="#{msg['home.product.payback']}" />
+									<h:outputText value="#{msg['home.product.payback']} " />
 									<h:outputText value="#{product.endUserPaybackPercent}" >
-										<f:convertNumber type="percent" />
+										<f:convertNumber type="percent"
+											minFractionDigits="2"
+											maxFractionDigits="2" />
 									</h:outputText>
 								</p>
 								

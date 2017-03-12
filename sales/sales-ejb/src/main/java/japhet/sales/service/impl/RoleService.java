@@ -46,13 +46,13 @@ public class RoleService implements IRoleService {
 	public List<Role> getAllAvailableRoles()   
 			throws BusinessServiceException {
 		List<Role> roles = null;
-		logger.info("Obtaining all available roles...");
 		try {
+			logger.info("Obtaining all available roles...");
 			roles = roleDAO.getAllAvailableRoles();
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting all available roles.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting all available roles.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return roles;
 	}
@@ -60,14 +60,14 @@ public class RoleService implements IRoleService {
 	@Override
 	public List<Role> getAllRoles()   
 			throws BusinessServiceException {
-		logger.info("Obtaining all roles...");
 		List<Role> roles = null;
 		try {
+			logger.info("Obtaining all roles...");
 			roles = roleDAO.getAllRoles();
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting all roles.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting all roles.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return roles;
 	}
@@ -75,72 +75,72 @@ public class RoleService implements IRoleService {
 	@Override
 	public Role getRole(Short roleId)   
 			throws BusinessServiceException {
-		logger.info("Obtaining role " + roleId + " from the DB...");
 		try {
+			logger.info("Obtaining role " + roleId + " from the DB...");
 			return roleDAO.select(roleId);
 		} catch (Exception e) {
-			final String errorMsg = "Error obtaining role " + roleId + " from the DB.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error obtaining role " + roleId + " from the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean updateRole(Role role)   
 			throws BusinessServiceException {
-		logger.info("Updating role into the DB...");
 		try {
+			logger.info("Updating role into the DB...");
 			roleDAO.update(role);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error updating role into the DB: " 
+			final String ERROR_MSG = "Error updating role into the DB: " 
 					+ stringifyRole(role);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean deleteRole(Role role)   
 			throws BusinessServiceException {
-		logger.info("Deleting role into the DB...");
 		try {
+			logger.info("Deleting role into the DB...");
 			roleDAO.delete(role);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error deleting role into the DB: " 
+			final String ERROR_MSG = "Error deleting role into the DB: " 
 					+ stringifyRole(role);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean insertRole(Role role)   
 			throws BusinessServiceException {
-		logger.info("Inserting role into the DB...");
 		try {
+			logger.info("Inserting role into the DB...");
 			roleDAO.insert(role);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error inserting role into the DB: " 
+			final String ERROR_MSG = "Error inserting role into the DB: " 
 					+ stringifyRole(role);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 
 	@Override
 	public List<Role> getAvailableRoles()   
 			throws BusinessServiceException {
-		logger.info("Getting all available Roles...");
 		List<Role> roles = null;
 		try {
+			logger.info("Getting all available Roles...");
 			roles = availableRoles;
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting available roles.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting available roles.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return roles;
 	}

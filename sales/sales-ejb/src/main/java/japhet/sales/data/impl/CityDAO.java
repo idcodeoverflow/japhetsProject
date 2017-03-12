@@ -29,9 +29,9 @@ public class CityDAO extends GenericDAO<City, Short> {
 			logger.info("Obtaining all cities...");
 			cities = executeQuery(QueryNames.GET_ALL_CITIES, null);
 		} catch (Exception e) {
-			final String errorMsg = "Error trying to obtain all cities.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error trying to obtain all cities.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return cities;
 	}

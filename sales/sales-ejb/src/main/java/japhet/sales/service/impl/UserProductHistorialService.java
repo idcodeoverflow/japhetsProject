@@ -46,14 +46,14 @@ public class UserProductHistorialService implements IUserProductHistorialService
 	@Override
 	public List<UserProductHistorial> getHistorialByUser(Map<String, Object> params)   
 			throws BusinessServiceException {
-		logger.info("Getting historial by user id...");
 		List<UserProductHistorial> userProductHistorials = null;
 		try {
+			logger.info("Getting historial by user id...");
 			userProductHistorials = userProductHistorialDAO.getHistorialByUser(params);
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting the historial for the userId.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting the historial for the userId.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return userProductHistorials;
 	}
@@ -61,14 +61,14 @@ public class UserProductHistorialService implements IUserProductHistorialService
 	@Override
 	public List<UserProductHistorial> getCompletedHistorialByUser(Map<String, Object> params)   
 			throws BusinessServiceException {
-		logger.info("Getting completed historial by user id...");
 		List<UserProductHistorial> userProductHistorials = null;
 		try {
+			logger.info("Getting completed historial by user id...");
 			userProductHistorials = userProductHistorialDAO.getCompletedHistorialByUser(params);
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting the completed historial for the userId.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting the completed historial for the userId.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return userProductHistorials;
 	}
@@ -76,14 +76,14 @@ public class UserProductHistorialService implements IUserProductHistorialService
 	@Override
 	public List<UserProductHistorial> getCompletedHistorialByUserAndStatus(Map<String, Object> params) 
 			throws BusinessServiceException{
-		logger.info("Getting completed historial by user id and status...");
 		List<UserProductHistorial> userProductHistorials = null;
 		try {
+			logger.info("Getting completed historial by user id and status...");
 			userProductHistorials = userProductHistorialDAO.getCompletedHistorialByUserAndStatus(params);
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting the completed historial for the userId and status.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting the completed historial for the userId and status.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return userProductHistorials;
 	}
@@ -91,19 +91,19 @@ public class UserProductHistorialService implements IUserProductHistorialService
 	@Override
 	public UserProductHistorial getCompletedHistorialByFingerprint(Map<String, Object> params) 
 			throws BusinessServiceException {
-		logger.info("Getting completed historial by fingerprint...");
 		UserProductHistorial userProductHistorial = null;
 		List<UserProductHistorial> userProductHistorials = null;
 		try {
+			logger.info("Getting completed historial by fingerprint...");
 			userProductHistorials = userProductHistorialDAO.getCompletedHistorialByFingerprint(params);
 			//Obtain first user product historial
 			if(userProductHistorials != null && !userProductHistorials.isEmpty()) {
 				userProductHistorial = userProductHistorials.get(0);
 			}
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting the completed historial by fingerprint.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting the completed historial by fingerprint.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return userProductHistorial;
 	}
@@ -111,14 +111,14 @@ public class UserProductHistorialService implements IUserProductHistorialService
 	@Override
 	public List<UserProductHistorial> getHistorialByProduct(Map<String, Object> params)   
 			throws BusinessServiceException {
-		logger.info("Getting historial by product id...");
 		List<UserProductHistorial> userProductHistorials = null;
 		try {
+			logger.info("Getting historial by product id...");
 			userProductHistorials = userProductHistorialDAO.getHistorialByProduct(params);
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting the historial by the productId.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting the historial by the productId.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return userProductHistorials;
 	}
@@ -126,53 +126,53 @@ public class UserProductHistorialService implements IUserProductHistorialService
 	@Override
 	public void insertProductHistorial(UserProductHistorial userProductHistorial)   
 			throws BusinessServiceException {
-		logger.info("Inserting the product historial related to the user...");
 		try {
+			logger.info("Inserting the product historial related to the user...");
 			userProductHistorialDAO.insert(userProductHistorial);
 		} catch (Exception e) {
-			final String errorMsg = "Error inserting the product historial related to the user.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error inserting the product historial related to the user.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 
 	@Override
 	public void updateProductHistorial(UserProductHistorial userProductHistorial)   
 			throws BusinessServiceException {
-		logger.info("Updating the product historial related to the user...");
 		try {
+			logger.info("Updating the product historial related to the user...");
 			userProductHistorialDAO.update(userProductHistorial);
 		} catch (Exception e) {
-			final String errorMsg = "Error updating the product historial related to the user.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error updating the product historial related to the user.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 
 	@Override
 	public void deleteProductHistorial(UserProductHistorial userProductHistorial)   
 			throws BusinessServiceException {
-		logger.info("Deleting the product historial related to the user...");
 		try {
+			logger.info("Deleting the product historial related to the user...");
 			userProductHistorialDAO.delete(userProductHistorial);
 		} catch (Exception e) {
-			final String errorMsg = "Error deleting the product historial related to the user.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error deleting the product historial related to the user.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 
 	@Override
 	public UserProductHistorial getProductHistorialById(Long historialId)   
 			throws BusinessServiceException {
-		logger.info("Getting the product historial related to the user...");
 		UserProductHistorial userProductHistorial = null;
 		try {
+			logger.info("Getting the product historial related to the user...");
 			userProductHistorial = userProductHistorialDAO.select(historialId);
 		} catch (Exception e) {
-			final String errorMsg = "Error getting the product historial related to the user.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error getting the product historial related to the user.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return userProductHistorial;
 	}

@@ -32,14 +32,14 @@ public class CityService implements ICityService {
 	@Override
 	public List<City> getAllCities()   
 			throws BusinessServiceException {
-		logger.info("Obtaining all cities...");
 		List<City> cities = null;
 		try {
+			logger.info("Obtaining all cities...");
 			cities = cityDAO.getAllCities();
 		} catch (Exception e) {
-			final String errorMsg = "Error obtaining all the cities.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error obtaining all the cities.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return cities;
 	}
@@ -47,14 +47,14 @@ public class CityService implements ICityService {
 	@Override
 	public City getCity(Short cityId)   
 			throws BusinessServiceException {
-		logger.info("Obtaining city: " + cityId);
 		City city = null;
 		try {
+			logger.info("Obtaining city: " + cityId);
 			city = cityDAO.select(cityId);
 		} catch (Exception e) {
-			final String errorMsg = "Error while obtaining city: " + cityId;
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while obtaining city: " + cityId;
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return city;
 	}

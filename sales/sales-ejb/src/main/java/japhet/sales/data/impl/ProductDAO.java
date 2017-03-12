@@ -32,13 +32,13 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 	public List<Product> getAvailableProducts() 
 			throws DataLayerException {
 		List<Product> products = null;
-		logger.info("Obtaining all available products from the DB...");
 		try {
+			logger.info("Obtaining all available products from the DB...");
 			products = executeQuery(QueryNames.GET_AVAILABLE_PRODUCTS, null);
 		} catch (Exception e) {
-			final String errorMsg = "Error while obtaining available products from the DB.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while obtaining available products from the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return products;
 	}
@@ -53,17 +53,17 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 	public List<Product> getSearchedProducts(Map<String, Object> parameters) 
 			throws DataLayerException {
 		List<Product> products = null;
-		logger.info("Obtaining searched products from the DB...");
 		try {
+			logger.info("Obtaining searched products from the DB...");
 			//Add the wildcards to the searchedWords parameter
 			String param = (String)parameters.get(SEARCHED_WORDS);
 			parameters.put(SEARCHED_WORDS, param);
 			//Query the DB.
 			products = executeQuery(QueryNames.GET_SEARCHED_PRODUCTS, parameters);
 		} catch (Exception e) {
-			final String errorMsg = "Error while obtaining the searched products from the DB.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while obtaining the searched products from the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return products;
 	}
@@ -79,8 +79,8 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 			throws DataLayerException {
 		Product product = null;
 		List<Product> products = null;
-		logger.info("Obtaining product by Key...");
 		try {
+			logger.info("Obtaining product by Key...");
 			//Query the DB.
 			products = executeQuery(QueryNames.GET_PRODUCT_BY_KEY, parameters);
 			//Get the first element from the list
@@ -92,9 +92,9 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 				product = products.get(0);
 			}
 		} catch (Exception e) {
-			final String errorMsg = "Error while obtaining the product by Key from the DB.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while obtaining the product by Key from the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return product;
 	}
@@ -109,14 +109,14 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 	public List<Product> getAvailableProductsFromCompany(Map<String, Object> parameters) 
 			throws DataLayerException {
 		List<Product> products = null;
-		logger.info("Obtaining available products from a Company in the DB...");
 		try {
+			logger.info("Obtaining available products from a Company in the DB...");
 			//Query the DB.
 			products = executeQuery(QueryNames.GET_AVAILABLE_PRODUCTS_BY_COMPANY, parameters);
 		} catch (Exception e) {
-			final String errorMsg = "Error while obtaining available products from a Company in the DB.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while obtaining available products from a Company in the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return products;
 	}
