@@ -127,28 +127,33 @@
 								        	value="#{msg['account.user.wallet.depositsTable.title']}" />
 								    </f:facet>
 								    <p:column headerClass="text-center" 
+						    			styleClass="text-center"
 								    	width="17%"
 								    	headerText="#{msg['account.user.wallet.depositsTable.nRequest']}">
 								        <h:outputText value="#{paymentRequest.paymentRequestId}" />
 								    </p:column>
-								    <p:column headerClass="text-center" 
-								    	width="15%"
+								    <p:column headerClass="text-center"
+						    			styleClass="text-right"
+								    	width="18%"
 								    	headerText="#{msg['account.user.wallet.depositsTable.requestAmount']}">
 								        <h:outputText value="#{paymentRequest.amount}">
 								        	<f:convertNumber type="currency" />
 								        </h:outputText>
 								    </p:column>
 								    <p:column headerClass="text-center"
+						    			styleClass="text-center"
 								    	headerText="#{msg['account.user.wallet.depositsTable.requestDate']}">
 								        <h:outputText value="#{paymentRequest.requestDate}">
 								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss"/>
 								        </h:outputText>
 								    </p:column>
 								    <p:column headerClass="text-center"
+						    			styleClass="text-center"
 								    	headerText="#{msg['account.user.wallet.depositsTable.status']}">
 								        <h:outputText value="#{internationalizationI18NMB.getI18NMessage(paymentRequest.status.name)}" />
 								    </p:column>
 								    <p:column headerClass="text-center"
+						    			styleClass="text-center"
 								    	headerText="#{msg['account.user.wallet.depositsTable.resolutionDate']}">
 								        <h:outputText value="#{paymentRequest.resolutionDate}"
 								        	rendered="#{userAccountManagerMB.pymntReqResolutionDateExist(paymentRequest)}">
@@ -299,29 +304,34 @@
 								        <h:outputText value="#{msg['account.user.pendingBonifications']}" />
 								    </f:facet>
 								    <p:column headerClass="text-center" 
-								    	width="11%"
+						    			styleClass="text-center"
+								    	width="15%"
 								    	headerText="#{msg['account.user.pendingBonifications.nBonification']}">
 								        <h:outputText value="#{buyProof.buyProofId}" />
 								    </p:column>
 								    <p:column headerClass="text-center"
-								    	width="13%"
+						    			styleClass="text-right"
+								    	width="16%"
 								    	headerText="#{msg['account.user.pendingBonifications.aforePayback']}">
 								        <h:outputText value="#{buyProof.userProductHistorial.paybackAmount}">
 								        	<f:convertNumber type="currency" />
 								        </h:outputText>
 								    </p:column>
 								    <p:column headerClass="text-center"
+						    			styleClass="text-center"
 								    	headerText="#{msg['account.user.pendingBonifications.uploadDate']}">
 								        <h:outputText value="#{buyProof.registeredOn}">
 								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss"/>
 								        </h:outputText>
 								    </p:column>
 								    <p:column headerClass="text-center"
+						    			styleClass="text-center"
 								    	width="17%"
 								    	headerText="#{msg['account.user.pendingBonifications.status']}">
 								        <h:outputText value="#{internationalizationI18NMB.getI18NMessage(buyProof.status.name)}" />
 								    </p:column>
 								    <p:column headerClass="text-center"
+						    			styleClass="text-center"
 								    	headerText="#{msg['account.user.pendingBonifications.resolutionDate']}">
 								        <h:outputText value="#{buyProof.lastUpdate}">
 								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss"/>
@@ -329,7 +339,7 @@
 								    </p:column>
 								    <!-- Download button -->
 								    <p:column headerClass="text-center"
-								    	width="21%"
+								    	width="12%"
 								    	headerText="#{msg['account.user.pendingBonifications.file']}">
 								        <p:commandLink 
 								        	id="btnDownloadBuyProof"

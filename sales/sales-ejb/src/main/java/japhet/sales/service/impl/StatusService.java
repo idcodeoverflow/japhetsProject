@@ -32,14 +32,14 @@ public class StatusService implements IStatusService {
 	@Override
 	public List<Status> getAllAvailableStatus()   
 			throws BusinessServiceException {
-		logger.info("Obtaining all available status...");
 		List<Status> status = null;
 		try {
+			logger.info("Obtaining all available status...");
 			status = statusDAO.getAllAvailableStatus();
 		} catch (Exception e) {
-			final String errorMsg = "Error while obtaining all the available status.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while obtaining all the available status.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return status;
 	}
@@ -47,14 +47,14 @@ public class StatusService implements IStatusService {
 	@Override
 	public List<Status> getAllStatus()   
 			throws BusinessServiceException {
-		logger.info("Obtaining all status...");
 		List<Status> status = null;
 		try {
+			logger.info("Obtaining all status...");
 			status = statusDAO.getAllStatus();
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting all the Status.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting all the Status.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return status;
 	}
@@ -62,15 +62,15 @@ public class StatusService implements IStatusService {
 	@Override
 	public Status getStatus(Short statusId)   
 			throws BusinessServiceException {
-		logger.info("Obtaining status " + statusId + " from the DB...");
 		Status status = null;
 		try {
+			logger.info("Obtaining status " + statusId + " from the DB...");
 			status = statusDAO.select(statusId);
 		} catch (Exception e) {
-			final String errorMsg = "Error obtaining status" + statusId + 
+			final String ERROR_MSG = "Error obtaining status" + statusId + 
 					" from the DB.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return status;
 	}
@@ -78,44 +78,44 @@ public class StatusService implements IStatusService {
 	@Override
 	public boolean updateStatus(Status status)   
 			throws BusinessServiceException {
-		logger.info("Updating status into the DB...");
 		try {
+			logger.info("Updating status into the DB...");
 			statusDAO.update(status);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error updating status into the DB: " 
+			final String ERROR_MSG = "Error updating status into the DB: " 
 					+ stringifyStatus(status);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean deleteStatus(Status status)   
 			throws BusinessServiceException {
-		logger.info("Deleting status into the DB...");
 		try {
+			logger.info("Deleting status into the DB...");
 			statusDAO.delete(status);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error deleting status into the DB: " 
+			final String ERROR_MSG = "Error deleting status into the DB: " 
 					+ stringifyStatus(status);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean insertStatus(Status status)   
 			throws BusinessServiceException {
-		logger.info("Inserting status into the DB...");
 		try {
+			logger.info("Inserting status into the DB...");
 			statusDAO.insert(status);
 		} catch (Exception e) {
-			final String errorMsg = "Error inserting status into the DB: " 
+			final String ERROR_MSG = "Error inserting status into the DB: " 
 					+ stringifyStatus(status);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return false;
 	}

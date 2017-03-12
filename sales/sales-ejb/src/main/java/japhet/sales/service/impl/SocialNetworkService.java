@@ -32,14 +32,14 @@ public class SocialNetworkService implements ISocialNetworkService {
 	@Override
 	public List<SocialNetwork> getAllSocialNetworks()   
 			throws BusinessServiceException {
-		logger.info("Obtaining all social networks...");
 		List<SocialNetwork> socialNetworks = null;
 		try {
+			logger.info("Obtaining all social networks...");
 			socialNetworks = socialNetworkDAO.getAllSocialNetworks();
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting all Social Networks.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting all Social Networks.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return socialNetworks;
 	}
@@ -47,14 +47,14 @@ public class SocialNetworkService implements ISocialNetworkService {
 	@Override
 	public List<SocialNetwork> getAllAvailableSocialNetworks()   
 			throws BusinessServiceException {
-		logger.info("Obtaining all available social networks...");
 		List<SocialNetwork> socialNetworks = null;
 		try {
+			logger.info("Obtaining all available social networks...");
 			socialNetworks = socialNetworkDAO.getAllAvailableSocialNetworks();
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting all available Social Networks.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting all available Social Networks.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return socialNetworks;
 	}

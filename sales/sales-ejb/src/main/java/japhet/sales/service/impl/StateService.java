@@ -60,13 +60,13 @@ public class StateService implements IStateService {
 	public State getState(Short stateId)   
 			throws BusinessServiceException {
 		State state = null;
-		logger.info("Obtaining state: " + stateId);
 		try {
+			logger.info("Obtaining state: " + stateId);
 			state = allStates.get(stateId);
 		} catch (Exception e) {
-			final String errorMsg = "Error obtaining state: " + stateId;
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error obtaining state: " + stateId;
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return state;
 	}

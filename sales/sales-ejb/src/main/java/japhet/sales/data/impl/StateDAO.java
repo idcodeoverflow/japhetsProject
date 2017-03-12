@@ -28,9 +28,9 @@ public class StateDAO extends GenericDAO<State, Short> {
 			logger.info("Obtaining all the States...");
 			states = executeQuery(QueryNames.GET_ALL_STATES, null);
 		} catch (Exception e) {
-			final String errorMsg = "Error trying to obtain all the states.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error trying to obtain all the states.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return states;
 	}
