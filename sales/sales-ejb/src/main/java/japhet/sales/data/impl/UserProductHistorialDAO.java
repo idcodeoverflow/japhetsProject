@@ -35,14 +35,14 @@ public class UserProductHistorialDAO extends GenericDAO
 	 */
 	public List<UserProductHistorial> getHistorialByUser(Map<String, Object> params) 
 			throws DataLayerException {
-		logger.info("Obtaining product historial by user id...");
 		List<UserProductHistorial> historial = null;
 		try {
+			logger.info("Obtaining product historial by user id...");
 			historial = executeQuery(GET_ALL_PRODUCT_HISTORIAL_BY_USER, params);
 		} catch (Exception e) {
-			final String errorMsg = "Error trying to obtain the product historial by user id.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error trying to obtain the product historial by user id.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return historial;
 	}
@@ -56,14 +56,14 @@ public class UserProductHistorialDAO extends GenericDAO
 	 */
 	public List<UserProductHistorial> getCompletedHistorialByUser(Map<String, Object> params) 
 			throws DataLayerException {
-		logger.info("Obtaining completed product historial by user id...");
 		List<UserProductHistorial> historial = null;
 		try {
+			logger.info("Obtaining completed product historial by user id...");
 			historial = executeQuery(GET_COMPLETED_PRDCT_HIST_BY_USER, params);
 		} catch (Exception e) {
-			final String errorMsg = "Error trying to obtain the completed product historial by user id.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error trying to obtain the completed product historial by user id.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return historial;
 	}
@@ -77,14 +77,14 @@ public class UserProductHistorialDAO extends GenericDAO
 	 */
 	public List<UserProductHistorial> getCompletedHistorialByUserAndStatus(Map<String, Object> params) 
 			throws DataLayerException {
-		logger.info("Obtaining completed product historial by user id and status...");
 		List<UserProductHistorial> historial = null;
 		try {
+			logger.info("Obtaining completed product historial by user id and status...");
 			historial = executeQuery(GET_ALL_PRODUCT_HISTORIAL_BY_USER_N_STATUS, params);
 		} catch (Exception e) {
-			final String errorMsg = "Error trying to obtain the completed product historial by user id and status.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error trying to obtain the completed product historial by user id and status.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return historial;
 	}
@@ -98,14 +98,14 @@ public class UserProductHistorialDAO extends GenericDAO
 	 */
 	public List<UserProductHistorial> getCompletedHistorialByFingerprint(Map<String, Object> params) 
 			throws DataLayerException {
-		logger.info("Obtaining completed product historial by fingerprint...");
 		List<UserProductHistorial> historial = null;
 		try {
+			logger.info("Obtaining completed product historial by fingerprint...");
 			historial = executeQuery(GET_ALL_PRODUCT_HISTORIAL_BY_FPRINT, params);
 		} catch (Exception e) {
-			final String errorMsg = "Error trying to obtain the completed product historial by fingerprint.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error trying to obtain the completed product historial by fingerprint.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return historial;
 	}
@@ -119,14 +119,14 @@ public class UserProductHistorialDAO extends GenericDAO
 	 */
 	public List<UserProductHistorial> getHistorialByProduct(Map<String, Object> params) 
 			throws DataLayerException {
-		logger.info("Obtaining product historial by product id...");
 		List<UserProductHistorial> historial = null;
 		try {
+			logger.info("Obtaining product historial by product id...");
 			historial = executeQuery(GET_ALL_PRODUCT_HISTORIAL_BY_PRODUCT, params);
 		} catch (Exception e) {
-			final String errorMsg = "Error trying to obtain the product historial by product id.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error trying to obtain the product historial by product id.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return historial;
 	}
@@ -139,14 +139,14 @@ public class UserProductHistorialDAO extends GenericDAO
 	 */
 	public void insertProductHistorial(UserProductHistorial userProductHistorial) 
 			throws DataLayerException {
-		logger.info("Saving product historial for the user: " 
-				+ userProductHistorial.getUser().getUserId());
 		try {
+			logger.info("Saving product historial for the user: " 
+					+ userProductHistorial.getUser().getUserId());
 			insert(userProductHistorial);
 		} catch (Exception e) {
-			final String errorMsg = "Error while trying to save the product historial for the user.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while trying to save the product historial for the user.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 	}
 	
@@ -158,14 +158,14 @@ public class UserProductHistorialDAO extends GenericDAO
 	 */
 	public void updateProductHistorial(UserProductHistorial userProductHistorial) 
 			throws DataLayerException {
-		logger.info("Saving product historial for the user: " 
-				+ userProductHistorial.getUser().getUserId());
 		try {
+			logger.info("Saving product historial for the user: " 
+					+ userProductHistorial.getUser().getUserId());
 			update(userProductHistorial);
 		} catch (Exception e) {
-			final String errorMsg = "Error while trying to update the product historial for the user.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while trying to update the product historial for the user.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 	}
 	
@@ -177,14 +177,14 @@ public class UserProductHistorialDAO extends GenericDAO
 	 */
 	public void deleteProductHistorial(UserProductHistorial userProductHistorial) 
 			throws DataLayerException {
-		logger.info("Deleting product historial for the user: " 
-				+ userProductHistorial.getUser().getUserId());
 		try {
+			logger.info("Deleting product historial for the user: " 
+					+ userProductHistorial.getUser().getUserId());
 			delete(userProductHistorial);
 		} catch (Exception e) {
-			final String errorMsg = "Error while trying to delete the product historial for the user.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while trying to delete the product historial for the user.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 	}
 	
@@ -196,14 +196,14 @@ public class UserProductHistorialDAO extends GenericDAO
 	 */
 	public void getProductHistorialById(Long historialId) 
 			throws DataLayerException {
-		logger.info("Obtaining product historial with id: " 
-				+ historialId);
 		try {
+			logger.info("Obtaining product historial with id: " 
+					+ historialId);
 			select(historialId);
 		} catch (Exception e) {
-			final String errorMsg = "Error while trying to delete the product historial by id.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while trying to delete the product historial by id.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 	}
 }

@@ -24,28 +24,28 @@ public class CategoryDAO extends GenericDAO<Category, Short>{
 	
 	public List<Category> getAllCategories() 
 			throws DataLayerException {
-		logger.info("Obtaining all the categories from the DB.");
 		List<Category> categories = null;
 		try {
+			logger.info("Obtaining all the categories from the DB.");
 			categories = executeQuery(QueryNames.GET_ALL_CATEGORIES, null);
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting all the categories from the DB.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting all the categories from the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return categories;
 	}
 	
 	public List<Category> getAllAvailableCategories() 
 			throws DataLayerException {
-		logger.info("Obtaining all the categories from the DB.");
 		List<Category> categories = null;
 		try {
+			logger.info("Obtaining all the categories from the DB.");
 			categories = executeQuery(QueryNames.GET_ALL_AVAILABLE_CATEGORIES, null);
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting all the categories from the DB.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting all the categories from the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return categories;
 	}

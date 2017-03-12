@@ -82,11 +82,11 @@ public class PaymentRequestService
 		List<PaymentRequest> paymentRequests = null;
 		final long P_COMP_ID = ((params != null && params.get(COMPANY_ID) != null) ? (Long)params.get(COMPANY_ID) : -1L);
 		final String INFO_MSG = String.format("Obtaining payment requests by company: %d...", P_COMP_ID);
-		final String ERROR_MSG = String.format("Error obtaining payment requests by company: %d...", P_COMP_ID);
 		try {
 			logger.info(INFO_MSG);
 			paymentRequests = paymentRequestDAO.getPaymentRequestsByCompany(params);
 		} catch (Exception e) {
+			final String ERROR_MSG = String.format("Error obtaining payment requests by company: %d...", P_COMP_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -99,11 +99,11 @@ public class PaymentRequestService
 		PaymentRequest paymentRequest = null;
 		final long P_PREQ_ID = ((paymentRequestId != null) ? paymentRequestId : -1L);
 		final String INFO_MSG = String.format("Getting payment request: %d...", P_PREQ_ID);
-		final String ERROR_MSG = String.format("Error while getting payment request: %d.", P_PREQ_ID);
 		try {
 			logger.info(INFO_MSG);
 			paymentRequest = paymentRequestDAO.select(paymentRequestId);
 		} catch (Exception e) {
+			final String ERROR_MSG = String.format("Error while getting payment request: %d.", P_PREQ_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -115,13 +115,13 @@ public class PaymentRequestService
 			throws BusinessServiceException {
 		final long P_PREQ_ID = ((paymentRequest != null 
 				&& paymentRequest.getPaymentRequestId() != null) ? paymentRequest.getPaymentRequestId() : -1L);
-		final String ERROR_MSG = String.format("Error while updating payment request: %d.", P_PREQ_ID);
 		final String INFO_MSG =  String.format("Updating payment request: %d...", P_PREQ_ID);
 		try {
 			logger.info(INFO_MSG);
 			paymentRequestDAO.update(paymentRequest);
 			return true;
 		} catch (Exception e) {
+			final String ERROR_MSG = String.format("Error while updating payment request: %d.", P_PREQ_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -132,13 +132,13 @@ public class PaymentRequestService
 			throws BusinessServiceException {
 		final long P_PREQ_ID = ((paymentRequest != null 
 				&& paymentRequest.getPaymentRequestId() != null) ? paymentRequest.getPaymentRequestId() : -1L);
-		final String ERROR_MSG = String.format("Error while deleting payment request %d...", P_PREQ_ID);
 		final String INFO_MSG = String.format("Deleting payment request: %d.", P_PREQ_ID);
 		try {
 			logger.info(INFO_MSG);
 			paymentRequestDAO.delete(paymentRequest);
 			return true;
 		} catch (Exception e) {
+			final String ERROR_MSG = String.format("Error while deleting payment request %d...", P_PREQ_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -150,12 +150,12 @@ public class PaymentRequestService
 		final Long P_PREQ_ID = ((paymentRequest != null 
 				&& paymentRequest.getPaymentRequestId() != null) ? paymentRequest.getPaymentRequestId() : -1L);
 		final String INFO_MSG = String.format("Inserting payment request: %d...", P_PREQ_ID);
-		final String ERROR_MSG = String.format("Error while inserting payment request: %d.", P_PREQ_ID);
 		try {
 			logger.info(INFO_MSG);
 			paymentRequestDAO.insertAndFlush(paymentRequest);
 			return true;
 		} catch (Exception e) {
+			final String ERROR_MSG = String.format("Error while inserting payment request: %d.", P_PREQ_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -169,7 +169,6 @@ public class PaymentRequestService
 		final long P_PREQ_ID = ((params != null 
 				&& params.get(PAYMENT_REQUEST_ID) != null) ? (Long)params.get(PAYMENT_REQUEST_ID) : -1L);
 		final String INFO_MSG = String.format("Generating payment request: %d...", P_PREQ_ID);
-		final String ERROR_MSG = String.format("Error while generating a payment request: %d.", P_PREQ_ID);
 		PaymentRequest paymentRequest = null;
 		Map<String, Object> daoParams = new HashMap<>();
 		try {
@@ -184,6 +183,7 @@ public class PaymentRequestService
 			this.insertPaymentRequest(paymentRequest);
 			buyProofService.updateBuyProofsBatch(daoParams);
 		} catch (Exception e) {
+			final String ERROR_MSG = String.format("Error while generating a payment request: %d.", P_PREQ_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}

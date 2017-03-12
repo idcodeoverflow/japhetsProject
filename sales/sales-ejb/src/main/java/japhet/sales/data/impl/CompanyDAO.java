@@ -29,10 +29,10 @@ public class CompanyDAO extends GenericDAO<Company, Long> {
 	
 	public List<Company> getAllAvailableCompanies(List<Short> idStatuses) 
 		throws DataLayerException {
-		logger.info("Getting all available companies...");
 		List<Company> companies = null;
 		Map<String, Object> params = new HashMap<>();
 		try {
+			logger.info("Getting all available companies...");
 			params.put(VALID_STATUSES, idStatuses);
 			companies = executeQuery(GET_ALL_AVAILABLE_COMPANIES, params);
 		} catch (Exception e) {
@@ -47,10 +47,10 @@ public class CompanyDAO extends GenericDAO<Company, Long> {
 		throws DataLayerException {
 		final String LOGGER_MSG = String.format("Getting all available companies of type: %d...", 
 				companyTypeId);
-		logger.info(LOGGER_MSG);
 		List<Company> companies = null;
 		Map<String, Object> params = new HashMap<>();
 		try {
+			logger.info(LOGGER_MSG);
 			params.put(VALID_STATUSES, idStatuses);
 			params.put(COMPANY_TYPE_ID, companyTypeId);
 			companies = executeQuery(GET_ALL_AVAILABLE_COMPANIES_OF_TYPE, params);
@@ -65,9 +65,9 @@ public class CompanyDAO extends GenericDAO<Company, Long> {
 	
 	public List<Company> getAllCompanies() 
 		throws DataLayerException {
-		logger.info("Getting all companies...");
 		List<Company> companies = null;
 		try {
+			logger.info("Getting all companies...");
 			companies = executeQuery(GET_ALL_COMPANIES, null);
 		} catch (Exception e) {
 			final String ERROR_MSG = "Error while getting all companies...";
@@ -79,10 +79,10 @@ public class CompanyDAO extends GenericDAO<Company, Long> {
 	
 	public Company getCompanyByUserId(Map<String, Object> parameters) 
 			throws DataLayerException {
-		logger.info("Getting Company by userId from the DB...");
 		List<Company> companies = null;
 		Company company = null;
 		try {
+			logger.info("Getting Company by userId from the DB...");
 			companies = executeQuery(GET_COMPANY_BY_USER_ID, parameters);
 			if(companies != null && !companies.isEmpty()) {
 				company = companies.get(0);

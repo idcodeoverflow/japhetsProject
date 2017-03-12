@@ -33,53 +33,53 @@ public class UserSearchService implements IUserSearchService {
 	@Override
 	public void insertUserSearch(UserSearch userSearch)   
 			throws BusinessServiceException {
-		logger.info("Saving user search...");
 		try {
+			logger.info("Saving user search...");
 			userSearchDAO.insert(userSearch);
 		} catch (Exception e) {
-			final String errorMsg = "Error while saving the user search.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while saving the user search.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 
 	@Override
 	public void updateUserSearch(UserSearch userSearch)   
 			throws BusinessServiceException {
-		logger.info("Updating user search...");
 		try {
+			logger.info("Updating user search...");
 			userSearchDAO.update(userSearch);
 		} catch (Exception e) {
-			final String errorMsg = "Error while updating the user search.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while updating the user search.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 
 	@Override
 	public void deleteUserSearch(UserSearch userSearch)   
 			throws BusinessServiceException {
-		logger.info("Deleting user search...");
 		try {
+			logger.info("Deleting user search...");
 			userSearchDAO.delete(userSearch);
 		} catch (Exception e) {
-			final String errorMsg = "Error while deleting the user search.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while deleting the user search.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 
 	@Override
 	public UserSearch selectUserSearch(Long userSearchId)   
 			throws BusinessServiceException {
-		logger.info("Getting user search: " + userSearchId + "...");
 		UserSearch userSearch = null;
 		try {
+			logger.info("Getting user search: " + userSearchId + "...");
 			userSearch = userSearchDAO.select(userSearchId);
 		} catch (Exception e) {
-			final String errorMsg = "Error while selecting user search.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while selecting user search.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return userSearch;
 	}
@@ -87,14 +87,14 @@ public class UserSearchService implements IUserSearchService {
 	@Override
 	public List<UserSearch> getSearchByUser(Map<String, Object> params)   
 			throws BusinessServiceException {
-		logger.info("Getting user searchs by user...");
 		List<UserSearch> userSearchs = null;
 		try {
+			logger.info("Getting user searchs by user...");
 			userSearchs = userSearchDAO.getUserSearchByUser(params);
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting searchs by user.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting searchs by user.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return userSearchs;
 	}

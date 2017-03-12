@@ -42,9 +42,9 @@ public class ProductService implements IProductService {
 			logger.info("Obtaining all available products...");
 			products = productDAO.getAvailableProducts();
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting all available products.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting all available products.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return products;
 	}
@@ -57,9 +57,9 @@ public class ProductService implements IProductService {
 			logger.info("Obtaining searched products...");
 			products = productDAO.getSearchedProducts(parameters);
 		} catch (Exception e) {
-			final String errorMsg = "Error while getting the searched products.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error while getting the searched products.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return products;
 	}
@@ -91,9 +91,9 @@ public class ProductService implements IProductService {
 			logger.info(INFO_MSG);
 			products = productDAO.getAvailableProductsFromCompany(parameters);
 		} catch (Exception e) {
-			final String errorMsg = String.format("Error while getting the availale Products by Company %d.",  COMP_ID);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = String.format("Error while getting the availale Products by Company %d.",  COMP_ID);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return products;
 	}
@@ -106,10 +106,10 @@ public class ProductService implements IProductService {
 			logger.info("Obtaining product " + productId + " from the DB...");
 			product = productDAO.select(productId);
 		} catch (Exception e) {
-			final String errorMsg = "Error obtaining product " + productId 
+			final String ERROR_MSG = "Error obtaining product " + productId 
 					+ " from the DB: " + stringifyProduct(product);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return product;
 	}
@@ -117,63 +117,63 @@ public class ProductService implements IProductService {
 	@Override
 	public boolean updateProduct(Product product)   
 			throws BusinessServiceException {
-		logger.info("Updating product into the DB...");
 		try {
+			logger.info("Updating product into the DB...");
 			productDAO.update(product);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error updating product into the DB: " 
+			final String ERROR_MSG = "Error updating product into the DB: " 
 					+ stringifyProduct(product);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean updateProductAndFlush(Product product)   
 			throws BusinessServiceException {
-		logger.info("Updating product into the DB...");
 		try {
+			logger.info("Updating product into the DB...");
 			productDAO.updateAndFlush(product);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error updating product into the DB: " 
+			final String ERROR_MSG = "Error updating product into the DB: " 
 					+ stringifyProduct(product);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean deleteProduct(Product product)   
 			throws BusinessServiceException {
-		logger.info("Deleting product into the DB...");
 		try {
+			logger.info("Deleting product into the DB...");
 			productDAO.delete(product);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error deleting product into the DB: " 
+			final String ERROR_MSG = "Error deleting product into the DB: " 
 					+ stringifyProduct(product);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean insertProduct(Product product) 
 			throws InvalidDateRangeException, BusinessServiceException {
-		logger.info("Inserting product into the DB...");
 		try {
+			logger.info("Inserting product into the DB...");
 			if(product.getStartDate().after(product.getEndDate())) {
 				throw new InvalidDateRangeException("The range of dates is not valid.");
 			}
 			productDAO.insert(product);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error inserting product into the DB: " 
+			final String ERROR_MSG = "Error inserting product into the DB: " 
 					+ stringifyProduct(product);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	

@@ -39,82 +39,82 @@ public class UserService implements IUserService {
 	@Override
 	public boolean doesUserExists(String username, String passw)   
 			throws BusinessServiceException {
-		logger.info("Verifying user credentials: " + username);
 		try {
+			logger.info("Verifying user credentials: " + username);
 			User user = new User();
 			user.setUsername(username);
 			user.setPassw(passw);
 			return userDAO.doesUserExists(user);
 		} catch (Exception e) {
-			final String errorMsg = "Error verifying user credentials: " + username;
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error verifying user credentials: " + username;
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public User getUser(Long userId)   
 			throws BusinessServiceException {
-		logger.info("Obtaining user " + userId + " from the DB...");
 		try {
+			logger.info("Obtaining user " + userId + " from the DB...");
 			return userDAO.select(userId);
 		} catch (Exception e) {
-			final String errorMsg = "Error obtaining user " + userId + " from the DB.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error obtaining user " + userId + " from the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean updateUser(User user)   
 			throws BusinessServiceException {
-		logger.info("Updating user into the DB...");
 		try {
+			logger.info("Updating user into the DB...");
 			userDAO.update(user);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error updating user into the DB: " 
+			final String ERROR_MSG = "Error updating user into the DB: " 
 					+ stringifyUser(user);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean deleteUser(User user)   
 			throws BusinessServiceException {
-		logger.info("Deleting user into the DB...");
 		try {
+			logger.info("Deleting user into the DB...");
 			userDAO.delete(user);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error deleting user into the DB: "
+			final String ERROR_MSG = "Error deleting user into the DB: "
 					+ stringifyUser(user);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public boolean insertUser(User user)   
 			throws BusinessServiceException {
-		logger.info("Inserting user into the DB...");
 		try {
+			logger.info("Inserting user into the DB...");
 			userDAO.insert(user);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error inserting user into the DB: "
+			final String ERROR_MSG = "Error inserting user into the DB: "
 					+ stringifyUser(user);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
 	@Override
 	public void validatePasswords(String pass1, String pass2) 
 			throws InvalidPasswordException {
-		logger.info("Validating password...");
 		try {
+			logger.info("Validating password...");
 			if(pass1.length() < MINIMUM_PASSWORD_LENGTH){
 				throw new InvalidPasswordException("The length of the password is lower than the minimum.");
 			}
@@ -131,8 +131,8 @@ public class UserService implements IUserService {
 	@Override
 	public void modifyUserCategories(Map<String, Object> params) 
 			throws BusinessServiceException {
-		logger.info("Updating user categories...");
 		try {
+			logger.info("Updating user categories...");
 			//Generate the categories list in CSV format
 			List<Category> categories = (List<Category>) params.get(P_CATEGORIES_LIST);
 			String csvList = generateActiveCategoriesCSVList(categories);

@@ -32,14 +32,14 @@ public class CategoryService implements ICategoryService {
 	@Override
 	public List<Category> getAllAvailableCategories()   
 			throws BusinessServiceException {
-		logger.info("Obtaining all available categories from the DB...");
 		List<Category> categories = null;
 		try {
+			logger.info("Obtaining all available categories from the DB...");
 			categories = categoryDAO.getAllAvailableCategories();
 		} catch (Exception e) {
-			final String errorMsg = "Error obtaining all available categories.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error obtaining all available categories.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return categories;
 	}
@@ -47,14 +47,14 @@ public class CategoryService implements ICategoryService {
 	@Override
 	public List<Category> getAllCategories()   
 			throws BusinessServiceException {
-		logger.info("Obtaining all categories from the DB...");
 		List<Category> categories = null;
 		try {
+			logger.info("Obtaining all categories from the DB...");
 			categories = categoryDAO.getAllCategories();
 		} catch (Exception e) {
-			final String errorMsg= "Error obtaining all categories.";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error obtaining all categories.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return categories;
 	}
@@ -62,14 +62,14 @@ public class CategoryService implements ICategoryService {
 	@Override
 	public boolean insertCategory(Category category)   
 			throws BusinessServiceException {
-		logger.info("Inserting category...");
 		try {
+			logger.info("Inserting category...");
 			categoryDAO.insert(category);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error inserting category:";
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error inserting category:";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
@@ -79,9 +79,9 @@ public class CategoryService implements ICategoryService {
 		try {
 			return categoryDAO.select(categoryId);
 		} catch (Exception e) {
-			final String errorMsg = "Error finding category: " + categoryId;
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			final String ERROR_MSG = "Error finding category: " + categoryId;
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
@@ -92,10 +92,10 @@ public class CategoryService implements ICategoryService {
 			categoryDAO.update(category);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error updating category: " + 
+			final String ERROR_MSG = "Error updating category: " + 
 					stringifyCategory(category);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	
@@ -106,10 +106,10 @@ public class CategoryService implements ICategoryService {
 			categoryDAO.delete(category);
 			return true;
 		} catch (Exception e) {
-			final String errorMsg = "Error deleting category: " + 
+			final String ERROR_MSG = "Error deleting category: " + 
 					stringifyCategory(category);
-			logger.fatal(errorMsg, e);
-			throw new BusinessServiceException(errorMsg, e);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 	}
 	

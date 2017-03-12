@@ -25,8 +25,8 @@ public class RoleDAO extends GenericDAO<Role, Short> {
 	public List<Role> getAllRoles() 
 			throws DataLayerException {
 		List<Role> roles = null;
-		logger.info("Obtaining while getting all the roles from the DB...");
 		try {
+			logger.info("Obtaining while getting all the roles from the DB...");
 			roles = executeQuery(QueryNames.GET_ALL_ROLES, null);
 		} catch (Exception e) {
 			final String errorMsg = "Error while getting all the roles from the DB.";
@@ -39,8 +39,8 @@ public class RoleDAO extends GenericDAO<Role, Short> {
 	public List<Role> getAllAvailableRoles() 
 			throws DataLayerException {
 		List<Role> roles = null;
-		logger.info("Obtaining all the available roles from the DB...");
 		try {
+			logger.info("Obtaining all the available roles from the DB...");
 			roles = executeQuery(QueryNames.GET_ALL_AVAILABLE_ROLES, null);
 		} catch (Exception e) {
 			final String errorMsg = "Error while getting all the available roles from the DB.";

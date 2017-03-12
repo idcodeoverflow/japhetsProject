@@ -39,9 +39,9 @@ public class UserDAO extends GenericDAO<User, Long> {
 			users = executeQuery(QueryNames.EXISTS_USER, params);
 			userExists = users != null && users.size() > 0;
 		} catch (Exception e) {
-			final String errorMsg = "Exception occurred searching the user credentials into the DB.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Exception occurred searching the user credentials into the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return userExists;
 	}
@@ -59,9 +59,9 @@ public class UserDAO extends GenericDAO<User, Long> {
 				user = users.get(0);
 			}
 		} catch (Exception e) {
-			final String errorMsg = "Exception occurred searching the username into the DB.";
-			logger.fatal(errorMsg, e);
-			throw new DataLayerException(errorMsg, e);
+			final String ERROR_MSG = "Exception occurred searching the username into the DB.";
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return user;
 	}
