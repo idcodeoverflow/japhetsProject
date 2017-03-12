@@ -4,6 +4,7 @@ public interface QueryNames {
 	
 	//Select queries
 	String EXISTS_USER 									= "EXISTS_USER";
+	String UPDATE_USER_PASSWORD							= "UPDATE_USER_PASSWORD";
 	String GET_ALL_CATEGORIES 							= "GET_ALL_CATEGORIES";
 	String GET_ALL_AVAILABLE_CATEGORIES 				= "GET_ALL_AVAILABLE_CATEGORIES";
 	String GET_ALL_ROLES 								= "GET_ALL_ROLES";

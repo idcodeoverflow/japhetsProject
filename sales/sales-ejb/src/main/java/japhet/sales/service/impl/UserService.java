@@ -1,7 +1,9 @@
 package japhet.sales.service.impl;
 
 import static japhet.sales.data.StoredProcedureParameters.*;
+import static japhet.sales.data.QueryParameters.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,12 +12,15 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import japhet.sales.data.QueryParameters;
 import japhet.sales.data.impl.UserDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidPasswordException;
+import japhet.sales.except.UnmatchedPasswordException;
 import japhet.sales.model.impl.Category;
 import japhet.sales.model.impl.User;
 import japhet.sales.service.IUserService;
+import japhet.sales.util.Encryption;
 
 import org.apache.log4j.Logger;
 
@@ -140,7 +145,51 @@ public class UserService implements IUserService {
 			//Persist data
 			userDAO.modifyUserCategories(params);
 		} catch (Exception e) {
-			final String ERROR_MSG = "An error has ocurred while updating the user categories.";
+			final String ERROR_MSG = "An error has occurred while updating the user categories.";
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+	}
+	
+	public void updateUserPassword(Map<String, Object> params) 
+			throws BusinessServiceException, 
+				InvalidPasswordException, 
+				UnmatchedPasswordException {
+		final Long UID = ((params != null 
+				&& params.get(USER_ID) != null) ? (Long)params.get(USER_ID) : -1L);
+		Map<String, Object> queryParams = new HashMap<>();
+		try {
+			logger.info("Updating user password...");
+			//Set values
+			final String CURRENT_PASSWORD = (String)params.get(QueryParameters.CURRENT_PASSWORD);
+			final String UNCRYPTED_PASSW = (String)params.get(QueryParameters.OLD_PASSWORD);
+			final String OLD_PASSWORD = Encryption.SHA256(UNCRYPTED_PASSW);
+			final String CONFIRMED_PASSWORD = (String)params.get(QueryParameters.CONFIRMED_PASSWORD);
+			final String PASSWORD = (String)params.get(QueryParameters.PASSW);
+			//Validate that the typed password matches to the stored password
+			if(!OLD_PASSWORD.equals(CURRENT_PASSWORD)) {
+				final String ERROR_MSG = String
+						.format("The specified password from the user: %d doesn't match.", UID);
+				throw new InvalidPasswordException(ERROR_MSG);
+			}
+			//Validate that new password and it's confirmation matches
+			if(!CONFIRMED_PASSWORD.equals(PASSWORD)) {
+				final String ERROR_MSG = String
+						.format("The new user:%d password and it's confirmation doesn't match.", UID);
+				throw new UnmatchedPasswordException(ERROR_MSG);
+			}
+			//Encrypt password
+			queryParams.put(QueryParameters.PASSW, Encryption.SHA256(PASSWORD));
+			queryParams.put(QueryParameters.OLD_PASSWORD, OLD_PASSWORD);
+			queryParams.put(QueryParameters.USER_ID, UID);
+			//Persist changes
+			userDAO.updateUserPassword(queryParams);
+		} catch (InvalidPasswordException e) {
+			throw new InvalidPasswordException();
+		}  catch (UnmatchedPasswordException e) {
+			throw new UnmatchedPasswordException();
+		} catch (Exception e) {
+			final String ERROR_MSG = String.format("An error has occurred while updating a user:%d password.", UID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}

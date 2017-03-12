@@ -15,6 +15,7 @@ public enum URL {
 	OFFERS("offers"),
 	MODAL("providerPrivacyPolicy"),
 	RECOVER_PASSWORD("recoverPassword"),
+	CHANGE_PASSWORD("changePassword"),
 	SIGN_UP("signUp"),
 	ACCOUNT_MANAGER("accountManager"),
 	COMPANY_MANAGER("companyAccountManager"),

@@ -33,7 +33,11 @@ public class URLMapperMB extends GenericMB {
 	}
 	
 	public String getRecoverPasswordURL(){
-		return RECOVER_PASSWOR_URL;
+		return RECOVER_PASSWORD_URL;
+	}
+	
+	public String getChangePasswordURL(){
+		return CHANGE_PASSWORD_URL;
 	}
 	
 	public String getSignInURL(){
