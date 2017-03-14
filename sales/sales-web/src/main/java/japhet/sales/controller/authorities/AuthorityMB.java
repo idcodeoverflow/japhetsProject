@@ -12,6 +12,12 @@ import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.Role;
 import japhet.sales.model.impl.User;
 
+/**
+ * 
+ * @author David
+ *
+ */
+
 @ManagedBean
 @NoneScoped
 public class AuthorityMB extends GenericMB {
