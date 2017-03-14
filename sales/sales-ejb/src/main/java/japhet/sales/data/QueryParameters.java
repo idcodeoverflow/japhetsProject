@@ -7,10 +7,14 @@ public interface QueryParameters {
 	
 	public static final String COMPANY_ID = "companyId";
 	public static final String COMPANY_TYPE_ID = "companyTypeId";
+	public static final String CONFIRMED_PASSWORD = "confirmedPassword";
+	public static final String CURRENT_PASSWORD = "currentPassword";
 	
 	public static final String FINGERPRINT = "fingerprint";
 	
 	public static final String LAST_UPDATE = "lastUpdate";
+	
+	public static final String OLD_PASSWORD = "oldPassword";
 	
 	public static final String PASSW = "passw";
 	public static final String PAYMENT_REQUEST = "paymentRequest";

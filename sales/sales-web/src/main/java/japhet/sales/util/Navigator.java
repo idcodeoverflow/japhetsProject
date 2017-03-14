@@ -19,7 +19,8 @@ public interface Navigator {
 	String MODAL = pReader.getValueFromKey(URL.MODAL.getName());
 	String REGISTRATION_URL = pReader.getValueFromKey(URL.SIGN_UP.getName());
 	String UPLOAD_CONTENT_URL = pReader.getValueFromKey(URL.UPLOAD.getName());
-	String RECOVER_PASSWOR_URL = pReader.getValueFromKey(URL.RECOVER_PASSWORD.getName());
+	String RECOVER_PASSWORD_URL = pReader.getValueFromKey(URL.RECOVER_PASSWORD.getName());
+	String CHANGE_PASSWORD_URL = pReader.getValueFromKey(URL.CHANGE_PASSWORD.getName());
 	String SIGN_IN_URL = pReader.getValueFromKey(URL.LOGIN.getName());
 	String ACCOUNT_MANAGER = pReader.getValueFromKey(URL.ACCOUNT_MANAGER.getName());
 	String USER_ACCOUNT_MANAGER = pReader.getValueFromKey(URL.USER_ACCOUNT_MANAGER.getName());

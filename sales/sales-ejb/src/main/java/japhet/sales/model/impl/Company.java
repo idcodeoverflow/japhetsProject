@@ -91,6 +91,10 @@ public class Company extends StreamUtil
 			nullable = false)
 	private Short daysNumberToApprove;
 	
+	@Column(name = "ORDERS_AVAILABLE",
+			nullable = false)
+	private Boolean ordersAvailable;
+	
 	public Company() {
 		super();
 		this.companyType = new CompanyType();
@@ -100,7 +104,7 @@ public class Company extends StreamUtil
 			byte[] image, String privacyPolicy, 
 			CompanyType companyType, List<Category> categories,
 			Boolean showInCarousel, Double paybackPercent,
-			Short daysNumberToApprove) {
+			Short daysNumberToApprove, Boolean ordersAvailable) {
 		super();
 		this.companyId = companyId;
 		this.user = user;
@@ -112,6 +116,7 @@ public class Company extends StreamUtil
 		this.showInCarousel = showInCarousel;
 		this.paybackPercent = paybackPercent;
 		this.daysNumberToApprove = daysNumberToApprove;
+		this.ordersAvailable = ordersAvailable;
 	}
 
 	public Long getCompanyId() {
@@ -192,5 +197,13 @@ public class Company extends StreamUtil
 
 	public void setDaysNumberToApprove(Short daysNumberToApprove) {
 		this.daysNumberToApprove = daysNumberToApprove;
+	}
+
+	public Boolean getOrdersAvailable() {
+		return ordersAvailable;
+	}
+
+	public void setOrdersAvailable(Boolean ordersAvailable) {
+		this.ordersAvailable = ordersAvailable;
 	}
 }

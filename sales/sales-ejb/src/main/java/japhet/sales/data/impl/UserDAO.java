@@ -82,4 +82,20 @@ public class UserDAO extends GenericDAO<User, Long> {
 			throw new DataLayerException(ERROR_MSG, e);
 		}
 	}
+	
+	public void updateUserPassword(Map<String, Object> params) 
+			throws DataLayerException {
+		final long USER_ID_PARAM = ((params != null 
+				&& params.get(USER_ID) != null) ? (Long)params.get(USER_ID) : -1);
+		final String INFO_MSG = String.format("Updating the password from the User: %d...", USER_ID_PARAM);
+		try {
+			logger.info(INFO_MSG);
+			executeUpdate(UPDATE_USER_PASSWORD, params);
+		} catch (Exception e) {
+			String ERROR_MSG = String
+					.format("An error has ocurred update the password from the User: %d.", USER_ID_PARAM);
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
+		}
+	}
 }
