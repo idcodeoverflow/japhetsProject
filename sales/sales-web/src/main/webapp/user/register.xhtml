@@ -24,15 +24,43 @@
 					<h:panelGroup layout="block" 
 						styleClass="panel-heading">
 						<h2 class="panel-title">
-							<h:outputText value="#{msg['registration.form.panel.title']}" />
-							<h:panelGroup styleClass="glyphicon glyphicon-pencil" />
+							<h:outputText value="#{msg['registration.form.panel.title']} " />
+							<h:panelGroup styleClass="glyphicon glyphicon-file" />
 						</h2>
 					</h:panelGroup>
 					<h:panelGroup layout="block" 
 						styleClass="panel-body">
 						<h:form id="signUpForm">
+						
 							<!-- Application messages -->
 							<p:messages id="messages" globalOnly="true"/>
+							
+							<!-- Role block -->
+							<h:panelGroup layout="block" 
+								rendered="#{authorityMB.multiUserRoleRegistrationAllowed}"
+								styleClass="form-group">
+								<h:outputLabel for="rolesList">
+									<h:outputText value="#{msg['registration.form.role']}" />
+								</h:outputLabel>
+								<h:selectOneMenu id="rolesList" 
+									value="#{registrationMB.user.role.roleId}"
+									styleClass="form-control" 
+									required="true" 
+									requiredMessage="#{msg['registration.messages.requiredRole']}">
+									<f:selectItem itemValue="" 
+										itemLabel="#{msg['registration.form.selectOneRole']}" />
+									<f:selectItems value="#{roleMB.roles}" 
+										var="role"  
+										itemLabel="#{role.name}" 
+										itemValue="#{role.roleId}" />
+									<f:param name="#{_csrf.parameterName}" 
+										value="#{_csrf.token}" />
+									<p:ajax update="@form"
+										event="change"
+										listener="#{registrationMB.updateRole(registrationMB.user.role.roleId)}"/>
+								</h:selectOneMenu>
+								<p:messages for="rolesList" />
+							</h:panelGroup>
 							
 							<!-- Company logo -->
 							<h:panelGroup layout="block" 
@@ -209,7 +237,7 @@
 								</h:outputLabel>
 								<h:inputText id="daysNumberInput" 
 									styleClass="form-control"  
-									value="#{registrationMB.user.age}"
+									value="#{registrationMB.company.daysNumberToApprove}"
 									maxlength="#{registrationMB.MAX_NDAYS_TO_ALLOW_PAYBACK}" 
 									minlength="#{registrationMB.MIN_NDAYS_TO_ALLOW_PAYBACK}"
 									required="true"
@@ -280,33 +308,6 @@
 									<f:validateLength minimum="#{registrationMB.MIN_PASSWORD_LENGTH}" />
 								</h:inputSecret>
 								<p:messages for="confirmPasswordInput" />
-							</h:panelGroup>
-							
-							<!-- Role block -->
-							<h:panelGroup layout="block" 
-								rendered="#{authorityMB.multiUserRoleRegistrationAllowed}"
-								styleClass="form-group">
-								<h:outputLabel for="rolesList">
-									<h:outputText value="#{msg['registration.form.role']}" />
-								</h:outputLabel>
-								<h:selectOneMenu id="rolesList" 
-									value="#{registrationMB.user.role.roleId}"
-									styleClass="form-control" 
-									required="true" 
-									requiredMessage="#{msg['registration.messages.requiredRole']}">
-									<f:selectItem itemValue="" 
-										itemLabel="#{msg['registration.form.selectOneRole']}" />
-									<f:selectItems value="#{roleMB.roles}" 
-										var="role"  
-										itemLabel="#{role.name}" 
-										itemValue="#{role.roleId}" />
-									<f:param name="#{_csrf.parameterName}" 
-										value="#{_csrf.token}" />
-									<p:ajax update="@form"
-										event="change"
-										listener="#{registrationMB.updateRole(registrationMB.user.role.roleId)}"/>
-								</h:selectOneMenu>
-								<p:messages for="rolesList" />
 							</h:panelGroup>
 							
 							<!-- Company Type block -->
@@ -446,7 +447,18 @@
 								<p:messages for="stateCity" />
 							</h:panelGroup>
 							
-							<!-- Show in carousel -->
+							<!-- Product Orders available -->
+							<h:panelGroup layout="block"
+								rendered="#{registrationMB.companyRole}"
+								styleClass="checkbox">
+				  				<h:outputLabel styleClass="bold">
+					  				<h:selectBooleanCheckbox id="productOrdersAvailable"
+					  					value="#{registrationMB.company.ordersAvailable}" />
+					  				<h:outputText value="#{msg['registration.form.ordersFeatureAvailable']}" />
+					  			</h:outputLabel>
+				  			</h:panelGroup>
+							
+							<!-- Show in Carousel -->
 							<h:panelGroup layout="block"
 								rendered="#{registrationMB.companyRole}"
 								styleClass="checkbox">
@@ -455,14 +467,27 @@
 					  					value="#{registrationMB.company.showInCarousel}" />
 					  				<h:outputText value="#{msg['registration.form.showInCarousel']}" />
 					  			</h:outputLabel>
-								<!-- Terms agreement -->
-								<p>
-									<br/>
-									<i><h:outputText value="#{msg['registration.form.acceptTerms']}" /></i>
-									<h:outputLink value="#">
-										<h:outputText value="#{msg['registration.form.termsOfService']}" />
-									</h:outputLink>
-								</p>
+				  			</h:panelGroup>
+				  			
+				  			<!-- Terms of Agreement -->
+							<h:panelGroup layout="block"
+				  				styleClass="row">
+				  				<h:panelGroup layout="block"
+				  					styleClass="col-md-12">
+				  					<p>
+										<br/>
+										<i><h:outputText value="#{msg['registration.form.acceptTerms']}" /></i>
+										<!-- Use Conditions -->
+										<h:outputLink value="#">
+											<h:outputText value="#{msg['registration.form.useConditions']}" />
+										</h:outputLink>
+										<i><h:outputText value="#{msg['registration.form.and']}" /></i>
+										<!-- Notice of Privacy -->
+										<h:outputLink value="#">
+											<h:outputText value="#{msg['registration.form.noticeOfPrivacy']}" />
+										</h:outputLink>
+									</p>
+				  				</h:panelGroup>
 				  			</h:panelGroup>
 							
 							<!-- Sign up button block -->
@@ -479,6 +504,7 @@
 									</h:commandButton>
 								</h:panelGroup>
 							</h:panelGroup>
+							
 							<!-- Facebook sign up button block -->
 							<h:panelGroup layout="block" 
 								styleClass="row">

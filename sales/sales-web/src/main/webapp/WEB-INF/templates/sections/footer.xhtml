@@ -6,35 +6,60 @@
 	<footer class="footer">
 		<h:panelGroup layout="block" 
 			styleClass="row">
+			<h:form>
+				<!-- Contact -->
+				<h:panelGroup layout="block" 
+					styleClass="col-md-4">
+					<h4>
+						<h:commandLink id="contactComLink">
+							<h:panelGroup styleClass="glyphicon glyphicon-earphone" />
+							<h:outputText value=" #{msg['main.template.contact']}" />
+						</h:commandLink>
+					</h4>
+				</h:panelGroup>
+				
+				<!-- Spacer -->
+		       	<h:panelGroup layout="block" 
+		       		styleClass="col-md-1" />
 			
-			<!-- Contact -->
-			<h:panelGroup layout="block" 
-				styleClass="col-md-4">
-				<h4>
-					<h:outputText value="#{msg['main.template.contact']}" />
-				</h4>
-			</h:panelGroup>
-			
-			<!-- Social networks -->
-	    	<h:panelGroup styleClass="col-md-4" 
-	    		layout="block">
-	    		<h:graphicImage id="facebook-icon" 
-	    			value="/resources/media/icons/twitter.png" 
-	       			styleClass="img-circle footer-img" />
-	       		<h:graphicImage id="twitter-icon" 
-	       			value="/resources/media/icons/facebook.png" 
-	       			styleClass="img-circle footer-img" />
-	       	</h:panelGroup>
+				<!-- Social Networks -->
+		    	<h:panelGroup styleClass="col-md-2" 
+		    		layout="block">
+		    		<h:graphicImage id="facebook-icon" 
+		    			value="/resources/media/icons/twitter.png" 
+		       			styleClass="img-circle footer-img" />
+		       		<h:graphicImage id="twitter-icon" 
+		       			value="/resources/media/icons/facebook.png" 
+		       			styleClass="img-circle footer-img" />
+		       	</h:panelGroup>
+		       	
+		       	<!-- Privacy Policy -->
+		       	<h:panelGroup layout="block" 
+		       		styleClass="col-md-2">
+		       		<h4>
+	       				<h:commandLink id="privacyPolicyComLink">
+		       				<h:panelGroup styleClass="glyphicon glyphicon-eye-open" />
+		       				<h:outputText value=" #{msg['main.template.noticeOfPrivacy']}" />
+		       			</h:commandLink>
+		       		</h4>
+		       	</h:panelGroup>
+		       	
+		       	<!-- Use Conditions -->
+		       	<h:panelGroup layout="block" 
+		       		styleClass="col-md-2">
+		       		<h4>
+	       				<h:commandLink id="useConditionsComLink">
+		       				<h:panelGroup styleClass="glyphicon glyphicon-folder-open" />
+		       				<h:outputText value=" #{msg['main.template.useConditions']}" />
+		       			</h:commandLink>
+		       		</h4>
+		       	</h:panelGroup>
+		       	
+		       	<!-- Spacer -->
+		       	<h:panelGroup layout="block" 
+		       		styleClass="col-md-1" />
 	       	
-	       	<!-- PrivacyPolicy -->
-	       	<h:panelGroup layout="block" 
-	       		styleClass="col-md-4">
-	       		<h4>
-	       			<h:form>
-		       			<h:commandLink value="#{msg['main.template.avisoPrivacidad']}" />
-	       			</h:form>
-	       		</h4>
-	       	</h:panelGroup>
+	       	</h:form>
 	       	
 	 	</h:panelGroup>
 

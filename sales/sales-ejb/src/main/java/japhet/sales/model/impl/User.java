@@ -46,7 +46,9 @@ import japhet.sales.util.Encryption;
 		@NamedQuery(name = QueryNames.EXISTS_USER, 
 				query = "SELECT u FROM User u WHERE u.username = :" + QueryParameters.USERNAME + " AND u.passw = :" + QueryParameters.PASSW + " AND u.status.statusId = :" + QueryParameters.STATUS + ""),
 		@NamedQuery(name = QueryNames.GET_USER_BY_EMAIL,
-				query = "SELECT u FROM User u WHERE u.username = :" + QueryParameters.USERNAME)
+				query = "SELECT u FROM User u WHERE u.username = :" + QueryParameters.USERNAME),
+		@NamedQuery(name = QueryNames.UPDATE_USER_PASSWORD,
+				query = "UPDATE User u SET u.passw = :" + QueryParameters.PASSW + " WHERE u.userId = :" + QueryParameters.USER_ID + " AND u.passw = :" + QueryParameters.OLD_PASSWORD)
 })
 @NamedStoredProcedureQueries(value = {
 		@NamedStoredProcedureQuery(name = StoredProcedureNames.CHANGE_USER_CATEGORIES_NAME,

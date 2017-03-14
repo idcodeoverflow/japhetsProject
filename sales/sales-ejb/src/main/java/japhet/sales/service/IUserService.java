@@ -7,6 +7,7 @@ import javax.ejb.Local;
 
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidPasswordException;
+import japhet.sales.except.UnmatchedPasswordException;
 import japhet.sales.model.impl.User;
 
 @Local
@@ -34,4 +35,9 @@ public interface IUserService extends Serializable {
 	
 	public void modifyUserCategories(Map<String, Object> params) 
 			throws BusinessServiceException;
+	
+	public void updateUserPassword(Map<String, Object> params) 
+			throws BusinessServiceException, 
+				InvalidPasswordException, 
+				UnmatchedPasswordException;
 }
