@@ -66,21 +66,29 @@
 								</h:inputSecret>
 							</h:panelGroup>
 							
-							<!-- Remember me -->
+							<!-- Remember Me -->
 							<h:panelGroup layout="block" 
-								styleCass="checkbox">
-								<h:outputLabel> 
-									<h:selectBooleanCheckbox id="loginRememberMe" /> 
+								styleClass="checkbox">
+								<h:outputLabel styleClass="bold"> 
+									<h:selectBooleanCheckbox id="loginRememberMe" />
 									<h:outputText value="#{msg['login.form.remember']}" />
 								</h:outputLabel>
-								<p>
-									<i>
-										<h:outputLink id="forgottenPassword" 
-											value="#{urlMapperMB.recoverPasswordURL}">
-											<h:outputText value="#{msg['login.form.forgotten.password']}" />
-										</h:outputLink>
-									</i>
-								</p>
+							</h:panelGroup>
+							
+							<!-- Forgotten Password -->
+							<h:panelGroup layout="block"
+								styleClass="row">
+								<h:panelGroup layout="block"
+									styleClass="col-md-12">
+									<p>
+										<i>
+											<h:outputLink id="forgottenPassword" 
+												value="#{urlMapperMB.recoverPasswordURL}">
+												<h:outputText value="#{msg['login.form.forgotten.password']}" />
+											</h:outputLink>
+										</i>
+									</p>
+								</h:panelGroup>
 							</h:panelGroup>
 							
 							<!-- Login button -->

@@ -2,6 +2,8 @@ package japhet.sales.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
@@ -18,8 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import japhet.sales.data.QueryParameters;
 import japhet.sales.data.StoredProcedureParameters;
 import japhet.sales.internationalization.IInternationalizationService;
+import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.User;
 import japhet.sales.rest.RESTParameters;
+import japhet.sales.service.ICompanyService;
 import japhet.sales.util.Navigator;
 
 public abstract class GenericMB extends GenericFacesMessager
@@ -39,20 +43,39 @@ public abstract class GenericMB extends GenericFacesMessager
 	@EJB
 	protected IInternationalizationService internationalizationService;
 	
+	@EJB
+	protected ICompanyService companyService;
+	
+	/**
+	 * Gets the current instance from the Faces Context.
+	 */
 	@Override
 	protected FacesContext getCurrentFacesInstance() {
 		return FacesContext.getCurrentInstance();
 	}
 	
+	/**
+	 * @return Current instance of the External Faces Context.
+	 */
 	protected ExternalContext getExternalContext() {
 		return getCurrentFacesInstance().getExternalContext();
 	}
 	
+	/**
+	 * Looks for a parameter name into the Faces External
+	 * Context and returns it if exists.
+	 * @param name Parameter name to search.
+	 * @return Request parameter if exists.
+	 */
 	protected String getRequestParam(String name) {
 		return getCurrentFacesInstance().getExternalContext().
 				getRequestParameterMap().get(name);
 	}
 	
+	/**
+	 * Redirects to the specified URL.
+	 * @param url URL to be redirected.
+	 */
 	protected void redirect(String url) {
 		try {
 			getCurrentFacesInstance().getExternalContext().redirect(url);
@@ -62,18 +85,27 @@ public abstract class GenericMB extends GenericFacesMessager
 		}
 	}
 	
+	/**
+	 * @return Response for the current Request.
+	 */
 	protected HttpServletResponse getResponse() {
 		HttpServletResponse response = (HttpServletResponse) 
 				FacesContext.getCurrentInstance().getExternalContext().getResponse();
 		return response;
 	}
 	
+	/**
+	 * @return The current Request.
+	 */
 	protected HttpServletRequest getRequest() {
 		HttpServletRequest request = (HttpServletRequest) 
 				FacesContext.getCurrentInstance().getExternalContext().getRequest();
 		return request;
 	}
 	
+	/**
+	 * @return Logged User into the App if exists.
+	 */
 	protected User getLoggedUser() {
 		User user = null;
 		SecurityContext securityContext = SecurityContextHolder.getContext();
@@ -89,11 +121,31 @@ public abstract class GenericMB extends GenericFacesMessager
 		return user;
 	}
 	
+	/**
+	 * @return Obtains the current logged Company if exists.
+	 * @throws Exception
+	 */
+	protected Company getLoggedCompany() throws Exception {
+		Company company = null;
+		User user = getLoggedUser();
+		Map<String, Object> parameters = new HashMap<>();
+		//Prepare query parameters and send the DB request.
+		parameters.put(USER_ID, user.getUserId());
+		company = companyService.getCompanyByUserId(parameters);
+		return company;
+	}
+	
+	/**
+	 * Shows a Generic General Exception Message.
+	 */
 	protected void showGeneralExceptionMessage() {
 		showErrorMessage(internationalizationService
 				.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
 	}
 	
+	/**
+	 * Shows a Generic MB Startup Exception Message.
+	 */
 	protected void showStartupMbExceptionMessage() {
 		showErrorMessage(internationalizationService
 				.getI18NMessage(CURRENT_LOCALE, getSTARTUP_MB_ERROR()), "");
