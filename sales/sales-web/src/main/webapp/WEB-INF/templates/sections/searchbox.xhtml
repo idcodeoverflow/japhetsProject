@@ -9,9 +9,12 @@
 	<!-- Input box for searching -->
 	<h:panelGroup id="searchBox" layout="block" styleClass="row">
 		<h:panelGroup layout="block" styleClass="col-md-12">
+		
 			<h:form id="searchBoxForm">
+			
 				<!-- Default command to be executed on submit -->
 				<p:defaultCommand target="searchProductsCommand" />
+				
 				<!-- CommandLink and InputText -->
     	    	<h:panelGroup layout="block" styleClass="input-group">
 		      		<h:inputText id="inputSearchBox" styleClass="form-control" 
@@ -30,7 +33,9 @@
 		        		</h:commandLink>
 		      		</h:panelGroup>
 		    	</h:panelGroup>
+		    	
 	    	</h:form>
+	    	
 	 	</h:panelGroup>
 	</h:panelGroup>
 </ui:composition>

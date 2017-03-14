@@ -33,6 +33,7 @@ import japhet.sales.service.IProductService;
  * @author David Israel Garcia Alcazar
  *
  */
+
 @ManagedBean
 @ViewScoped
 public class CompanyAccountManagerMB extends GenericMB {

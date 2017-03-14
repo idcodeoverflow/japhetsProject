@@ -18,6 +18,9 @@ public class GenericFacesMessager {
 	private final String DATE_RANGE_INVALID = "userMessages.error.dateInvalid";
 	private final String REDIRECT_ERROR = "userMessages.error.redirect";
 	private final String BUY_PROOF_INVALID = "userAccount.messages.buyProof";
+	private final String UNMATCHED_PASSWORDS = "modify.password.error.unmatchedPasswords";
+	private final String INVALID_PASSWORD_ONCHANGE = "modify.password.error.invalidPassword";
+	private final String INVALID_PASS_LENGTH = "modify.password.error.invalidLength";
 	//Warning messages
 	private final String PENDING_CHOOSE_CATEGORIES = "userMessages.warning.noCategoriesStored";
 	//Info messages
@@ -27,6 +30,7 @@ public class GenericFacesMessager {
 	private final String UNREGISTERED_REDIRECT = "userMessages.unregistered.redirect";
 	private final String SAVED_CONTENT = "userMessages.preferencesSaved";
 	private final String USER_REGISTERED = "userMessages.userRegistered";
+	private final String PASSWORD_UPDATE_SUCCESFUL = "modify.password.info.passwordUpdateSuccessful";
 	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
@@ -120,6 +124,18 @@ public class GenericFacesMessager {
 		return BUY_PROOF_INVALID;
 	}
 	
+	public String getUNMATCHED_PASSWORDS() {
+		return UNMATCHED_PASSWORDS;
+	}
+	
+	public String getINVALID_PASSWORD_ONCHANGE() {
+		return INVALID_PASSWORD_ONCHANGE;
+	}
+	
+	public String getINVALID_PASS_LENGTH() {
+		return INVALID_PASS_LENGTH;
+	}
+	
 	public String getPENDING_CHOOSE_CATEGORIES() {
 		return PENDING_CHOOSE_CATEGORIES;
 	}
@@ -146,5 +162,9 @@ public class GenericFacesMessager {
 	
 	public String getUSER_REGISTERED() {
 		return USER_REGISTERED;
+	}
+	
+	public String getPASSWORD_UPDATE_SUCCESSFUL() {
+		return PASSWORD_UPDATE_SUCCESFUL;
 	}
 }
