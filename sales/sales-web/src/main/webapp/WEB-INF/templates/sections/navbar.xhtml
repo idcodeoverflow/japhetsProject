@@ -111,19 +111,15 @@
 									<h:panelGroup styleClass="caret" />
 								</a>
 								<ul class="dropdown-menu">
-									<li><a href="#">
-										<h:outputText value="#{msg['main.template.clothes']}" />
-									</a></li>
-									<li><a href="#">
-										<h:outputText value="#{msg['main.template.watches']}" />
-									</a></li>
-									<li><a href="#">
-										<h:outputText value="#{msg['main.template.technology']}" />
-									</a></li>
-									<li role="separator" class="divider"></li>
-									<li><a href="#">
-										<h:outputText value="#{msg['main.template.outlet']}" />
-									</a></li>
+									<ui:repeat var="category" value="#{navbarCategoriesMB.categories}">
+										<li><a href="#">
+											<h:commandLink action="#{homeMB.filterProductsByCategory(category)}">
+												<h:outputText value="#{category.name}" />
+												<f:param name="#{_csrf.parameterName}" 
+													value="#{_csrf.token}" />
+											</h:commandLink>
+										</a></li>
+									</ui:repeat>
 								</ul>
 							</li>
 							

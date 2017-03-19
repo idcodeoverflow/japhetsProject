@@ -21,6 +21,7 @@ import japhet.sales.catalogs.Roles;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.internationalization.IInternationalizationService;
+import japhet.sales.model.impl.Category;
 import japhet.sales.model.impl.Product;
 import japhet.sales.model.impl.User;
 import japhet.sales.model.impl.UserProductHistorial;
@@ -97,7 +98,7 @@ public class HomeMB extends GenericMB {
 	 */
 	public void searchProducts(){
 		final String ERROR_MSG = 
-				String.format("Error while searching products which matches: %s...", searchedWords);
+				String.format("Error while searching products which matches: %s.", searchedWords);
 		try {
 			logger.info(String.format("Searching products which matches: %s...", searchedWords));
 			UserSearch userSearch = new UserSearch();
@@ -110,6 +111,34 @@ public class HomeMB extends GenericMB {
 			userSearch.setUser(getLoggedUser());
 			userSearch.setSearchDate(new Date());
 			userSearchService.insertUserSearch(userSearch);
+		} catch (BusinessServiceException e) {
+			logger.error(ERROR_MSG, e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
+		} catch (Exception e) {
+			logger.error(ERROR_MSG, e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
+		}
+	}
+	
+	/**
+	 * Updates the UI and redirects to the Home 
+	 * with the filtered Products from the selected Categeroy.
+	 * @param category Category to be filtered.
+	 */
+	public void filterProductsByCategory(Category category) {
+		final short CAT_ID = ((category != null 
+				&& category.getCategoryId() != null) ? category.getCategoryId() : -1);
+		final String ERROR_MSG = String
+				.format("Error while searching products with Category: %d.", CAT_ID);
+		try {
+			final String INFO_MSG = String
+					.format("Searching products with Category: %d...", CAT_ID);
+			logger.info(INFO_MSG);
+			Map<String, Object> parameters = new HashMap<>();
+			parameters.put(CATEGORY_ID, category.getCategoryId());
+			setAvailableProducts(productService.getAvailableProductsByCategory(parameters));
 		} catch (BusinessServiceException e) {
 			logger.error(ERROR_MSG, e);
 			showErrorMessage(internationalizationService

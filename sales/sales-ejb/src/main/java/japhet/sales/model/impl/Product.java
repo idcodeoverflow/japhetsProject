@@ -40,7 +40,9 @@ import japhet.sales.util.StreamUtil;
 		@NamedQuery(name = QueryNames.GET_PRODUCT_BY_KEY,
 				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_TIMESTAMP AND p.endDate >= CURRENT_TIMESTAMP AND p.productKey = :" + PRODUCT_KEY),
 		@NamedQuery(name = QueryNames.GET_AVAILABLE_PRODUCTS_BY_COMPANY,
-				query = "SELECT p FROM Product p WHERE p.endDate >= CURRENT_TIMESTAMP AND p.company.companyId = :" + COMPANY_ID)
+				query = "SELECT p FROM Product p WHERE p.endDate >= CURRENT_TIMESTAMP AND p.company.companyId = :" + COMPANY_ID),
+		@NamedQuery(name = QueryNames.GET_AVAILABLE_PRODUCTS_BY_CATEGORY,
+				query = "SELECT p FROM Product p WHERE p.startDate <= CURRENT_TIMESTAMP AND p.endDate >= CURRENT_TIMESTAMP AND p.category.categoryId = :" + CATEGORY_ID)
 })
 public class Product extends StreamUtil 
 	implements IEntity {
@@ -87,7 +89,7 @@ public class Product extends StreamUtil
 	@JoinColumn(name = "COMPANY_ID")
 	private Company company;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CATEGORY_ID")
 	private Category category;
 	

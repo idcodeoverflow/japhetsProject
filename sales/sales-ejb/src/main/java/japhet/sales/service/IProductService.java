@@ -40,4 +40,6 @@ public interface IProductService extends Serializable {
 	public boolean insertProduct(Product product) 
 			throws InvalidDateRangeException, BusinessServiceException;
 	
+	public List<Product> getAvailableProductsByCategory(Map<String, Object> parameters) 
+			throws BusinessServiceException;
 }

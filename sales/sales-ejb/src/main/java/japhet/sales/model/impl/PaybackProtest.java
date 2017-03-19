@@ -111,6 +111,9 @@ public class PaybackProtest implements IEntity {
 	}
 
 	/**
+	 * Raises a new case to be study on regards a 
+	 * Payment Request that could be rejected.
+	 * 
 	 * @param paybackProtestId
 	 * @param company
 	 * @param description
