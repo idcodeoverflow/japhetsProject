@@ -14,6 +14,7 @@ public interface Navigator {
 	/***** APPLICATION PAGES *****/
 	String HOME_URL = pReader.getValueFromKey(URL.HOME.getName());
 	String BANKS_N_DEPOSITS = pReader.getValueFromKey(URL.BANKS_N_DEPOSITS.getName());
+	String AFORE_CHOOSING_BANNER = pReader.getValueFromKey(URL.AFORE_CHOOSING_BANNER.getName());
 	String CAROUSELS = pReader.getValueFromKey(URL.CAROUSELS.getName());
 	String OFFERS = pReader.getValueFromKey(URL.OFFERS.getName());
 	String MODAL = pReader.getValueFromKey(URL.MODAL.getName());
@@ -24,6 +25,7 @@ public interface Navigator {
 	String SIGN_IN_URL = pReader.getValueFromKey(URL.LOGIN.getName());
 	String ACCOUNT_MANAGER = pReader.getValueFromKey(URL.ACCOUNT_MANAGER.getName());
 	String USER_ACCOUNT_MANAGER = pReader.getValueFromKey(URL.USER_ACCOUNT_MANAGER.getName());
+	String USER_INFORMATION = pReader.getValueFromKey(URL.USER_INFORMATION.getName());
 	String COMPANY_ACCOUNT_MANAGER = pReader.getValueFromKey(URL.COMPANY_MANAGER.getName());
 	String CATEGORIES = pReader.getValueFromKey(URL.CATEGORIES.getName());
 	String HOME_VIDEO_URL = pReader.getValueFromKey(URL.HOME_VIDEO_URL.getName());

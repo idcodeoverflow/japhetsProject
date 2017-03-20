@@ -120,4 +120,31 @@ public class ProductDAO extends GenericDAO<Product, Long> {
 		}
 		return products;
 	}
+			
+	/**
+	 * Obtains a list of available products 
+	 * from a certain category.
+	 * @param parameters
+	 * @return
+	 * @throws DataLayerException
+	 */
+	public List<Product> getAvailableProductsByCategory(Map<String, Object> parameters) 
+			throws DataLayerException {
+		List<Product> products = null;
+		final short CAT_ID = ((parameters != null 
+				&& parameters.get(CATEGORY_ID) != null) ? (Short)parameters.get(CATEGORY_ID) : -1);
+		final String INFO_MSG = String
+				.format("Obtaining available Products from a Category: %d in the DB...", CAT_ID);
+		try {
+			logger.info(INFO_MSG);
+			//Query the DB.
+			products = executeQuery(QueryNames.GET_AVAILABLE_PRODUCTS_BY_CATEGORY, parameters);
+		} catch (Exception e) {
+			final String ERROR_MSG = String
+					.format("Error while obtaining available Products from a Category: %d in the DB.", CAT_ID);
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
+		}
+		return products;
+	}
 }

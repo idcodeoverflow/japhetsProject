@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.primefaces.context.RequestContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,6 +60,13 @@ public abstract class GenericMB extends GenericFacesMessager
 	 */
 	protected ExternalContext getExternalContext() {
 		return getCurrentFacesInstance().getExternalContext();
+	}
+	
+	/**
+	 * @return Current instance of the Request Context from Primefaces.
+	 */
+	protected RequestContext getRequestContext() {
+		return RequestContext.getCurrentInstance();
 	}
 	
 	/**
