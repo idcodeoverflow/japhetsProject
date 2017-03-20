@@ -85,13 +85,32 @@ public class ProductService implements IProductService {
 	public List<Product> getAvailableProductsFromCompany(Map<String, Object> parameters)
 			throws BusinessServiceException {
 		List<Product> products = null;
-		final Long COMP_ID = ((parameters.get(COMPANY_ID) != null) ? (Long)parameters.get(COMPANY_ID) : -1L);
+		final long COMP_ID = ((parameters != null 
+				&& parameters.get(COMPANY_ID) != null) ? (Long)parameters.get(COMPANY_ID) : -1L);
 		final String INFO_MSG = String.format("Obtaining available Products by Company %d...", COMP_ID);
 		try {
 			logger.info(INFO_MSG);
 			products = productDAO.getAvailableProductsFromCompany(parameters);
 		} catch (Exception e) {
 			final String ERROR_MSG = String.format("Error while getting the availale Products by Company %d.",  COMP_ID);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return products;
+	}
+	
+	@Override
+	public List<Product> getAvailableProductsByCategory(Map<String, Object> parameters) 
+			throws BusinessServiceException {
+		List<Product> products = null;
+		final short CAT_ID = ((parameters != null 
+				&& parameters.get(CATEGORY_ID) != null) ? (Short)parameters.get(CATEGORY_ID) : -1);
+		final String INFO_MSG = String.format("Obtaining available Products by Category %d...", CAT_ID);
+		try {
+			logger.info(INFO_MSG);
+			products = productDAO.getAvailableProductsByCategory(parameters);
+		} catch (Exception e) {
+			final String ERROR_MSG = String.format("Error while getting the availale Products by Category %d.",  CAT_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}

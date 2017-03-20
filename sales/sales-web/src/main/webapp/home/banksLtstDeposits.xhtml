@@ -11,8 +11,9 @@
 		<h:panelGroup layout="block"
 			styleClass="home-right-pane-container-head">
 			<h2 class="banks-title">
-				<h:outputText value="#{msg['home.adds.afore']}" />
-				<h:panelGroup styleClass="glyphicon glyphicon-usd"/>
+				<h:outputText value="#{msg['home.adds.afore']} " />
+				<h:panelGroup styleClass="glyphicon glyphicon-info-sign"
+					pt:onmouseover="showAforeChoosingModal()"/>
 			</h2>
 		</h:panelGroup>
 		

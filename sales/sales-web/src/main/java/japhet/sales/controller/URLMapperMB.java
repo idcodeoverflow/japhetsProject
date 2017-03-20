@@ -60,6 +60,10 @@ public class URLMapperMB extends GenericMB {
 		return BANKS_N_DEPOSITS;
 	}
 	
+	public String getAforeChoosingBanner(){
+		return AFORE_CHOOSING_BANNER;
+	}
+	
 	public String getCarouselsURL(){
 		return CAROUSELS;
 	}
@@ -126,6 +130,10 @@ public class URLMapperMB extends GenericMB {
 	
 	public String getCompanyAccountManager(){
 		return COMPANY_ACCOUNT_MANAGER;
+	}
+	
+	public String getUserInformation(){
+		return USER_INFORMATION;
 	}
 	
 	public static String removeHostNameFromURL(String url){

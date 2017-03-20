@@ -5,6 +5,7 @@ public interface QueryParameters {
 
 	public static final String BUY_PROOFS_TO_UPDATE = "buyProofsToUpdate";
 	
+	public static final String CATEGORY_ID = "categoryId";
 	public static final String COMPANY_ID = "companyId";
 	public static final String COMPANY_TYPE_ID = "companyTypeId";
 	public static final String CONFIRMED_PASSWORD = "confirmedPassword";

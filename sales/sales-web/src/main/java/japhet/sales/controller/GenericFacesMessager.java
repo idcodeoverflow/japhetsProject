@@ -23,6 +23,7 @@ public class GenericFacesMessager {
 	private final String INVALID_PASS_LENGTH = "modify.password.error.invalidLength";
 	//Warning messages
 	private final String PENDING_CHOOSE_CATEGORIES = "userMessages.warning.noCategoriesStored";
+	private final String PENDING_USER_INFORMATION = "userMessage.userInformation.missingData";
 	//Info messages
 	private final String IMAGE_READY = "userMessages.images.ready";
 	private final String FILE_READY = "userMessages.file.ready";
@@ -31,6 +32,7 @@ public class GenericFacesMessager {
 	private final String SAVED_CONTENT = "userMessages.preferencesSaved";
 	private final String USER_REGISTERED = "userMessages.userRegistered";
 	private final String PASSWORD_UPDATE_SUCCESFUL = "modify.password.info.passwordUpdateSuccessful";
+	private final String USER_INFORMATION_UPDATED = "userInformation.message.userInfoUpdated";
 	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
@@ -139,6 +141,10 @@ public class GenericFacesMessager {
 	public String getPENDING_CHOOSE_CATEGORIES() {
 		return PENDING_CHOOSE_CATEGORIES;
 	}
+	
+	public String getPENDING_USER_INFORMATION() {
+		return PENDING_USER_INFORMATION;
+	}
 
 	public String getIMAGE_READY() {
 		return IMAGE_READY;
@@ -166,5 +172,9 @@ public class GenericFacesMessager {
 	
 	public String getPASSWORD_UPDATE_SUCCESSFUL() {
 		return PASSWORD_UPDATE_SUCCESFUL;
+	}
+	
+	public String getUSER_INFORMATION_UPDATED() {
+		return USER_INFORMATION_UPDATED;
 	}
 }

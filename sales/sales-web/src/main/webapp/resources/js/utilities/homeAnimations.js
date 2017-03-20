@@ -10,3 +10,15 @@ window.setInterval(function(){
 	banks.removeChild(firstBank);
 	banks.appendChild(firstBank);
 }, 700);
+
+/**
+ * This function generates a click event over the show 
+ * AforeChoosingModal button, in order to launch the modal.
+ * @returns undefined
+ */
+function showAforeChoosingModal() {
+	var showAforeChoosingModalBtn = document.getElementById("aforeChoosingModalShowBtn");
+	if(showAforeChoosingModalBtn) {
+		showAforeChoosingModalBtn.click();
+	}
+}
