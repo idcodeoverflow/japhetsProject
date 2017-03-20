@@ -24,10 +24,12 @@ import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.Category;
 import japhet.sales.model.impl.Product;
 import japhet.sales.model.impl.User;
+import japhet.sales.model.impl.UserInformation;
 import japhet.sales.model.impl.UserProductHistorial;
 import japhet.sales.model.impl.UserSearch;
 import japhet.sales.service.ICompanyService;
 import japhet.sales.service.IProductService;
+import japhet.sales.service.IUserInformationService;
 import japhet.sales.service.IUserProductHistorialService;
 import japhet.sales.service.IUserSearchService;
 import japhet.sales.service.IUserService;
@@ -58,6 +60,9 @@ public class HomeMB extends GenericMB {
 	private IUserService userService;
 	
 	@EJB
+	private IUserInformationService userInformationService;
+	
+	@EJB
 	private IInternationalizationService internationalizationService;
 	
 	@EJB
@@ -75,14 +80,21 @@ public class HomeMB extends GenericMB {
 			//Initialize products
 			setAvailableProducts(productService.getAllAvailableProducts());
 			setShowQuestionVideo(false);
+			User user = getLoggedUser();
 			if(getLoggedUser() != null) {
-				Long userId = getLoggedUser().getUserId();
-				User user = userService.getUser(userId);
 				//If the user is an admin don't redirect to the categories page
 				if(getLoggedUser().getRole().getRoleId() != Roles.ADMINISTRATOR.getId()) {
 					if(user.getCategories() == null ||
 							user.getCategories().size() == 0) {
 						redirect(CATEGORIES_REGISTRATION_URL);
+					}
+				}
+				//Show the pending user information only if the current user have a user role
+				UserInformation userInformation = userInformationService
+						.getUserInformation(user.getUserId());
+				if(getLoggedUser().getRole().getRoleId() == Roles.USER.getId()) {
+					if(userInformation == null || !userInformation.validUserInformation()) {
+						showPendingUserInformationMessage();
 					}
 				}
 			}
@@ -211,6 +223,12 @@ public class HomeMB extends GenericMB {
 			logger.error(ERROR_MSG, e);
 			showErrorMessage(USER_ERROR_MSG, "");
 		}
+	}
+	
+	private void showPendingUserInformationMessage() throws Exception {
+		final String WARN_MSG = internationalizationService
+				.getI18NMessage(CURRENT_LOCALE, getPENDING_USER_INFORMATION());
+		showWarnMessage(WARN_MSG, "");
 	}
 	
 	/**

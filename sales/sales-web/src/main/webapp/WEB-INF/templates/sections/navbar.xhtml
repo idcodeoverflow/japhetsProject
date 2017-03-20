@@ -152,6 +152,15 @@
 								
 								<!-- User dropdown -->
 								<ul class="dropdown-menu">
+									<!-- My Account -->
+									<h:panelGroup rendered="#{authorityMB.userRole}">
+										<li>
+											<a href="#{urlMapperMB.userInformation}">
+												<h:panelGroup styleClass="glyphicon glyphicon-edit" />
+												<h:outputText value=" #{msg['main.template.myAccount']}" />
+											</a>
+										</li>
+									</h:panelGroup>
 									<!-- Change Password -->
 									<li>
 										<a href="#{urlMapperMB.changePasswordURL}">

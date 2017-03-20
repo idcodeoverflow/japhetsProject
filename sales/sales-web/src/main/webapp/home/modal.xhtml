@@ -39,13 +39,13 @@
 	      		<!-- Policy Footer -->
 	      		<h:panelGroup layout="block"
 	      			styleClass="modal-footer">
-	        		<h:commandButton 
+	        		<h:button pt:onclick=""
 						styleClass="btn btn-primary btn-block btn-lg" 
 						value="#{msg['home.modal.close']}" 
 						pt:data-dismiss="modal">
 						<f:param name="#{_csrf.parameterName}" 
 							value="#{_csrf.token}" />
-					</h:commandButton>
+					</h:button>
 	      		</h:panelGroup>
 	      		
 	    	</h:panelGroup>

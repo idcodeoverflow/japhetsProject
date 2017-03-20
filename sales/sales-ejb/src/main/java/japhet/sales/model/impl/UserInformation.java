@@ -222,4 +222,16 @@ public class UserInformation implements IEntity {
 	public void setContactSchdEndTime(Time contactSchdEndTime) {
 		this.contactSchdEndTime = contactSchdEndTime;
 	}
+	
+	public boolean validUserInformation() {
+		return this.street != null && !"".equals(this.street)
+				&& this.street != null && !"".equals(this.street)
+				&& this.extNumber != null && !"".equals(this.extNumber)
+				&& this.intNumber != null && !"".equals(this.intNumber)
+				&& this.settlement != null && !"".equals(this.settlement)
+				&& ((this.telNumber != null && !"".equals(this.telNumber))
+					|| (this.celNumber != null && !"".equals(this.celNumber)))
+				&& this.contactSchdStartTime != null && !"".equals(this.contactSchdStartTime)
+				&& this.contactSchdEndTime != null && !"".equals(this.contactSchdEndTime);
+	}
 }
