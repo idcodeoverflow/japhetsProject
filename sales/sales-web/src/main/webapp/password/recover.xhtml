@@ -28,6 +28,10 @@
 					
 					<h:panelGroup layout="block" 
 						styleClass="panel-body">
+						
+						<!-- Messages -->
+						<p:messages id="recoverPasswordMessages" globalOnly="true" />
+						
 						<!-- Form -->
 						<h:form id="recoverPasswordForm">
 						
@@ -40,37 +44,18 @@
 									<h:outputText value="#{msg['recover.password.form.email']}" />
 								</h:outputLabel>
 								<h:inputText id="emailInput" 
-									styleClass="form-control" 
-									pt:placeholder="#{msg['recover.password.form.email']}" />
-								
-								<!-- Divider -->
-								<br/>
-								
-								<!-- Notifications block -->
-								<h:panelGroup rendered="true" 
-									id="failPasswordRecovered" 
-									styleClass="errorMessage">
-									<p>
-										<h:outputText value="#{msg['recover.password.notFound']}" />
-									</p>
-								</h:panelGroup>
-								
-								<!-- User messages -->
-								<h:panelGroup rendered="true" id="errorPasswordRecovered" 
-									layout="block" 
-									styleClass="errorMessage">
-									<p>
-										<h:outputText value="#{msg['recover.password.error']}" />
-									</p>
-								</h:panelGroup>
-								<h:panelGroup rendered="true" 
-									id="successPasswordRecovered" 
-									layout="block" 
-									styleClass="successMessage">
-									<p>
-										<h:outputText value="#{msg['recover.password.success']}" />
-									</p>
-								</h:panelGroup>
+									styleClass="form-control"  
+									value="#{registrationMB.user.email}"
+									maxlength="#{loginMB.MAX_EMAIL_LENGTH}" 
+									required="true"
+									requiredMessage="#{msg['recover.password.emailRequired']}"
+									pt:placeholder="#{msg['recover.password.form.email']}"
+									onkeyup="deleteNonAlphaContent(this, '-@._0123456789ñÑ');">
+								</h:inputText>
+								<p:keyFilter mask="email" 
+									for="emailInput"
+									preventPaste="false" />
+								<p:messages for="emailInput" />
 								
 							</h:panelGroup>
 							
@@ -79,8 +64,11 @@
 								styleClass="row">
 								<h:panelGroup layout="block" 
 									styleClass="col-md-12">
-									<h:button styleClass="btn btn-default btn-block btn-lg" 
-										value="#{msg['recover.password.button.recover']}" />
+									<h:commandButton styleClass="btn btn-default btn-block btn-lg" 
+										value="#{msg['recover.password.button.recover']}">
+										<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+									</h:commandButton>
 								</h:panelGroup>
 							</h:panelGroup>
 							

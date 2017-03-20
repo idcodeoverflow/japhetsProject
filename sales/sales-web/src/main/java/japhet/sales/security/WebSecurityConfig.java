@@ -1,10 +1,6 @@
 package japhet.sales.security;
 
-import static japhet.sales.util.Navigator.HOME_URL;
-import static japhet.sales.util.Navigator.PATHS_LIBRARIES;
-import static japhet.sales.util.Navigator.PATHS_MEDIA_RESOURCES;
-import static japhet.sales.util.Navigator.REGISTRATION_URL;
-import static japhet.sales.util.Navigator.SIGN_IN_URL;
+import static japhet.sales.util.Navigator.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -40,6 +36,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				/* Sign Up page */
 				.antMatchers(URLMapperMB.removeHostNameFromURL(
 						REGISTRATION_URL)).permitAll()
+				/* Recover Password Page */
+				.antMatchers(URLMapperMB.removeHostNameFromURL(
+						RECOVER_PASSWORD_URL)).permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()

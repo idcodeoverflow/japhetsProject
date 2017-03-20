@@ -1,4 +1,8 @@
 /**
+ * @Author David Israel Garcia Alcazar
+ */
+
+/**
  * This function is executed every 5 seconds
  * and animates the list of banks.
  */
