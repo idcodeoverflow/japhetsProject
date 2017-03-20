@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/publicTemplate.xhtml">
+
+	<ui:define name="content">
+		<h:panelGroup layout="block" 
+			styleClass="row">
+		
+			<h:panelGroup layout="block" styleClass="col-md-3" />
+		
+			<h:panelGroup styleClass="col-md-6" >
+				<h:panelGroup layout="block" 
+					styleClass="panel panel-default">
+					
+					<h:panelGroup layout="block" 
+						styleClass="panel-heading">
+						<h2 class="panel-title">
+							<h:outputText value="#{msg['userInformation.title']} " />
+							<h:panelGroup styleClass="glyphicon glyphicon-edit" />
+						</h2>
+					</h:panelGroup>
+					
+					<h:panelGroup layout="block" 
+						styleClass="panel-body">
+						<!-- Messages -->
+						<p:messages id="#{userInformationMB.MESSAGES_ID}" globalOnly="true"/>
+						
+						<!-- Form -->
+						<h:form id="userInformationForm">
+							
+							<!-- Directions -->
+							<p><i>
+								<h:outputText value="#{msg['userInformation.message.updateInformation']}" />
+							</i></p>
+						
+							<!-- Street -->
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
+								<h:outputLabel for="streetInput">
+									<h:outputText value="#{msg['userInformation.form.street']}" />
+								</h:outputLabel>
+								<h:inputText id="streetInput" 
+									value="#{userInformationMB.userInformation.street}"
+									styleClass="form-control" 
+									pt:placeholder="#{msg['userInformation.form.street']}">
+								</h:inputText>
+								<p:messages for="streetInput" />
+							</h:panelGroup>
+							
+							<!-- Ext number -->
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
+								<h:outputLabel for="extNumberInput">
+									<h:outputText value="#{msg['userInformation.form.extNumber']}" />
+								</h:outputLabel>
+								<h:inputText id="extNumberInput" 
+									value="#{userInformationMB.userInformation.extNumber}"
+									styleClass="form-control" 
+									pt:placeholder="#{msg['userInformation.form.extNumber']}">
+								</h:inputText>
+								<p:messages for="extNumberInput" />
+							</h:panelGroup>
+							
+							<!-- Int number -->
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
+								<h:outputLabel for="intNumberInput">
+									<h:outputText value="#{msg['userInformation.form.intNumber']}" />
+								</h:outputLabel>
+								<h:inputText id="intNumberInput" 
+									value="#{userInformationMB.userInformation.intNumber}"
+									styleClass="form-control" 
+									pt:placeholder="#{msg['userInformation.form.intNumber']}">
+								</h:inputText>
+								<p:messages for="intNumberInput" />
+							</h:panelGroup>
+							
+							<!-- Settlement -->
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
+								<h:outputLabel for="settlementInput">
+									<h:outputText value="#{msg['userInformation.form.settlement']}" />
+								</h:outputLabel>
+								<h:inputText id="settlementInput" 
+									value="#{userInformationMB.userInformation.settlement}"
+									styleClass="form-control" 
+									pt:placeholder="#{msg['userInformation.form.settlement']}">
+								</h:inputText>
+								<p:messages for="settlementInput" />
+							</h:panelGroup>
+							
+							<!-- Tel Number -->
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
+								<h:outputLabel for="telNumberInput">
+									<h:outputText value="#{msg['userInformation.form.telNumber']}" />
+								</h:outputLabel>
+								<h:inputText id="telNumberInput" 
+									value="#{userInformationMB.userInformation.telNumber}"
+									styleClass="form-control" 
+									pt:placeholder="#{msg['userInformation.form.telNumber']}">
+								</h:inputText>
+								<p:messages for="telNumberInput" />
+							</h:panelGroup>
+							
+							<!-- Cell Number -->
+							<h:panelGroup layout="block" 
+								styleClass="form-group">
+								<h:outputLabel for="celNumberInput">
+									<h:outputText value="#{msg['userInformation.form.celNumber']}" />
+								</h:outputLabel>
+								<h:inputText id="celNumberInput" 
+									value="#{userInformationMB.userInformation.celNumber}"
+									styleClass="form-control" 
+									pt:placeholder="#{msg['userInformation.form.celNumber']}">
+								</h:inputText>
+								<p:messages for="celNumberInput" />
+							</h:panelGroup>
+							
+							<h:outputLabel>
+								<h:outputText value="#{msg['userInformation.message.contactSchedule']}" />
+							</h:outputLabel>
+								
+							<!-- Dates section -->
+							<h:panelGroup layout="block" styleClass="row">
+								<!-- Start date -->
+								<h:panelGroup layout="block" 
+									styleClass="col-md-6">
+									<h:panelGroup layout="block" 
+										styleClass="form-group">
+										<h:outputLabel for="contactSchdStartDate">
+								    		<h:outputText value="#{msg['userInformation.form.contactSchdStartDate']}" />
+								    	</h:outputLabel>
+										<p:calendar id="contactSchdStartDate" 
+											pattern="HH:mm:ss"
+											placeholder="hh:mm:ss"
+											styleClass="form-control" 
+											timeOnly="true"
+											value="#{userInformationMB.userInformation.contactSchdStartTime}"
+											onkeyup="deleteNonIntegerContent(this, ':');"/>
+									</h:panelGroup>
+									<p:messages for="contactSchdStartDate" />
+								</h:panelGroup>
+								<!-- End date -->
+								<h:panelGroup layout="block" 
+									styleClass="col-md-6">
+									<h:panelGroup layout="block" 
+										styleClass="form-group">
+										<h:outputLabel for="contactSchdEndDate">
+							    			<h:outputText value="#{msg['userInformation.form.contactSchdEndDate']}" />
+							    		</h:outputLabel>
+										<p:calendar id="contactSchdEndDate" 
+											pattern="HH:mm:ss"
+											placeholder="hh:mm:ss"
+											styleClass="form-control"  
+											timeOnly="true"
+											value="#{userInformationMB.userInformation.contactSchdEndTime}"
+											onkeyup="deleteNonIntegerContent(this, ':');" />
+									</h:panelGroup>
+									<p:messages for="contactSchdEndDate" />
+								</h:panelGroup>
+							</h:panelGroup>
+							
+							<!-- Recover password button block -->
+							<h:panelGroup layout="block" 
+								styleClass="row">
+								<h:panelGroup layout="block" 
+									styleClass="col-md-12">
+									<p:commandButton styleClass="btn btn-default btn-block btn-lg" 
+										value="#{msg['userInformation.form.save']}" 
+										update="userInformationMessages"
+										action="#{userInformationMB.saveUserInformation()}">
+										<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+									</p:commandButton>
+								</h:panelGroup>
+							</h:panelGroup>
+							
+						</h:form>
+						
+					</h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		
+			<h:panelGroup layout="block" styleClass="col-md-3" />
+		
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>

@@ -111,19 +111,15 @@
 									<h:panelGroup styleClass="caret" />
 								</a>
 								<ul class="dropdown-menu">
-									<li><a href="#">
-										<h:outputText value="#{msg['main.template.clothes']}" />
-									</a></li>
-									<li><a href="#">
-										<h:outputText value="#{msg['main.template.watches']}" />
-									</a></li>
-									<li><a href="#">
-										<h:outputText value="#{msg['main.template.technology']}" />
-									</a></li>
-									<li role="separator" class="divider"></li>
-									<li><a href="#">
-										<h:outputText value="#{msg['main.template.outlet']}" />
-									</a></li>
+									<ui:repeat var="category" value="#{navbarCategoriesMB.categories}">
+										<li><a href="#">
+											<h:commandLink action="#{homeMB.filterProductsByCategory(category)}">
+												<h:outputText value="#{category.name}" />
+												<f:param name="#{_csrf.parameterName}" 
+													value="#{_csrf.token}" />
+											</h:commandLink>
+										</a></li>
+									</ui:repeat>
 								</ul>
 							</li>
 							
@@ -156,6 +152,15 @@
 								
 								<!-- User dropdown -->
 								<ul class="dropdown-menu">
+									<!-- My Account -->
+									<h:panelGroup rendered="#{authorityMB.userRole}">
+										<li>
+											<a href="#{urlMapperMB.userInformation}">
+												<h:panelGroup styleClass="glyphicon glyphicon-edit" />
+												<h:outputText value=" #{msg['main.template.myAccount']}" />
+											</a>
+										</li>
+									</h:panelGroup>
 									<!-- Change Password -->
 									<li>
 										<a href="#{urlMapperMB.changePasswordURL}">
