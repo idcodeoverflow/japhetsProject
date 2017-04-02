@@ -1,5 +1,10 @@
 package japhet.sales.catalogs;
 
+/**
+ * 
+ * @author David Israel Garcia Alcazar
+ *
+ */
 public enum CompanyTypes {
 	GOODS((short) 1, "catalog.companyType.goods"),
 	SERVICES((short) 2, "catalog.companyType.services");
