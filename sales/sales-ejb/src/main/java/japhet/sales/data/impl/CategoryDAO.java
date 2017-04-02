@@ -12,6 +12,11 @@ import japhet.sales.model.impl.Category;
 
 import org.apache.log4j.Logger;
 
+/**
+ * 
+ * @author David Israel Garcia Alcazar
+ *
+ */
 @Stateless
 public class CategoryDAO extends GenericDAO<Category, Short>{
 

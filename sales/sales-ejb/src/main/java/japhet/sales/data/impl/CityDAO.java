@@ -12,6 +12,11 @@ import japhet.sales.model.impl.City;
 
 import org.apache.log4j.Logger;
 
+/**
+ * 
+ * @author David Israel Garcia Alcazar
+ *
+ */
 @Stateless
 public class CityDAO extends GenericDAO<City, Short> {
 

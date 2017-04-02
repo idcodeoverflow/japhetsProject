@@ -21,6 +21,7 @@ public class GenericFacesMessager {
 	private final String UNMATCHED_PASSWORDS = "modify.password.error.unmatchedPasswords";
 	private final String INVALID_PASSWORD_ONCHANGE = "modify.password.error.invalidPassword";
 	private final String INVALID_PASS_LENGTH = "modify.password.error.invalidLength";
+	private final String INVALID_EMAIL = "recover.password.emailRequired";
 	//Warning messages
 	private final String PENDING_CHOOSE_CATEGORIES = "userMessages.warning.noCategoriesStored";
 	private final String PENDING_USER_INFORMATION = "userMessage.userInformation.missingData";
@@ -136,6 +137,10 @@ public class GenericFacesMessager {
 	
 	public String getINVALID_PASS_LENGTH() {
 		return INVALID_PASS_LENGTH;
+	}
+	
+	public String getINVALID_EMAIL() {
+		return INVALID_EMAIL;
 	}
 	
 	public String getPENDING_CHOOSE_CATEGORIES() {
