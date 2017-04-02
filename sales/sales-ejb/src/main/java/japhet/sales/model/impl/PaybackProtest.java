@@ -1,5 +1,8 @@
 package japhet.sales.model.impl;
 
+import static japhet.sales.data.QueryNames.*;
+import static japhet.sales.data.QueryParameters.*;
+
 import java.util.Date;
 
 import javax.persistence.Cacheable;
@@ -12,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,6 +33,16 @@ import japhet.sales.model.IEntity;
 @Cacheable(value = true)
 @Entity
 @Table(name = "TB_PAYBACK_PROTEST")
+@NamedQueries(value = {
+		@NamedQuery(name = GET_ALL_PAYBACK_PROTEST, 
+				query = "SELECT p FROM PaybackProtest p"),
+		@NamedQuery(name = GET_ALL_PAYBACK_PROTEST_BY_COMPANY, 
+				query = "SELECT p FROM PaybackProtest p WHERE p.company.companyId = :" + COMPANY_ID),
+		@NamedQuery(name = GET_ALL_PAYBACK_PROTEST_BY_USER, 
+				query = "SELECT p FROM PaybackProtest p WHERE p.buyProof.user.userId = :" + USER_ID),
+		@NamedQuery(name = GET_ALL_PAYBACK_PROTEST_BY_STATUS, 
+				query = "SELECT p FROM PaybackProtest p WHERE p.status.statusId = :" + STATUS_ID)
+})
 public class PaybackProtest implements IEntity {
 
 	/**

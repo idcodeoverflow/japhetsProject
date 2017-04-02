@@ -48,10 +48,10 @@ footer a {
 /* Main menu style */
 .navbar, .navbar-right {
 	min-height: 65px !important;
-	background: -webkit-linear-gradient(#FD746C, #FF9068) !important; /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#FD746C, #FF9068) !important; /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#FD746C, #FF9068) !important; /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#FD746C, #FF9068) !important; /* Standard syntax */
+	background: -webkit-linear-gradient(#0575E6, #021B79) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#0575E6, #021B79) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#0575E6, #021B79) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#0575E6, #021B79) !important; /* Standard syntax */
 }
 
 /* Pills in the navigation bar styles */
@@ -121,13 +121,13 @@ footer a {
 
 /* Styles for input groups */
 .btn-default {
-	background-color: #FF9068 !important;
-	background: #FF9068 !important;
+	background-color: #021B79 !important;
+	background: #021B79 !important;
 	color: white !important;
 }
 
 .btn-default:hover {
-	background-color: #FD746C !important;
+	background-color: #0575E6 !important;
 }
 
 .btn {
@@ -136,7 +136,7 @@ footer a {
 
 .searchBoxButton {
 	height: 50px !important;
-	background-color: #FF9068 !important;
+	background-color: #021B79 !important;
 	color: white !important;
 	padding-top: 15px !important;
 }
@@ -178,15 +178,15 @@ footer a {
 
 /* Styles for the subtitles */
 .label-default {
-    background-color: #FF9068 !important;
+    background-color: #021B79 !important;
 }
 
 /* Footer style */
 footer {
-    background: -webkit-linear-gradient(#FD746C, #FF9068) !important; /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#FD746C, #FF9068) !important; /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#FD746C, #FF9068) !important; /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#FD746C, #FF9068) !important; /* Standard syntax */
+    background: -webkit-linear-gradient(#0575E6, #021B79) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#0575E6, #021B79) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#0575E6, #021B79) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#0575E6, #021B79) !important; /* Standard syntax */
     text-align: center !important;
 	padding-top: 15px !important;
 	padding-bottom: 15px !important;
@@ -202,10 +202,10 @@ footer {
 
 /* Styles for heading panels */
 .panel-default>.panel-heading {
-	background: -webkit-linear-gradient(#FD746C, #FF9068) !important; /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#FD746C, #FF9068) !important; /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#FD746C, #FF9068) !important; /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#FD746C, #FF9068) !important; /* Standard syntax */
+	background: -webkit-linear-gradient(#0575E6, #021B79) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#0575E6, #021B79) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#0575E6, #021B79) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#0575E6, #021B79) !important; /* Standard syntax */
 	color: white !important;
 }
 
@@ -228,7 +228,7 @@ footer {
 }
 
 .thumbnail-price {
-	color: #FF9068 !important;
+	color: #021B79 !important;
 	font-style: italic !important;
 	font-weight: bold !important;
 	text-decoration: underline !important;
@@ -275,7 +275,7 @@ footer {
 
 /* Input addon styles */
 .input-group-addon {
-	background-color: #FF9068 !important;
+	background-color: #021B79 !important;
 	color: white !important;
 }
 
@@ -362,10 +362,10 @@ footer {
 	height: 38px !important;
 	overflow: hidden !important;
 	width: 100% !important;
-	background: -webkit-linear-gradient(#FD746C, #FF9068) !important; /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(#FD746C, #FF9068) !important; /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(#FD746C, #FF9068) !important; /* For Firefox 3.6 to 15 */
-    background: linear-gradient(#FD746C, #FF9068) !important; /* Standard syntax */
+	background: -webkit-linear-gradient(#0575E6, #021B79) !important; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#0575E6, #021B79) !important; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#0575E6, #021B79) !important; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#0575E6, #021B79) !important; /* Standard syntax */
 	color: white !important;
 	border-top-left-radius: 3px !important;
     border-top-right-radius: 3px !important;
@@ -385,7 +385,7 @@ footer {
 
 .container-separator {
 	margin: 0px !important;
-	border: 4px solid #FF9068 !important;
+	border: 4px solid #021B79 !important;
 }
 
 /* Logout button container in the navbar */
