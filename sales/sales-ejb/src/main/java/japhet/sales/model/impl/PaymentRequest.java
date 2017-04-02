@@ -42,7 +42,7 @@ public class PaymentRequest implements IEntity, ISequenceTable {
 	 */
 	private static final long serialVersionUID = 1680326723326533532L;
 	
-	private static long paymentRequestSequence = 1L;
+	private static transient long paymentRequestSequence;
 
 	@Id
 	@Column(name = "PAYMENT_REQUEST_ID")
@@ -212,5 +212,19 @@ public class PaymentRequest implements IEntity, ISequenceTable {
 	 */
 	public synchronized void setSequenceValue(long sequenceValue) {
 		paymentRequestSequence = sequenceValue;
+	}
+
+	/**
+	 * @return the paymentRequestSequence
+	 */
+	public static long getPaymentRequestSequence() {
+		return paymentRequestSequence;
+	}
+
+	/**
+	 * @param paymentRequestSequence the paymentRequestSequence to set
+	 */
+	public static void setPaymentRequestSequence(long paymentRequestSequence) {
+		PaymentRequest.paymentRequestSequence = paymentRequestSequence;
 	}
 }
