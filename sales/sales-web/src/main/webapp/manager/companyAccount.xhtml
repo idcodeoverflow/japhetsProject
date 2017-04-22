@@ -259,9 +259,9 @@
 						        	id="btnProtest"
 						        	pt:data-toggle="modal" 
 									ajax="true"
-									update="companyControlPanelForm:paybackProtestContent"
+									update=":paybackProtestContent"
 						        	styleClass="btn btn-default btn-block"
-						        	pt:data-target="#companyControlPanelForm\:paybackProtestModal">
+						        	pt:data-target="#paybackProtestModal">
 						        	<i class="glyphicon glyphicon-ban-circle"></i>
 						        	<f:param name="#{_csrf.parameterName}" 
 											value="#{_csrf.token}" />
@@ -455,8 +455,9 @@
 	    <!-- Categories -->
 		<ui:include src="#{urlMapperMB.categories}" />
 		
-		<!-- Payback Protest Modal -->
-		<ui:include src="#{urlMapperMB.paybackProtestModal}" />
-		
 	</h:form>
+		
+	<!-- Payback Protest Modal -->
+	<ui:include src="#{urlMapperMB.paybackProtestModal}" />
+	
 </ui:composition>
