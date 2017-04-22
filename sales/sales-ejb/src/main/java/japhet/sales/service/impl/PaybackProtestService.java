@@ -161,14 +161,15 @@ public class PaybackProtestService implements IPaybackProtestService {
 	 * @see japhet.sales.service.IPaybackProtestService#insertPaybackProtest(japhet.sales.model.impl.PaybackProtest)
 	 */
 	@Override
-	public PaybackProtest insertPaybackProtest(PaybackProtest paybackProtest) 
+	public boolean insertPaybackProtest(PaybackProtest paybackProtest) 
 			throws BusinessServiceException {
 		final long PBP_ID = ((paybackProtest != null 
 				&& paybackProtest.getPaybackProtestId() != null) ? paybackProtest.getPaybackProtestId() : -1L);
 		final String INFO_MSG = String.format("Inserting PaybackProtest: %d...", PBP_ID);
 		try {
 			logger.info(INFO_MSG);
-			return paybackProtestDAO.insert(paybackProtest);
+			paybackProtestDAO.insert(paybackProtest);
+			return true;
 		} catch (Exception e) {
 			final String ERROR_MSG = String
 					.format("An error has occurred while inserting the PaybackProtest: %d.", PBP_ID);

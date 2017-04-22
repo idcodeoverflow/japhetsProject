@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<!-- CSRF protection -->
+	<meta name="#{_csrf.parameterName}" content="#{_csrf.token}"/>
+	<meta name="_csrf_header" content="#{_csrf.headerName}"/>
+	
+	<!-- Payback Protest Modal -->
+	<h:panelGroup layout="block"
+		styleClass="modal fade" 
+		id="paybackProtestModal" 
+		pt:tabindex="-1" 
+		pt:role="dialog" 
+		pt:aria-labelledby="modalTitle" 
+		pt:aria-hidden="true">
+		<h:panelGroup layout="block"
+			styleClass="modal-dialog" 
+			pt:role="document">
+	    	<h:panelGroup layout="block"
+	    		styleClass="modal-content">
+	    		
+	    		<!-- Payback Protest Title -->
+	      		<h:panelGroup id="paybackProtestTitle"
+	      			layout="block"
+	      			styleClass="modal-header">
+	        		<h4 class="modal-title" 
+	        			id="modalTitle">
+	        			<h:outputText value="#{msg['account.company.modal.title']}" />
+	        		</h4>
+	      		</h:panelGroup>
+	      		
+	      		<!-- Payback Protest Content -->
+	      		<h:panelGroup id="paybackProtestContent"
+	      			layout="block"
+	      			styleClass="modal-body">
+	      			<h:form id="paybackProtestForm">
+	    				
+	    				<h:panelGroup id="paybackProtestDescriptionPanel"
+	    					layout="block"
+	    					styleClass="row">
+	    					<h:panelGroup id="paybackProtestDescription"
+	    						layout="block"
+	    						styleClass="col-md-12">
+	    						<h:outputText value="#{msg['account.company.modal.intructions']}" />
+	    					</h:panelGroup>
+	    				</h:panelGroup>
+	    				
+	    				<!-- Line to separate the instruction section from the form -->
+					    <hr/>
+		      			  			
+		      			<!-- Page messages -->
+						<p:messages id="messages" showDetail="true" globalOnly="true" />
+		
+						<!-- Upload files section -->
+						<p:fileUpload id="uploadProofs" 
+							mode="advanced" 
+							dragDropSupport="true"
+							fileUploadListener="#{uploadContentMB.handleFileUpload}"
+							update="messages" 
+							sizeLimit="#{uploadContentMB.MAX_MEDIA_SIZE}"
+							required="true"
+							multiple="false"
+							auto="false"
+							onstart="csrfValidation()"
+							requiredMessage="#{msg['account.company.modal.file.required']}"
+							invalidSizeMessage="#{msg['account.company.modal.file.sizeExceeded']}"
+							invalidFileMessage="#{msg['account.company.modal.file.invalidFile']}"
+							label="#{msg['account.company.modal.file.choose']}"
+							uploadLabel="#{msg['account.company.modal.file.upload']}"
+							cancelLabel="#{msg['account.company.modal.file.cancel']}"
+							allowTypes="/(\.|\/)(zip)$/" />
+						
+		      			<!-- Description input -->
+					    <h:panelGroup layout="block" 
+					    	styleClass="form-group">
+					    	<h:outputLabel for="descriptionInput">
+					    		<h:outputText value="#{msg['account.company.modal.description']}" />
+					    	</h:outputLabel>
+					    	<h:inputTextarea id="descriptionInput" 
+					    		styleClass="form-control" 
+					    		required="true"
+								requiredMessage="#{msg['account.company.modal.description.required']}"
+					    		pt:placeholder="#{msg['account.company.modal.description']}"
+					    		value="#{uploadContentMB.product.description}"
+								onkeyup="deleteNonAlphaContent(this, '- 1234567890áéíóúñÑ');"
+								onblur="deleteExtraBlankSpaces(this);"/>
+					    	<p:messages for="descriptionInput" />
+					    	<p:keyFilter regEx="/[$%0-9a-zA-Z\-\sáéíóúñÑ]/i" 
+								for="descriptionInput"
+								preventPaste="false" />
+					    </h:panelGroup>
+	      			
+	      			</h:form>
+	      		</h:panelGroup>
+	      		
+	      		<!-- Payback Protest Footer -->
+	      		<h:panelGroup layout="block"
+	      			styleClass="modal-footer">
+	        		<h:button pt:onclick=""
+						styleClass="btn btn-primary btn-block btn-lg" 
+						value="#{msg['home.modal.close']}" 
+						pt:data-dismiss="modal">
+						<f:param name="#{_csrf.parameterName}" 
+							value="#{_csrf.token}" />
+					</h:button>
+	      		</h:panelGroup>
+	      		
+	    	</h:panelGroup>
+	  	</h:panelGroup>
+	</h:panelGroup>
+	
+</ui:composition>
