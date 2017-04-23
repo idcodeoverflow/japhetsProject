@@ -34,6 +34,7 @@ public class GenericFacesMessager {
 	private final String USER_REGISTERED = "userMessages.userRegistered";
 	private final String PASSWORD_UPDATE_SUCCESFUL = "modify.password.info.passwordUpdateSuccessful";
 	private final String USER_INFORMATION_UPDATED = "userInformation.message.userInfoUpdated";
+	private final String SUCCESFUL_PAYBACK_PROTEST = "account.company.modal.successfulPaybackProtest";
 	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
@@ -181,5 +182,9 @@ public class GenericFacesMessager {
 	
 	public String getUSER_INFORMATION_UPDATED() {
 		return USER_INFORMATION_UPDATED;
+	}
+	
+	public String getSUCCESFUL_PAYBACK_PROTEST() {
+		return SUCCESFUL_PAYBACK_PROTEST;
 	}
 }

@@ -261,6 +261,7 @@
 									ajax="true"
 									update=":paybackProtestContent"
 						        	styleClass="btn btn-default btn-block"
+						        	action="#{paybackProtestMB.setBuyProof(bproofsPaymentReq)}"
 						        	pt:data-target="#paybackProtestModal">
 						        	<i class="glyphicon glyphicon-ban-circle"></i>
 						        	<f:param name="#{_csrf.parameterName}" 
@@ -271,6 +272,27 @@
 						        	value="#{msg['account.company.paybacksTable.protestAgainstBProof']}" 
 						        	position="top"/>
 						    </p:column>
+						    
+						    <!-- Payback Protests table -->
+						    <p:rowExpansion id="paybackProtests">
+					            <p:panelGrid  columns="2" columnClasses="label,value">
+					                <f:facet name="header">
+										<h:outputLabel value="#{msg['account.company.paybacksTable.protest.title']}" />
+					                </f:facet>
+					 
+					                <h:outputText value="Id:" />
+					                <h:outputText value="aqui" />
+					 
+					                <h:outputText value="Year" />
+					                <h:outputText value="aqui" />
+					 
+					                <h:outputText value="Color:" />
+					                <h:outputText value="aqui"/>
+					 
+					                <h:outputText value="Price" />
+					                <h:outputText value="aqui" />
+					            </p:panelGrid>
+					        </p:rowExpansion>
 						</p:dataTable>	
 					</h:panelGroup>
 				</h:panelGroup>

@@ -1,5 +1,7 @@
 package japhet.sales.service.impl;
 
+import static japhet.sales.data.QueryParameters.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -41,14 +43,15 @@ public class PaybackProtestService implements IPaybackProtestService {
 	@Override
 	public List<PaybackProtest> getPaybackProtestsByCompany(Map<String, Object> params)
 			throws BusinessServiceException {
+		final Long COMP_ID = ((params != null && params.containsKey(COMPANY_ID)) ? (long)params.get(COMPANY_ID) : -1L);
 		List<PaybackProtest> paybackProtests = null;
-		final String INFO_MSG = String.format("Selecting all the PaybackProtest by Company: %d...");
+		final String INFO_MSG = String.format("Selecting all the PaybackProtest by Company: %d...", COMP_ID);
 		try {
 			logger.info(INFO_MSG);
 			paybackProtests = paybackProtestDAO.getPaybackProtestsByCompany(params);
 		} catch (Exception e) {
 			final String ERROR_MSG = String
-					.format("An error has occurred while selecting all the PaybackProtest by Company: %d.");
+					.format("An error has occurred while selecting all the PaybackProtest by Company: %d.", COMP_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -61,14 +64,15 @@ public class PaybackProtestService implements IPaybackProtestService {
 	@Override
 	public List<PaybackProtest> getPaybackProtestsByUser(Map<String, Object> params) 
 			throws BusinessServiceException {
+		final Long COMP_ID = ((params != null && params.containsKey(USER_ID)) ? (long)params.get(USER_ID) : -1L);
 		List<PaybackProtest> paybackProtests = null;
-		final String INFO_MSG = String.format("Selecting all the PaybackProtest by User: %d...");
+		final String INFO_MSG = String.format("Selecting all the PaybackProtest by User: %d...", COMP_ID);
 		try {
 			logger.info(INFO_MSG);
 			paybackProtests = paybackProtestDAO.getPaybackProtestsByUser(params);
 		} catch (Exception e) {
 			final String ERROR_MSG = String
-					.format("An error has occurred while selecting all the PaybackProtest by User:: %d.");
+					.format("An error has occurred while selecting all the PaybackProtest by User:: %d.", COMP_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
@@ -81,14 +85,15 @@ public class PaybackProtestService implements IPaybackProtestService {
 	@Override
 	public List<PaybackProtest> getPaybackProtestsByStatus(Map<String, Object> params) 
 			throws BusinessServiceException {
+		final Long COMP_ID = ((params != null && params.containsKey(STATUS_ID)) ? (long)params.get(STATUS_ID) : -1L);
 		List<PaybackProtest> paybackProtests = null;
-		final String INFO_MSG = String.format("Selecting all the PaybackProtest by Status: %d...");
+		final String INFO_MSG = String.format("Selecting all the PaybackProtest by Status: %d...", COMP_ID);
 		try {
 			logger.info(INFO_MSG);
 			paybackProtests = paybackProtestDAO.getPaybackProtestsByStatus(params);
 		} catch (Exception e) {
 			final String ERROR_MSG = String
-					.format("An error has occurred while selecting all the PaybackProtest by Status: %d.");
+					.format("An error has occurred while selecting all the PaybackProtest by Status: %d.", COMP_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
