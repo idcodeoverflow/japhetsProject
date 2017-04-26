@@ -8,13 +8,19 @@ import java.util.Map;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 
 import org.apache.log4j.Logger;
 
+import japhet.sales.catalogs.Statuses;
+import japhet.sales.data.impl.BuyProofDAO;
 import japhet.sales.data.impl.PaybackProtestDAO;
 import japhet.sales.except.BusinessServiceException;
+import japhet.sales.model.impl.BuyProof;
 import japhet.sales.model.impl.PaybackProtest;
+import japhet.sales.model.impl.Status;
 import japhet.sales.service.IPaybackProtestService;
 
 /**
@@ -36,6 +42,9 @@ public class PaybackProtestService implements IPaybackProtestService {
 	
 	@EJB
 	private PaybackProtestDAO paybackProtestDAO;
+	
+	@EJB
+	private BuyProofDAO buyProofDAO;
 	
 	/* (non-Javadoc)
 	 * @see japhet.sales.service.IPaybackProtestService#getPaybackProtestsByCompany(java.util.Map)
@@ -166,6 +175,7 @@ public class PaybackProtestService implements IPaybackProtestService {
 	 * @see japhet.sales.service.IPaybackProtestService#insertPaybackProtest(japhet.sales.model.impl.PaybackProtest)
 	 */
 	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	public boolean insertPaybackProtest(PaybackProtest paybackProtest) 
 			throws BusinessServiceException {
 		final long PBP_ID = ((paybackProtest != null 
@@ -174,6 +184,12 @@ public class PaybackProtestService implements IPaybackProtestService {
 		try {
 			logger.info(INFO_MSG);
 			paybackProtestDAO.insert(paybackProtest);
+			//Update BuyProof status
+			BuyProof buyProof = paybackProtest.getBuyProof();
+			Status status = new Status();
+			status.setStatusId(Statuses.CASE_RAISED.getId());
+			buyProof.setStatus(status);
+			buyProofDAO.update(buyProof);
 			return true;
 		} catch (Exception e) {
 			final String ERROR_MSG = String

@@ -25,6 +25,7 @@ import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.PaybackProtest;
 import japhet.sales.model.impl.PaymentRequest;
 import japhet.sales.model.impl.Product;
+import japhet.sales.model.impl.Status;
 import japhet.sales.model.impl.User;
 import japhet.sales.service.IBuyProofService;
 import japhet.sales.service.ICompanyService;
@@ -129,11 +130,20 @@ public class CompanyAccountManagerMB extends GenericMB {
 		final Long COMP_ID = ((this.company != null 
 				&& this.company.getCompanyId() != null) ? this.company.getCompanyId() : -1L);
 		final Short ON_REQUEST_STATUS_ID = Statuses.ON_PAYMENT_REQUEST.getId();
-		final String INFO_MSG = String.format("Updating Payment Requests for the Company: %d and Status: %d...", COMP_ID, ON_REQUEST_STATUS_ID);
+		final Short CASE_RAISED_STATUS_ID = Statuses.CASE_RAISED.getId();
+		final String INFO_MSG = String.format("Updating Payment Requests for the Company: %d and Status: %d, %d...", 
+				COMP_ID, ON_REQUEST_STATUS_ID, CASE_RAISED_STATUS_ID);
 		try {
 			logger.info(INFO_MSG);
 			params.put(COMPANY_ID, this.company.getCompanyId());
-			params.put(STATUS_ID, ON_REQUEST_STATUS_ID);
+			List<Status> statuses = new ArrayList<>();
+			Status onRequest = new Status();
+			onRequest.setStatusId(ON_REQUEST_STATUS_ID);
+			Status caseRaised = new Status();
+			caseRaised.setStatusId(CASE_RAISED_STATUS_ID);
+			statuses.add(onRequest);
+			statuses.add(caseRaised);
+			params.put(STATUS_ID, statuses);
 			this.buyProofsOnPaymentRequests = buyProofService.getBuyProofsByCompanyAndStatus(params);
 			//Update the buys statistics
 			this.updateBuysTotalSum(buyProofsOnPaymentRequests);
@@ -274,6 +284,27 @@ public class CompanyAccountManagerMB extends GenericMB {
 		} catch (Exception e) {
 			logger.error("An error has ocurred while downloading the buy proof :" 
 					+ buyProof.getBuyProofId(), e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
+		}
+		return streamedContent;
+	}
+	
+	/**
+	 * Downloads the PaybackProtest files from the specified object.
+	 * @param paybackProtest
+	 * @return
+	 */
+	public StreamedContent downloadPaybackProtestObject(PaybackProtest paybackProtest) {
+		logger.info("Downloading PaybackProtest file...");
+		StreamedContent streamedContent = null;
+		try {
+			InputStream inpStream = new ByteArrayInputStream(paybackProtest.getFileContent());
+			streamedContent = new DefaultStreamedContent(inpStream, paybackProtest.getContentType(), 
+					paybackProtest.getFileName());
+		} catch (Exception e) {
+			logger.error("An error has ocurred while downloading the PaybackProtest:" 
+					+ paybackProtest.getPaybackProtestId(), e);
 			showErrorMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
 		}

@@ -78,6 +78,7 @@ public class PaybackProtestMB extends GenericMB {
 			logger.info("Generating a new PaybackProtest...");
 			populatePaybackProtest();
 			paybackProtestService.insertPaybackProtest(paybackProtest);
+			//Clear UI fields
 			this.description = "";
 			this.fileBytes = null;
 			showInfoMessage(internationalizationService
