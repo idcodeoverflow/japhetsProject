@@ -157,6 +157,10 @@ public class CompanyAccountManagerMB extends GenericMB {
 		}
 	}
 	
+	/**
+	 * This method updates the PaybackProtests by BuyProof and Company.
+	 * @throws Exception
+	 */
 	private void updateProtestsByBuyProof() throws Exception {
 		final Long COMP_ID = ((this.company != null 
 				&& this.company.getCompanyId() != null) ? this.company.getCompanyId() : -1L);
@@ -179,7 +183,8 @@ public class CompanyAccountManagerMB extends GenericMB {
 				}
 			}
 		} catch (Exception e) {
-			final String ERROR_MSG = "An error has occurred while updating the PaybackProtests by BuyProof.";
+			final String ERROR_MSG = String
+					.format("An error has occurred while updating the PaybackProtests by BuyProof Company: %d.", COMP_ID);
 			logger.error(ERROR_MSG, e);
 			throw new Exception(ERROR_MSG, e);
 		}
