@@ -218,4 +218,70 @@ public class PaybackProtestService implements IPaybackProtestService {
 		}
 		return paybackProtest;
 	}
+	
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void acceptPaybackProtest(PaybackProtest paybackProtest) 
+			throws BusinessServiceException {
+		final long PROTEST_ID = ((paybackProtest != null 
+				&& paybackProtest.getPaybackProtestId() != null) ? paybackProtest.getPaybackProtestId() : -1L);
+		try {
+			final String INFO_MSG = String.format("Accepting PaybackProtest: %d...", PROTEST_ID);
+			logger.info(INFO_MSG);
+			Status status = new Status();
+			status.setStatusId(Statuses.VALIDATED.getId());
+			paybackProtest.setStatus(status);
+			Status statusBproof = new Status();
+			statusBproof.setStatusId(Statuses.DENIED.getId());
+			BuyProof buyProof = paybackProtest.getBuyProof();
+			buyProof.setStatus(statusBproof);
+			buyProofDAO.update(buyProof);
+			paybackProtestDAO.update(paybackProtest);
+		} catch (Exception e) {
+			final String ERROR_MSG = String
+					.format("An error has occurred while accepting the PaybackProtest: %d.", PROTEST_ID);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+	}
+	
+	@Override
+	@TransactionAttribute(TransactionAttributeType.REQUIRED)
+	public void rejectPaybackProtest(PaybackProtest paybackProtest, List<PaybackProtest> paybackProtests) 
+			throws BusinessServiceException {
+		final long PROTEST_ID = ((paybackProtest != null 
+				&& paybackProtest.getPaybackProtestId() != null) ? paybackProtest.getPaybackProtestId() : -1L);
+		try {
+			final String INFO_MSG = String.format("Rejecting PaybackProtest: %d...", PROTEST_ID);
+			boolean activateBProof = true;
+			logger.info(INFO_MSG);
+			Status status = new Status();
+			status.setStatusId(Statuses.DENIED.getId());
+			paybackProtest.setStatus(status);
+			paybackProtestDAO.update(paybackProtest);
+			//In the scenario that all the payback protests are denied put the buy proof back on payment request
+			if(paybackProtests != null) {
+				for(PaybackProtest protest : paybackProtests) {
+					if(protest.getPaybackProtestId() != paybackProtest.getPaybackProtestId() 
+							&& protest.getStatus().getStatusId() != Statuses.DENIED.getId()){
+						logger.info("--------------> " + protest.getPaybackProtestId());
+						activateBProof = false;
+						break;
+					}
+				}
+			}
+			if(activateBProof) {
+				Status statusBproof = new Status();
+				statusBproof.setStatusId(Statuses.ON_PAYMENT_REQUEST.getId());
+				BuyProof buyProof = paybackProtest.getBuyProof();
+				buyProof.setStatus(statusBproof);
+				buyProofDAO.update(buyProof);
+			}
+		} catch (Exception e) {
+			final String ERROR_MSG = String
+					.format("An error has occurred while rejecting the PaybackProtest: %d.", PROTEST_ID);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+	}
 }

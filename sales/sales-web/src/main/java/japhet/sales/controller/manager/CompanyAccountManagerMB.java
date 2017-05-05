@@ -87,6 +87,10 @@ public class CompanyAccountManagerMB extends GenericMB {
 	public void init() {
 		try {
 			logger.info("Initializing the CompanyAccountManagerMB...");
+			//If the current user is not a company exit
+			if(getLoggedCompany() == null) {
+				return;
+			}
 			//Update logic attributes
 			this.user = getLoggedUser();
 			this.company = obtainCompanyByUser(user);
@@ -170,6 +174,9 @@ public class CompanyAccountManagerMB extends GenericMB {
 			Map<String, Object> params = new HashMap<>();
 			params.put(COMPANY_ID, this.company.getCompanyId());
 			List<PaybackProtest> paybackProtests = paybackProtestService.getPaybackProtestsByCompany(params);
+			if(paybackProtests == null) {
+				return;
+			}
 			for(PaybackProtest paybackProtest : paybackProtests) {
 				long buyProofId = paybackProtest.getBuyProof().getBuyProofId();
 				if(paybackProtestsPerBProof.containsKey(buyProofId)) {

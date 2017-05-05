@@ -132,6 +132,10 @@ public class URLMapperMB extends GenericMB {
 		return COMPANY_ACCOUNT_MANAGER;
 	}
 	
+	public String getAdministratorAccountManager(){
+		return ADMINISTRATOR_ACCOUNT_MANAGER;
+	}
+	
 	public String getPaybackProtestModal(){
 		return PAYBACK_PROTEST_MODAL;
 	}

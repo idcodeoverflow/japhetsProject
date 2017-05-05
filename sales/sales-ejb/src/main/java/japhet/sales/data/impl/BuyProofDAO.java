@@ -1,5 +1,6 @@
 package japhet.sales.data.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import japhet.sales.catalogs.Statuses;
 import japhet.sales.data.GenericDAO;
 import japhet.sales.except.DataLayerException;
 import japhet.sales.model.impl.BuyProof;
+import japhet.sales.model.impl.Status;
 
 @Stateless
 public class BuyProofDAO extends GenericDAO<BuyProof, Long> {
@@ -82,6 +84,30 @@ public class BuyProofDAO extends GenericDAO<BuyProof, Long> {
 			throw new DataLayerException(ERROR_MSG, e);
 		}
 		return rowsUpdated;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<BuyProof> getBuyProofsByStatus(Map<String, Object> params) 
+			throws DataLayerException {
+		List<BuyProof> buyProofs = null;
+		final List<Status> statusListParam = ((params != null 
+				&& params.get(STATUS_ID) != null) ? (ArrayList<Status>)params.get(STATUS_ID) : new ArrayList<Status>());
+		StringBuilder P_STATUSES = new StringBuilder();
+		for(Status status : statusListParam) {
+			P_STATUSES.append(status.getStatusId());
+			P_STATUSES.append(",");
+		}
+		final String INFO_MSG = String.format("Obtaining buy proofs by Status: %s...", P_STATUSES.toString());
+		try {
+			logger.info(INFO_MSG);
+			buyProofs = executeQuery(GET_BUY_PROOFS_BY_STATUS, params);
+		} catch (Exception e) {
+			final String ERROR_MSG = String
+					.format("Error while obtaining buy proofs by Status: %s.", P_STATUSES.toString());
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
+		}
+		return buyProofs;
 	}
 	
 	public List<BuyProof> getBuyProofsByCompanyAndStatus(Map<String, Object> params) 

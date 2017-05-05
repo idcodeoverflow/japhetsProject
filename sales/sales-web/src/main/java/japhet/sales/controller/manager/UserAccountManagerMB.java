@@ -19,6 +19,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import japhet.sales.catalogs.Roles;
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.dto.UserBudget;
@@ -98,6 +99,10 @@ public class UserAccountManagerMB extends GenericMB {
 	private void init() {
 		try {
 			logger.info("Initializing user account manager...");
+			//If the logged user hasn't a simple user role exit of the process
+			if(getLoggedUser().getRole().getRoleId() != Roles.USER.getId()) {
+				return;
+			}
 			//Initialize session properties
 			params = new HashMap<>();
 			user = getLoggedUser();

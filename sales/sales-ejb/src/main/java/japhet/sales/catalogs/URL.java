@@ -22,6 +22,7 @@ public enum URL {
 	COMPANY_MANAGER("companyAccountManager"),
 	PAYBACK_PROTEST_MODAL("paybackProtestModal"),
 	USER_ACCOUNT_MANAGER("userAccountManager"),
+	ADMINISTRATOR_ACCOUNT_MANAGER("administratorAccountManager"),
 	USER_INFORMATION("userInformation"),
 	CATEGORIES("categories"),
 	CATEGORIES_REGISTRATION_URL("categoriesRegistration"),

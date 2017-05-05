@@ -43,4 +43,10 @@ public interface IPaybackProtestService extends Serializable {
 	
 	public PaybackProtest selectPaybackProtest(Long paybackProtestId) 
 			throws BusinessServiceException;
+	
+	public void acceptPaybackProtest(PaybackProtest paybackProtest) 
+			throws BusinessServiceException;
+	
+	public void rejectPaybackProtest(PaybackProtest paybackProtest, List<PaybackProtest> paybackProtests) 
+			throws BusinessServiceException;
 }

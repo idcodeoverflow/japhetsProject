@@ -21,6 +21,9 @@ public interface IBuyProofService extends Serializable {
 	public List<BuyProof> getBuyProofsByUserAndStatus(Map<String, Object> params) 
 			throws BusinessServiceException;
 	
+	public List<BuyProof> getBuyProofsByStatus(Map<String, Object> params) 
+			throws BusinessServiceException;
+	
 	public List<BuyProof> getBuyProofsByCompanyAndStatus(Map<String, Object> params) 
 			throws BusinessServiceException;
 	
@@ -35,5 +38,4 @@ public interface IBuyProofService extends Serializable {
 	
 	public short updateBuyProofsBatch(Map<String, Object> params) 
 			throws BusinessServiceException;
-	
 }
