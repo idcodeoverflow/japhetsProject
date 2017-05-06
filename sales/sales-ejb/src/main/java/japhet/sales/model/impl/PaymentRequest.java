@@ -73,7 +73,7 @@ public class PaymentRequest implements IEntity, ISequenceTable {
 	@JoinColumn(name = "STATUS_ID")
 	private Status status;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "USER_ID")
 	private User user;				
 	

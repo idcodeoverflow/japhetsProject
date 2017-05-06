@@ -13,7 +13,7 @@
 	
 	<h:form id="administratorBProofControlPanelForm">
 	
-		<!-- Page Messages -->
+		<!-- Buy Proofs and Protests Messages -->
 		<p:messages id="adminMgmtPanelMessages" globalOnly="true" />
 	
 		<!-- Payback Protests and BuyProofs -->
@@ -270,9 +270,13 @@
 	
 	<!-- Payment Requests form -->
 	<h:form id="administratorPmntReqControlPanelForm">
+	
+		<!-- Buy Proofs and Protests Messages -->
+		<p:messages id="paymentRequestsAdminMessages" globalOnly="true" />
 		
 		<!-- Payback Requests Table -->
 		<h:panelGroup layout="block" 
+			id="paymentRequestsAdminPanel"
 			styleClass="panel panel-default">
 			<h:panelGroup layout="block" 
 				styleClass="panel-heading">
@@ -288,8 +292,8 @@
 				    <h:panelGroup layout="block" 
 				    	styleClass="col-md-12">
 				    	<p:dataTable id="paymentRequestManagementTable" 
-				    		value="#{administratorAccountManagerMB.buyProofs}"
-				    		var="bproofs"
+				    		value="#{administratorAccountManagerMB.paymentRequests}"
+				    		var="paymentRequest"
 				    		emptyMessage="#{msg['account.administrator.paymentRequests.table.empty']}"
 				    		paginator="true"
 				    		paginatorPosition="bottom"
@@ -302,43 +306,82 @@
 						    </f:facet>
 						    <p:column headerClass="text-center" 
 						    	styleClass="text-center"
+						    	width="8%"
 						    	headerText="#{msg['account.administrator.paymentRequests.table.id']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{paymentRequest.paymentRequestId}" />
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	styleClass="text-center"
 						    	headerText="#{msg['account.administrator.paymentRequests.table.user']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{paymentRequest.user.name} #{paymentRequest.user.lastName}" />
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	styleClass="text-center"
+						    	width="9%"
 						    	headerText="#{msg['account.administrator.paymentRequests.table.amount']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{paymentRequest.amount}">
+						        	<f:convertNumber type="currency" />
+						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	styleClass="text-center"
+						    	width="11%"
 						    	headerText="#{msg['account.administrator.paymentRequests.table.requestDate']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{paymentRequest.requestDate}">
+						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	styleClass="text-center"
+						    	width="11%"
 						    	headerText="#{msg['account.administrator.paymentRequests.table.lastUpdate']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{paymentRequest.lastUpdate}">
+						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+						        </h:outputText>
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	styleClass="text-center"
+						    	width="12%"
 						    	headerText="#{msg['account.administrator.paymentRequests.table.status']}">
-						        <h:outputText value="" />
+						        <h:outputText value="#{internationalizationI18NMB.getI18NMessage(paymentRequest.status.name)}" />
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	styleClass="text-center"
+						    	width="9%"
 						    	headerText="#{msg['account.administrator.paymentRequests.table.confirm']}">
-						        <h:outputText value="" />
+						        <p:commandLink 
+						        	id="btnConfirmPmntRequest"
+						        	ajax="true"
+									update="administratorPmntReqControlPanelForm:paymentRequestsAdminPanel, administratorPmntReqControlPanelForm:paymentRequestsAdminMessages"
+						        	styleClass="btn btn-default btn-block"
+						        	action="#{administratorAccountManagerMB.confirmPaymentRequest(paymentRequest)}">
+						        	<i class="glyphicon glyphicon-ok-sign"></i>
+						        	<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+						        </p:commandLink>
+						        <p:tooltip id="toolTipPmntRequestConfirm" 
+						        	for="btnConfirmPmntRequest" 
+						        	value="#{msg['account.administrator.paymentRequests.table.confirmTooltip']}" 
+						        	position="top"/>
 						    </p:column>
 						    <p:column headerClass="text-center" 
 						    	styleClass="text-center"
+						    	width="9%"
 						    	headerText="#{msg['account.administrator.paymentRequests.table.reject']}">
-						        <h:outputText value="" />
+						        <p:commandLink 
+						        	id="btnRejectPmntRequest"
+						        	ajax="true"
+									update="administratorPmntReqControlPanelForm:paymentRequestsAdminPanel, administratorPmntReqControlPanelForm:paymentRequestsAdminMessages"
+						        	styleClass="btn btn-default btn-block"
+						        	action="#{administratorAccountManagerMB.rejectPaymentRequest(paymentRequest)}">
+						        	<i class="glyphicon glyphicon-remove-sign"></i>
+						        	<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+						        </p:commandLink>
+						        <p:tooltip id="toolTipPmntRequestReject" 
+						        	for="btnRejectPmntRequest" 
+						        	value="#{msg['account.administrator.paymentRequests.table.rejectTooltip']}" 
+						        	position="top"/>
 						    </p:column>
 						</p:dataTable>
 				    </h:panelGroup>
@@ -346,5 +389,7 @@
 			</h:panelGroup>
 		</h:panelGroup>		
 		
+		<input type="hidden" name="#{_csrf.parameterName}" 
+			value="#{_csrf.token}" />
 	</h:form>
 </ui:composition>

@@ -24,9 +24,11 @@ import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.model.impl.BuyProof;
 import japhet.sales.model.impl.PaybackProtest;
+import japhet.sales.model.impl.PaymentRequest;
 import japhet.sales.model.impl.Status;
 import japhet.sales.service.IBuyProofService;
 import japhet.sales.service.IPaybackProtestService;
+import japhet.sales.service.IPaymentRequestService;
 
 @ManagedBean
 @ViewScoped
@@ -47,9 +49,13 @@ public class AdministratorAccountManagerMB extends GenericMB {
 	@EJB
 	private IPaybackProtestService paybackProtestService;
 	
+	@EJB
+	private IPaymentRequestService paymentRequestService;
+	
 	//View attributes
 	private List<BuyProof> buyProofs;
 	private Map<Long, List<PaybackProtest>> paybackProtestsByBproof;
+	private List<PaymentRequest> paymentRequests;
 	
 	@PostConstruct
 	private void init() {
@@ -63,6 +69,7 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			//Update view elements
 			updateBuyProofs();
 			updatePaybackProtestsByBproof();
+			updatePaymentRequests();
 		} catch(Exception e) {
 			final String ERROR_MSG = "An error has occurred while initializing the AdministratorAccountManagerMB.";
 			logger.error(ERROR_MSG, e);
@@ -122,6 +129,19 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			}
 		} catch(Exception e) {
 			final String ERROR_MSG = "An error has occurred while updating the Protests by BuyProof.";
+			logger.error(ERROR_MSG, e);
+			throw new Exception(ERROR_MSG, e);
+		}
+	}
+	
+	private void updatePaymentRequests() throws Exception {
+		final String INFO_MSG = "Updating the PaymentRequest list...";
+		try {
+			logger.info(INFO_MSG);
+			final short PENDING_STATUS = Statuses.VALIDATION_PENDING.getId();
+			this.paymentRequests = paymentRequestService.getPaymentRequestsByStatus(PENDING_STATUS);
+		} catch(Exception e) {
+			final String ERROR_MSG = "An error has occurred the PaymentRequest list.";
 			logger.error(ERROR_MSG, e);
 			throw new Exception(ERROR_MSG, e);
 		}
@@ -284,6 +304,46 @@ public class AdministratorAccountManagerMB extends GenericMB {
 	}
 	
 	/**
+	 * This method sends the request to mark the specified 
+	 * PaymentRequest to payed.
+	 * @param paymentRequest
+	 */
+	public void confirmPaymentRequest(PaymentRequest paymentRequest) {
+		final long PMNT_REQ_ID = ((paymentRequest != null 
+				&& paymentRequest.getPaymentRequestId() != null) ? paymentRequest.getPaymentRequestId() : -1L);
+		final String INFO_MSG = String.format("Trying to confirm the PaymentRequest: %d...", PMNT_REQ_ID);
+		try {
+			logger.info(INFO_MSG);
+			paymentRequestService.confirmPaymentRequest(paymentRequest);
+			updatePaymentRequests();
+		} catch(Exception e) {
+			final String ERROR_MSG = String
+					.format("An error has occurred while trying to confirm the PaymentRequest: %d.", PMNT_REQ_ID);
+			logger.error(ERROR_MSG, e);
+		}
+	}
+	
+	/**
+	 * This method sends the request to mark the specified 
+	 * PaymentRequest to rejected.
+	 * @param paymentRequest
+	 */
+	public void rejectPaymentRequest(PaymentRequest paymentRequest) {
+		final long PMNT_REQ_ID = ((paymentRequest != null 
+				&& paymentRequest.getPaymentRequestId() != null) ? paymentRequest.getPaymentRequestId() : -1L);
+		final String INFO_MSG = String.format("Trying to reject the PaymentRequest: %d...", PMNT_REQ_ID);
+		try {
+			logger.info(INFO_MSG);
+			paymentRequestService.rejectPaymentRequest(paymentRequest);
+			updatePaymentRequests();
+		} catch(Exception e) {
+			final String ERROR_MSG = String
+					.format("An error has occurred while trying to reject the PaymentRequest: %d.", PMNT_REQ_ID);
+			logger.error(ERROR_MSG, e);
+		}
+	}
+	
+	/**
 	 * Determines if the validate button is going to be enabled.
 	 * @param buyProof
 	 * @return
@@ -355,5 +415,19 @@ public class AdministratorAccountManagerMB extends GenericMB {
 	 */
 	public void setBuyProofs(List<BuyProof> buyProofs) {
 		this.buyProofs = buyProofs;
+	}
+
+	/**
+	 * @return the paymentRequests
+	 */
+	public List<PaymentRequest> getPaymentRequests() {
+		return paymentRequests;
+	}
+
+	/**
+	 * @param paymentRequests the paymentRequests to set
+	 */
+	public void setPaymentRequests(List<PaymentRequest> paymentRequests) {
+		this.paymentRequests = paymentRequests;
 	}
 }
