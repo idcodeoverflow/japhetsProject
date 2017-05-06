@@ -363,6 +363,82 @@
 			</h:panelGroup>
 		</h:panelGroup>
 		
+		<!-- Payback Protests -->
+		<h:panelGroup layout="block" 
+			styleClass="panel panel-default">
+			<h:panelGroup layout="block" 
+				styleClass="panel-heading">
+		    	<h2 class="panel-title">
+		    		<h:outputText value="#{msg['account.user.paybacksTable.protest.panel.title']} " />
+		    		<h:panelGroup styleClass="glyphicon glyphicon-warning-sign" />		
+		    	</h2>
+		  	</h:panelGroup>
+		  	<h:panelGroup layout="block" 
+		  		styleClass="panel-body">
+		  		<h:panelGroup layout="block" 
+		  			styleClass="row">
+				    <h:panelGroup layout="block" 
+				    	styleClass="col-md-12">
+				    	<!-- Payback Protest Data Table -->
+				    	<p:dataTable id="paybackProtestsDataTable"
+			            	value="#{userAccountManagerMB.getPaybackProtests()}"
+				    		var="paybackProtest"
+				    		emptyMessage="#{msg['account.user.paybacksTable.protest.empty']}"
+				    		paginator="true"
+				    		paginatorPosition="bottom"
+				    		currentPageReportTemplate="({currentPage} / {totalPages})"
+				    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+		                    rows="5"
+				    		styleClass="table table-striped text-center">
+				    		<f:facet name="header">
+				        		<h:outputText value="#{msg['account.user.paybacksTable.protest.title']}" />
+						    </f:facet>
+						    <p:column headerClass="text-center" 
+						    	headerText="#{msg['account.user.paybacksTable.protest.description']}">
+						        <h:outputText value="#{paybackProtest.description}" />
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	width="12%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.user.paybacksTable.protest.createdOn']}">
+						        <h:outputText value="#{paybackProtest.createdOn}">
+						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+						        </h:outputText>
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	width="12%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.user.paybacksTable.protest.lastUpdate']}">
+						        <h:outputText value="#{paybackProtest.lastUpdate}">
+						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+						        </h:outputText>
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	width="15%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.user.paybacksTable.protest.status']}">
+						        <h:outputText 
+						        	value="#{internationalizationI18NMB.getI18NMessage(paybackProtest.status.name)}" />
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	width="12%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.user.paybacksTable.protest.resolutionDate']}">
+						        <h:outputText 
+						        	value="#{paybackProtest.resolutionDate}"
+						        	rendered="#{paybackProtest.resolutionDate != null}">
+						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+						        </h:outputText>
+						        <h:outputText 
+						        	value="#{msg['account.user.paybacksTable.protest.resolutionDate.empty']}"
+						        	rendered="#{paybackProtest.resolutionDate == null}" />
+						    </p:column>
+			            </p:dataTable>
+				    </h:panelGroup>
+			    </h:panelGroup>
+		  	</h:panelGroup>
+		</h:panelGroup>
+				
 	    <input type="hidden" name="#{_csrf.parameterName}" 
 			value="#{_csrf.token}" />
 			

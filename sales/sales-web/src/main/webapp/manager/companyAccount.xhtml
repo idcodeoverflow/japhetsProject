@@ -7,6 +7,10 @@
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
 	xmlns:p="http://primefaces.org/ui">
 	
+	<!-- CSRF protection -->
+	<meta name="#{_csrf.parameterName}" content="#{_csrf.token}"/>
+	<meta name="_csrf_header" content="#{_csrf.headerName}"/>
+	
 	<h:form id="companyControlPanelForm">
 		
 		<!-- Products management -->
@@ -95,7 +99,7 @@
 											value="#{_csrf.token}" />
 						        </p:commandLink>
 						    </p:column>
-						</p:dataTable>	
+						</p:dataTable>
 					</h:panelGroup>
 				</h:panelGroup>
 			</h:panelGroup>
@@ -194,6 +198,8 @@
 				    		var="bproofsPaymentReq"
 				    		emptyMessage="#{msg['account.company.paybacksTable.empty']}"
 				    		paginator="true"
+				    		rowExpandMode="single"
+				    		expandedRow="true"
 				    		paginatorPosition="bottom"
 				    		currentPageReportTemplate="({currentPage} / {totalPages})"
 				    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
@@ -236,6 +242,7 @@
 						        <p:commandLink 
 						        	id="btnDownloadBuyProof"
 						        	ajax="false"
+						        	onstart="csrfValidation()"
 						        	styleClass="btn btn-default btn-block">
 						        	<i class="glyphicon glyphicon-save"></i>
 						        	<p:fileDownload value="#{companyAccountManagerMB.downloadBuyProofObject(bproofsPaymentReq)}" />
@@ -252,10 +259,13 @@
 						    	headerText="#{msg['account.company.paybacksTable.protest']}">
 						        <p:commandLink 
 						        	id="btnProtest"
-						        	ajax="false"
-						        	styleClass="btn btn-default btn-block">
+						        	pt:data-toggle="modal" 
+									ajax="true"
+									update=":paybackProtestContent"
+						        	styleClass="btn btn-default btn-block"
+						        	action="#{paybackProtestMB.setBuyProof(bproofsPaymentReq)}"
+						        	pt:data-target="#paybackProtestModal">
 						        	<i class="glyphicon glyphicon-ban-circle"></i>
-						        	<p:fileDownload value="#{companyAccountManagerMB.downloadBuyProofObject(bproofsPaymentReq)}" />
 						        	<f:param name="#{_csrf.parameterName}" 
 											value="#{_csrf.token}" />
 						        </p:commandLink>
@@ -264,6 +274,84 @@
 						        	value="#{msg['account.company.paybacksTable.protestAgainstBProof']}" 
 						        	position="top"/>
 						    </p:column>
+						    
+						    <!-- Payback Protests table -->
+						    <p:rowExpansion id="paybackProtestsRowExpansion">
+					            <p:dataTable id="paybackProtestsDataTable"
+					            	value="#{companyAccountManagerMB.getPaybackProtestsByBProof(bproofsPaymentReq.buyProofId)}"
+						    		var="paybackProtest"
+						    		emptyMessage="#{msg['account.company.paybacksTable.protest.empty']}"
+						    		paginator="true"
+						    		paginatorPosition="bottom"
+						    		currentPageReportTemplate="({currentPage} / {totalPages})"
+						    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+		                       		rows="5"
+						    		styleClass="table table-striped text-center">
+						    		<f:facet name="header">
+						        		<h:outputText value="#{msg['account.company.paybacksTable.protest.title']}" />
+								    </f:facet>
+								    <p:column headerClass="text-center" 
+								    	headerText="#{msg['account.company.paybacksTable.protest.description']}">
+								        <h:outputText value="#{paybackProtest.description}" />
+								    </p:column>
+								    <p:column headerClass="text-center" 
+								    	width="12%"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.company.paybacksTable.protest.createdOn']}">
+								        <h:outputText value="#{paybackProtest.createdOn}">
+								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+								        </h:outputText>
+								    </p:column>
+								    <p:column headerClass="text-center" 
+								    	width="12%"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.company.paybacksTable.protest.lastUpdate']}">
+								        <h:outputText value="#{paybackProtest.lastUpdate}">
+								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+								        </h:outputText>
+								    </p:column>
+								    <p:column headerClass="text-center" 
+								    	width="15%"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.company.paybacksTable.protest.status']}">
+								        <h:outputText 
+								        	value="#{internationalizationI18NMB.getI18NMessage(paybackProtest.status.name)}" />
+								    </p:column>
+								    <p:column headerClass="text-center" 
+								    	width="12%"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.company.paybacksTable.protest.resolutionDate']}">
+								        <h:outputText 
+								        	value="#{paybackProtest.resolutionDate}"
+								        	rendered="#{paybackProtest.resolutionDate != null}">
+								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+								        </h:outputText>
+								        <h:outputText 
+								        	value="#{msg['account.company.paybacksTable.protest.resolutionDate.empty']}"
+								        	rendered="#{paybackProtest.resolutionDate == null}" />
+								    </p:column>
+								   	<p:column headerClass="text-center" 
+								   		width="8%"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.company.paybacksTable.protest.file']}">
+								    	<p:commandLink 
+								        	id="btnDownloadProtestFile"
+								        	ajax="false"
+								        	onstart="csrfValidation()"
+								        	styleClass="btn btn-default btn-block">
+								        	<i class="glyphicon glyphicon-save"></i>
+								        	<p:fileDownload 
+								        		value="#{companyAccountManagerMB.downloadPaybackProtestObject(paybackProtest)}" />
+								        	<f:param name="#{_csrf.parameterName}" 
+													value="#{_csrf.token}" />
+								        </p:commandLink>
+								        <p:tooltip id="toolTipDownloadProtestFile" 
+								        	for="btnDownloadProtestFile" 
+								        	value="#{msg['account.company.paybacksTable.protest.downloadMsg']}" 
+								        	position="top"/>
+								    </p:column>
+					            </p:dataTable>
+					        </p:rowExpansion>
 						</p:dataTable>	
 					</h:panelGroup>
 				</h:panelGroup>
@@ -272,7 +360,7 @@
 		
 		<!-- Order Management -->
 		<h:panelGroup id="orderRequestsPanel" 
-			rendered="#{authorityMB.productOrderEnabled}"
+			rendered="false"
 			layout="block" 
 			styleClass="row">
 			<h:panelGroup styleClass="col-md-12">
@@ -449,4 +537,8 @@
 		<ui:include src="#{urlMapperMB.categories}" />
 		
 	</h:form>
+		
+	<!-- Payback Protest Modal -->
+	<ui:include src="#{urlMapperMB.paybackProtestModal}" />
+	
 </ui:composition>

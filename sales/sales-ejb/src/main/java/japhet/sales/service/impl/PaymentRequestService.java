@@ -20,6 +20,7 @@ import japhet.sales.catalogs.Statuses;
 import japhet.sales.data.impl.PaymentRequestDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.PaymentRequest;
+import japhet.sales.model.impl.Status;
 import japhet.sales.service.IBuyProofService;
 import japhet.sales.service.IPaymentRequestService;
 
@@ -188,5 +189,45 @@ public class PaymentRequestService
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
 		return rowsUpdated;
+	}
+	
+	public void confirmPaymentRequest(PaymentRequest paymentRequest)
+			throws BusinessServiceException {
+		final long PMNT_REQ_ID = ((paymentRequest != null 
+				&& paymentRequest.getPaymentRequestId() != null) ? paymentRequest.getPaymentRequestId() : -1L);
+		final String INFO_MSG = String.format("Confirming PaymentRequest: %d...", PMNT_REQ_ID);
+		try {
+			logger.info(INFO_MSG);
+			final short STAT_ID = Statuses.PAYED.getId();
+			Status status = new Status();
+			status.setStatusId(STAT_ID);
+			paymentRequest.setStatus(status);
+			paymentRequestDAO.update(paymentRequest);
+		} catch(Exception e) {
+			final String ERROR_MSG = String
+					.format("An error has occurred while confirming PaymentRequest: %d.", PMNT_REQ_ID);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+	}
+	
+	public void rejectPaymentRequest(PaymentRequest paymentRequest)
+			throws BusinessServiceException {
+		final long PMNT_REQ_ID = ((paymentRequest != null 
+				&& paymentRequest.getPaymentRequestId() != null) ? paymentRequest.getPaymentRequestId() : -1L);
+		final String INFO_MSG = String.format("Rejecting PaymentRequest: %d...", PMNT_REQ_ID);
+		try {
+			logger.info(INFO_MSG);
+			final short STAT_ID = Statuses.DENIED.getId();
+			Status status = new Status();
+			status.setStatusId(STAT_ID);
+			paymentRequest.setStatus(status);
+			paymentRequestDAO.update(paymentRequest);
+		} catch(Exception e) {
+			final String ERROR_MSG = String
+					.format("An error has occurred while rejecting PaymentRequest: %d.", PMNT_REQ_ID);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
 	}
 }
