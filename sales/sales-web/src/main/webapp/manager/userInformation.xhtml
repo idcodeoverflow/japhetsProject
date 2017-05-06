@@ -142,7 +142,7 @@
 											placeholder="hh:mm:ss"
 											styleClass="form-control" 
 											timeOnly="true"
-											value="#{userInformationMB.userInformation.contactSchdStartTime}"
+											value="#{userInformationMB.startTime}"
 											onkeyup="deleteNonIntegerContent(this, ':');"/>
 									</h:panelGroup>
 									<p:messages for="contactSchdStartDate" />
@@ -160,7 +160,7 @@
 											placeholder="hh:mm:ss"
 											styleClass="form-control"  
 											timeOnly="true"
-											value="#{userInformationMB.userInformation.contactSchdEndTime}"
+											value="#{userInformationMB.endTime}"
 											onkeyup="deleteNonIntegerContent(this, ':');" />
 									</h:panelGroup>
 									<p:messages for="contactSchdEndDate" />

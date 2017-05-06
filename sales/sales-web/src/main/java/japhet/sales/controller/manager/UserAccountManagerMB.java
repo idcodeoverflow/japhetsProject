@@ -2,6 +2,7 @@ package japhet.sales.controller.manager;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import japhet.sales.catalogs.Roles;
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.dto.UserBudget;
@@ -25,11 +27,13 @@ import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidBuyProofException;
 import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.model.impl.BuyProof;
+import japhet.sales.model.impl.PaybackProtest;
 import japhet.sales.model.impl.PaymentRequest;
 import japhet.sales.model.impl.Status;
 import japhet.sales.model.impl.User;
 import japhet.sales.model.impl.UserProductHistorial;
 import japhet.sales.service.IBuyProofService;
+import japhet.sales.service.IPaybackProtestService;
 import japhet.sales.service.IPaymentRequestService;
 import japhet.sales.service.IUserProductHistorialService;
 import japhet.sales.service.IUserService;
@@ -66,6 +70,9 @@ public class UserAccountManagerMB extends GenericMB {
 	@EJB
 	private IUtilService utilService;
 	
+	@EJB
+	private IPaybackProtestService paybackProtestService;
+	
 	//Validation properties
 	private final int MAX_MEDIA_SIZE = 1000000;
 	private final double MIN_PAYMENT_REQUEST = 200.0;
@@ -77,6 +84,7 @@ public class UserAccountManagerMB extends GenericMB {
 	private List<PaymentRequest> paymentRequestHistory;
 	private List<BuyProof> buyProofsHistory;
 	private List<UserProductHistorial> userProductHistorials;
+	private List<PaybackProtest> paybackProtests;
 	private double onwaitAmount;
 	private double readyAmount;
 	
@@ -91,6 +99,10 @@ public class UserAccountManagerMB extends GenericMB {
 	private void init() {
 		try {
 			logger.info("Initializing user account manager...");
+			//If the logged user hasn't a simple user role exit of the process
+			if(getLoggedUser().getRole().getRoleId() != Roles.USER.getId()) {
+				return;
+			}
 			//Initialize session properties
 			params = new HashMap<>();
 			user = getLoggedUser();
@@ -103,6 +115,7 @@ public class UserAccountManagerMB extends GenericMB {
 			updateUserProductHistorial();
 			updatePaymentRequests();
 			updateUserBudget();
+			updatePaybackProtests();
 		} catch (Exception e) {
 			logger.error("Error while initializing user account manager.", e);
 			showErrorMessage(internationalizationService
@@ -222,6 +235,29 @@ public class UserAccountManagerMB extends GenericMB {
 	}
 	
 	/**
+	 * This method initializes the list with the PaybackProtests for this user.
+	 * @throws Exception
+	 */
+	private void updatePaybackProtests() throws Exception {
+		final Long P_USER_ID = ((this.user != null && this.user.getUserId() != null) ? this.user.getUserId() : -1L);
+		final String INFO_MSG = String.format("Updating the PaybackProtests by User: %d...", P_USER_ID);
+		try {
+			logger.info(INFO_MSG);
+			Map<String, Object> params = new HashMap<>();
+			params.put(USER_ID, this.user.getUserId());
+			this.paybackProtests = paybackProtestService.getPaybackProtestsByUser(params);
+			if(this.paybackProtests == null) {
+				this.paybackProtests = new ArrayList<>();
+			}
+		} catch (Exception e) {
+			final String ERROR_MSG = String
+					.format("An error has occurred while updating the PaybackProtests by User: %d.", P_USER_ID);
+			logger.error(ERROR_MSG, e);
+			throw new Exception(ERROR_MSG, e);
+		}
+	}
+	
+	/**
 	 * Instantiates a new Buy Proof object.
 	 */
 	public void initializeBuyProof() {
@@ -318,6 +354,14 @@ public class UserAccountManagerMB extends GenericMB {
 
 	public void setPaymentRequestHistory(List<PaymentRequest> paymentRequestHistory) {
 		this.paymentRequestHistory = paymentRequestHistory;
+	}
+
+	public List<PaybackProtest> getPaybackProtests() {
+		return paybackProtests;
+	}
+
+	public void setPaybackProtests(List<PaybackProtest> paybackProtests) {
+		this.paybackProtests = paybackProtests;
 	}
 
 	public BuyProof getBuyProof() {

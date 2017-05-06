@@ -9,7 +9,8 @@ public enum Statuses {
 	DENIED 						((short)6, "catalog.status.denied"),
 	BLOCKED 					((short)7, "catalog.status.blocked"),
 	WAITING_WARRANTY_EXPIRATION ((short)8, "catalog.status.waitingWarrantyExpiration"),
-	ON_PAYMENT_REQUEST 			((short)9, "catalog.status.onPaymentRequest");
+	ON_PAYMENT_REQUEST 			((short)9, "catalog.status.onPaymentRequest"),
+	CASE_RAISED		 			((short)10, "catalog.status.caseRaised");
 	
 	private Short id;
 	private String name;

@@ -31,13 +31,14 @@ public class PaybackProtestDAO extends GenericDAO<PaybackProtest, Long> {
 	public List<PaybackProtest> getPaybackProtestsByCompany(Map<String, Object> params)
 			throws DataLayerException {
 		List<PaybackProtest> paybackProtests = null;
-		final String INFO_MSG = String.format("Selecting all the PaybackProtest by Company: %d...");
+		final Long COMP_ID = ((params != null && params.containsKey(COMPANY_ID)) ? (long)params.get(COMPANY_ID) : -1L);
+		final String INFO_MSG = String.format("Selecting all the PaybackProtest by Company: %d...", COMP_ID);
 		try {
 			logger.info(INFO_MSG);
 			paybackProtests = selectList(GET_ALL_PAYBACK_PROTEST_BY_COMPANY, params);
 		} catch (Exception e) {
 			final String ERROR_MSG = String
-					.format("An error has occurred while selecting all the PaybackProtest by Company: %d.");
+					.format("An error has occurred while selecting all the PaybackProtest by Company: %d.", COMP_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new DataLayerException(ERROR_MSG, e);
 		}
@@ -47,13 +48,14 @@ public class PaybackProtestDAO extends GenericDAO<PaybackProtest, Long> {
 	public List<PaybackProtest> getPaybackProtestsByUser(Map<String, Object> params) 
 			throws DataLayerException {
 		List<PaybackProtest> paybackProtests = null;
-		final String INFO_MSG = String.format("Selecting all the PaybackProtest by User: %d...");
+		final Long COMP_ID = ((params != null && params.containsKey(USER_ID)) ? (long)params.get(USER_ID) : -1L);
+		final String INFO_MSG = String.format("Selecting all the PaybackProtest by User: %d...", COMP_ID);
 		try {
 			logger.info(INFO_MSG);
 			paybackProtests = selectList(GET_ALL_PAYBACK_PROTEST_BY_USER, params);
 		} catch (Exception e) {
 			final String ERROR_MSG = String
-					.format("An error has occurred while selecting all the PaybackProtest by User:: %d.");
+					.format("An error has occurred while selecting all the PaybackProtest by User:: %d.", COMP_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new DataLayerException(ERROR_MSG, e);
 		}
@@ -63,13 +65,14 @@ public class PaybackProtestDAO extends GenericDAO<PaybackProtest, Long> {
 	public List<PaybackProtest> getPaybackProtestsByStatus(Map<String, Object> params) 
 			throws DataLayerException {
 		List<PaybackProtest> paybackProtests = null;
-		final String INFO_MSG = String.format("Selecting all the PaybackProtest by Status: %d...");
+		final Long COMP_ID = ((params != null && params.containsKey(STATUS_ID)) ? (long)params.get(STATUS_ID) : -1L);
+		final String INFO_MSG = String.format("Selecting all the PaybackProtest by Status: %d...", COMP_ID);
 		try {
 			logger.info(INFO_MSG);
 			paybackProtests = selectList(GET_ALL_PAYBACK_PROTEST_BY_STATUS, params);
 		} catch (Exception e) {
 			final String ERROR_MSG = String
-					.format("An error has occurred while selecting all the PaybackProtest by Status: %d.");
+					.format("An error has occurred while selecting all the PaybackProtest by Status: %d.", COMP_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new DataLayerException(ERROR_MSG, e);
 		}
@@ -91,70 +94,4 @@ public class PaybackProtestDAO extends GenericDAO<PaybackProtest, Long> {
 		}
 		return paybackProtests;
 	}
-
-	public boolean updatePaybackProtest(PaybackProtest paybackProtest) 
-			throws DataLayerException {
-		final long PBP_ID = ((paybackProtest != null 
-				&& paybackProtest.getPaybackProtestId() != null) ? paybackProtest.getPaybackProtestId() : -1L);
-		final String INFO_MSG = String.format("Updating PaybackProtest: %d...", PBP_ID);
-		try {
-			logger.info(INFO_MSG);
-			update(paybackProtest);
-			return true;
-		} catch (Exception e) {
-			final String ERROR_MSG = String
-					.format("An error has occurred while updating the PaybackProtest: %d.", PBP_ID);
-			logger.fatal(ERROR_MSG, e);
-			throw new DataLayerException(ERROR_MSG, e);
-		}
-	}
-
-	public boolean deletePaybackProtest(PaybackProtest paybackProtest) 
-			throws DataLayerException {
-		final long PBP_ID = ((paybackProtest != null 
-				&& paybackProtest.getPaybackProtestId() != null) ? paybackProtest.getPaybackProtestId() : -1L);
-		final String INFO_MSG = String.format("Deleting PaybackProtest: %d...", PBP_ID);
-		try {
-			logger.info(INFO_MSG);
-			delete(paybackProtest);
-			return true;
-		} catch (Exception e) {
-			final String ERROR_MSG = String
-					.format("An error has occurred while deleting the PaybackProtest: %d.", PBP_ID);
-			logger.fatal(ERROR_MSG, e);
-			throw new DataLayerException(ERROR_MSG, e);
-		}
-	}
-
-	public PaybackProtest insertPaybackProtest(PaybackProtest paybackProtest) 
-			throws DataLayerException {
-		final long PBP_ID = ((paybackProtest != null 
-				&& paybackProtest.getPaybackProtestId() != null) ? paybackProtest.getPaybackProtestId() : -1L);
-		final String INFO_MSG = String.format("Inserting PaybackProtest: %d...", PBP_ID);
-		try {
-			logger.info(INFO_MSG);
-			return insert(paybackProtest);
-		} catch (Exception e) {
-			final String ERROR_MSG = String
-					.format("An error has occurred while inserting the PaybackProtest: %d.", PBP_ID);
-			logger.fatal(ERROR_MSG, e);
-			throw new DataLayerException(ERROR_MSG, e);
-		}
-	}
-
-	public PaybackProtest selectPaybackProtest(Long paybackProtestId) 
-			throws DataLayerException {
-		PaybackProtest paybackProtest = null;
-		final String INFO_MSG = String.format("Selecting PaybackProtest: %d...", paybackProtestId);
-		try {
-			logger.info(INFO_MSG);
-			paybackProtest = select(paybackProtestId);
-		} catch (Exception e) {
-			final String ERROR_MSG = String
-					.format("An error has occurred while selecting the PaybackProtest: %d.", paybackProtestId);
-			logger.fatal(ERROR_MSG, e);
-			throw new DataLayerException(ERROR_MSG, e);
-		}
-		return paybackProtest;
-	}	
 }

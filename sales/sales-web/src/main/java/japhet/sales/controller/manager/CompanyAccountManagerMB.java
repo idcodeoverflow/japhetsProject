@@ -2,6 +2,7 @@ package japhet.sales.controller.manager;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,11 +22,14 @@ import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.model.impl.BuyProof;
 import japhet.sales.model.impl.Company;
+import japhet.sales.model.impl.PaybackProtest;
 import japhet.sales.model.impl.PaymentRequest;
 import japhet.sales.model.impl.Product;
+import japhet.sales.model.impl.Status;
 import japhet.sales.model.impl.User;
 import japhet.sales.service.IBuyProofService;
 import japhet.sales.service.ICompanyService;
+import japhet.sales.service.IPaybackProtestService;
 import japhet.sales.service.IProductService;
 
 /**
@@ -68,9 +72,13 @@ public class CompanyAccountManagerMB extends GenericMB {
 	@EJB
 	private ICompanyService companyService;
 	
+	@EJB
+	private IPaybackProtestService paybackProtestService;
+	
 	//Logic attributes
 	private User user;
 	private Company company;
+	private Map<Long, List<PaybackProtest>> paybackProtestsPerBProof;
 	
 	/**
 	 * Initializes the content of this MB.
@@ -79,12 +87,18 @@ public class CompanyAccountManagerMB extends GenericMB {
 	public void init() {
 		try {
 			logger.info("Initializing the CompanyAccountManagerMB...");
+			//If the current user is not a company exit
+			if(getLoggedCompany() == null) {
+				return;
+			}
 			//Update logic attributes
 			this.user = getLoggedUser();
 			this.company = obtainCompanyByUser(user);
+			this.paybackProtestsPerBProof = new HashMap<>();
 			//Initialize data tables
 			updateCompanyProducts();
 			updateBuyProofsOnPaymentRequests();
+			updateProtestsByBuyProof();
 		} catch (Exception e) {
 			logger.error("An error has ocurred while initializing the CompanyAccountManagerMB.", e);
 			showStartupMbExceptionMessage();
@@ -120,11 +134,20 @@ public class CompanyAccountManagerMB extends GenericMB {
 		final Long COMP_ID = ((this.company != null 
 				&& this.company.getCompanyId() != null) ? this.company.getCompanyId() : -1L);
 		final Short ON_REQUEST_STATUS_ID = Statuses.ON_PAYMENT_REQUEST.getId();
-		final String INFO_MSG = String.format("Updating Payment Requests for the Company: %d and Status: %d...", COMP_ID, ON_REQUEST_STATUS_ID);
+		final Short CASE_RAISED_STATUS_ID = Statuses.CASE_RAISED.getId();
+		final String INFO_MSG = String.format("Updating Payment Requests for the Company: %d and Status: %d, %d...", 
+				COMP_ID, ON_REQUEST_STATUS_ID, CASE_RAISED_STATUS_ID);
 		try {
 			logger.info(INFO_MSG);
 			params.put(COMPANY_ID, this.company.getCompanyId());
-			params.put(STATUS_ID, ON_REQUEST_STATUS_ID);
+			List<Status> statuses = new ArrayList<>();
+			Status onRequest = new Status();
+			onRequest.setStatusId(ON_REQUEST_STATUS_ID);
+			Status caseRaised = new Status();
+			caseRaised.setStatusId(CASE_RAISED_STATUS_ID);
+			statuses.add(onRequest);
+			statuses.add(caseRaised);
+			params.put(STATUS_ID, statuses);
 			this.buyProofsOnPaymentRequests = buyProofService.getBuyProofsByCompanyAndStatus(params);
 			//Update the buys statistics
 			this.updateBuysTotalSum(buyProofsOnPaymentRequests);
@@ -133,6 +156,42 @@ public class CompanyAccountManagerMB extends GenericMB {
 		} catch (Exception e) {
 			final String ERROR_MSG = String.
 					format("An error has ocurred while updating the Company: %d Payment Requests and Status: %d.", COMP_ID, ON_REQUEST_STATUS_ID);
+			logger.error(ERROR_MSG, e);
+			throw new Exception(ERROR_MSG, e);
+		}
+	}
+	
+	/**
+	 * This method updates the PaybackProtests by BuyProof and Company.
+	 * @throws Exception
+	 */
+	private void updateProtestsByBuyProof() throws Exception {
+		final Long COMP_ID = ((this.company != null 
+				&& this.company.getCompanyId() != null) ? this.company.getCompanyId() : -1L);
+		final String INFO_MSG = String.format("Updating the PaybackProtests by BuyProof Company: %d...", COMP_ID);
+		try {
+			logger.info(INFO_MSG);
+			Map<String, Object> params = new HashMap<>();
+			params.put(COMPANY_ID, this.company.getCompanyId());
+			List<PaybackProtest> paybackProtests = paybackProtestService.getPaybackProtestsByCompany(params);
+			if(paybackProtests == null) {
+				return;
+			}
+			for(PaybackProtest paybackProtest : paybackProtests) {
+				long buyProofId = paybackProtest.getBuyProof().getBuyProofId();
+				if(paybackProtestsPerBProof.containsKey(buyProofId)) {
+					List<PaybackProtest> protestsByBProofId = paybackProtestsPerBProof.get(buyProofId);
+					protestsByBProofId.add(paybackProtest);
+					paybackProtestsPerBProof.put(paybackProtest.getBuyProof().getBuyProofId(), protestsByBProofId);
+				} else {
+					List<PaybackProtest> protestsByBProofId = new ArrayList<>();
+					protestsByBProofId.add(paybackProtest);
+					paybackProtestsPerBProof.put(paybackProtest.getBuyProof().getBuyProofId(), protestsByBProofId);
+				}
+			}
+		} catch (Exception e) {
+			final String ERROR_MSG = String
+					.format("An error has occurred while updating the PaybackProtests by BuyProof Company: %d.", COMP_ID);
 			logger.error(ERROR_MSG, e);
 			throw new Exception(ERROR_MSG, e);
 		}
@@ -244,6 +303,27 @@ public class CompanyAccountManagerMB extends GenericMB {
 	}
 	
 	/**
+	 * Downloads the PaybackProtest files from the specified object.
+	 * @param paybackProtest
+	 * @return
+	 */
+	public StreamedContent downloadPaybackProtestObject(PaybackProtest paybackProtest) {
+		logger.info("Downloading PaybackProtest file...");
+		StreamedContent streamedContent = null;
+		try {
+			InputStream inpStream = new ByteArrayInputStream(paybackProtest.getFileContent());
+			streamedContent = new DefaultStreamedContent(inpStream, paybackProtest.getContentType(), 
+					paybackProtest.getFileName());
+		} catch (Exception e) {
+			logger.error("An error has ocurred while downloading the PaybackProtest:" 
+					+ paybackProtest.getPaybackProtestId(), e);
+			showErrorMessage(internationalizationService
+					.getI18NMessage(CURRENT_LOCALE, getGENERAL_ERROR()), "");
+		}
+		return streamedContent;
+	}
+	
+	/**
 	 * Accepts the order specified.
 	 * @param order Order to accept
 	 */
@@ -291,11 +371,24 @@ public class CompanyAccountManagerMB extends GenericMB {
 		}
 	}
 	
+	/**
+	 * Obtain the Company object that is linked to the User.
+	 * @param user
+	 * @return
+	 * @throws Exception
+	 */
 	private Company obtainCompanyByUser(User user) throws Exception {
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put(USER_ID, user.getUserId());
 		Company company = companyService.getCompanyByUserId(parameters);
 		return company;
+	}
+	
+	public List<PaybackProtest> getPaybackProtestsByBProof(long buyProofId) {
+		if(paybackProtestsPerBProof == null) {
+			return new ArrayList<PaybackProtest>();
+		}
+		return paybackProtestsPerBProof.get(buyProofId);
 	}
 	
 	public List<Product> getCompanyProducts() {
