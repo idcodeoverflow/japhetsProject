@@ -1,6 +1,7 @@
 package japhet.sales.model.impl;
 
 import java.sql.Time;
+import java.util.Date;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -210,6 +211,13 @@ public class UserInformation implements IEntity {
 	}
 
 	/**
+	 * @param contactSchdStartTime the contactSchdStartTime to set
+	 */
+	public void setContactSchdStartTime(Date contactSchdStartTime) {
+		this.contactSchdStartTime = new Time(contactSchdStartTime.getTime());
+	}
+
+	/**
 	 * @return the contactSchdEndTime
 	 */
 	public Time getContactSchdEndTime() {
@@ -221,6 +229,13 @@ public class UserInformation implements IEntity {
 	 */
 	public void setContactSchdEndTime(Time contactSchdEndTime) {
 		this.contactSchdEndTime = contactSchdEndTime;
+	}
+
+	/**
+	 * @param contactSchdEndTime the contactSchdEndTime to set
+	 */
+	public void setContactSchdEndTime(Date contactSchdEndTime) {
+		this.contactSchdEndTime = new Time(contactSchdEndTime.getTime());
 	}
 	
 	public boolean validUserInformation() {

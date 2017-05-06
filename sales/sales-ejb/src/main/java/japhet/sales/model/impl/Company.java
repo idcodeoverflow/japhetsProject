@@ -98,6 +98,7 @@ public class Company extends StreamUtil
 	public Company() {
 		super();
 		this.companyType = new CompanyType();
+		this.ordersAvailable = false;
 	}
 
 	public Company(Long companyId, User user, String url, 

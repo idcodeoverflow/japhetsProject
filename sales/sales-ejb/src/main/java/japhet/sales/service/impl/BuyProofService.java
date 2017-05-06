@@ -2,6 +2,7 @@ package japhet.sales.service.impl;
 
 import static japhet.sales.data.QueryParameters.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +11,11 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
+import japhet.sales.catalogs.Statuses;
 import japhet.sales.data.impl.BuyProofDAO;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.model.impl.BuyProof;
+import japhet.sales.model.impl.Status;
 import japhet.sales.service.IBuyProofService;
 
 import org.apache.log4j.Logger;
@@ -85,19 +88,45 @@ public class BuyProofService implements IBuyProofService {
 		return buyProofs;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<BuyProof> getBuyProofsByStatus(Map<String, Object> params) 
+			throws BusinessServiceException {
+		final List<Status> statusListParam = ((params != null 
+				&& params.get(STATUS_ID) != null) ? (ArrayList<Status>)params.get(STATUS_ID) : new ArrayList<Status>());
+		StringBuilder P_STATUSES = new StringBuilder();
+		for(Status status : statusListParam) {
+			P_STATUSES.append(status.getStatusId());
+			P_STATUSES.append(",");
+		}
+		final String INFO_MSG = String.format("Getting buy proofs status: %s...", P_STATUSES);
+		List<BuyProof> buyProofs = null;
+		try {
+			logger.info(INFO_MSG);
+			buyProofs = buyProofDAO.getBuyProofsByStatus(params);
+		} catch (Exception e) {
+			final String ERROR_MSG = String
+					.format("Error while trying to get the buy proofs by status: %s.", P_STATUSES);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return buyProofs;
+	}
+	
 	@Override
 	public List<BuyProof> getBuyProofsByCompanyAndStatus(Map<String, Object> params) 
 			throws BusinessServiceException {
 		List<BuyProof> buyProofs = null;
+		final short CRAISED_ID = Statuses.CASE_RAISED.getId();
+		final short ONREQ_ID = Statuses.ON_PAYMENT_REQUEST.getId();
 		final long P_COMP_ID = ((params != null && params.get(COMPANY_ID) != null) ? (Long)params.get(COMPANY_ID) : -1L);
-		final short P_STAT_ID = ((params != null && params.get(STATUS_ID) != null) ? (Short)params.get(STATUS_ID) : -1);
-		final String MSG_INFO = String.format("Getting buy proofs by company: %d and status: %d...", P_COMP_ID, P_STAT_ID);
+		final String MSG_INFO = String.format("Getting buy proofs by company: %d and status: %d, %d...", P_COMP_ID, CRAISED_ID, ONREQ_ID);
 		try {
 			logger.info(MSG_INFO);
 			buyProofs = buyProofDAO.getBuyProofsByCompanyAndStatus(params);
 		} catch (Exception e) {
 			final String ERROR_MSG = String
-					.format("Error while trying to get the buy proofs by company: %d and status: %d.", P_COMP_ID, P_STAT_ID);
+					.format("Error while trying to get the buy proofs by company: %d and status: %d, %d...", P_COMP_ID, CRAISED_ID, ONREQ_ID);
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}

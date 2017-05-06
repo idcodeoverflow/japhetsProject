@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<!-- CSRF protection -->
+	<meta name="#{_csrf.parameterName}" content="#{_csrf.token}"/>
+	<meta name="_csrf_header" content="#{_csrf.headerName}"/>
+	
+	<h:form id="administratorBProofControlPanelForm">
+	
+		<!-- Buy Proofs and Protests Messages -->
+		<p:messages id="adminMgmtPanelMessages" globalOnly="true" />
+	
+		<!-- Payback Protests and BuyProofs -->
+		<h:panelGroup layout="block" 
+			id="adminBProofsNProtestsPanel"
+			styleClass="panel panel-default">
+			<h:panelGroup layout="block" 
+				styleClass="panel-heading">
+		    	<h2 class="panel-title">
+		    		<h:outputText value="#{msg['account.administrator.buyProofs.panel.title']} " />
+		    		<h:panelGroup styleClass="glyphicon glyphicon-list-alt" />		
+		    	</h2>
+		  	</h:panelGroup>
+		  	<h:panelGroup layout="block" 
+		  		styleClass="panel-body">
+		  		<h:panelGroup layout="block" 
+		  			styleClass="row">
+				    <h:panelGroup layout="block" 
+				    	styleClass="col-md-12">
+				    	<p:dataTable id="bproofsAndProtestsManagementTable" 
+				    		value="#{administratorAccountManagerMB.buyProofs}"
+				    		var="bproofs"
+				    		emptyMessage="#{msg['account.administrator.buyProofs.table.empty']}"
+				    		paginator="true"
+				    		rowExpandMode="single"
+				    		expandedRow="true"
+				    		paginatorPosition="bottom"
+				    		currentPageReportTemplate="({currentPage} / {totalPages})"
+				    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                       		rowsPerPageTemplate="5"
+				    		styleClass="table table-striped text-center">
+						    <f:facet name="header">
+						        <h:outputText value="#{msg['account.administrator.buyProofs.table.title']}" />
+						    </f:facet>
+						    <p:column headerClass="text-center" 
+						    	width="9%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.administrator.buyProofs.table.buyProofId']}">
+						        <h:outputText value="#{bproofs.buyProofId}" />
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.administrator.buyProofs.table.company']}">
+						        <h:outputText value="#{bproofs.userProductHistorial.product.company.user.name}" />
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.administrator.buyProofs.table.user']}">
+						        <h:outputText value="#{bproofs.user.name} #{bproofs.user.lastName}" />
+						    </p:column>
+						    <p:column headerClass="text-center"
+						    	width="10%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.administrator.buyProofs.table.registeredOn']}">
+						        <h:outputText value="#{bproofs.registeredOn}">
+						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+						        </h:outputText>
+						    </p:column>
+						    <p:column headerClass="text-center"
+						    	width="10%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.administrator.buyProofs.table.lastUpdate']}">
+						        <h:outputText value="#{bproofs.lastUpdate}">
+						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+						        </h:outputText>
+						    </p:column>
+						    <p:column headerClass="text-center"
+						    	width="9%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.administrator.buyProofs.table.status']}">
+						        <h:outputText value="#{internationalizationI18NMB.getI18NMessage(bproofs.status.name)}" />
+						    </p:column>
+						    <p:column headerClass="text-center"
+						    	width="8%"
+						    	styleClass="text-right"
+						    	headerText="#{msg['account.administrator.buyProofs.table.total']}">
+						        <h:outputText value="#{bproofs.total}">
+						        	<f:convertNumber type="currency" />
+						        </h:outputText>
+						    </p:column>
+						    <p:column headerClass="text-center"
+						    	width="7%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.administrator.buyProofs.table.file']}">
+						        <p:commandLink 
+						        	id="btnDownloadBproofFile"
+									ajax="false"
+						        	onstart="csrfValidation()"
+									styleClass="btn btn-default btn-block">
+						        	<i class="glyphicon glyphicon-save-file"></i>
+						        	<p:fileDownload 
+						        		value="#{administratorAccountManagerMB.downloadBuyProofObject(bproofs)}" />
+						        	<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+						        </p:commandLink>
+						        <p:tooltip id="toolBtnDownloadBproofFilet" 
+						        	for="btnDownloadBproofFile" 
+						        	value="#{msg['account.administrator.buyProofs.table.fileTooltip']}" 
+						        	position="top"/>
+						    </p:column>
+						    <p:column headerClass="text-center"
+						    	width="7%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.administrator.buyProofs.table.validate']}">
+						        <p:commandLink 
+						        	id="btnBproofValidate"
+						        	disabled="#{!administratorAccountManagerMB.enableValidateBProof(bproofs)}"
+									ajax="true"
+									update="administratorBProofControlPanelForm:adminBProofsNProtestsPanel, administratorBProofControlPanelForm:adminMgmtPanelMessages"
+						        	styleClass="btn btn-default btn-block"
+						        	action="#{administratorAccountManagerMB.validateBuyProof(bproofs)}">
+						        	<i class="glyphicon glyphicon-ok-sign"></i>
+						        	<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+						        </p:commandLink>
+						        <p:tooltip id="toolTipBproofValidate" 
+						        	for="btnBproofValidate" 
+						        	value="#{msg['account.administrator.buyProofs.table.validateTooltip']}" 
+						        	position="top"/>
+						    </p:column>
+						    <p:column headerClass="text-center"
+						    	width="8%"
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.administrator.buyProofs.table.decline']}">
+						        <p:commandLink 
+						        	id="btnBproofDecline"
+						        	disabled="#{!administratorAccountManagerMB.enableRejectBProof(bproofs)}"
+									ajax="true"
+									update="administratorBProofControlPanelForm:bproofsAndProtestsManagementTable, administratorBProofControlPanelForm:adminMgmtPanelMessages"
+						        	styleClass="btn btn-default btn-block"
+						        	action="#{administratorAccountManagerMB.rejectBuyProof(bproofs)}">
+						        	<i class="glyphicon glyphicon-remove-sign"></i>
+						        	<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+						        </p:commandLink>
+						        <p:tooltip id="toolBproofDecline" 
+						        	for="btnBproofDecline" 
+						        	value="#{msg['account.administrator.buyProofs.table.declineTooltip']}" 
+						        	position="top"/>
+						    </p:column>
+						    
+						    <!-- Payback Protests table -->
+						    <p:rowExpansion id="paybackProtestsRowExpansion">
+					            <p:dataTable id="protestsManagementTable" 
+						    		value="#{administratorAccountManagerMB.getPaybackProtestsByBProof(bproofs.buyProofId)}"
+						    		var="bproofProtests"
+						    		emptyMessage="#{msg['account.administrator.paybackProtests.table.empty']}"
+						    		paginator="true"
+						    		paginatorPosition="bottom"
+						    		currentPageReportTemplate="({currentPage} / {totalPages})"
+						    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+		                       		rows="5"
+						    		styleClass="table table-striped text-center">
+								    <f:facet name="header">
+								        <h:outputText value="#{msg['account.administrator.paybackProtests.table.title']}" />
+								    </f:facet>
+								    <p:column headerClass="text-center" 
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.administrator.paybackProtests.table.id']}">
+								        <h:outputText value="#{bproofProtests.paybackProtestId}" />
+								    </p:column>
+								    <p:column headerClass="text-center" 
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.administrator.paybackProtests.table.description']}">
+								        <h:outputText value="#{bproofProtests.description}" />
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.administrator.paybackProtests.table.status']}">
+								        <h:outputText value="#{internationalizationI18NMB.getI18NMessage(bproofProtests.status.name)}" />
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.administrator.paybackProtests.table.createdOn']}">
+								        <h:outputText value="#{bproofProtests.createdOn}">
+								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+								        </h:outputText>
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.administrator.paybackProtests.table.lastUpdate']}">
+								        <h:outputText value="#{bproofProtests.lastUpdate}">
+								        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+								        </h:outputText>
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.administrator.paybackProtests.table.file']}">
+								        <p:commandLink 
+								        	id="btnDownloadProtestFile"
+											ajax="false"
+											onstart="csrfValidation()"
+											styleClass="btn btn-default btn-block">
+								        	<i class="glyphicon glyphicon-save-file"></i>
+								        	<p:fileDownload 
+								        		value="#{administratorAccountManagerMB.downloadPaybackProtestObject(bproofProtests)}" />
+								        	<f:param name="#{_csrf.parameterName}" 
+													value="#{_csrf.token}" />
+								        </p:commandLink>
+								        <p:tooltip id="toolTipBtnDownloadProtestFile" 
+								        	for="btnDownloadProtestFile" 
+								        	value="#{msg['account.administrator.paybackProtests.table.fileTooltip']}" 
+								        	position="top"/>
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.administrator.paybackProtests.table.accept']}">
+								        <p:commandLink 
+								        	id="btnAcceptProtest"
+						        			disabled="#{!administratorAccountManagerMB.enableAcceptPaybackProtest(bproofProtests)}"
+											ajax="true"
+											styleClass="btn btn-default btn-block"
+											update="administratorBProofControlPanelForm:bproofsAndProtestsManagementTable, administratorBProofControlPanelForm:adminMgmtPanelMessages"
+								        	action="#{administratorAccountManagerMB.acceptProtest(bproofProtests)}">
+								        	<i class="glyphicon glyphicon-ok-circle"></i>
+								        	<f:param name="#{_csrf.parameterName}" 
+													value="#{_csrf.token}" />
+								        </p:commandLink>
+								        <p:tooltip id="toolTipBtnAcceptProtest" 
+								        	for="btnAcceptProtest" 
+								        	value="#{msg['account.administrator.paybackProtests.table.acceptTooltip']}" 
+								        	position="top"/>
+								    </p:column>
+								    <p:column headerClass="text-center"
+								    	styleClass="text-center"
+								    	headerText="#{msg['account.administrator.paybackProtests.table.refuse']}">
+								        <p:commandLink 
+								        	id="btnDeclineProtest"
+						        			disabled="#{!administratorAccountManagerMB.enableRejectPaybackProtest(bproofProtests)}"
+											ajax="true"
+											styleClass="btn btn-default btn-block"
+											update="administratorBProofControlPanelForm:bproofsAndProtestsManagementTable, administratorBProofControlPanelForm:adminMgmtPanelMessages"
+								        	action="#{administratorAccountManagerMB.rejectProtest(bproofProtests)}">
+								        	<i class="glyphicon glyphicon-ban-circle"></i>
+								        	<f:param name="#{_csrf.parameterName}" 
+													value="#{_csrf.token}" />
+								        </p:commandLink>
+								        <p:tooltip id="toolTipBtnDeclineProtest" 
+								        	for="btnDeclineProtest" 
+								        	value="#{msg['account.administrator.paybackProtests.table.refuseTooltip']}" 
+								        	position="top"/>
+								    </p:column>
+								</p:dataTable>
+					        </p:rowExpansion>
+						</p:dataTable>
+				    </h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+		
+		<input type="hidden" name="#{_csrf.parameterName}" 
+			value="#{_csrf.token}" />
+	</h:form>
+	
+	<!-- Payment Requests form -->
+	<h:form id="administratorPmntReqControlPanelForm">
+	
+		<!-- Buy Proofs and Protests Messages -->
+		<p:messages id="paymentRequestsAdminMessages" globalOnly="true" />
+		
+		<!-- Payback Requests Table -->
+		<h:panelGroup layout="block" 
+			id="paymentRequestsAdminPanel"
+			styleClass="panel panel-default">
+			<h:panelGroup layout="block" 
+				styleClass="panel-heading">
+		    	<h2 class="panel-title">
+		    		<h:outputText value="#{msg['account.administrator.paymentRequests.panel.title']} " />
+		    		<h:panelGroup styleClass="glyphicon glyphicon-usd" />		
+		    	</h2>
+		  	</h:panelGroup>
+		  	<h:panelGroup layout="block" 
+		  		styleClass="panel-body">
+		  		<h:panelGroup layout="block" 
+		  			styleClass="row">
+				    <h:panelGroup layout="block" 
+				    	styleClass="col-md-12">
+				    	<p:dataTable id="paymentRequestManagementTable" 
+				    		value="#{administratorAccountManagerMB.paymentRequests}"
+				    		var="paymentRequest"
+				    		emptyMessage="#{msg['account.administrator.paymentRequests.table.empty']}"
+				    		paginator="true"
+				    		paginatorPosition="bottom"
+				    		currentPageReportTemplate="({currentPage} / {totalPages})"
+				    		paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                       		rowsPerPageTemplate="5"
+				    		styleClass="table table-striped text-center">
+						    <f:facet name="header">
+						        <h:outputText value="#{msg['account.administrator.paymentRequests.table.title']}" />
+						    </f:facet>
+						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
+						    	width="8%"
+						    	headerText="#{msg['account.administrator.paymentRequests.table.id']}">
+						        <h:outputText value="#{paymentRequest.paymentRequestId}" />
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
+						    	headerText="#{msg['account.administrator.paymentRequests.table.user']}">
+						        <h:outputText value="#{paymentRequest.user.name} #{paymentRequest.user.lastName}" />
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
+						    	width="9%"
+						    	headerText="#{msg['account.administrator.paymentRequests.table.amount']}">
+						        <h:outputText value="#{paymentRequest.amount}">
+						        	<f:convertNumber type="currency" />
+						        </h:outputText>
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
+						    	width="11%"
+						    	headerText="#{msg['account.administrator.paymentRequests.table.requestDate']}">
+						        <h:outputText value="#{paymentRequest.requestDate}">
+						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+						        </h:outputText>
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
+						    	width="11%"
+						    	headerText="#{msg['account.administrator.paymentRequests.table.lastUpdate']}">
+						        <h:outputText value="#{paymentRequest.lastUpdate}">
+						        	<f:convertDateTime type="both" pattern="dd-MMM-yyyy hh:mm:ss" />
+						        </h:outputText>
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
+						    	width="12%"
+						    	headerText="#{msg['account.administrator.paymentRequests.table.status']}">
+						        <h:outputText value="#{internationalizationI18NMB.getI18NMessage(paymentRequest.status.name)}" />
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
+						    	width="9%"
+						    	headerText="#{msg['account.administrator.paymentRequests.table.confirm']}">
+						        <p:commandLink 
+						        	id="btnConfirmPmntRequest"
+						        	ajax="true"
+									update="administratorPmntReqControlPanelForm:paymentRequestsAdminPanel, administratorPmntReqControlPanelForm:paymentRequestsAdminMessages"
+						        	styleClass="btn btn-default btn-block"
+						        	action="#{administratorAccountManagerMB.confirmPaymentRequest(paymentRequest)}">
+						        	<i class="glyphicon glyphicon-ok-sign"></i>
+						        	<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+						        </p:commandLink>
+						        <p:tooltip id="toolTipPmntRequestConfirm" 
+						        	for="btnConfirmPmntRequest" 
+						        	value="#{msg['account.administrator.paymentRequests.table.confirmTooltip']}" 
+						        	position="top"/>
+						    </p:column>
+						    <p:column headerClass="text-center" 
+						    	styleClass="text-center"
+						    	width="9%"
+						    	headerText="#{msg['account.administrator.paymentRequests.table.reject']}">
+						        <p:commandLink 
+						        	id="btnRejectPmntRequest"
+						        	ajax="true"
+									update="administratorPmntReqControlPanelForm:paymentRequestsAdminPanel, administratorPmntReqControlPanelForm:paymentRequestsAdminMessages"
+						        	styleClass="btn btn-default btn-block"
+						        	action="#{administratorAccountManagerMB.rejectPaymentRequest(paymentRequest)}">
+						        	<i class="glyphicon glyphicon-remove-sign"></i>
+						        	<f:param name="#{_csrf.parameterName}" 
+											value="#{_csrf.token}" />
+						        </p:commandLink>
+						        <p:tooltip id="toolTipPmntRequestReject" 
+						        	for="btnRejectPmntRequest" 
+						        	value="#{msg['account.administrator.paymentRequests.table.rejectTooltip']}" 
+						        	position="top"/>
+						    </p:column>
+						</p:dataTable>
+				    </h:panelGroup>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>		
+		
+		<input type="hidden" name="#{_csrf.parameterName}" 
+			value="#{_csrf.token}" />
+	</h:form>
+</ui:composition>

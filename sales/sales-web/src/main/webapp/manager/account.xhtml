@@ -24,6 +24,7 @@
 		
 		<!-- Administrator -->
 		<h:panelGroup rendered="#{authorityMB.administratorRole}">
+			<ui:include src="#{urlMapperMB.administratorAccountManager}" />
 		</h:panelGroup>
 	</ui:define>
 	

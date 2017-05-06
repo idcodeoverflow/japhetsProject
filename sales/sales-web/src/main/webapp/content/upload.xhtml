@@ -67,7 +67,7 @@
 						    		styleClass="form-control" 
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.title']}"
-									placeholder="#{msg['upload.content.contentTitle']}"
+									pt:placeholder="#{msg['upload.content.contentTitle']}"
 									value="#{uploadContentMB.product.title}"
 									onkeyup="deleteNonAlphaContent(this, '- 1234567890áéíóúñÑ');"
 									onblur="deleteExtraBlankSpaces(this);"/>
@@ -87,7 +87,7 @@
 						    		styleClass="form-control" 
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.description']}"
-						    		placeholder="#{msg['upload.content.contentDescription']}"
+						    		pt:placeholder="#{msg['upload.content.contentDescription']}"
 						    		value="#{uploadContentMB.product.description}"
 									onkeyup="deleteNonAlphaContent(this, '- 1234567890áéíóúñÑ');"
 									onblur="deleteExtraBlankSpaces(this);"/>
@@ -126,7 +126,7 @@
 						    	</h:outputLabel>
 						    	<h:inputText id="contentUrlInput" 
 						    		styleClass="form-control" 
-						    		placeholder="#{msg['upload.content.url']}"
+						    		pt:placeholder="#{msg['upload.content.url']}"
 						    		required="true"
 									requiredMessage="#{msg['upload.messages.required.url']}"
 						    		value="#{uploadContentMB.product.url}"
@@ -149,7 +149,7 @@
 								  		styleClass="form-control" 
 								  		required="true"
 										requiredMessage="#{msg['upload.messages.required.price']}"
-						    			placeholder="#{msg['upload.content.contentPrice']}"
+						    			pt:placeholder="#{msg['upload.content.contentPrice.placeholder']}"
 						    			value="#{uploadContentMB.product.price}"
 										onkeyup="deleteNonIntegerContent(this, '.');">
 										<f:convertNumber minFractionDigits="2" 
@@ -175,7 +175,7 @@
 						    	  		required="true"
 										requiredMessage="#{msg['upload.messages.required.payback']}"
 						    	  		value="#{uploadContentMB.product.paybackPercent}" 
-						    			placeholder="#{msg['upload.content.contentPayback']}"
+						    			pt:placeholder="#{msg['upload.content.contentPayback.placeholder']}"
 										onkeyup="deleteNonIntegerContent(this, '.');">
 										<f:convertNumber minFractionDigits="2" 
 											maxFractionDigits="2"/>
@@ -202,6 +202,7 @@
 								    		<h:outputText value="#{msg['upload.content.availableDate']}" />
 								    	</h:outputLabel>
 										<p:calendar id="availableDate" 
+											placeholder="#{msg['upload.content.dates.placeholder']}"
 											pattern="MM/dd/yyyy HH:mm:ss"
 											styleClass="form-control" 
 											required="true"
@@ -221,6 +222,7 @@
 							    			<h:outputText value="#{msg['upload.content.endDate']}" />
 							    		</h:outputLabel>
 										<p:calendar id="endDate" 
+											placeholder="#{msg['upload.content.dates.placeholder']}"
 											pattern="MM/dd/yyyy HH:mm:ss"
 											styleClass="form-control"  
 											required="true"

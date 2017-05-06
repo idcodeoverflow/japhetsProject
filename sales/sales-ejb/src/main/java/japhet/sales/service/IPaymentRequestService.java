@@ -35,4 +35,10 @@ public interface IPaymentRequestService extends Serializable {
 	
 	public short generatePaymentRequest(Map<String, Object> params) 
 			throws BusinessServiceException;
+	
+	public void confirmPaymentRequest(PaymentRequest paymentRequest)
+			throws BusinessServiceException;
+	
+	public void rejectPaymentRequest(PaymentRequest paymentRequest)
+			throws BusinessServiceException;
 }

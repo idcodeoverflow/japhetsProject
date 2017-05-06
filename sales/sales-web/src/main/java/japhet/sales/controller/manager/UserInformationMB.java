@@ -1,5 +1,7 @@
 package japhet.sales.controller.manager;
 
+import java.util.Date;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -39,6 +41,8 @@ public class UserInformationMB extends GenericMB {
 	
 	//View attributes
 	private UserInformation userInformation;
+	private Date startTime;
+	private Date endTime;
 	
 	//View constants
 	private static final String MESSAGES_ID = "userInformationMessages";
@@ -58,6 +62,11 @@ public class UserInformationMB extends GenericMB {
 				this.userInformation = new UserInformation();
 				this.userInformation.setUserId(USR_ID);
 			}
+			//Set start and end time
+			this.startTime = new Date();
+			this.endTime = new Date();
+			this.startTime.setTime(userInformation.getContactSchdStartTime().getTime());
+			this.endTime.setTime(userInformation.getContactSchdEndTime().getTime());
 			//Show warning user pending information message
 			if(getLoggedUser().getRole().getRoleId() == Roles.USER.getId()) {
 				if(userInformation == null || !userInformation.validUserInformation()) {
@@ -83,6 +92,10 @@ public class UserInformationMB extends GenericMB {
 				.format("Saving UserInformation from the User: %d...", USR_ID);
 		try {
 			logger.info(INFO_MSG);
+			//Cast values from the Primefaces calendar
+			userInformation.setContactSchdStartTime(startTime);
+			userInformation.setContactSchdEndTime(endTime);
+			//Persist User Information
 			userInformationService.updateOrInsertUserInformation(userInformation);
 			showSuccessMessage();
 		} catch (Exception e) {
@@ -125,6 +138,34 @@ public class UserInformationMB extends GenericMB {
 	 */
 	public void setUserInformation(UserInformation userInformation) {
 		this.userInformation = userInformation;
+	}
+
+	/**
+	 * @return the startTime
+	 */
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	/**
+	 * @param startTime the startTime to set
+	 */
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	/**
+	 * @return the endTime
+	 */
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	/**
+	 * @param endTime the endTime to set
+	 */
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 
 	/**
