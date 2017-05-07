@@ -5,12 +5,13 @@ package japhet.sales.mailing;
  *
  */
 public enum MailingProperties {
-	USERNAME		("mailing.credentials.username"),
-	PASSWORD		("mailing.credentials.password"),
-	AUTH			("mailing.properties.auth"),
-	START_TLS		("mailing.properties.starttls"),
-	HOST			("mailing.properties.host"),
-	PORT			("mailing.properties.port");
+	USERNAME					("mailing.credentials.username"),
+	PASSWORD					("mailing.credentials.password"),
+	SOCKET_FACTORY_PORT			("mailing.properties.factoryPort"),
+	SOCKET_FACTORY				("mailing.properties.socketFactory"),
+	HOST						("mailing.properties.host"),
+	PORT						("mailing.properties.port"),
+	AUTH						("mailing.properties.auth");
 	
 	private String key;
 	
