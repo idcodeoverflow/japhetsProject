@@ -1,9 +1,13 @@
 package japhet.sales.controller.registration;
 
 import static japhet.sales.catalogs.SocialNetworks.FACEBOOK;
+import static japhet.sales.mailing.MailingParameters.NAME;
+import static japhet.sales.mailing.MailingTemplates.WELCOME_MAIL;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -19,6 +23,8 @@ import japhet.sales.controller.AuthConstants;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.InvalidPasswordException;
 import japhet.sales.internationalization.IInternationalizationService;
+import japhet.sales.mailing.ContentTypes;
+import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.SocialNetwork;
 import japhet.sales.model.impl.State;
@@ -63,6 +69,9 @@ public class RegistrationMB extends GenericMB
 	@EJB
 	private IInternationalizationService internationalizationService;
 	
+	@EJB
+	private IMailingService mailingService;
+	
 	//View properties
 	private String password;
 	private String confirmPassword;
@@ -104,12 +113,18 @@ public class RegistrationMB extends GenericMB
 	public void signUp() {
 		//TODO: complete status logic
 		logger.info("Signing Up user...");
+		Map<String, Object> params = new HashMap<>();
 		try {
 			createUser(user);
 			//Persist entities
 			if(isUserRole()) {
+				//Set parameters
+				params.put(NAME, user.getName() + " " + user.getLastName());
 				//Persist user entity
 				userService.insertUser(user);
+				//Send email
+				mailingService.sendMessage(WELCOME_MAIL.getSubject(), user.getUsername(),
+						WELCOME_MAIL, ContentTypes.TEXT_HTML, params);
 				clear();
 				redirect(SIGN_IN_URL);
 			} else if(isCompanyRole()) {

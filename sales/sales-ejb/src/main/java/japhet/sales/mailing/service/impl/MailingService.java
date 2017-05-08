@@ -1,6 +1,7 @@
 package japhet.sales.mailing.service.impl;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -20,8 +21,10 @@ import org.apache.log4j.Logger;
 import japhet.sales.except.MailingException;
 import japhet.sales.mailing.ContentTypes;
 import japhet.sales.mailing.MailingProperties;
+import japhet.sales.mailing.MailingTemplates;
 import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.mailing.service.IPropertiesReaderService;
+import japhet.sales.mailing.service.ITemplateReaderService;
 
 /**
  * @author David Israel Garcia Alcazar
@@ -42,6 +45,9 @@ public class MailingService implements IMailingService {
 	//EJB
 	@EJB
 	private IPropertiesReaderService propertiesReaderService;
+	
+	@EJB
+	private ITemplateReaderService templateReaderService;
 	
 	//Logic properties
 	private final String AUTH = "mail.smtp.auth";
@@ -89,16 +95,13 @@ public class MailingService implements IMailingService {
 				}
 			});
 			
-			//Session Test
-			Message message = new MimeMessage(session);
+			/*Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(P_USERNAME));
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse("david.programming@gmail.com"));
 			message.setSubject("Testing Subject");
 			message.setText("Testing my mailing service...");
 
-			Transport.send(message);
-
-			logger.info("-----------------> Done <--------------------");
+			Transport.send(message); */
 		} catch(Exception e) {
 			final String ERROR_MSG = "An error has occurred while initializing the MailingService.";
 			logger.fatal(ERROR_MSG, e);
@@ -132,10 +135,11 @@ public class MailingService implements IMailingService {
 	 * @param message Content of the email
 	 * @param contentTypes Specifies the content type of the message
 	 */
-	public void sendMessage(String subject, String toEmail, 
-		String message, ContentTypes contentTypes) throws MailingException {
+	public void sendMessage(String subject, String toEmail, MailingTemplates templates, 
+			ContentTypes contentTypes, Map<String, Object> params) throws MailingException {
 		try {
 			final String INFO_MSG = String.format("Sending email: %s %s...", toEmail, subject);
+			String message = "";
 			logger.info(INFO_MSG);
 			
 			//Creates a new e-mail message
@@ -147,6 +151,7 @@ public class MailingService implements IMailingService {
 	        msg.setSubject(subject);
 	        msg.setSentDate(new Date());
 	        //Set plain text message
+	        message = templateReaderService.readTemplate(templates, params);
 	        msg.setContent(message, contentTypes.getMimeType());
 	 
 	        //Sends the e-mail

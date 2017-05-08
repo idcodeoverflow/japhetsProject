@@ -103,10 +103,10 @@
 									maxlength="200" required="true"
 									requiredMessage="#{msg['registration.messages.requiredCompanyName']}"
 									pt:placeholder="#{msg['registration.form.companyName']}"
-									onkeyup="deleteNonAlphaContent(this, '.- ñÑ');"
+									onkeyup="deleteNonAlphaContent(this, '.- ñÑáéíóúÁÉÍÓÚ');"
 									onblur="deleteExtraBlankSpaces(this);">
 								</h:inputText>
-								<p:keyFilter regEx="/[a-zA-Z\-\s.ñÑ]/i" 
+								<p:keyFilter regEx="/[a-zA-Z\-\s.ñÑáéíóúÁÉÍÓÚ]/i" 
 									for="companyNameInput"
 									preventPaste="false" />
 								<p:messages for="companyNameInput" />
@@ -125,10 +125,10 @@
 									maxlength="50" required="true"
 									requiredMessage="#{msg['registration.messages.requiredFirstName']}"
 									pt:placeholder="#{msg['registration.form.firstName']}"
-									onkeyup="deleteNonAlphaContent(this, '- ñÑ');"
+									onkeyup="deleteNonAlphaContent(this, '- ñÑáéíóúÁÉÍÓÚ');"
 									onblur="deleteExtraBlankSpaces(this);">
 								</h:inputText>
-								<p:keyFilter regEx="/[a-zA-Z\-\sñÑ]/i" 
+								<p:keyFilter regEx="/[a-zA-Z\-\sñÑáéíóúÁÉÍÓÚ]/i" 
 									for="firstNameInput"
 									preventPaste="false" />
 								<p:messages for="firstNameInput" />
@@ -148,11 +148,11 @@
 									required="#{!registrationMB.companyRole}"
 									requiredMessage="#{msg['registration.messages.requiredLastName']}"
 									pt:placeholder="#{msg['registration.form.lastName']}"
-									onkeyup="deleteNonAlphaContent(this, '- ñÑ');"
+									onkeyup="deleteNonAlphaContent(this, '- ñÑáéíóúÁÉÍÓÚ');"
 									onblur="deleteExtraBlankSpaces(this);">
 								</h:inputText>
 								<p:messages for="lastNameInput" />
-								<p:keyFilter regEx="/[a-zA-Z\-\sñÑ]/i" 
+								<p:keyFilter regEx="/[a-zA-Z\-\sñÑáéíóúÁÉÍÓÚ]/i" 
 									for="lastNameInput"
 									preventPaste="false" />
 							</h:panelGroup>
