@@ -1,7 +1,9 @@
 package japhet.sales.mailing;
 
 public enum MailingTemplates {
-	WELCOME_MAIL("META-INF/mailing/templates/welcome.html", "Bienvenido a ProsperAD");
+	WELCOME_MAIL("META-INF/mailing/templates/welcome.html", "Bienvenido a ProsperAD"),
+	WELCOME_COMPANY_MAIL("META-INF/mailing/templates/welcome_company.html", "Bienvenido a ProsperAD"),
+	RECOVER_PASSWORD("META-INF/mailing/templates/recover_password.html", "Hemos reiniciado tus credenciales de acceso a ProsperAD");
 	
 	private String path;
 	private String subject;

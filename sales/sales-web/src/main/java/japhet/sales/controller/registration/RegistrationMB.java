@@ -1,9 +1,10 @@
 package japhet.sales.controller.registration;
 
 import static japhet.sales.catalogs.SocialNetworks.FACEBOOK;
-import static japhet.sales.mailing.MailingParameters.NAME;
-import static japhet.sales.mailing.MailingTemplates.WELCOME_MAIL;
+import static japhet.sales.mailing.MailingParameters.*;
+import static japhet.sales.mailing.MailingTemplates.*;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,12 +25,14 @@ import japhet.sales.controller.GenericMB;
 import japhet.sales.except.InvalidPasswordException;
 import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.mailing.ContentTypes;
+import japhet.sales.mailing.MailingParameters;
 import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.SocialNetwork;
 import japhet.sales.model.impl.State;
 import japhet.sales.model.impl.User;
 import japhet.sales.service.ICompanyService;
+import japhet.sales.service.IRandomPasswordService;
 import japhet.sales.service.IUserService;
 import japhet.sales.service.IUtilService;
 
@@ -72,6 +75,9 @@ public class RegistrationMB extends GenericMB
 	@EJB
 	private IMailingService mailingService;
 	
+	@EJB
+	private IRandomPasswordService randomPasswordService;
+	
 	//View properties
 	private String password;
 	private String confirmPassword;
@@ -83,7 +89,7 @@ public class RegistrationMB extends GenericMB
 	private State selectedState;
 	
 	@PostConstruct
-	private void init(){
+	private void init() {
 		try {
 			logger.info("Initializing RegistrationMB...");
 			clear();
@@ -111,15 +117,27 @@ public class RegistrationMB extends GenericMB
     }
 	
 	public void signUp() {
-		//TODO: complete status logic
 		logger.info("Signing Up user...");
+		String contextPath = null;
 		Map<String, Object> params = new HashMap<>();
 		try {
+			if(isAdministratorRole() || isCompanyRole()) {
+				//Create random password
+				password = randomPasswordService.generateRandomPassword((short)10);
+				confirmPassword = password;
+			}
 			createUser(user);
+			//Build Context Path
+			contextPath = new URL(getExternalContext().getRequestScheme(), 
+					getExternalContext().getRequestServerName(),  
+					getExternalContext().getRequestServerPort(),
+					REST_VALIDATOR_VALIDATE_URL).toString();
 			//Persist entities
 			if(isUserRole()) {
-				//Set parameters
+				//Set mailing parameters
 				params.put(NAME, user.getName() + " " + user.getLastName());
+				params.put(REQUEST_CONTEXT, contextPath);
+				params.put(USER_HASH_KEY, user.getHashKey());
 				//Persist user entity
 				userService.insertUser(user);
 				//Send email
@@ -127,14 +145,39 @@ public class RegistrationMB extends GenericMB
 						WELCOME_MAIL, ContentTypes.TEXT_HTML, params);
 				clear();
 				redirect(SIGN_IN_URL);
+			} else if (isAdministratorRole()) {
+				//Set mailing parameters
+				params.put(NAME, user.getName());
+				params.put(REQUEST_CONTEXT, contextPath);
+				params.put(USER_HASH_KEY, user.getHashKey());
+				params.put(MailingParameters.USERNAME, user.getUsername());
+				params.put(PASSWORD, password);
+				//Persist user entity
+				userService.insertUser(user);
+				//Send email
+				mailingService.sendMessage(WELCOME_COMPANY_MAIL.getSubject(), user.getUsername(),
+						WELCOME_COMPANY_MAIL, ContentTypes.TEXT_HTML, params);
+				//If everything is good at this points notice the user: "Success!"
+				showInfoMessage(internationalizationService
+						.getI18NMessage(CURRENT_LOCALE, getUSER_REGISTERED()), "");
+				clear();
 			} else if(isCompanyRole()) {
 				//Set age as 0
 				user.setAge((short) 0);
 				//Fill company object
 				company.setImage(imageBytes);
 				company.setUser(user);
+				//Set mailing parameters
+				params.put(NAME, user.getName());
+				params.put(REQUEST_CONTEXT, contextPath);
+				params.put(USER_HASH_KEY, user.getHashKey());
+				params.put(MailingParameters.USERNAME, user.getUsername());
+				params.put(PASSWORD, password);
 				//Persist company entity
 				companyService.insertCompany(company, user);
+				//Send email
+				mailingService.sendMessage(WELCOME_COMPANY_MAIL.getSubject(), user.getUsername(),
+						WELCOME_COMPANY_MAIL, ContentTypes.TEXT_HTML, params);
 				//If everything is good at this points notice the user: "Success!"
 				showInfoMessage(internationalizationService
 						.getI18NMessage(CURRENT_LOCALE, getUSER_REGISTERED()), "");
@@ -190,12 +233,17 @@ public class RegistrationMB extends GenericMB
 		this.selectedState = new State();
 	}
 	
-	public boolean isCompanyRole(){
+	public boolean isAdministratorRole() {
+		return user!= null && user.getRole() != null &&
+				user.getRole().getRoleId() == Roles.ADMINISTRATOR.getId();
+	}
+	
+	public boolean isCompanyRole() {
 		return user!= null && user.getRole() != null &&
 			user.getRole().getRoleId() == Roles.COMPANY.getId();
 	}
 	
-	public boolean isUserRole(){
+	public boolean isUserRole() {
 		return user!= null && user.getRole() != null &&
 			user.getRole().getRoleId() == Roles.USER.getId();
 	}

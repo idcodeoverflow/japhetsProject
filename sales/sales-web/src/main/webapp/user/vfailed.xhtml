@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/publicTemplate.xhtml">
+	
+	<ui:define name="content">
+	
+		<h:form id="validationFailedUserForm">
+			
+			<!-- Primefaces element to avoid JQuery dependency exception -->
+			<p:button style="display:none;" />
+		
+			<h:panelGroup layout="block" styleClass="row">
+			
+				<h:panelGroup layout="block" styleClass="col-md-3" />
+			
+				<!-- Success Message Panel -->
+				<h:panelGroup styleClass="col-md-6" >
+					<h:panelGroup layout="block" 
+						id="userValidationFailedPanel"
+						styleClass="panel panel-default">
+						<h:panelGroup layout="block" 
+							styleClass="panel-heading">
+					    	<h2 class="panel-title">
+					    		<h:outputText value="#{msg['user.validation.failed.title']} " />
+					    		<h:panelGroup styleClass="glyphicon glyphicon-warning-sign" />		
+					    	</h2>
+					  	</h:panelGroup>
+					  	<h:panelGroup layout="block" 
+					  		styleClass="panel-body">
+					  		<h:panelGroup layout="block" 
+					  			styleClass="row">
+							    <h:panelGroup layout="block" 
+							    	styleClass="col-md-12">
+							    	<!-- Error Message -->
+									<h:panelGroup layout="block" 
+										styleClass="alert alert-danger" 
+										pt:role="alert">
+										<h2>
+											<h:outputText value="#{msg['user.validation.failed.message.main']}" />
+										</h2>
+										<h3>
+											<h:outputText value="#{msg['user.validation.failed.message.secondary']}" />
+										</h3>
+									</h:panelGroup>
+							    </h:panelGroup>
+							</h:panelGroup>
+						</h:panelGroup>
+					</h:panelGroup>
+				
+				</h:panelGroup>
+			
+				<h:panelGroup layout="block" styleClass="col-md-3" />
+			
+			</h:panelGroup>
+		
+		</h:form>
+	</ui:define>
+</ui:composition>
