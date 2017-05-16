@@ -63,10 +63,16 @@ public class UserInformationMB extends GenericMB {
 				this.userInformation.setUserId(USR_ID);
 			}
 			//Set start and end time
-			this.startTime = new Date();
-			this.endTime = new Date();
-			this.startTime.setTime(userInformation.getContactSchdStartTime().getTime());
-			this.endTime.setTime(userInformation.getContactSchdEndTime().getTime());
+			if(userInformation != null) {
+				if(userInformation.getContactSchdStartTime() != null) {
+					this.startTime = new Date();
+					this.startTime.setTime(userInformation.getContactSchdStartTime().getTime());
+				}
+				if(userInformation.getContactSchdEndTime() != null) {
+					this.endTime = new Date();
+					this.endTime.setTime(userInformation.getContactSchdEndTime().getTime());
+				}
+			}
 			//Show warning user pending information message
 			if(getLoggedUser().getRole().getRoleId() == Roles.USER.getId()) {
 				if(userInformation == null || !userInformation.validUserInformation()) {
@@ -93,8 +99,12 @@ public class UserInformationMB extends GenericMB {
 		try {
 			logger.info(INFO_MSG);
 			//Cast values from the Primefaces calendar
-			userInformation.setContactSchdStartTime(startTime);
-			userInformation.setContactSchdEndTime(endTime);
+			if(startTime != null) {
+				userInformation.setContactSchdStartTime(startTime);
+			}
+			if(endTime != null) {
+				userInformation.setContactSchdEndTime(endTime);
+			}
 			//Persist User Information
 			userInformationService.updateOrInsertUserInformation(userInformation);
 			showSuccessMessage();

@@ -1,5 +1,8 @@
 package japhet.sales.controller.manager;
 
+import static japhet.sales.mailing.MailingParameters.*;
+import static japhet.sales.mailing.MailingTemplates.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -26,6 +29,8 @@ import japhet.sales.dto.UserBudget;
 import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidBuyProofException;
 import japhet.sales.internationalization.IInternationalizationService;
+import japhet.sales.mailing.ContentTypes;
+import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.model.impl.BuyProof;
 import japhet.sales.model.impl.PaybackProtest;
 import japhet.sales.model.impl.PaymentRequest;
@@ -72,6 +77,9 @@ public class UserAccountManagerMB extends GenericMB {
 	
 	@EJB
 	private IPaybackProtestService paybackProtestService;
+	
+	@EJB
+	private IMailingService mailingService;
 	
 	//Validation properties
 	private final int MAX_MEDIA_SIZE = 1000000;
@@ -128,6 +136,7 @@ public class UserAccountManagerMB extends GenericMB {
 	 */
 	public void handleFileUpload(FileUploadEvent event) {
 		try {
+			Map<String, Object> params = new HashMap<>();
 			buyProofBytes = utilService.getBiteArrayFromStream(
 					event.getFile().getInputstream());
 			showInfoMessage(internationalizationService
@@ -144,6 +153,15 @@ public class UserAccountManagerMB extends GenericMB {
 			updateBuyProofsListHistory();
 			updateUserBudget();
 			initializeBuyProof();
+			//Send notification email
+			BuyProof latestBuyProof = this.buyProofsHistory.get(this.buyProofsHistory.size() - 1);
+			params.put(NAME, user.getName());
+			params.put(BUYPROOF_ID, latestBuyProof.getBuyProofId());
+			mailingService.sendMessage(BUYPROOF_UPLOADED.getSubject(), 
+					user.getEmail(), 
+					BUYPROOF_UPLOADED, 
+					ContentTypes.TEXT_HTML, 
+					params);
 		} catch (InvalidBuyProofException e) {
 			logger.error("The buy proof 'Total Amount' doesn't match the finger print 'Total'.", e);
 			showErrorMessage(internationalizationService

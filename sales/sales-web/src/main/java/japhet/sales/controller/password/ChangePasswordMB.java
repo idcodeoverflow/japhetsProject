@@ -108,6 +108,7 @@ public class ChangePasswordMB extends GenericMB
 			final String SUCCESS_MSG = internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getPASSWORD_UPDATE_SUCCESSFUL());
 			showInfoMessage(SUCCESS_MSG, "");
+			this.clear();
 		} catch (UnmatchedPasswordException e) {
 			final String ERROR_MSG = String
 					.format("The new user: %d password and its confirmation doesn't match.", UID);
@@ -128,6 +129,12 @@ public class ChangePasswordMB extends GenericMB
 		}
 	}
 
+	public void clear() {
+		this.oldPassword = null;
+		this.confirmedPassword = null;
+		this.currentPassword = null;
+	}
+	
 	/**
 	 * @return the oldPassword
 	 */
