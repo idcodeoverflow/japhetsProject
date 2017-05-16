@@ -1,5 +1,7 @@
 package japhet.sales.controller.password;
 
+import static japhet.sales.mailing.MailingParameters.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +18,9 @@ import japhet.sales.controller.GenericMB;
 import japhet.sales.except.InvalidPasswordException;
 import japhet.sales.except.UnmatchedPasswordException;
 import japhet.sales.internationalization.IInternationalizationService;
+import japhet.sales.mailing.ContentTypes;
+import japhet.sales.mailing.MailingTemplates;
+import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.model.impl.User;
 import japhet.sales.service.IUserService;
 
@@ -24,7 +29,6 @@ import japhet.sales.service.IUserService;
  * @author David Israel Garcia Alcazar
  *
  */
-
 @ManagedBean
 @RequestScoped
 public class ChangePasswordMB extends GenericMB 
@@ -43,6 +47,9 @@ public class ChangePasswordMB extends GenericMB
 	
 	//Logic attribute
 	private User user;
+
+	@Inject
+	private Logger logger;
 	
 	//EJB
 	@EJB
@@ -51,8 +58,8 @@ public class ChangePasswordMB extends GenericMB
 	@EJB
 	private IInternationalizationService internationalizationService;
 	
-	@Inject
-	private Logger logger;
+	@EJB
+	private IMailingService mailingService;
 	
 	/**
 	 * Initializes the values that are required 
@@ -90,6 +97,14 @@ public class ChangePasswordMB extends GenericMB
 			params.put(USER_ID, this.user.getUserId());
 			//Service request
 			userService.updateUserPassword(params);
+			//Set mailing parameters
+			params.clear();
+			params.put(NAME, this.user.getName());
+			mailingService.sendMessage(MailingTemplates.PASSWORD_UPDATED.getSubject(), 
+					this.user.getEmail(), 
+					MailingTemplates.PASSWORD_UPDATED, 
+					ContentTypes.TEXT_HTML, 
+					params);
 			final String SUCCESS_MSG = internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getPASSWORD_UPDATE_SUCCESSFUL());
 			showInfoMessage(SUCCESS_MSG, "");
