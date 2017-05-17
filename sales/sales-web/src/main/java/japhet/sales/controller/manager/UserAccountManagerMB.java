@@ -30,6 +30,7 @@ import japhet.sales.except.BusinessServiceException;
 import japhet.sales.except.InvalidBuyProofException;
 import japhet.sales.internationalization.IInternationalizationService;
 import japhet.sales.mailing.ContentTypes;
+import japhet.sales.mailing.MailingParameters;
 import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.model.impl.BuyProof;
 import japhet.sales.model.impl.PaybackProtest;
@@ -154,7 +155,8 @@ public class UserAccountManagerMB extends GenericMB {
 			updateUserBudget();
 			initializeBuyProof();
 			//Send notification email
-			BuyProof latestBuyProof = this.buyProofsHistory.get(this.buyProofsHistory.size() - 1);
+			int latestBProofIndex = this.buyProofsHistory.size() - 1;
+			BuyProof latestBuyProof = this.buyProofsHistory.get(latestBProofIndex);
 			params.put(NAME, user.getName());
 			params.put(BUYPROOF_ID, latestBuyProof.getBuyProofId());
 			mailingService.sendMessage(BUYPROOF_UPLOADED.getSubject(), 
@@ -197,6 +199,18 @@ public class UserAccountManagerMB extends GenericMB {
 			updatePaymentRequests();
 			updateBuyProofsListHistory();
 			updateUserBudget();
+			//Send notification email
+			int latestPRequestIndex = this.paymentRequestHistory.size() - 1;
+			PaymentRequest latestPaymentRequest = this.paymentRequestHistory.get(latestPRequestIndex);
+			params.clear();
+			params.put(NAME, user.getName());
+			params.put(MailingParameters.PAYMENT_REQUEST_ID, latestPaymentRequest.getPaymentRequestId());
+			params.put(CURP, user.getCurp());
+			mailingService.sendMessage(PAYMENT_REQUEST_STARTED.getSubject(), 
+					user.getEmail(), 
+					PAYMENT_REQUEST_STARTED, 
+					ContentTypes.TEXT_HTML, 
+					params);
 		} catch (BusinessServiceException e) {
 			final String ERROR_MSG = "A service error has ocurred while generating a payment request.";
 			logger.error(ERROR_MSG, e);

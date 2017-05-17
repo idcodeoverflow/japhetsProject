@@ -11,7 +11,12 @@ public enum MailingProperties {
 	SOCKET_FACTORY				("mailing.properties.socketFactory"),
 	HOST						("mailing.properties.host"),
 	PORT						("mailing.properties.port"),
-	AUTH						("mailing.properties.auth");
+	AUTH						("mailing.properties.auth"),
+	//Support emails
+	SUPPORT_EMAIL				("mailing.support.email"),
+	//Mailing CSS
+	HEADER_CSS					("mailing.header.css"),
+	BODY_CSS					("mailing.body.css");
 	
 	private String key;
 	

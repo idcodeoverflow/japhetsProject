@@ -1,5 +1,7 @@
 package japhet.sales.mailing.service.impl;
 
+import static japhet.sales.mailing.MailingParameters.*;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
@@ -150,6 +152,12 @@ public class MailingService implements IMailingService {
 	        msg.setRecipients(Message.RecipientType.TO, toAddresses);
 	        msg.setSubject(subject);
 	        msg.setSentDate(new Date());
+	        //Set default parameters
+	        if(params != null) {
+	        	params.put(SUPPORT_EMAIL, getConfigProperty(MailingProperties.SUPPORT_EMAIL.getKey()));
+	        	params.put(HEADER_CSS, getConfigProperty(MailingProperties.HEADER_CSS.getKey()));
+	        	params.put(BODY_CSS, getConfigProperty(MailingProperties.BODY_CSS.getKey()));
+	        }
 	        //Set plain text message
 	        message = templateReaderService.readTemplate(templates, params);
 	        msg.setContent(message, contentTypes.getMimeType());
