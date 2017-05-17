@@ -8,6 +8,9 @@ public enum MailingTemplates {
 	BUYPROOF_UPLOADED("META-INF/mailing/templates/buyproof_uploaded.html", "Hemos recibido tu comprobante de compra."),
 	PAYMENT_REQUEST_STARTED("META-INF/mailing/templates/payment_request_started.html", "Hemos recibido tu solicitud de depósito para Afore"),
 	BUYPROOF_UPDATED("META-INF/mailing/templates/buyproof_updated.html", "Tu comprobante de compra ha sido actualizado."),
+	PBACK_PROTEST_RAISED("META-INF/mailing/templates/pback_protest_raised.html", "Se ha requerido un caso de investigación para tu comprobante."),
+	PBACK_PROTEST_SOLVED("META-INF/mailing/templates/pback_protest_solved.html", "Tu caso de investigación ha sido actualizado."),
+	PAYMENT_REQUEST_UPDATED("META-INF/mailing/templates/payment_request_update.html", "Tu solicitud de depósito ha sido actualizada."),
 	USER_INFORMATION_UPDATED("META-INF/mailing/templates/user_information_updated.html", "Tu información de adicional ha sido actualizada.");
 	
 	private String path;
