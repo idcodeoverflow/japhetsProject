@@ -1,10 +1,13 @@
 package japhet.sales.controller.manager;
 
 import static japhet.sales.catalogs.Statuses.*;
+import static japhet.sales.mailing.MailingParameters.*;
+import static japhet.sales.mailing.MailingTemplates.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +25,11 @@ import org.primefaces.model.StreamedContent;
 import japhet.sales.catalogs.Roles;
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
+import japhet.sales.mailing.ContentTypes;
+import japhet.sales.mailing.MailingParameters;
+import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.model.impl.BuyProof;
+import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.PaybackProtest;
 import japhet.sales.model.impl.PaymentRequest;
 import japhet.sales.model.impl.Status;
@@ -51,6 +58,9 @@ public class AdministratorAccountManagerMB extends GenericMB {
 	
 	@EJB
 	private IPaymentRequestService paymentRequestService;
+	
+	@EJB
+	private IMailingService mailingService;
 	
 	//View attributes
 	private List<BuyProof> buyProofs;
@@ -91,12 +101,8 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			Status caseRaisedStatus = new Status();
 			caseRaisedStatus.setStatusId(Statuses.CASE_RAISED.getId());
 			
-			Status paymentReqStatus = new Status();
-			paymentReqStatus.setStatusId(Statuses.ON_PAYMENT_REQUEST.getId());
-			
 			statusList.add(pendingStatus);
 			statusList.add(caseRaisedStatus);
-			statusList.add(paymentReqStatus);
 			params.put(STATUS_ID, statusList);
 			this.buyProofs = buyProofService.getBuyProofsByStatus(params);
 		} catch(Exception e) {
@@ -188,6 +194,7 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			buyProof.setStatus(status);
 			buyProofService.updateBuyProof(buyProof);
 			updateBuyProofs();
+			sendBProofEmail(buyProof);
 			showInfoMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getBUY_PROOF_VALIDATED()), "");
 		} catch(Exception e) {
@@ -216,6 +223,7 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			buyProof.setStatus(status);
 			buyProofService.updateBuyProof(buyProof);
 			updateBuyProofs();
+			sendBProofEmail(buyProof);
 			showInfoMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getBUY_PROOF_REJECTED()), "");
 		} catch(Exception e) {
@@ -224,6 +232,24 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			logger.error(ERROR_MSG, e);
 			showGeneralExceptionMessage();
 		}
+	}
+	
+	/**
+	 * This method sends a notification email to the 
+	 * buy proof owner to notify about the status update.
+	 * @param buyProof
+	 * @throws Exception
+	 */
+	private void sendBProofEmail(BuyProof buyProof) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		//Set mailing parameters
+		params.put(NAME, buyProof.getUser().getName());
+		params.put(BUYPROOF_ID, buyProof.getBuyProofId());
+		mailingService.sendMessage(BUYPROOF_UPDATED.getSubject(), 
+				buyProof.getUser().getEmail(), 
+				BUYPROOF_UPDATED, 
+				ContentTypes.TEXT_HTML, 
+				params);
 	}
 	
 	/**
@@ -262,9 +288,12 @@ public class AdministratorAccountManagerMB extends GenericMB {
 				return;
 			}
 			logger.info(INFO_MSG);
+			paybackProtest.setResolutionDate(new Date());
 			paybackProtestService.acceptPaybackProtest(paybackProtest);
 			updateBuyProofs();
 			updatePaybackProtestsByBproof();
+			sendPaybackProtestEmailToCompany(paybackProtest);
+			sendPaybackProtestEmail(paybackProtest);
 			showInfoMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getPAYBACK_PROTEST_VALIDATED()), "");
 		} catch (Exception e) {
@@ -290,9 +319,12 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			logger.info(INFO_MSG);
 			final long bProofId = paybackProtest.getBuyProof().getBuyProofId();
 			List<PaybackProtest> bProofProtests = getPaybackProtestsByBProof(bProofId);
+			paybackProtest.setResolutionDate(new Date());
 			paybackProtestService.rejectPaybackProtest(paybackProtest, bProofProtests);
 			updateBuyProofs();
 			updatePaybackProtestsByBproof();
+			sendPaybackProtestEmailToCompany(paybackProtest);
+			sendPaybackProtestEmail(paybackProtest);
 			showInfoMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getPAYBACK_PROTEST_REJECTED()), "");
 		} catch (Exception e) {
@@ -301,6 +333,47 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			logger.error(ERROR_MSG, e);
 			showGeneralExceptionMessage();
 		}
+	}
+	
+	/**
+	 * This method sends a notification email to the 
+	 * buy proof owner to notify about the payback protest 
+	 * status update.
+	 * @throws Exception
+	 */
+	private void sendPaybackProtestEmail(PaybackProtest paybackProtest) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		BuyProof buyProof = paybackProtest.getBuyProof();
+		//Set mailing parameters
+		params.put(NAME, buyProof.getUser().getName());
+		params.put(BUYPROOF_ID, buyProof.getBuyProofId());
+		params.put(PBACK_PROTES_ID, paybackProtest.getPaybackProtestId());
+		mailingService.sendMessage(PBACK_PROTEST_SOLVED.getSubject(), 
+				buyProof.getUser().getEmail(), 
+				PBACK_PROTEST_SOLVED, 
+				ContentTypes.TEXT_HTML, 
+				params);
+	}
+	
+	/**
+	 * This method sends a notification email to the 
+	 * buy proof company to notify about the payback protest 
+	 * status update.
+	 * @throws Exception
+	 */
+	private void sendPaybackProtestEmailToCompany(PaybackProtest paybackProtest) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		BuyProof buyProof = paybackProtest.getBuyProof();
+		Company company = paybackProtest.getCompany();
+		//Set mailing parameters
+		params.put(NAME, company.getUser().getName());
+		params.put(BUYPROOF_ID, buyProof.getBuyProofId());
+		params.put(PBACK_PROTES_ID, paybackProtest.getPaybackProtestId());
+		mailingService.sendMessage(PBACK_PROTEST_SOLVED.getSubject(), 
+				company.getUser().getEmail(), 
+				PBACK_PROTEST_SOLVED, 
+				ContentTypes.TEXT_HTML, 
+				params);
 	}
 	
 	/**
@@ -316,6 +389,7 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			logger.info(INFO_MSG);
 			paymentRequestService.confirmPaymentRequest(paymentRequest);
 			updatePaymentRequests();
+			sendPaymentRequestEmail(paymentRequest);
 		} catch(Exception e) {
 			final String ERROR_MSG = String
 					.format("An error has occurred while trying to confirm the PaymentRequest: %d.", PMNT_REQ_ID);
@@ -336,11 +410,31 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			logger.info(INFO_MSG);
 			paymentRequestService.rejectPaymentRequest(paymentRequest);
 			updatePaymentRequests();
+			sendPaymentRequestEmail(paymentRequest);
 		} catch(Exception e) {
 			final String ERROR_MSG = String
 					.format("An error has occurred while trying to reject the PaymentRequest: %d.", PMNT_REQ_ID);
 			logger.error(ERROR_MSG, e);
 		}
+	}
+	
+	/**
+	 * This method sends a notification email to the 
+	 * buy payment request owner about the status update. 
+	 * status update.
+	 * @throws Exception
+	 */
+	private void sendPaymentRequestEmail(PaymentRequest paymentRequest) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		//Set mailing parameters
+		params.put(NAME, paymentRequest.getUser().getName());
+		params.put(CURP, paymentRequest.getUser().getCurp());
+		params.put(MailingParameters.PAYMENT_REQUEST_ID, paymentRequest.getPaymentRequestId());
+		mailingService.sendMessage(PAYMENT_REQUEST_UPDATED.getSubject(), 
+				paymentRequest.getUser().getEmail(), 
+				PAYMENT_REQUEST_UPDATED, 
+				ContentTypes.TEXT_HTML, 
+				params);
 	}
 	
 	/**

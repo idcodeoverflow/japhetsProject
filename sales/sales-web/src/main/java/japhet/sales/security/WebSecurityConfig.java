@@ -36,9 +36,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				/* Sign Up page */
 				.antMatchers(URLMapperMB.removeHostNameFromURL(
 						REGISTRATION_URL)).permitAll()
+				/* User Validated Page */
+				.antMatchers(URLMapperMB.removeHostNameFromURL(
+						USER_VALIDATED_URL)).permitAll()
+				/* User Validation Failed Page */
+				.antMatchers(URLMapperMB.removeHostNameFromURL(
+						USER_VALIDATION_FAILED_URL)).permitAll()
 				/* Recover Password Page */
 				.antMatchers(URLMapperMB.removeHostNameFromURL(
 						RECOVER_PASSWORD_URL)).permitAll()
+				/* Public REST Services */
+				.antMatchers(URLMapperMB.removeHostNameFromURL(
+						REST_VALIDATOR_URL)).permitAll()
 				.anyRequest().authenticated()
 				.and()
 			.formLogin()

@@ -151,6 +151,7 @@ public class UserService implements IUserService {
 		}
 	}
 	
+	@Override
 	public void updateUserPassword(Map<String, Object> params) 
 			throws BusinessServiceException, 
 				InvalidPasswordException, 
@@ -193,6 +194,44 @@ public class UserService implements IUserService {
 			logger.fatal(ERROR_MSG, e);
 			throw new BusinessServiceException(ERROR_MSG, e);
 		}
+	}
+	
+	@Override
+	public User getUserByHashKey(Map<String, Object> params) 
+			throws BusinessServiceException {
+		User user = null;
+		final String P_HASH_KEY = ((params != null 
+				&& params.containsKey(HASH_KEY)) ? params.get(HASH_KEY).toString() : "-1");
+		final String INFO_MSG = String.format("Obtaining User by HashKey: %s...", P_HASH_KEY);
+		try {
+			logger.info(INFO_MSG);
+			user = userDAO.getUserByHashKey(params);
+		} catch(Exception e) {
+			final String ERROR_MSG = String
+					.format("An error has occurred while obtaining User by HashKey: %s.", P_HASH_KEY);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return user;
+	}
+	
+	@Override
+	public User getUserByUsername(Map<String, Object> params) 
+			throws BusinessServiceException {
+		User user = null;
+		final String P_USERNAME = ((params != null 
+				&& params.containsKey(USERNAME)) ? params.get(USERNAME).toString() : "-1");
+		final String INFO_MSG = String.format("Obtaining User by Username: %s...", P_USERNAME);
+		try {
+			logger.info(INFO_MSG);
+			user = userDAO.getUserByUsername(params);
+		} catch(Exception e) {
+			final String ERROR_MSG = String
+					.format("An error has occurred while obtaining User by Username: %s.", P_USERNAME);
+			logger.fatal(ERROR_MSG, e);
+			throw new BusinessServiceException(ERROR_MSG, e);
+		}
+		return user;
 	}
 	
 	private Long stringifyUser(User user) {

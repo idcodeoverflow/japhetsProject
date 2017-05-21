@@ -13,6 +13,8 @@ public interface QueryParameters {
 	
 	public static final String FINGERPRINT = "fingerprint";
 	
+	public static final String HASH_KEY = "hashKey";
+	
 	public static final String LAST_UPDATE = "lastUpdate";
 	
 	public static final String OLD_PASSWORD = "oldPassword";
