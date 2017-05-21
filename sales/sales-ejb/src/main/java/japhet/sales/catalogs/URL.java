@@ -18,6 +18,8 @@ public enum URL {
 	RECOVER_PASSWORD("recoverPassword"),
 	CHANGE_PASSWORD("changePassword"),
 	SIGN_UP("signUp"),
+	USER_VALIDATED("userValidated"),
+	USER_VALIDATION_FAILED("userValidationFailed"),
 	ACCOUNT_MANAGER("accountManager"),
 	COMPANY_MANAGER("companyAccountManager"),
 	PAYBACK_PROTEST_MODAL("paybackProtestModal"),
@@ -41,7 +43,10 @@ public enum URL {
 	PRINCIPAL("banks.principal"),
 	//Security
 	SPRING_LOGIN("security.login"),
-	SPRING_LOGOUT("security.logout")
+	SPRING_LOGOUT("security.logout"),
+	//REST Service
+	REST_VALIDATOR_URL("rest.validator"),
+	REST_VALIDATOR_VALIDATE_URL("rest.validator.validate")
 	;
 	
 
