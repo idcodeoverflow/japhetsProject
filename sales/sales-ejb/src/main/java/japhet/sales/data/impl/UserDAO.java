@@ -24,7 +24,30 @@ public class UserDAO extends GenericDAO<User, Long> {
 	
 	public UserDAO() {
 		super(User.class, Long.class);
-	}	
+	}
+	
+	public User getUserByHashKey(Map<String, Object> params) 
+			throws DataLayerException {
+		User user = null;
+		final String P_HASH_KEY = ((params != null 
+				&& params.containsKey(HASH_KEY)) ? params.get(HASH_KEY).toString() : "-1");
+		try {
+			List<User> users = null;
+			final String INFO_MSG = String.format("Searching User for the HashKey: %s...", 
+					P_HASH_KEY);
+			logger.info(INFO_MSG);
+			users = executeQuery(GET_USER_BY_HASH_KEY, params);
+			if(users != null && !users.isEmpty()) {
+				user = users.get(0);
+			}
+		} catch (Exception e) {
+			final String ERROR_MSG = String
+					.format("Exception occurred searching the User into the DB by HashKey: %s.", P_HASH_KEY);
+			logger.fatal(ERROR_MSG, e);
+			throw new DataLayerException(ERROR_MSG, e);
+		}
+		return user;
+	}
 	
 	public boolean doesUserExists(User user) 
 			throws DataLayerException {

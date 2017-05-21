@@ -19,6 +19,8 @@ public interface Navigator {
 	String OFFERS = pReader.getValueFromKey(URL.OFFERS.getName());
 	String MODAL = pReader.getValueFromKey(URL.MODAL.getName());
 	String REGISTRATION_URL = pReader.getValueFromKey(URL.SIGN_UP.getName());
+	String USER_VALIDATED_URL = pReader.getValueFromKey(URL.USER_VALIDATED.getName());
+	String USER_VALIDATION_FAILED_URL = pReader.getValueFromKey(URL.USER_VALIDATION_FAILED.getName());
 	String UPLOAD_CONTENT_URL = pReader.getValueFromKey(URL.UPLOAD.getName());
 	String RECOVER_PASSWORD_URL = pReader.getValueFromKey(URL.RECOVER_PASSWORD.getName());
 	String CHANGE_PASSWORD_URL = pReader.getValueFromKey(URL.CHANGE_PASSWORD.getName());
@@ -47,5 +49,8 @@ public interface Navigator {
 	/***** SPRING SECURITY *****/
 	String SPRING_LOGIN = pReader.getValueFromKey(URL.SPRING_LOGIN.getName());
 	String SPRING_LOGOUT = pReader.getValueFromKey(URL.SPRING_LOGOUT.getName());
+	/***** REST SERVICES *****/
+	String REST_VALIDATOR_URL = pReader.getValueFromKey(URL.REST_VALIDATOR_URL.getName());
+	String REST_VALIDATOR_VALIDATE_URL = pReader.getValueFromKey(URL.REST_VALIDATOR_VALIDATE_URL.getName());
 
 }

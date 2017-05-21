@@ -40,4 +40,10 @@ public interface IUserService extends Serializable {
 			throws BusinessServiceException, 
 				InvalidPasswordException, 
 				UnmatchedPasswordException;
+	
+	public User getUserByHashKey(Map<String, Object> params) 
+			throws BusinessServiceException;
+	
+	public User getUserByUsername(Map<String, Object> params) 
+			throws BusinessServiceException;
 }

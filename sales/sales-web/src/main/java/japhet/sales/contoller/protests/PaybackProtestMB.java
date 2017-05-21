@@ -1,6 +1,13 @@
 package japhet.sales.contoller.protests;
 
+import static japhet.sales.mailing.MailingParameters.BUYPROOF_ID;
+import static japhet.sales.mailing.MailingParameters.NAME;
+import static japhet.sales.mailing.MailingParameters.PBACK_PROTES_ID;
+import static japhet.sales.mailing.MailingTemplates.PBACK_PROTEST_RAISED;
+
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,10 +20,13 @@ import org.primefaces.event.FileUploadEvent;
 
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
+import japhet.sales.mailing.ContentTypes;
+import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.model.impl.BuyProof;
 import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.PaybackProtest;
 import japhet.sales.model.impl.Status;
+import japhet.sales.model.impl.User;
 import japhet.sales.service.IPaybackProtestService;
 import japhet.sales.service.IUtilService;
 
@@ -45,11 +55,15 @@ public class PaybackProtestMB extends GenericMB {
 	@EJB
 	private IUtilService utilService;
 	
+	@EJB
+	private IMailingService mailingService;
+	
 	//Input properties
 	private byte []fileBytes;
 	private String description;
 	
 	//Logic properties
+	private User user;
 	private PaybackProtest paybackProtest;
 	private BuyProof buyProof;
 	
@@ -63,6 +77,7 @@ public class PaybackProtestMB extends GenericMB {
 	private void init() {
 		try {
 			logger.info("Initializing PaybackProtestMB...");
+			this.user = getLoggedUser();
 		} catch (Exception e) {
 			logger.error("An error has ocurred while initializing PaybackProtestMB.", e);
 			showStartupMbExceptionMessage();
@@ -78,6 +93,9 @@ public class PaybackProtestMB extends GenericMB {
 			logger.info("Generating a new PaybackProtest...");
 			populatePaybackProtest();
 			paybackProtestService.insertPaybackProtest(paybackProtest);
+			//Send email notifications
+			sendPaybackProtestEmailToCompany(paybackProtest);
+			sendPaybackProtestEmail(paybackProtest);
 			//Clear UI fields
 			this.description = "";
 			this.fileBytes = null;
@@ -130,6 +148,46 @@ public class PaybackProtestMB extends GenericMB {
 					event.getFile().getFileName());
 		}
     }
+	
+	/**
+	 * This method sends a notification email to the 
+	 * buy proof owner to notify about the payback protest 
+	 * status update.
+	 * @throws Exception
+	 */
+	private void sendPaybackProtestEmail(PaybackProtest paybackProtest) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		BuyProof buyProof = paybackProtest.getBuyProof();
+		//Set mailing parameters
+		params.put(NAME, buyProof.getUser().getName());
+		params.put(BUYPROOF_ID, buyProof.getBuyProofId());
+		params.put(PBACK_PROTES_ID, paybackProtest.getPaybackProtestId());
+		mailingService.sendMessage(PBACK_PROTEST_RAISED.getSubject(), 
+				buyProof.getUser().getEmail(), 
+				PBACK_PROTEST_RAISED, 
+				ContentTypes.TEXT_HTML, 
+				params);
+	}
+	
+	/**
+	 * This method sends a notification email to the 
+	 * buy proof company to notify about the payback protest 
+	 * status update.
+	 * @throws Exception
+	 */
+	private void sendPaybackProtestEmailToCompany(PaybackProtest paybackProtest) throws Exception {
+		Map<String, Object> params = new HashMap<>();
+		BuyProof buyProof = paybackProtest.getBuyProof();
+		//Set mailing parameters
+		params.put(NAME, this.user.getName());
+		params.put(BUYPROOF_ID, buyProof.getBuyProofId());
+		params.put(PBACK_PROTES_ID, paybackProtest.getPaybackProtestId());
+		mailingService.sendMessage(PBACK_PROTEST_RAISED.getSubject(), 
+				this.user.getEmail(), 
+				PBACK_PROTEST_RAISED, 
+				ContentTypes.TEXT_HTML, 
+				params);
+	}
 	
 	/**
 	 * @return the fileBytes

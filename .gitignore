@@ -93,3 +93,7 @@ ENV/
 
 #ER Model conf
 */mysql-db-schema.mwb.bak
+
+# Credentials
+credentials
+credentials.pub

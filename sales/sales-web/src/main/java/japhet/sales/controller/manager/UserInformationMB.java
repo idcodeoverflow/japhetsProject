@@ -1,6 +1,11 @@
 package japhet.sales.controller.manager;
 
+import static japhet.sales.mailing.MailingParameters.*;
+import static japhet.sales.mailing.MailingTemplates.*;
+
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -13,6 +18,8 @@ import org.apache.log4j.Logger;
 import japhet.sales.catalogs.Roles;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.internationalization.IInternationalizationService;
+import japhet.sales.mailing.ContentTypes;
+import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.model.impl.User;
 import japhet.sales.model.impl.UserInformation;
 import japhet.sales.service.IUserInformationService;
@@ -35,6 +42,9 @@ public class UserInformationMB extends GenericMB {
 	
 	@EJB
 	private IInternationalizationService internationalizationService;
+	
+	@EJB
+	private IMailingService mailingService;
 	
 	//Logic attributes
 	private User user;
@@ -63,10 +73,16 @@ public class UserInformationMB extends GenericMB {
 				this.userInformation.setUserId(USR_ID);
 			}
 			//Set start and end time
-			this.startTime = new Date();
-			this.endTime = new Date();
-			this.startTime.setTime(userInformation.getContactSchdStartTime().getTime());
-			this.endTime.setTime(userInformation.getContactSchdEndTime().getTime());
+			if(userInformation != null) {
+				if(userInformation.getContactSchdStartTime() != null) {
+					this.startTime = new Date();
+					this.startTime.setTime(userInformation.getContactSchdStartTime().getTime());
+				}
+				if(userInformation.getContactSchdEndTime() != null) {
+					this.endTime = new Date();
+					this.endTime.setTime(userInformation.getContactSchdEndTime().getTime());
+				}
+			}
 			//Show warning user pending information message
 			if(getLoggedUser().getRole().getRoleId() == Roles.USER.getId()) {
 				if(userInformation == null || !userInformation.validUserInformation()) {
@@ -90,13 +106,25 @@ public class UserInformationMB extends GenericMB {
 				&& this.user.getUserId() != null) ? this.user.getUserId() : -1L);
 		final String INFO_MSG = String
 				.format("Saving UserInformation from the User: %d...", USR_ID);
+		Map<String, Object> params = new HashMap<>();
 		try {
 			logger.info(INFO_MSG);
 			//Cast values from the Primefaces calendar
-			userInformation.setContactSchdStartTime(startTime);
-			userInformation.setContactSchdEndTime(endTime);
+			if(startTime != null) {
+				userInformation.setContactSchdStartTime(startTime);
+			}
+			if(endTime != null) {
+				userInformation.setContactSchdEndTime(endTime);
+			}
 			//Persist User Information
 			userInformationService.updateOrInsertUserInformation(userInformation);
+			//Set mailing parameters
+			params.put(NAME, this.user.getName());
+			mailingService.sendMessage(USER_INFORMATION_UPDATED.getSubject(), 
+					this.user.getEmail(), 
+					USER_INFORMATION_UPDATED, 
+					ContentTypes.TEXT_HTML, 
+					params);
 			showSuccessMessage();
 		} catch (Exception e) {
 			final String ERROR_MSG = String
