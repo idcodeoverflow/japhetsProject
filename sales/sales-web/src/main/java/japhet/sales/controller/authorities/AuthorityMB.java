@@ -14,10 +14,9 @@ import japhet.sales.model.impl.User;
 
 /**
  * 
- * @author David
+ * @author David Israel Garcia Alcazar
  *
  */
-
 @ManagedBean
 @NoneScoped
 public class AuthorityMB extends GenericMB {

@@ -27,6 +27,14 @@ public class URLMapperMB extends GenericMB {
 	public String getRegistrationURL(){
 		return REGISTRATION_URL;
 	}
+
+	public String getUserValidatedURL(){
+		return USER_VALIDATED_URL;
+	}
+	
+	public String getUserValidationFailedURL(){
+		return USER_VALIDATION_FAILED_URL;
+	}
 	
 	public String getUploadContentURL(){
 		return UPLOAD_CONTENT_URL;

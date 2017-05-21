@@ -39,6 +39,7 @@ public class GenericFacesMessager {
 	private final String BUY_PROOF_REJECTED = "account.administrator.buyProofs.messages.rejected";
 	private final String PAYBACK_PROTEST_VALIDATED = "account.administrator.paymentRequests.messages.validated";
 	private final String PAYBACK_PROTEST_REJECTED = "account.administrator.paymentRequests.messages.rejected";
+	private final String RECOVER_PASSWORD_SUCCESSFUL = "recover.password.success";
 	
 	protected FacesContext getCurrentFacesInstance(){
 		return FacesContext.getCurrentInstance();
@@ -206,5 +207,9 @@ public class GenericFacesMessager {
 	
 	public String getPAYBACK_PROTEST_REJECTED() {
 		return PAYBACK_PROTEST_REJECTED;
+	}
+	
+	public String getRECOVER_PASSWORD_SUCCESSFUL() {
+		return RECOVER_PASSWORD_SUCCESSFUL;
 	}
 }

@@ -1,5 +1,11 @@
 package japhet.sales.controller.password;
 
+import static japhet.sales.mailing.MailingParameters.*;
+import static japhet.sales.mailing.MailingTemplates.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -11,7 +17,10 @@ import org.apache.log4j.Logger;
 import japhet.sales.controller.GenericMB;
 import japhet.sales.except.InvalidAccountException;
 import japhet.sales.internationalization.IInternationalizationService;
+import japhet.sales.mailing.ContentTypes;
+import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.model.impl.User;
+import japhet.sales.service.IRandomPasswordService;
 import japhet.sales.service.IUserService;
 
 /**
@@ -38,6 +47,12 @@ public class RecoverPasswordMB extends GenericMB {
 	@EJB
 	private IUserService userService;
 	
+	@EJB
+	private IMailingService mailingService;
+	
+	@EJB
+	private IRandomPasswordService randomPasswordService;
+	
 	//View attributes
 	private String userEmail;
 	
@@ -62,14 +77,32 @@ public class RecoverPasswordMB extends GenericMB {
 	 */
 	public void restorePassword() {
 		final String INFO_MSG = String.format("Restoring the password for the User: %s...", this.userEmail);
+		Map<String, Object> params = new HashMap<>();
 		try {
 			logger.info(INFO_MSG);
-			final User user = null;
+			//Set parameters
+			params.put(USERNAME, this.userEmail);
+			final User user = userService.getUserByUsername(params);
 			//Verify if the specified email exists otherwise show a message
 			if(user == null) {
 				throw new InvalidAccountException("The specified account doesn't exist.");
 			}
+			//Set a new random password to the user
+			final String password = randomPasswordService.generateRandomPassword((short)10);
+			params.clear();
+			//Set mailing parameters
+			params.put(NAME, user.getName());
+			params.put(PASSWORD, password);
+			user.setPassw(password);
 			userService.updateUser(user);
+			//Send email notification
+			mailingService.sendMessage(RECOVER_PASSWORD.getSubject(), 
+					user.getEmail(), 
+					RECOVER_PASSWORD, 
+					ContentTypes.TEXT_HTML, 
+					params);
+			showInfoMessage(internationalizationService.
+					getI18NMessage(CURRENT_LOCALE, getRECOVER_PASSWORD_SUCCESSFUL()), "");
 		} catch(InvalidAccountException e) {
 			final String ERROR_MSG = String.format("The specified User: %s doesn't exist.", this.userEmail);
 			logger.error(ERROR_MSG, e);

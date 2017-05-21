@@ -47,6 +47,8 @@ import japhet.sales.util.Encryption;
 				query = "SELECT u FROM User u WHERE u.username = :" + QueryParameters.USERNAME + " AND u.passw = :" + QueryParameters.PASSW + " AND u.status.statusId = :" + QueryParameters.STATUS + ""),
 		@NamedQuery(name = QueryNames.GET_USER_BY_EMAIL,
 				query = "SELECT u FROM User u WHERE u.username = :" + QueryParameters.USERNAME),
+		@NamedQuery(name = QueryNames.GET_USER_BY_HASH_KEY,
+				query = "SELECT u FROM User u WHERE u.hashKey =:" + QueryParameters.HASH_KEY),
 		@NamedQuery(name = QueryNames.UPDATE_USER_PASSWORD,
 				query = "UPDATE User u SET u.passw = :" + QueryParameters.PASSW + " WHERE u.userId = :" + QueryParameters.USER_ID + " AND u.passw = :" + QueryParameters.OLD_PASSWORD)
 })
@@ -100,7 +102,7 @@ public class User implements IEntity, UserDetails {
 	@Column(name = "AGE")
 	private Short age;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "STATUS_ID")
 	private Status status;
 	
@@ -116,6 +118,9 @@ public class User implements IEntity, UserDetails {
 	@ManyToOne
 	private City city;
 	
+	@Column(name = "HASH_KEY")
+	private String hashKey;
+
 	@ManyToMany
 	@JoinTable(
 			name = "TB_SNETWORK_USER",
@@ -160,7 +165,8 @@ public class User implements IEntity, UserDetails {
 			String email, String username, String passw, Role role,
 			Short age, Status status, Date signUpDate, Date lastModified,
 			City city, List<SocialNetwork> socialNetwork, 
-			List<Category> categories, Boolean validatedAccount) {
+			List<Category> categories, Boolean validatedAccount,
+			boolean validationEmailSent, String hashKey) {
 		super();
 		this.userId = userId;
 		this.name = name;
@@ -178,6 +184,7 @@ public class User implements IEntity, UserDetails {
 		this.socialNetwork = socialNetwork;
 		this.categories = categories;
 		this.setValidatedAccount(validatedAccount);
+		this.hashKey = hashKey;
 	}
 	
 	public Long getUserId() {
@@ -216,8 +223,9 @@ public class User implements IEntity, UserDetails {
 		return email;
 	}
 
-	public void setEmail(String email) {
+	public void setEmail(String email) throws Exception {
 		this.email = email;
+		this.hashKey = Encryption.SHA256(email);
 	}
 
 	public String getUsername() {
@@ -306,6 +314,20 @@ public class User implements IEntity, UserDetails {
 
 	public void setValidatedAccount(Boolean validatedAccount) {
 		this.validatedAccount = validatedAccount;
+	}
+	
+	/**
+	 * @return the hashKey
+	 */
+	public String getHashKey() {
+		return hashKey;
+	}
+
+	/**
+	 * @param hashKey the hashKey to set
+	 */
+	public void setHashKey(String hashKey) {
+		this.hashKey = hashKey;
 	}
 
 	@Override

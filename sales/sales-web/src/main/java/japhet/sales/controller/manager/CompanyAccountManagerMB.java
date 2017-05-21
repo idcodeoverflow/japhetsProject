@@ -74,7 +74,7 @@ public class CompanyAccountManagerMB extends GenericMB {
 	
 	@EJB
 	private IPaybackProtestService paybackProtestService;
-	
+		
 	//Logic attributes
 	private User user;
 	private Company company;
