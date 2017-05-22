@@ -3,6 +3,7 @@ package japhet.sales.controller.manager;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -133,29 +134,51 @@ public class CompanyAccountManagerMB extends GenericMB {
 		Map<String, Object> params = new HashMap<>();
 		final Long COMP_ID = ((this.company != null 
 				&& this.company.getCompanyId() != null) ? this.company.getCompanyId() : -1L);
-		final Short ON_REQUEST_STATUS_ID = Statuses.ON_PAYMENT_REQUEST.getId();
+		final Short VALIDATION_PENDING_STATUS_ID = Statuses.VALIDATION_PENDING.getId();
 		final Short CASE_RAISED_STATUS_ID = Statuses.CASE_RAISED.getId();
 		final String INFO_MSG = String.format("Updating Payment Requests for the Company: %d and Status: %d, %d...", 
-				COMP_ID, ON_REQUEST_STATUS_ID, CASE_RAISED_STATUS_ID);
+				COMP_ID, VALIDATION_PENDING_STATUS_ID, CASE_RAISED_STATUS_ID);
 		try {
 			logger.info(INFO_MSG);
 			params.put(COMPANY_ID, this.company.getCompanyId());
 			List<Status> statuses = new ArrayList<>();
 			Status onRequest = new Status();
-			onRequest.setStatusId(ON_REQUEST_STATUS_ID);
+			onRequest.setStatusId(VALIDATION_PENDING_STATUS_ID);
 			Status caseRaised = new Status();
 			caseRaised.setStatusId(CASE_RAISED_STATUS_ID);
 			statuses.add(onRequest);
 			statuses.add(caseRaised);
 			params.put(STATUS_ID, statuses);
-			this.buyProofsOnPaymentRequests = buyProofService.getBuyProofsByCompanyAndStatus(params);
+
+			//Remove from the list elements that doesn't match the required dates
+			List<BuyProof> unfilteredBProofs = buyProofService.getBuyProofsByCompanyAndStatus(params);
+			this.buyProofsOnPaymentRequests = new ArrayList<>();
+			if(unfilteredBProofs != null) {
+				final Date TODAY = new Date();
+				for(BuyProof buyProof : unfilteredBProofs) {
+					final Date UPLOADED_DATE = buyProof.getRegisteredOn();
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(UPLOADED_DATE);
+					final Company company = buyProof.getUserProductHistorial().getProduct().getCompany();
+					//Obtain the 50% of the days rounded up
+					final short DAYS_TO_ADD = (short)Math.ceil((double)company.getDaysNumberToApprove() / 2.0);
+					calendar.add(Calendar.DATE, DAYS_TO_ADD);
+					final Date REQUIRED_DATE = calendar.getTime();
+					if(TODAY.before(REQUIRED_DATE)) {
+						this.buyProofsOnPaymentRequests.add(buyProof);
+					}
+				}
+			}
+			//Set list to null and hopefully help to free space from the heap faster
+			unfilteredBProofs = null;
+			
 			//Update the buys statistics
 			this.updateBuysTotalSum(buyProofsOnPaymentRequests);
 			this.updateBuysAforeSum(buyProofsOnPaymentRequests);
 			this.updateBuysCount(buyProofsOnPaymentRequests);
 		} catch (Exception e) {
 			final String ERROR_MSG = String.
-					format("An error has ocurred while updating the Company: %d Payment Requests and Status: %d.", COMP_ID, ON_REQUEST_STATUS_ID);
+					format("An error has ocurred while updating the Company: %d Payment Requests and Status: %d.", COMP_ID, VALIDATION_PENDING_STATUS_ID);
 			logger.error(ERROR_MSG, e);
 			throw new Exception(ERROR_MSG, e);
 		}

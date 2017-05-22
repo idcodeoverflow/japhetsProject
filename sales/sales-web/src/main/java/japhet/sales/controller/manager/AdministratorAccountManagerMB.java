@@ -7,6 +7,7 @@ import static japhet.sales.mailing.MailingTemplates.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -104,7 +105,28 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			statusList.add(pendingStatus);
 			statusList.add(caseRaisedStatus);
 			params.put(STATUS_ID, statusList);
-			this.buyProofs = buyProofService.getBuyProofsByStatus(params);
+			
+			//Remove from the list elements that doesn't match the required dates
+			List<BuyProof> unfilteredBProofs = buyProofService.getBuyProofsByStatus(params);
+			this.buyProofs = new ArrayList<>();
+			if(unfilteredBProofs != null) {
+				final Date TODAY = new Date();
+				for(BuyProof buyProof : unfilteredBProofs) {
+					final Date UPLOADED_DATE = buyProof.getRegisteredOn();
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(UPLOADED_DATE);
+					final Company company = buyProof.getUserProductHistorial().getProduct().getCompany();
+					//Obtain the 50% of the days rounded up
+					final short DAYS_TO_ADD = (short)Math.ceil((double)company.getDaysNumberToApprove() / 2.0);
+					calendar.add(Calendar.DATE, DAYS_TO_ADD);
+					final Date REQUIRED_DATE = calendar.getTime();
+					if(TODAY.after(REQUIRED_DATE)) {
+						this.buyProofs.add(buyProof);
+					}
+				}
+			}
+			//Set list to null and hopefully help to free space from the heap faster
+			unfilteredBProofs = null;
 		} catch(Exception e) {
 			final String ERROR_MSG = "An error has occurred the buyProof list.";
 			logger.error(ERROR_MSG, e);
