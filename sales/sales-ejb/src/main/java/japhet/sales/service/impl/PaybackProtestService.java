@@ -264,7 +264,6 @@ public class PaybackProtestService implements IPaybackProtestService {
 				for(PaybackProtest protest : paybackProtests) {
 					if(protest.getPaybackProtestId() != paybackProtest.getPaybackProtestId() 
 							&& protest.getStatus().getStatusId() != Statuses.DENIED.getId()){
-						logger.info("--------------> " + protest.getPaybackProtestId());
 						activateBProof = false;
 						break;
 					}
@@ -272,7 +271,7 @@ public class PaybackProtestService implements IPaybackProtestService {
 			}
 			if(activateBProof) {
 				Status statusBproof = new Status();
-				statusBproof.setStatusId(Statuses.ON_PAYMENT_REQUEST.getId());
+				statusBproof.setStatusId(Statuses.VALIDATION_PENDING.getId());
 				BuyProof buyProof = paybackProtest.getBuyProof();
 				buyProof.setStatus(statusBproof);
 				buyProofDAO.update(buyProof);

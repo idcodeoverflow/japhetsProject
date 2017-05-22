@@ -213,16 +213,29 @@ public class UserProductHistorialService implements IUserProductHistorialService
 		params.put(USER_ID, user.getUserId());
 		params.put(STATUS_ID, VALIDATED.getId());
 		//Obtain user product historials
-		List<UserProductHistorial> userProductHistorials = getCompletedHistorialByUserAndStatus(params);
+		List<UserProductHistorial> userProductHistorialsValidated = getCompletedHistorialByUserAndStatus(params);
+		params.put(STATUS_ID, VALIDATION_PENDING.getId());
+		List<UserProductHistorial> userProductHistorialsNoValidated = getCompletedHistorialByUserAndStatus(params);
+		//Merge statuses validated and validation pending lists
+		userProductHistorialsValidated.addAll(userProductHistorialsNoValidated);
 		//Obtain the number of days required to free the user budget
 		short companyProtectionDays = 0;
 		Date today = new Date();
 		Date transactionDate = new Date();
 		Date approvementDate = new Date();
 		Calendar calendar = Calendar.getInstance();
-		if(userProductHistorials != null) {
+		if(userProductHistorialsValidated != null) {
 			//Calculate the total user budget
-			for(UserProductHistorial userProductHistorial : userProductHistorials) {
+			for(UserProductHistorial userProductHistorial : userProductHistorialsValidated) {
+				boolean isValidated = false;
+				//Verify if the BuyProof has been validated
+				if(userProductHistorial.getBuyProofs() != null) {
+					for(BuyProof buyProof : userProductHistorial.getBuyProofs()) {
+						if(buyProof.getStatus().getStatusId() == VALIDATED.getId()) {
+							isValidated = true;
+						}
+					}
+				}
 				//Set the company protection days from the product
 				company = userProductHistorial.getProduct().getCompany();
 				companyProtectionDays = company.getDaysNumberToApprove();
@@ -234,7 +247,7 @@ public class UserProductHistorialService implements IUserProductHistorialService
 				//Increase the number of days that are required to allow a deposit
 				calendar.add(Calendar.DATE, companyProtectionDays);
 				approvementDate = calendar.getTime();
-				if(today.after(approvementDate)) {
+				if(today.after(approvementDate) && isValidated) {
 					paybackReadyAmount += userProductHistorial.getPaybackAmount();
 				} else {
 					paybackOnWaitAmount += userProductHistorial.getPaybackAmount();

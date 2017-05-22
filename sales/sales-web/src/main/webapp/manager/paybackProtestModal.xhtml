@@ -109,13 +109,15 @@
 			      		<h:panelGroup layout="block"
 			      			styleClass="modal-footer">
 			      			
-			      			<h:commandButton id="generatePaybackProtest" 
+			      			<p:commandButton id="generatePaybackProtest" 
 			      				action="#{paybackProtestMB.generatePaybackProtest()}" 
 					    		styleClass="btn btn-primary btn-block btn-lg"
+					    		update=":companyControlPanelForm:companyPaybackRequestsPanel"
+					    		ajax="false"
 					    		value="#{msg['account.company.modal.button.generate']}">
 					    		<f:param name="#{_csrf.parameterName}" 
 									value="#{_csrf.token}" />
-					    	</h:commandButton>
+					    	</p:commandButton>
 			      			
 			        		<h:button pt:onclick=""
 								styleClass="btn btn-danger btn-block btn-lg" 
