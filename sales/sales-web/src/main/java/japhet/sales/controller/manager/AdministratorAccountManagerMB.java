@@ -120,7 +120,8 @@ public class AdministratorAccountManagerMB extends GenericMB {
 					final short DAYS_TO_ADD = (short)Math.ceil((double)company.getDaysNumberToApprove() / 2.0);
 					calendar.add(Calendar.DATE, DAYS_TO_ADD);
 					final Date REQUIRED_DATE = calendar.getTime();
-					if(TODAY.after(REQUIRED_DATE)) {
+					if(TODAY.after(REQUIRED_DATE) 
+							|| buyProof.getStatus().getStatusId() == Statuses.CASE_RAISED.getId()) {
 						this.buyProofs.add(buyProof);
 					}
 				}
@@ -304,6 +305,7 @@ public class AdministratorAccountManagerMB extends GenericMB {
 	public void acceptProtest(PaybackProtest paybackProtest) {
 		final long PROTEST_ID = ((paybackProtest != null 
 				&& paybackProtest.getPaybackProtestId() != null) ? paybackProtest.getPaybackProtestId() : -1L);
+		boolean successfulProcess = false;
 		try {
 			final String INFO_MSG = String.format("Accepting PaybackProtest: %d...", PROTEST_ID);
 			if(paybackProtest == null) {
@@ -314,8 +316,7 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			paybackProtestService.acceptPaybackProtest(paybackProtest);
 			updateBuyProofs();
 			updatePaybackProtestsByBproof();
-			sendPaybackProtestEmailToCompany(paybackProtest);
-			sendPaybackProtestEmail(paybackProtest);
+			successfulProcess = true;
 			showInfoMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getPAYBACK_PROTEST_VALIDATED()), "");
 		} catch (Exception e) {
@@ -323,6 +324,35 @@ public class AdministratorAccountManagerMB extends GenericMB {
 					.format("An error has occurred while accepting the PaybackProtest: %d.", PROTEST_ID);
 			logger.error(ERROR_MSG, e);
 			showGeneralExceptionMessage();
+		}
+		//Validate if the process to raise the protest was successful to send the email notification
+		if(successfulProcess) {
+			//Send email notification to the company
+			final long P_COMP_ID = obtainSafeCompanyIdLongValue(paybackProtest);
+			try {
+				final String INFO_MSG = String
+						.format("Sending PaybackProtest accepted email notification to the company: %d...", P_COMP_ID);
+				logger.info(INFO_MSG);
+				sendPaybackProtestEmailToCompany(paybackProtest);
+			} catch(Exception e) {
+				final String ERROR_MSG = String
+						.format("An error has occurred while sending the PaybackProtest accepted email notification to the company: %d...", P_COMP_ID);
+				logger.error(ERROR_MSG, e);
+				showGeneralExceptionMessage();
+			}
+			//Send email notification to the user
+			final long P_USER_ID = obtainSafeUserIdLongValue(paybackProtest);
+			try {
+				final String INFO_MSG = String
+						.format("Sending PaybackProtest accepted email notification to the user: %d...", P_USER_ID);
+				logger.info(INFO_MSG);
+				sendPaybackProtestEmail(paybackProtest);
+			} catch(Exception e) {
+				final String ERROR_MSG = String
+						.format("An error has occurred while sending the PaybackProtest accepted email notification to the user: %d...", P_USER_ID);
+				logger.error(ERROR_MSG, e);
+				showGeneralExceptionMessage();
+			}
 		}
 	}
 	
@@ -333,6 +363,7 @@ public class AdministratorAccountManagerMB extends GenericMB {
 	public void rejectProtest(PaybackProtest paybackProtest) {
 		final long PROTEST_ID = ((paybackProtest != null 
 				&& paybackProtest.getPaybackProtestId() != null) ? paybackProtest.getPaybackProtestId() : -1L);
+		boolean successfulProcess = false;
 		try {
 			final String INFO_MSG = String.format("Rejecting PaybackProtest: %d...", PROTEST_ID);
 			if(paybackProtest == null) {
@@ -345,8 +376,7 @@ public class AdministratorAccountManagerMB extends GenericMB {
 			paybackProtestService.rejectPaybackProtest(paybackProtest, bProofProtests);
 			updateBuyProofs();
 			updatePaybackProtestsByBproof();
-			sendPaybackProtestEmailToCompany(paybackProtest);
-			sendPaybackProtestEmail(paybackProtest);
+			successfulProcess = true;
 			showInfoMessage(internationalizationService
 					.getI18NMessage(CURRENT_LOCALE, getPAYBACK_PROTEST_REJECTED()), "");
 		} catch (Exception e) {
@@ -354,6 +384,36 @@ public class AdministratorAccountManagerMB extends GenericMB {
 					.format("An error has occurred while rejecting the PaybackProtest: %d.", PROTEST_ID);
 			logger.error(ERROR_MSG, e);
 			showGeneralExceptionMessage();
+		}
+		
+		//Validate if the process to raise the protest was successful to send the email notification
+		if(successfulProcess) {
+			//Send email notification to the company
+			final long P_COMP_ID = obtainSafeCompanyIdLongValue(paybackProtest);
+			try {
+				final String INFO_MSG = String
+						.format("Sending PaybackProtest rejected email notification to the company: %d...", P_COMP_ID);
+				logger.info(INFO_MSG);
+				sendPaybackProtestEmailToCompany(paybackProtest);
+			} catch(Exception e) {
+				final String ERROR_MSG = String
+						.format("An error has occurred while sending the PaybackProtest rejected email notification to the company: %d...", P_COMP_ID);
+				logger.error(ERROR_MSG, e);
+				showGeneralExceptionMessage();
+			}
+			//Send email notification to the user
+			final long P_USER_ID = obtainSafeUserIdLongValue(paybackProtest);
+			try {
+				final String INFO_MSG = String
+						.format("Sending PaybackProtest rejected email notification to the user: %d...", P_USER_ID);
+				logger.info(INFO_MSG);
+				sendPaybackProtestEmail(paybackProtest);
+			} catch(Exception e) {
+				final String ERROR_MSG = String
+						.format("An error has occurred while sending the PaybackProtest rejected email notification to the user: %d...", P_USER_ID);
+				logger.error(ERROR_MSG, e);
+				showGeneralExceptionMessage();
+			}
 		}
 	}
 	
@@ -545,5 +605,19 @@ public class AdministratorAccountManagerMB extends GenericMB {
 	 */
 	public void setPaymentRequests(List<PaymentRequest> paymentRequests) {
 		this.paymentRequests = paymentRequests;
+	}
+	
+	private long obtainSafeUserIdLongValue(PaybackProtest paybackProtest) {
+		return ((paybackProtest != null 
+				&& paybackProtest.getBuyProof() != null 
+				&& paybackProtest.getBuyProof().getUser() != null) 
+				? paybackProtest.getBuyProof().getUser().getUserId() : -1L);
+	}
+	
+	private long obtainSafeCompanyIdLongValue(PaybackProtest paybackProtest) {
+		return ((paybackProtest != null 
+				&& paybackProtest.getCompany() != null 
+				&& paybackProtest.getCompany().getCompanyId() != null) 
+				? paybackProtest.getCompany().getCompanyId() : -1L);
 	}
 }

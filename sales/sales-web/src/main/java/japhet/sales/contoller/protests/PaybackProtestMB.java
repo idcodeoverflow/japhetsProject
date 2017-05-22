@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
@@ -20,6 +21,7 @@ import org.primefaces.event.FileUploadEvent;
 
 import japhet.sales.catalogs.Statuses;
 import japhet.sales.controller.GenericMB;
+import japhet.sales.controller.manager.CompanyAccountManagerMB;
 import japhet.sales.mailing.ContentTypes;
 import japhet.sales.mailing.service.IMailingService;
 import japhet.sales.model.impl.BuyProof;
@@ -58,6 +60,10 @@ public class PaybackProtestMB extends GenericMB {
 	@EJB
 	private IMailingService mailingService;
 	
+	//Managed Properties
+	@ManagedProperty(value = "#{companyAccountManagerMB}")
+	private CompanyAccountManagerMB companyAccountManagerMB;
+	
 	//Input properties
 	private byte []fileBytes;
 	private String description;
@@ -89,13 +95,19 @@ public class PaybackProtestMB extends GenericMB {
 	 * @param buyProof
 	 */
 	public void generatePaybackProtest() {
+		boolean successfulProcess = false;
 		try {
-			logger.info("Generating a new PaybackProtest...");
+			final String INFO_MSG = "Generating a new PaybackProtest...";
+			logger.info(INFO_MSG);
+			//If there are no attached file end the process
+			if(this.fileBytes == null) {
+				return;
+			}
 			populatePaybackProtest();
 			paybackProtestService.insertPaybackProtest(paybackProtest);
-			//Send email notifications
-			sendPaybackProtestEmailToCompany(paybackProtest);
-			sendPaybackProtestEmail(paybackProtest);
+			successfulProcess = true;
+			//Update protests list
+			companyAccountManagerMB.updateProtestsByBuyProof();
 			//Clear UI fields
 			this.description = "";
 			this.fileBytes = null;
@@ -104,6 +116,35 @@ public class PaybackProtestMB extends GenericMB {
 		} catch (Exception e) {
 			logger.error("An error has occured while trying to generate a new PaybackProtest.", e);
 			showGeneralExceptionMessage();
+		}
+		//If the process was completed successfully send the email notification
+		if(successfulProcess) {
+			//Send email notification to the company
+			final long P_COMP_ID = obtainSafeCompanyIdLongValue(paybackProtest);
+			try {
+				final String INFO_MSG = String
+						.format("Sending PaybackProtest raised email notification to the company: %d...", P_COMP_ID);
+				logger.info(INFO_MSG);
+				sendPaybackProtestEmailToCompany(paybackProtest);
+			} catch(Exception e) {
+				final String ERROR_MSG = String
+						.format("An error has occurred while sending the PaybackProtest raised email notification to the company: %d...", P_COMP_ID);
+				logger.error(ERROR_MSG, e);
+				showGeneralExceptionMessage();
+			}
+			//Send email notification to the user
+			final long P_USER_ID = obtainSafeUserIdLongValue(paybackProtest);
+			try {
+				final String INFO_MSG = String
+						.format("Sending PaybackProtest raised email notification to the user: %d...", P_USER_ID);
+				logger.info(INFO_MSG);
+				sendPaybackProtestEmail(paybackProtest);
+			} catch(Exception e) {
+				final String ERROR_MSG = String
+						.format("An error has occurred while sending the PaybackProtest raised email notification to the user: %d...", P_USER_ID);
+				logger.error(ERROR_MSG, e);
+				showGeneralExceptionMessage();
+			}
 		}
 	}
 	
@@ -223,5 +264,26 @@ public class PaybackProtestMB extends GenericMB {
 
 	public void setBuyProof(BuyProof buyProof) {
 		this.buyProof = buyProof;
+	}
+	
+	/**
+	 * @param companyAccountManagerMB the companyAccountManagerMB to set
+	 */
+	public void setCompanyAccountManagerMB(CompanyAccountManagerMB companyAccountManagerMB) {
+		this.companyAccountManagerMB = companyAccountManagerMB;
+	}
+	
+	private long obtainSafeUserIdLongValue(PaybackProtest paybackProtest) {
+		return ((paybackProtest != null 
+				&& paybackProtest.getBuyProof() != null 
+				&& paybackProtest.getBuyProof().getUser() != null) 
+				? paybackProtest.getBuyProof().getUser().getUserId() : -1L);
+	}
+	
+	private long obtainSafeCompanyIdLongValue(PaybackProtest paybackProtest) {
+		return ((paybackProtest != null 
+				&& paybackProtest.getCompany() != null 
+				&& paybackProtest.getCompany().getCompanyId() != null) 
+				? paybackProtest.getCompany().getCompanyId() : -1L);
 	}
 }

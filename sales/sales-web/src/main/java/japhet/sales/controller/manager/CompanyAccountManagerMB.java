@@ -24,7 +24,6 @@ import japhet.sales.controller.GenericMB;
 import japhet.sales.model.impl.BuyProof;
 import japhet.sales.model.impl.Company;
 import japhet.sales.model.impl.PaybackProtest;
-import japhet.sales.model.impl.PaymentRequest;
 import japhet.sales.model.impl.Product;
 import japhet.sales.model.impl.Status;
 import japhet.sales.model.impl.User;
@@ -188,12 +187,13 @@ public class CompanyAccountManagerMB extends GenericMB {
 	 * This method updates the PaybackProtests by BuyProof and Company.
 	 * @throws Exception
 	 */
-	private void updateProtestsByBuyProof() throws Exception {
+	public void updateProtestsByBuyProof() throws Exception {
 		final Long COMP_ID = ((this.company != null 
 				&& this.company.getCompanyId() != null) ? this.company.getCompanyId() : -1L);
 		final String INFO_MSG = String.format("Updating the PaybackProtests by BuyProof Company: %d...", COMP_ID);
 		try {
 			logger.info(INFO_MSG);
+			this.paybackProtestsPerBProof.clear();
 			Map<String, Object> params = new HashMap<>();
 			params.put(COMPANY_ID, this.company.getCompanyId());
 			List<PaybackProtest> paybackProtests = paybackProtestService.getPaybackProtestsByCompany(params);
@@ -281,24 +281,6 @@ public class CompanyAccountManagerMB extends GenericMB {
 			updateCompanyProducts();
 		} catch (Exception e) {
 			final String ERROR_MSG = String.format("An error has ocurred while ending product validity for id: %d", PRODUCT_ID);
-			logger.error(ERROR_MSG, e);
-			showGeneralExceptionMessage();
-		}
-	}
-	
-	/**
-	 * Raises a protest against the specified payment request.
-	 * @param paymentRequest Payment Request to protest against.
-	 */
-	public void paymentRequestProtest(PaymentRequest paymentRequest) {
-		final long P_REQUEST_ID = ((paymentRequest != null) ? paymentRequest.getPaymentRequestId() : -1L);
-		final String INFO_MSG = String.format("The company has protested against the payment request id: %d.", P_REQUEST_ID);
-		try {
-			logger.info(INFO_MSG);
-			
-		} catch (Exception e) {
-			final String ERROR_MSG = String.
-					format("An error has ocurred while the company protested against the payment request id: %d", P_REQUEST_ID);
 			logger.error(ERROR_MSG, e);
 			showGeneralExceptionMessage();
 		}
