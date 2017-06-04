@@ -349,12 +349,11 @@ footer {
 }
 
 #home-right-pane {
-	max-height: 478px !important;
 	margin-bottom: 5px !important;
 }
 
 .home-right-pane-container {
-	max-height: 239px !important;
+	max-height: 443px !important;
 	overflow: hidden !important;
 }
 
@@ -381,11 +380,6 @@ footer {
 .overflowless {
 	max-height: 192px !important;
 	overflow: hidden !important;
-}
-
-.container-separator {
-	margin: 0px !important;
-	border: 4px solid #021B79 !important;
 }
 
 /* Logout button container in the navbar */

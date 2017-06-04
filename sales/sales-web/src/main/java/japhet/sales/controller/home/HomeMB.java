@@ -80,10 +80,10 @@ public class HomeMB extends GenericMB {
 			//Initialize products
 			setAvailableProducts(productService.getAllAvailableProducts());
 			setShowQuestionVideo(false);
-			//Is required to update the user information on each page refresh to validate the user categories
-			final Long P_USER_ID = getLoggedUser().getUserId();
-			User user = userService.getUser(P_USER_ID);
 			if(getLoggedUser() != null) {
+				//Is required to update the user information on each page refresh to validate the user categories
+				final Long P_USER_ID = -1L;
+				User user = userService.getUser(P_USER_ID);
 				//If the user is an admin don't redirect to the categories page
 				if(getLoggedUser().getRole().getRoleId() != Roles.ADMINISTRATOR.getId()) {
 					if(user.getCategories() == null ||
