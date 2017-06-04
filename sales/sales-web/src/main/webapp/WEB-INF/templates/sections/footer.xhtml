@@ -25,12 +25,18 @@
 				<!-- Social Networks -->
 		    	<h:panelGroup styleClass="col-md-2" 
 		    		layout="block">
-		    		<h:graphicImage id="facebook-icon" 
-		    			value="/resources/media/icons/twitter.png" 
-		       			styleClass="img-circle footer-img" />
-		       		<h:graphicImage id="twitter-icon" 
-		       			value="/resources/media/icons/facebook.png" 
-		       			styleClass="img-circle footer-img" />
+		    		<!-- Twitter Link -->
+		    		<h:outputLink value="#{urlMapperMB.twitterUrl}">
+			    		<h:graphicImage id="facebook-icon" 
+			    			value="/resources/media/icons/twitter.png" 
+			       			styleClass="img-circle footer-img" />
+		       		</h:outputLink>
+		       		<!-- Facebook Link -->
+		    		<h:outputLink value="#{urlMapperMB.facebookUrl}">
+			       		<h:graphicImage id="twitter-icon" 
+			       			value="/resources/media/icons/facebook.png" 
+			       			styleClass="img-circle footer-img" />
+		       		</h:outputLink>
 		       	</h:panelGroup>
 		       	
 		       	<!-- Privacy Policy -->

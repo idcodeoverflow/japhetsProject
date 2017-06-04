@@ -52,5 +52,7 @@ public interface Navigator {
 	/***** REST SERVICES *****/
 	String REST_VALIDATOR_URL = pReader.getValueFromKey(URL.REST_VALIDATOR_URL.getName());
 	String REST_VALIDATOR_VALIDATE_URL = pReader.getValueFromKey(URL.REST_VALIDATOR_VALIDATE_URL.getName());
-
+	/***** SOCIAL NETWORKS *****/
+	String FACEBOOK_URL = pReader.getValueFromKey(URL.FACEBOOK.getName());
+	String TWITTER_URL = pReader.getValueFromKey(URL.TWITTER.getName());
 }

@@ -46,7 +46,10 @@ public enum URL {
 	SPRING_LOGOUT("security.logout"),
 	//REST Service
 	REST_VALIDATOR_URL("rest.validator"),
-	REST_VALIDATOR_VALIDATE_URL("rest.validator.validate")
+	REST_VALIDATOR_VALIDATE_URL("rest.validator.validate"),
+	//Social Networks
+	FACEBOOK("social.network.facebook"),
+	TWITTER("social.network.twitter")
 	;
 	
 

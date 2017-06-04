@@ -152,6 +152,14 @@ public class URLMapperMB extends GenericMB {
 		return USER_INFORMATION;
 	}
 	
+	public String getFacebookUrl() {
+		return FACEBOOK_URL;
+	}
+	
+	public String getTwitterUrl() {
+		return TWITTER_URL;
+	}
+	
 	public static String removeHostNameFromURL(String url){
 		return url.replace(HOST_NAME, "");
 	}
