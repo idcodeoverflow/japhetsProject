@@ -28,6 +28,8 @@ public enum URL {
 	USER_INFORMATION("userInformation"),
 	CATEGORIES("categories"),
 	CATEGORIES_REGISTRATION_URL("categoriesRegistration"),
+	PROSPERAD_USAGE_TERMS_MODAL("prosperadUsageTerms"),
+	PROSPERAD_PRIVACY_NOTICE_MODAL("prosperadPrivacyNotice"),
 	HOME_VIDEO_URL("homeVideoUrl"),
 	//Banks
 	INBURSA("banks.inbursa"),

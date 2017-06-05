@@ -32,6 +32,8 @@ public interface Navigator {
 	String ADMINISTRATOR_ACCOUNT_MANAGER = pReader.getValueFromKey(URL.ADMINISTRATOR_ACCOUNT_MANAGER.getName());
 	String PAYBACK_PROTEST_MODAL = pReader.getValueFromKey(URL.PAYBACK_PROTEST_MODAL.getName());
 	String CATEGORIES = pReader.getValueFromKey(URL.CATEGORIES.getName());
+	String PROSPERAD_PRIVACY_NOTICE_URL = pReader.getValueFromKey(URL.PROSPERAD_PRIVACY_NOTICE_MODAL.getName());
+	String PROSPERAD_USAGE_TERMS_URL = pReader.getValueFromKey(URL.PROSPERAD_USAGE_TERMS_MODAL.getName());
 	String HOME_VIDEO_URL = pReader.getValueFromKey(URL.HOME_VIDEO_URL.getName());
 	String CATEGORIES_REGISTRATION_URL = pReader.getValueFromKey(URL.CATEGORIES_REGISTRATION_URL.getName());
 	/***** BANKS *****/

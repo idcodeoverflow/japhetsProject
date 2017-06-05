@@ -60,6 +60,14 @@ public class URLMapperMB extends GenericMB {
 		return CATEGORIES_REGISTRATION_URL;
 	}
 	
+	public String getProsperadPrivacyNotice(){
+		return PROSPERAD_PRIVACY_NOTICE_URL;
+	}
+	
+	public String getProsperadUsageTerms(){
+		return PROSPERAD_USAGE_TERMS_URL;
+	}
+	
 	public String getHomeVideoURL(){
 		return HOME_VIDEO_URL;
 	}

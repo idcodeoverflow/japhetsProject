@@ -31,6 +31,11 @@ footer a {
 	color: white !important;
 }
 
+/* Footer modal justified body content */
+.modal-body p {
+	text-align: justify !important;
+}
+
 /* Trademark icon style */
 #trademark-icon {
 	height: 60px !important;

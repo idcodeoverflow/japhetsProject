@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<!-- Privacy Notice Modal -->
+	<h:panelGroup layout="block"
+		styleClass="modal fade" 
+		id="privacyNoticeModal" 
+		pt:tabindex="-1" 
+		pt:role="dialog" 
+		pt:aria-labelledby="modalTitle" 
+		pt:aria-hidden="true">
+		<h:panelGroup layout="block"
+			styleClass="modal-dialog" 
+			pt:role="document">
+	    	<h:panelGroup layout="block"
+	    		styleClass="modal-content">
+	    		
+	    		<!-- Privacy Title -->
+	      		<h:panelGroup id="privacyNoticeTitle"
+	      			layout="block"
+	      			styleClass="modal-header">
+	        		<h4 class="modal-title" 
+	        			id="modalTitle">
+	        			<h:outputText value="#{msg['privacyNotice.modal.title']}" />
+	        		</h4>
+	      		</h:panelGroup>
+	      		
+	      		<!-- Policy content -->
+	      		<h:panelGroup id="privacyNoticeContent"
+	      			layout="block"
+	      			styleClass="modal-body">
+	      			<p>
+	      				<h:outputText value="#{msg['privacyNotice.modal.content']}" />
+	      			</p>
+	      		</h:panelGroup>
+	      		
+	      		<!-- Policy Footer -->
+	      		<h:panelGroup layout="block"
+	      			styleClass="modal-footer">
+	        		<h:button pt:onclick=""
+						styleClass="btn btn-primary btn-block btn-lg" 
+						value="#{msg['privacyNotice.modal.button.close']}" 
+						pt:data-dismiss="modal">
+						<f:param name="#{_csrf.parameterName}" 
+							value="#{_csrf.token}" />
+					</h:button>
+	      		</h:panelGroup>
+	      		
+	    	</h:panelGroup>
+	  	</h:panelGroup>
+	</h:panelGroup>
+	
+</ui:composition>
