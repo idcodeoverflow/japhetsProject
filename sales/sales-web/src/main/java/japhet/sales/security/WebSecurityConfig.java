@@ -39,6 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				/* User Validated Page */
 				.antMatchers(URLMapperMB.removeHostNameFromURL(
 						USER_VALIDATED_URL)).permitAll()
+				/* Guest Validation Page */
+				.antMatchers(URLMapperMB.removeHostNameFromURL(
+						REST_SESSION_VALIDATOR_URL)).permitAll()
 				/* User Validation Failed Page */
 				.antMatchers(URLMapperMB.removeHostNameFromURL(
 						USER_VALIDATION_FAILED_URL)).permitAll()

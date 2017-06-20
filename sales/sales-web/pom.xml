@@ -43,6 +43,14 @@
 			<scope>provided</scope>
 		</dependency>
 		
+		<!-- Jackson JSON Data Binder -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		    <version>${version.jackson.core}</version>
+		</dependency>
+		
+		
 		<!-- Log4J dependency -->
 		<dependency>
 			<groupId>log4j</groupId>

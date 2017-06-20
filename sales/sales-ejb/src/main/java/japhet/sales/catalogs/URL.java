@@ -49,6 +49,7 @@ public enum URL {
 	//REST Service
 	REST_VALIDATOR_URL("rest.validator"),
 	REST_VALIDATOR_VALIDATE_URL("rest.validator.validate"),
+	REST_SESSION_VALIDATOR_GUEST_URL("rest.sessionValidator.guest"),
 	//Social Networks
 	FACEBOOK("social.network.facebook"),
 	TWITTER("social.network.twitter")
